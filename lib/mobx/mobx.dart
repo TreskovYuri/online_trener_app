@@ -1,0 +1,1121 @@
+import 'package:mobx/mobx.dart';
+// flutter pub run build_runner watch
+// Include generated file
+part 'mobx.g.dart';
+
+// This is the class used by rest of your codebase
+// ignore: library_private_types_in_public_api
+class Mobx = _Mobx with _$Mobx;
+
+abstract class _Mobx with Store {
+  @observable
+  var exercises = [];
+  var currentDate = '';
+  var userExercises = [];
+
+  @action
+  void setUserExercises(List<dynamic> exercises) {
+    userExercises = exercises;
+  }
+
+  @action
+  void setCurrentDate(String date) {
+    currentDate = date;
+  }
+
+  @action
+  void setExercises(List<dynamic> exercise) {
+    exercises = exercise;
+  }
+
+// Функция преобразует массив со взязями и массив с упражнениями в один общий массив
+  @computed
+  List<dynamic> get userExercisesOnFinal {
+    var array = [];
+    userExercises.forEach((element) {
+      var ar = exercises.where((obj) => obj['id'] == element['exerciseId']);
+      if (ar.isNotEmpty) {
+        var finalAr = {
+          'date': element['date'],
+          'sets': element['sets'],
+          'id': element['id'],
+          'nameRu': ar.first['nameRu'],
+          'nameEng': ar.first['nameEng'],
+          'descriptionRu': ar.first['descriptionRu'],
+          'descriptionEn': ar.first['descriptionEn'],
+          'link': ar.first['link'],
+          'img': ar.first['img'],
+          'video': ar.first['video'],
+          'stage': ar.first['stage'],
+          'equipment': ar.first['equipment'],
+          'musclegroups': ar.first['musclegroups'],
+          'pocazatel1Name': ar.first['pocazatel1Name'],
+          'pocazatel1Type': ar.first['pocazatel1Type'],
+          'pocazatel1SPFlag': ar.first['pocazatel1SPFlag'],
+          'pocazatel2Name': ar.first['pocazatel2Name'],
+          'pocazatel2Type': ar.first['pocazatel2Type'],
+          'pocazatel2SPFlag': ar.first['pocazatel2SPFlag'],
+          'pocazatel3Name': ar.first['pocazatel3Name'],
+          'pocazatel3Type': ar.first['pocazatel3Type'],
+          'pocazatel3SPFlag': ar.first['pocazatel3SPFlag'],
+          'pocazatel4Name': ar.first['pocazatel4Name'],
+          'pocazatel4Type': ar.first['pocazatel4Type'],
+          'pocazatel4SPFlag': ar.first['pocazatel4SPFlag'],
+          'pocazatel5Name': ar.first['pocazatel5Name'],
+          'pocazatel5Type': ar.first['pocazatel5Type'],
+          'pocazatel5SPFlag': ar.first['pocazatel5SPFlag'],
+        };
+        array.add(finalAr);
+      }
+    });
+    return array;
+  }
+
+// // Функция возвращает список упражнения по заданному дню
+//   List<dynamic>  userExercisesOnDay (String date) {
+//     return userExercisesOnFinal.where((exercise) => exercise['date'] == date).toList();
+//   }
+
+// Функция возвращает список упражнения по заданному дню
+  List<Map<String,dynamic>> trenerDataOnDay(String date) {
+    if (int.parse(date.split('.')[0]) % 2 == 0) {
+      return [
+        {
+          "username": "Миронов А.В.",
+          "date": "06.05.2024",
+          "post": "Вратарь",
+          "team": "СКА",
+          "state": [
+            {
+              'sets': '',
+              'id': '1',
+              'name': 'Силовая тренировка',
+              'nameEng': ' Circles with hands',
+              'descriptionRu':
+                  'Развивает мышцы плеч, спины и груди, улучшает осанку',
+              'descriptionEn':
+                  'Развивает мышцы плеч, спины и груди, улучшает осанку',
+              'link': '',
+              'img': '',
+              'video': '',
+              'stage': '',
+              'equipment': '',
+              'musclegroups': '',
+              'pocazatel1Name': '',
+              'pocazatel1Type': '',
+              'pocazatel1SPFlag': '',
+              'pocazatel2Name': '',
+              'pocazatel2Type': '',
+              'pocazatel2SPFlag': '',
+              'pocazatel3Name': '',
+              'pocazatel3Type': '',
+              'pocazatel3SPFlag': '',
+              'pocazatel4Name': '',
+              'pocazatel4Type': '',
+              'pocazatel4SPFlag': '',
+              'pocazatel5Name': '',
+              'pocazatel5Type': '',
+              'pocazatel5SPFlag': '',
+            },
+            {
+              'sets': '',
+              'id': '1',
+              'name': 'Йога',
+              
+              'nameEng': ' Twisting',
+              'descriptionRu':
+                  'Развивает мышцы плеч, спины и груди, улучшает осанку',
+              'descriptionEn':
+                  'Развивает мышцы плеч, спины и груди, улучшает осанку',
+              'link': '',
+              'img': '',
+              'video': '',
+              'stage': '',
+              'equipment': '',
+              'musclegroups': '',
+              'pocazatel1Name': '',
+              'pocazatel1Type': '',
+              'pocazatel1SPFlag': '',
+              'pocazatel2Name': '',
+              'pocazatel2Type': '',
+              'pocazatel2SPFlag': '',
+              'pocazatel3Name': '',
+              'pocazatel3Type': '',
+              'pocazatel3SPFlag': '',
+              'pocazatel4Name': '',
+              'pocazatel4Type': '',
+              'pocazatel4SPFlag': '',
+              'pocazatel5Name': '',
+              'pocazatel5Type': '',
+              'pocazatel5SPFlag': '',
+            },
+          ]
+        },
+        {
+          "username": "Никонов И.Ф.",
+          "date": "06.05.2024",
+          "post": "Крайний нападающий",
+          "team": "СКА",
+          "state": [
+            {
+              'sets': '',
+              'id': '1',
+              'name': 'Максимальный вес приседания с штангой на спине',
+              'nameEng': ' Circles with hands',
+              'descriptionRu':
+                  'Развивает мышцы плеч, спины и груди, улучшает осанку',
+              'descriptionEn':
+                  'Развивает мышцы плеч, спины и груди, улучшает осанку',
+              'link': '',
+              'img': '',
+              'video': '',
+              'stage': '',
+              'equipment': '',
+              'musclegroups': '',
+              'pocazatel1Name': '',
+              'pocazatel1Type': '',
+              'pocazatel1SPFlag': '',
+              'pocazatel2Name': '',
+              'pocazatel2Type': '',
+              'pocazatel2SPFlag': '',
+              'pocazatel3Name': '',
+              'pocazatel3Type': '',
+              'pocazatel3SPFlag': '',
+              'pocazatel4Name': '',
+              'pocazatel4Type': '',
+              'pocazatel4SPFlag': '',
+              'pocazatel5Name': '',
+              'pocazatel5Type': '',
+              'pocazatel5SPFlag': '',
+            }
+          ]
+        },
+        {
+          "username": "Никонов И.Ф.",
+          "date": "06.05.2024",
+          "post": "Крайний нападающий",
+          "team": "СКА",
+          "state": [
+            {
+              'sets': '',
+              'id': '1',
+              'name': 'Йога',
+              'nameEng': ' Circles with hands',
+              'descriptionRu':
+                  'Развивает мышцы плеч, спины и груди, улучшает осанку',
+              'descriptionEn':
+                  'Развивает мышцы плеч, спины и груди, улучшает осанку',
+              'link': '',
+              'img': '',
+              'video': '',
+              'stage': '',
+              'equipment': '',
+              'musclegroups': '',
+              'pocazatel1Name': '',
+              'pocazatel1Type': '',
+              'pocazatel1SPFlag': '',
+              'pocazatel2Name': '',
+              'pocazatel2Type': '',
+              'pocazatel2SPFlag': '',
+              'pocazatel3Name': '',
+              'pocazatel3Type': '',
+              'pocazatel3SPFlag': '',
+              'pocazatel4Name': '',
+              'pocazatel4Type': '',
+              'pocazatel4SPFlag': '',
+              'pocazatel5Name': '',
+              'pocazatel5Type': '',
+              'pocazatel5SPFlag': '',
+            },
+            {
+              'sets': '',
+              'id': '1',
+              'name': 'Максимальный вес приседания с штангой на спине',
+              'nameEng': ' Circles with hands',
+              'descriptionRu':
+                  'Развивает мышцы плеч, спины и груди, улучшает осанку',
+              'descriptionEn':
+                  'Развивает мышцы плеч, спины и груди, улучшает осанку',
+              'link': '',
+              'img': '',
+              'video': '',
+              'stage': '',
+              'equipment': '',
+              'musclegroups': '',
+              'pocazatel1Name': '',
+              'pocazatel1Type': '',
+              'pocazatel1SPFlag': '',
+              'pocazatel2Name': '',
+              'pocazatel2Type': '',
+              'pocazatel2SPFlag': '',
+              'pocazatel3Name': '',
+              'pocazatel3Type': '',
+              'pocazatel3SPFlag': '',
+              'pocazatel4Name': '',
+              'pocazatel4Type': '',
+              'pocazatel4SPFlag': '',
+              'pocazatel5Name': '',
+              'pocazatel5Type': '',
+              'pocazatel5SPFlag': '',
+            },
+            {
+              'sets': '',
+              'id': '1',
+              'name': 'Еда за день',
+              'nameEng': ' Circles with hands',
+              'descriptionRu':
+                  'Развивает мышцы плеч, спины и груди, улучшает осанку',
+              'descriptionEn':
+                  'Развивает мышцы плеч, спины и груди, улучшает осанку',
+              'link': '',
+              'img': '',
+              'video': '',
+              'stage': '',
+              'equipment': '',
+              'musclegroups': '',
+              'pocazatel1Name': '',
+              'pocazatel1Type': '',
+              'pocazatel1SPFlag': '',
+              'pocazatel2Name': '',
+              'pocazatel2Type': '',
+              'pocazatel2SPFlag': '',
+              'pocazatel3Name': '',
+              'pocazatel3Type': '',
+              'pocazatel3SPFlag': '',
+              'pocazatel4Name': '',
+              'pocazatel4Type': '',
+              'pocazatel4SPFlag': '',
+              'pocazatel5Name': '',
+              'pocazatel5Type': '',
+              'pocazatel5SPFlag': '',
+            }
+          ]
+        },
+      ];
+    } else {
+      return [
+        {
+          "username": "Никонов И.Ф.",
+          "post": "Вратарь",
+          "date": "06.05.2024",
+          "team": "СКА",
+          "state": [
+            {
+              'sets': '',
+              'id': '1',
+              'name': 'Еда за день',
+              'nameEng': ' Circles with hands',
+              'descriptionRu':
+                  'Развивает мышцы плеч, спины и груди, улучшает осанку',
+              'descriptionEn':
+                  'Развивает мышцы плеч, спины и груди, улучшает осанку',
+              'link': '',
+              'img': '',
+              'video': '',
+              'stage': '',
+              'equipment': '',
+              'musclegroups': '',
+              'pocazatel1Name': '',
+              'pocazatel1Type': '',
+              'pocazatel1SPFlag': '',
+              'pocazatel2Name': '',
+              'pocazatel2Type': '',
+              'pocazatel2SPFlag': '',
+              'pocazatel3Name': '',
+              'pocazatel3Type': '',
+              'pocazatel3SPFlag': '',
+              'pocazatel4Name': '',
+              'pocazatel4Type': '',
+              'pocazatel4SPFlag': '',
+              'pocazatel5Name': '',
+              'pocazatel5Type': '',
+              'pocazatel5SPFlag': '',
+            },
+            {
+              'sets': '',
+              'id': '1',
+              'name': 'Йога',
+              'nameEng': ' Twisting',
+              'descriptionRu':
+                  'Развивает мышцы плеч, спины и груди, улучшает осанку',
+              'descriptionEn':
+                  'Развивает мышцы плеч, спины и груди, улучшает осанку',
+              'link': '',
+              'img': '',
+              'video': '',
+              'stage': '',
+              'equipment': '',
+              'musclegroups': '',
+              'pocazatel1Name': '',
+              'pocazatel1Type': '',
+              'pocazatel1SPFlag': '',
+              'pocazatel2Name': '',
+              'pocazatel2Type': '',
+              'pocazatel2SPFlag': '',
+              'pocazatel3Name': '',
+              'pocazatel3Type': '',
+              'pocazatel3SPFlag': '',
+              'pocazatel4Name': '',
+              'pocazatel4Type': '',
+              'pocazatel4SPFlag': '',
+              'pocazatel5Name': '',
+              'pocazatel5Type': '',
+              'pocazatel5SPFlag': '',
+            },
+          ]
+        },
+        {
+          "username": "Крюков А.М.",
+          "date": "06.05.2024",
+          "post": "Крайний нападающий",
+          "team": "СКА",
+          "state": [
+            {
+              'sets': '',
+              'id': '1',
+              'name': 'Круги руками',
+              'nameEng': ' Circles with hands',
+              'descriptionRu':
+                  'Развивает мышцы плеч, спины и груди, улучшает осанку',
+              'descriptionEn':
+                  'Развивает мышцы плеч, спины и груди, улучшает осанку',
+              'link': '',
+              'img': '',
+              'video': '',
+              'stage': '',
+              'equipment': '',
+              'musclegroups': '',
+              'pocazatel1Name': '',
+              'pocazatel1Type': '',
+              'pocazatel1SPFlag': '',
+              'pocazatel2Name': '',
+              'pocazatel2Type': '',
+              'pocazatel2SPFlag': '',
+              'pocazatel3Name': '',
+              'pocazatel3Type': '',
+              'pocazatel3SPFlag': '',
+              'pocazatel4Name': '',
+              'pocazatel4Type': '',
+              'pocazatel4SPFlag': '',
+              'pocazatel5Name': '',
+              'pocazatel5Type': '',
+              'pocazatel5SPFlag': '',
+            },
+            {
+              'sets': '',
+              'id': '1',
+              'name': 'Скручивание',
+              'nameEng': ' Twisting',
+              'descriptionRu':
+                  'Развивает мышцы плеч, спины и груди, улучшает осанку',
+              'descriptionEn':
+                  'Развивает мышцы плеч, спины и груди, улучшает осанку',
+              'link': '',
+              'img': '',
+              'video': '',
+              'stage': '',
+              'equipment': '',
+              'musclegroups': '',
+              'pocazatel1Name': '',
+              'pocazatel1Type': '',
+              'pocazatel1SPFlag': '',
+              'pocazatel2Name': '',
+              'pocazatel2Type': '',
+              'pocazatel2SPFlag': '',
+              'pocazatel3Name': '',
+              'pocazatel3Type': '',
+              'pocazatel3SPFlag': '',
+              'pocazatel4Name': '',
+              'pocazatel4Type': '',
+              'pocazatel4SPFlag': '',
+              'pocazatel5Name': '',
+              'pocazatel5Type': '',
+              'pocazatel5SPFlag': '',
+            },
+          ]
+        }
+      ];
+    }
+  }
+
+// Функция возвращает список упражнения по заданному дню
+  List<dynamic> userExercisesOnDay(String date) {
+    if (int.parse(date.split('.')[0]) % 2 == 0) {
+      return [
+        {
+          "name": "Йога",
+          "date": "06.05.2024",
+          "exercises": [
+            {
+              'sets': '',
+              'id': '1',
+              'nameRu': 'Круги руками',
+              'nameEng': ' Circles with hands',
+              'descriptionRu':
+                  'Развивает мышцы плеч, спины и груди, улучшает осанку',
+              'descriptionEn':
+                  'Развивает мышцы плеч, спины и груди, улучшает осанку',
+              'link': '',
+              'img': '',
+              'video': '',
+              'stage': '',
+              'equipment': '',
+              'musclegroups': '',
+              'pocazatel1Name': '',
+              'pocazatel1Type': '',
+              'pocazatel1SPFlag': '',
+              'pocazatel2Name': '',
+              'pocazatel2Type': '',
+              'pocazatel2SPFlag': '',
+              'pocazatel3Name': '',
+              'pocazatel3Type': '',
+              'pocazatel3SPFlag': '',
+              'pocazatel4Name': '',
+              'pocazatel4Type': '',
+              'pocazatel4SPFlag': '',
+              'pocazatel5Name': '',
+              'pocazatel5Type': '',
+              'pocazatel5SPFlag': '',
+            },
+            {
+              'sets': '',
+              'id': '1',
+              'nameRu': 'Скручивание',
+              'nameEng': ' Twisting',
+              'descriptionRu':
+                  'Развивает мышцы плеч, спины и груди, улучшает осанку',
+              'descriptionEn':
+                  'Развивает мышцы плеч, спины и груди, улучшает осанку',
+              'link': '',
+              'img': '',
+              'video': '',
+              'stage': '',
+              'equipment': '',
+              'musclegroups': '',
+              'pocazatel1Name': '',
+              'pocazatel1Type': '',
+              'pocazatel1SPFlag': '',
+              'pocazatel2Name': '',
+              'pocazatel2Type': '',
+              'pocazatel2SPFlag': '',
+              'pocazatel3Name': '',
+              'pocazatel3Type': '',
+              'pocazatel3SPFlag': '',
+              'pocazatel4Name': '',
+              'pocazatel4Type': '',
+              'pocazatel4SPFlag': '',
+              'pocazatel5Name': '',
+              'pocazatel5Type': '',
+              'pocazatel5SPFlag': '',
+            },
+          ]
+        },
+        {
+          "name": "Силовая тренировка",
+          "date": "06.05.2024",
+          "exercises": [
+            {
+              'sets': '',
+              'id': '1',
+              'nameRu': 'Круги руками',
+              'nameEng': ' Circles with hands',
+              'descriptionRu':
+                  'Развивает мышцы плеч, спины и груди, улучшает осанку',
+              'descriptionEn':
+                  'Развивает мышцы плеч, спины и груди, улучшает осанку',
+              'link': '',
+              'img': '',
+              'video': '',
+              'stage': '',
+              'equipment': '',
+              'musclegroups': '',
+              'pocazatel1Name': '',
+              'pocazatel1Type': '',
+              'pocazatel1SPFlag': '',
+              'pocazatel2Name': '',
+              'pocazatel2Type': '',
+              'pocazatel2SPFlag': '',
+              'pocazatel3Name': '',
+              'pocazatel3Type': '',
+              'pocazatel3SPFlag': '',
+              'pocazatel4Name': '',
+              'pocazatel4Type': '',
+              'pocazatel4SPFlag': '',
+              'pocazatel5Name': '',
+              'pocazatel5Type': '',
+              'pocazatel5SPFlag': '',
+            },
+            {
+              'sets': '',
+              'id': '1',
+              'nameRu': 'Скручивание',
+              'nameEng': ' Twisting',
+              'descriptionRu':
+                  'Развивает мышцы плеч, спины и груди, улучшает осанку',
+              'descriptionEn':
+                  'Развивает мышцы плеч, спины и груди, улучшает осанку',
+              'link': '',
+              'img': '',
+              'video': '',
+              'stage': '',
+              'equipment': '',
+              'musclegroups': '',
+              'pocazatel1Name': '',
+              'pocazatel1Type': '',
+              'pocazatel1SPFlag': '',
+              'pocazatel2Name': '',
+              'pocazatel2Type': '',
+              'pocazatel2SPFlag': '',
+              'pocazatel3Name': '',
+              'pocazatel3Type': '',
+              'pocazatel3SPFlag': '',
+              'pocazatel4Name': '',
+              'pocazatel4Type': '',
+              'pocazatel4SPFlag': '',
+              'pocazatel5Name': '',
+              'pocazatel5Type': '',
+              'pocazatel5SPFlag': '',
+            },
+          ]
+        }
+      ];
+    } else {
+      return [
+        {
+          "name": "Йога",
+          "date": "06.05.2024",
+          "exercises": [
+            {
+              'sets': '',
+              'id': '1',
+              'nameRu': 'Круги руками',
+              'nameEng': ' Circles with hands',
+              'descriptionRu':
+                  'Развивает мышцы плеч, спины и груди, улучшает осанку',
+              'descriptionEn':
+                  'Развивает мышцы плеч, спины и груди, улучшает осанку',
+              'link': '',
+              'img': '',
+              'video': '',
+              'stage': '',
+              'equipment': '',
+              'musclegroups': '',
+              'pocazatel1Name': '',
+              'pocazatel1Type': '',
+              'pocazatel1SPFlag': '',
+              'pocazatel2Name': '',
+              'pocazatel2Type': '',
+              'pocazatel2SPFlag': '',
+              'pocazatel3Name': '',
+              'pocazatel3Type': '',
+              'pocazatel3SPFlag': '',
+              'pocazatel4Name': '',
+              'pocazatel4Type': '',
+              'pocazatel4SPFlag': '',
+              'pocazatel5Name': '',
+              'pocazatel5Type': '',
+              'pocazatel5SPFlag': '',
+            },
+            {
+              'sets': '',
+              'id': '1',
+              'nameRu': 'Скручивание',
+              'nameEng': ' Twisting',
+              'descriptionRu':
+                  'Развивает мышцы плеч, спины и груди, улучшает осанку',
+              'descriptionEn':
+                  'Развивает мышцы плеч, спины и груди, улучшает осанку',
+              'link': '',
+              'img': '',
+              'video': '',
+              'stage': '',
+              'equipment': '',
+              'musclegroups': '',
+              'pocazatel1Name': '',
+              'pocazatel1Type': '',
+              'pocazatel1SPFlag': '',
+              'pocazatel2Name': '',
+              'pocazatel2Type': '',
+              'pocazatel2SPFlag': '',
+              'pocazatel3Name': '',
+              'pocazatel3Type': '',
+              'pocazatel3SPFlag': '',
+              'pocazatel4Name': '',
+              'pocazatel4Type': '',
+              'pocazatel4SPFlag': '',
+              'pocazatel5Name': '',
+              'pocazatel5Type': '',
+              'pocazatel5SPFlag': '',
+            },
+          ]
+        },
+        {
+          "name": "Силовая тренировка",
+          "date": "06.05.2024",
+          "exercises": [
+            {
+              'sets': '',
+              'id': '1',
+              'nameRu': 'Круги руками',
+              'nameEng': ' Circles with hands',
+              'descriptionRu':
+                  'Развивает мышцы плеч, спины и груди, улучшает осанку',
+              'descriptionEn':
+                  'Развивает мышцы плеч, спины и груди, улучшает осанку',
+              'link': '',
+              'img': '',
+              'video': '',
+              'stage': '',
+              'equipment': '',
+              'musclegroups': '',
+              'pocazatel1Name': '',
+              'pocazatel1Type': '',
+              'pocazatel1SPFlag': '',
+              'pocazatel2Name': '',
+              'pocazatel2Type': '',
+              'pocazatel2SPFlag': '',
+              'pocazatel3Name': '',
+              'pocazatel3Type': '',
+              'pocazatel3SPFlag': '',
+              'pocazatel4Name': '',
+              'pocazatel4Type': '',
+              'pocazatel4SPFlag': '',
+              'pocazatel5Name': '',
+              'pocazatel5Type': '',
+              'pocazatel5SPFlag': '',
+            },
+            {
+              'sets': '',
+              'id': '1',
+              'nameRu': 'Скручивание',
+              'nameEng': ' Twisting',
+              'descriptionRu':
+                  'Развивает мышцы плеч, спины и груди, улучшает осанку',
+              'descriptionEn':
+                  'Развивает мышцы плеч, спины и груди, улучшает осанку',
+              'link': '',
+              'img': '',
+              'video': '',
+              'stage': '',
+              'equipment': '',
+              'musclegroups': '',
+              'pocazatel1Name': '',
+              'pocazatel1Type': '',
+              'pocazatel1SPFlag': '',
+              'pocazatel2Name': '',
+              'pocazatel2Type': '',
+              'pocazatel2SPFlag': '',
+              'pocazatel3Name': '',
+              'pocazatel3Type': '',
+              'pocazatel3SPFlag': '',
+              'pocazatel4Name': '',
+              'pocazatel4Type': '',
+              'pocazatel4SPFlag': '',
+              'pocazatel5Name': '',
+              'pocazatel5Type': '',
+              'pocazatel5SPFlag': '',
+            },
+          ]
+        }
+      ];
+    }
+  }
+
+// Функция возвращает список упражнения по заданному дню
+  List<dynamic> userTestsOnDay(String date) {
+    if (int.parse(date.split('.')[0]) % 2 == 0) {
+      return [
+        {
+          'sets': '',
+          'id': '1',
+          'name': 'Максимальный вес приседания с штангой на спине',
+          'nameEng': ' Circles with hands',
+          'descriptionRu':
+              'Развивает мышцы плеч, спины и груди, улучшает осанку',
+          'descriptionEn':
+              'Развивает мышцы плеч, спины и груди, улучшает осанку',
+          'link': '',
+          'img': '',
+          'video': '',
+          'stage': '',
+          'equipment': '',
+          'musclegroups': '',
+          'pocazatel1Name': '',
+          'pocazatel1Type': '',
+          'pocazatel1SPFlag': '',
+          'pocazatel2Name': '',
+          'pocazatel2Type': '',
+          'pocazatel2SPFlag': '',
+          'pocazatel3Name': '',
+          'pocazatel3Type': '',
+          'pocazatel3SPFlag': '',
+          'pocazatel4Name': '',
+          'pocazatel4Type': '',
+          'pocazatel4SPFlag': '',
+          'pocazatel5Name': '',
+          'pocazatel5Type': '',
+          'pocazatel5SPFlag': '',
+        }
+      ];
+    } else {
+      return [
+        {
+          'sets': '',
+          'id': '1',
+          'name': 'Максимальный вес приседания с штангой на спине',
+          'nameEng': ' Circles with hands',
+          'descriptionRu':
+              'Развивает мышцы плеч, спины и груди, улучшает осанку',
+          'descriptionEn':
+              'Развивает мышцы плеч, спины и груди, улучшает осанку',
+          'link': '',
+          'img': '',
+          'video': '',
+          'stage': '',
+          'equipment': '',
+          'musclegroups': '',
+          'pocazatel1Name': '',
+          'pocazatel1Type': '',
+          'pocazatel1SPFlag': '',
+          'pocazatel2Name': '',
+          'pocazatel2Type': '',
+          'pocazatel2SPFlag': '',
+          'pocazatel3Name': '',
+          'pocazatel3Type': '',
+          'pocazatel3SPFlag': '',
+          'pocazatel4Name': '',
+          'pocazatel4Type': '',
+          'pocazatel4SPFlag': '',
+          'pocazatel5Name': '',
+          'pocazatel5Type': '',
+          'pocazatel5SPFlag': '',
+        }
+      ];
+    }
+  }
+
+// Функция возвращает список упражнения по заданному дню
+  List<dynamic> userFixResultsOnDay(String date) {
+    if (int.parse(date.split('.')[0]) % 2 == 0) {
+      return [
+        {
+          'sets': '',
+          'id': '1',
+          'name': 'Взвешивание',
+          'nameEng': ' Circles with hands',
+          'descriptionRu':
+              'Развивает мышцы плеч, спины и груди, улучшает осанку',
+          'descriptionEn':
+              'Развивает мышцы плеч, спины и груди, улучшает осанку',
+          'link': '',
+          'img': '',
+          'video': '',
+          'stage': '',
+          'equipment': '',
+          'musclegroups': '',
+          'pocazatel1Name': '',
+          'pocazatel1Type': '',
+          'pocazatel1SPFlag': '',
+          'pocazatel2Name': '',
+          'pocazatel2Type': '',
+          'pocazatel2SPFlag': '',
+          'pocazatel3Name': '',
+          'pocazatel3Type': '',
+          'pocazatel3SPFlag': '',
+          'pocazatel4Name': '',
+          'pocazatel4Type': '',
+          'pocazatel4SPFlag': '',
+          'pocazatel5Name': '',
+          'pocazatel5Type': '',
+          'pocazatel5SPFlag': '',
+        }
+      ];
+    } else {
+      return [
+        {
+          'sets': '',
+          'id': '1',
+          'name': 'Взвешивание',
+          'nameEng': ' Circles with hands',
+          'descriptionRu':
+              'Развивает мышцы плеч, спины и груди, улучшает осанку',
+          'descriptionEn':
+              'Развивает мышцы плеч, спины и груди, улучшает осанку',
+          'link': '',
+          'img': '',
+          'video': '',
+          'stage': '',
+          'equipment': '',
+          'musclegroups': '',
+          'pocazatel1Name': '',
+          'pocazatel1Type': '',
+          'pocazatel1SPFlag': '',
+          'pocazatel2Name': '',
+          'pocazatel2Type': '',
+          'pocazatel2SPFlag': '',
+          'pocazatel3Name': '',
+          'pocazatel3Type': '',
+          'pocazatel3SPFlag': '',
+          'pocazatel4Name': '',
+          'pocazatel4Type': '',
+          'pocazatel4SPFlag': '',
+          'pocazatel5Name': '',
+          'pocazatel5Type': '',
+          'pocazatel5SPFlag': '',
+        }
+      ];
+    }
+  }
+
+// Функция возвращает список упражнения по заданному дню
+  List<dynamic> userNutritionsOnDay(String date) {
+    if (int.parse(date.split('.')[0]) % 2 == 0) {
+      return [
+        {
+          'sets': '',
+          'id': '1',
+          'name': 'Еда за день',
+          'nameEng': ' Circles with hands',
+          'descriptionRu':
+              'Развивает мышцы плеч, спины и груди, улучшает осанку',
+          'descriptionEn':
+              'Развивает мышцы плеч, спины и груди, улучшает осанку',
+          'link': '',
+          'img': '',
+          'video': '',
+          'stage': '',
+          'equipment': '',
+          'musclegroups': '',
+          'pocazatel1Name': '',
+          'pocazatel1Type': '',
+          'pocazatel1SPFlag': '',
+          'pocazatel2Name': '',
+          'pocazatel2Type': '',
+          'pocazatel2SPFlag': '',
+          'pocazatel3Name': '',
+          'pocazatel3Type': '',
+          'pocazatel3SPFlag': '',
+          'pocazatel4Name': '',
+          'pocazatel4Type': '',
+          'pocazatel4SPFlag': '',
+          'pocazatel5Name': '',
+          'pocazatel5Type': '',
+          'pocazatel5SPFlag': '',
+        }
+      ];
+    } else {
+      return [
+        {
+          'sets': '',
+          'id': '1',
+          'name': 'Еда за день',
+          'nameEng': ' Circles with hands',
+          'descriptionRu':
+              'Развивает мышцы плеч, спины и груди, улучшает осанку',
+          'descriptionEn':
+              'Развивает мышцы плеч, спины и груди, улучшает осанку',
+          'link': '',
+          'img': '',
+          'video': '',
+          'stage': '',
+          'equipment': '',
+          'musclegroups': '',
+          'pocazatel1Name': '',
+          'pocazatel1Type': '',
+          'pocazatel1SPFlag': '',
+          'pocazatel2Name': '',
+          'pocazatel2Type': '',
+          'pocazatel2SPFlag': '',
+          'pocazatel3Name': '',
+          'pocazatel3Type': '',
+          'pocazatel3SPFlag': '',
+          'pocazatel4Name': '',
+          'pocazatel4Type': '',
+          'pocazatel4SPFlag': '',
+          'pocazatel5Name': '',
+          'pocazatel5Type': '',
+          'pocazatel5SPFlag': '',
+        }
+      ];
+    }
+  }
+
+// Функция возвращает список упражнения по заданному дню
+  List<dynamic> userConsultationsOnDay(String date) {
+    if (int.parse(date.split('.')[0]) % 2 == 0) {
+      return [];
+    } else {
+      return [
+        {
+          'sets': '',
+          'id': '1',
+          'name': 'Консультация по приему спортивных добавок',
+          "date": "",
+          "time": "10:30",
+          'trenerName': 'Миронов А.В.',
+          'nameEng': ' Circles with hands',
+          'descriptionRu':
+              'Развивает мышцы плеч, спины и груди, улучшает осанку',
+          'descriptionEn':
+              'Развивает мышцы плеч, спины и груди, улучшает осанку',
+          'link': '',
+          'img': '',
+          'video': '',
+          'stage': '',
+          'equipment': '',
+          'musclegroups': '',
+          'pocazatel1Name': '',
+          'pocazatel1Type': '',
+          'pocazatel1SPFlag': '',
+          'pocazatel2Name': '',
+          'pocazatel2Type': '',
+          'pocazatel2SPFlag': '',
+          'pocazatel3Name': '',
+          'pocazatel3Type': '',
+          'pocazatel3SPFlag': '',
+          'pocazatel4Name': '',
+          'pocazatel4Type': '',
+          'pocazatel4SPFlag': '',
+          'pocazatel5Name': '',
+          'pocazatel5Type': '',
+          'pocazatel5SPFlag': '',
+        }
+      ];
+    }
+  }
+
+// Функция возвращает список упражнения по заданному дню
+  List<dynamic> userNutritionsPriemOnDay(String date) {
+    if (int.parse(date.split('.')[0]) % 2 == 0) {
+      return [
+        {
+          'sets': '',
+          'id': '1',
+          'name': 'Протеин',
+          'nameEng': ' Circles with hands',
+          'descriptionRu':
+              'Развивает мышцы плеч, спины и груди, улучшает осанку',
+          'descriptionEn':
+              'Развивает мышцы плеч, спины и груди, улучшает осанку',
+          'link': '',
+          'img': '',
+          'video': '',
+          'stage': '',
+          'equipment': '',
+          'musclegroups': '',
+          'pocazatel1Name': '',
+          'pocazatel1Type': '',
+          'pocazatel1SPFlag': '',
+          'pocazatel2Name': '',
+          'pocazatel2Type': '',
+          'pocazatel2SPFlag': '',
+          'pocazatel3Name': '',
+          'pocazatel3Type': '',
+          'pocazatel3SPFlag': '',
+          'pocazatel4Name': '',
+          'pocazatel4Type': '',
+          'pocazatel4SPFlag': '',
+          'pocazatel5Name': '',
+          'pocazatel5Type': '',
+          'pocazatel5SPFlag': '',
+        },
+        {
+          'sets': '',
+          'id': '1',
+          'name': 'Витамин D',
+          'nameEng': ' Circles with hands',
+          'descriptionRu':
+              'Развивает мышцы плеч, спины и груди, улучшает осанку',
+          'descriptionEn':
+              'Развивает мышцы плеч, спины и груди, улучшает осанку',
+          'link': '',
+          'img': '',
+          'video': '',
+          'stage': '',
+          'equipment': '',
+          'musclegroups': '',
+          'pocazatel1Name': '',
+          'pocazatel1Type': '',
+          'pocazatel1SPFlag': '',
+          'pocazatel2Name': '',
+          'pocazatel2Type': '',
+          'pocazatel2SPFlag': '',
+          'pocazatel3Name': '',
+          'pocazatel3Type': '',
+          'pocazatel3SPFlag': '',
+          'pocazatel4Name': '',
+          'pocazatel4Type': '',
+          'pocazatel4SPFlag': '',
+          'pocazatel5Name': '',
+          'pocazatel5Type': '',
+          'pocazatel5SPFlag': '',
+        }
+      ];
+    } else {
+      return [
+        {
+          'sets': '',
+          'id': '1',
+          'name': 'Протеин',
+          'nameEng': ' Circles with hands',
+          'descriptionRu':
+              'Развивает мышцы плеч, спины и груди, улучшает осанку',
+          'descriptionEn':
+              'Развивает мышцы плеч, спины и груди, улучшает осанку',
+          'link': '',
+          'img': '',
+          'video': '',
+          'stage': '',
+          'equipment': '',
+          'musclegroups': '',
+          'pocazatel1Name': '',
+          'pocazatel1Type': '',
+          'pocazatel1SPFlag': '',
+          'pocazatel2Name': '',
+          'pocazatel2Type': '',
+          'pocazatel2SPFlag': '',
+          'pocazatel3Name': '',
+          'pocazatel3Type': '',
+          'pocazatel3SPFlag': '',
+          'pocazatel4Name': '',
+          'pocazatel4Type': '',
+          'pocazatel4SPFlag': '',
+          'pocazatel5Name': '',
+          'pocazatel5Type': '',
+          'pocazatel5SPFlag': '',
+        },
+        {
+          'sets': '',
+          'id': '1',
+          'name': 'Витамин D',
+          'nameEng': ' Circles with hands',
+          'descriptionRu':
+              'Развивает мышцы плеч, спины и груди, улучшает осанку',
+          'descriptionEn':
+              'Развивает мышцы плеч, спины и груди, улучшает осанку',
+          'link': '',
+          'img': '',
+          'video': '',
+          'stage': '',
+          'equipment': '',
+          'musclegroups': '',
+          'pocazatel1Name': '',
+          'pocazatel1Type': '',
+          'pocazatel1SPFlag': '',
+          'pocazatel2Name': '',
+          'pocazatel2Type': '',
+          'pocazatel2SPFlag': '',
+          'pocazatel3Name': '',
+          'pocazatel3Type': '',
+          'pocazatel3SPFlag': '',
+          'pocazatel4Name': '',
+          'pocazatel4Type': '',
+          'pocazatel4SPFlag': '',
+          'pocazatel5Name': '',
+          'pocazatel5Type': '',
+          'pocazatel5SPFlag': '',
+        }
+      ];
+    }
+  }
+}
