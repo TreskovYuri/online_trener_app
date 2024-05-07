@@ -16,7 +16,6 @@ class _ServiceState extends State<Service> {
   Widget build(BuildContext context) {
     final screenHeight = MediaQuery.of(context).size.height;
     final vw = MediaQuery.of(context).size.width / 100;
-    final topMargin = screenHeight * 0.38; // 40% от высоты экрана
 
     return Scaffold(
       body: SafeArea(

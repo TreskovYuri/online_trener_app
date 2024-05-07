@@ -3,6 +3,8 @@ import 'dart:ffi';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:get/get.dart';
+import 'package:trener_app/getx/getx_controller.dart';
 import 'package:trener_app/mobx/mobx.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
@@ -17,6 +19,8 @@ class Calendar extends StatelessWidget {
     final mobx = Provider.of<Mobx>(context);
     DateTime now = DateTime.now().subtract(Duration(hours: DateTime.now().hour, minutes: DateTime.now().minute, seconds: DateTime.now().second, milliseconds: DateTime.now().millisecond, microseconds: DateTime.now().microsecond));
     int weekday = now.weekday;
+    MyController myGetxController = Get.put(MyController());
+
 
     // Находим последний понедельник
     DateTime lastMonday = now.subtract(Duration(days: weekday - 1));
@@ -163,6 +167,7 @@ class Calendar extends StatelessWidget {
                                                                   now.month
                                                           ? InkWell(
                                                               onTap: () {
+                                                                myGetxController.repository.setCurrentDate(DateFormat('dd.MM.yyyy').format(date));
                                                                 mobx.setCurrentDate(
                                                                     DateFormat(
                                                                             'dd.MM.yyyy')
@@ -221,11 +226,12 @@ class Calendar extends StatelessWidget {
                                                             )
                                                           : GestureDetector(
                                                               onTap: () {
+                                                                myGetxController.repository.setCurrentDate(DateFormat('dd.MM.yyyy').format(date));
                                                     mobx.setCurrentDate(DateFormat('dd.MM.yyyy').format(date));
                                                       if(mobx.user['post'] == 'Тренер' || mobx.user['post'] == 'Супер тренер'){
-                                                          Navigator.pushReplacementNamed(context, '/journal');
+                                                          Navigator.pop(context);
                                                       }else{
-                                                          Navigator.pushReplacementNamed(context, '/planner');
+                                                          Navigator.pop(context);
                                                       }
                                                               },
                                                               child: Text(

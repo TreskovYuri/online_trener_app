@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:trener_app/mobx/mobx.dart';
 import 'package:trener_app/pages/calendar.dart';
 import 'package:trener_app/pages/chats.dart';
@@ -28,9 +29,12 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return Provider(
       create: (_) => Mobx(),
-      child: MaterialApp(
+      child: GetMaterialApp(
+        title: 'aad',
         initialRoute: '/',
-        theme: ThemeData(),
+        theme: ThemeData(
+          scaffoldBackgroundColor: Color(0xff1B1C20)
+        ),
         routes: {
           '/': (context) => const Loading(),
           '/login': (context) => const Login(),

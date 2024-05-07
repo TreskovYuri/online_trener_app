@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:trener_app/getx/getx_controller.dart';
 import 'package:trener_app/mobx/mobx.dart';
 import 'package:trener_app/widgets/nitification/navbar.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:provider/provider.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:get/get.dart';
 
 class Journal extends StatefulWidget {
   const Journal({super.key});
@@ -31,35 +33,41 @@ class _JournalState extends State<Journal> {
       lastWeek.add(lastMonday.add(Duration(days: i)));
     }
 
-    return Scaffold(
-      body: Container(
-        padding: EdgeInsets.all(1 * vw),
-        width: 100 * vw,
-        color: Color(0xff1B1C20),
-        child: Column(
-          children: [
-            const Expanded(flex: 1, child: Header()),
-            const Expanded(flex: 2, child: Cal()),
-            Expanded(
-              flex: 6,
-              child: SingleChildScrollView(
-                child: Padding(
-                    padding: EdgeInsets.only(top: 3 * vh, bottom: 4 * vh),
-                    child: Column(
-                      children: mobx
-                          .trenerDataOnDay(mobx.currentDate)
-                          .map((e) => Container(
-                                  child: UserCard(
-                                array: e,
-                              )))
-                          .toList(),
-                    )),
+    return Observer(
+      builder: (context) {
+        return Scaffold(
+          body: SafeArea(
+            child: Container(
+              padding: EdgeInsets.symmetric(horizontal: 2 * vw, vertical: 2*vh),
+              width: 100 * vw,
+              color: Color(0xff1B1C20),
+              child: Column(
+                children: [
+                  const Expanded(flex: 1, child: Header()),
+                  const Expanded(flex: 2, child: Cal()),
+                  Expanded(
+                    flex: 6,
+                    child: SingleChildScrollView(
+                      child: Padding(
+                          padding: EdgeInsets.only(top: 3 * vh, bottom: 4 * vh),
+                          child: Column(
+                            children: mobx
+                                .trenerDataOnDay(mobx.currentDate)
+                                .map((e) => Container(
+                                        child: UserCard(
+                                      array: e,
+                                    )))
+                                .toList(),
+                          )),
+                    ),
+                  ),
+                ],
               ),
             ),
-          ],
-        ),
-      ),
-      bottomNavigationBar:  Navbar(),
+          ),
+          bottomNavigationBar:  Navbar(),
+        );
+      }
     );
   }
 }
@@ -318,7 +326,7 @@ class _HeaderState extends State<Header> {
           ),
           IconButton(
             onPressed: () {
-              Navigator.pushReplacementNamed(
+              Navigator.pushNamed(
                 context,
                 '/calendar', // Переход на login
               );
@@ -342,13 +350,24 @@ class Cal extends StatefulWidget {
   State<Cal> createState() => _CalState();
 }
 
+
 class _CalState extends State<Cal> {
+    final mobx = Mobx();
+        DateTime now = DateTime.now();
+  @override
+  void initState() {
+    DateTime now = DateTime.now();
+    mobx.setCurrentDate(DateFormat('dd.MM.yyyy').format(now));
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     final vw = MediaQuery.of(context).size.width / 100;
     final vh = MediaQuery.of(context).size.height / 100;
-    final mobx = Provider.of<Mobx>(context);
-    DateTime now = DateTime.now();
+    // final mobx = Provider.of<Mobx>(context);
+    MyController myGetxController = Get.put(MyController());
+    myGetxController.repository.setCurrentDate(DateFormat('dd.MM.yyyy').format(now));
+
     int weekday = now.weekday;
 
     // Находим последний понедельник
@@ -359,84 +378,92 @@ class _CalState extends State<Cal> {
       lastWeek.add(lastMonday.add(Duration(days: i)));
     }
 
-    return Container(
-      margin: EdgeInsets.only(top: 2 * vh),
-      padding: EdgeInsets.all(3*vw),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: lastWeek.map((date) {
-          return Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                NumToRus(date.weekday),
-                style: TextStyle(
-                    color: const Color.fromARGB(158, 255, 255, 255),
-                    fontFamily: 'Manrope',
-                    fontWeight: FontWeight.w500,
-                    decoration: TextDecoration.none,
-                    fontSize: 3 * vw),
-              ),
-              SizedBox(
-                height: 1 * vh,
-              ),
-              mobx.currentDate == DateFormat('dd.MM.yyyy').format(date)
-                  ? InkWell(
-                      onTap: () {
-                        mobx.setCurrentDate(DateFormat('dd.MM.yyyy').format(date));
-                        Navigator.pushReplacementNamed(context,'/journal');
-                      },
-                      child: Container(
-                        width: 8 * vw,
-                        height: 8 * vw,
-                        alignment: Alignment.center,
-                        // padding: EdgeInsets.all(1),
-                        decoration: BoxDecoration(
-                            gradient: const RadialGradient(
-                              colors: [
-                                Color(0xff4D8AEE),
-                                Color(0xff2932FF)
-                              ], // Цвета для радиального градиента
-                              radius: 0.6, // Радиус градиента (от 0 до 1)
-                              center: Alignment
-                                  .center, // Центр радиального градиента
-                            ),
-                            borderRadius: BorderRadius.circular(100)),
-                        child: Text(
-                          "${date.day}",
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontFamily: 'Manrope',
-                              fontWeight: FontWeight.w500,
-                              decoration: TextDecoration.none,
-                              fontSize: 4 * vw),
-                        ),
-                      ),
-                    )
-                  : InkWell(
-                      onTap: () {
-                        mobx.setCurrentDate(DateFormat('dd.MM.yyyy').format(date));
-                        Navigator.pushReplacementNamed(context,'/journal');
-                      },
-                      child: Container(
-                        width: 8 * vw,
-                        height: 8 * vw,
-                        alignment: Alignment.center,
-                        child: Text(
-                          "${date.day}",
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontFamily: 'Manrope',
-                              fontWeight: FontWeight.w500,
-                              decoration: TextDecoration.none,
-                              fontSize: 4 * vw),
-                        ),
-                      ),
-                    )
-            ],
-          );
-        }).toList(),
+    return Column(
+      children: [
+        Obx(() => Text("${myGetxController.repository.date}",style: TextStyle(color: Colors.white),)),
+        Container(
+          margin: EdgeInsets.only(top: 2 * vh),
+          padding: EdgeInsets.all(3*vw),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: lastWeek.map((date) {
+              return Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      NumToRus(date.weekday),
+                      style: TextStyle(
+                          color: const Color.fromARGB(158, 255, 255, 255),
+                          fontFamily: 'Manrope',
+                          fontWeight: FontWeight.w500,
+                          decoration: TextDecoration.none,
+                          fontSize: 3 * vw),
+                    ),
+                    SizedBox(
+                      height: 1 * vh,
+                    ),
+                   Obx(() => Container(
+  child: myGetxController.repository.date.value == DateFormat('dd.MM.yyyy').format(date) // Access value with .value
+    ? InkWell(
+        onTap: () {
+          myGetxController.repository.setCurrentDate(DateFormat('dd.MM.yyyy').format(date));
+          // Navigator.pushReplacementNamed(context,'/journal');
+        },
+        child: Container(
+          width: 8 * vw,
+          height: 8 * vw,
+          alignment: Alignment.center,
+          // padding: EdgeInsets.all(1),
+          decoration: BoxDecoration(
+            gradient: const RadialGradient(
+              colors: [
+                Color(0xff4D8AEE),
+                Color(0xff2932FF)
+              ],
+              radius: 0.6,
+              center: Alignment.center,
+            ),
+            borderRadius: BorderRadius.circular(100)),
+          child: Text(
+            "${date.day}",
+            style: TextStyle(
+              color: Colors.white,
+              fontFamily: 'Manrope',
+              fontWeight: FontWeight.w500,
+              decoration: TextDecoration.none,
+              fontSize: 4 * vw),
+          ),
+        ),
+      )
+    : InkWell(
+        onTap: () {
+          myGetxController.setCurrentDate(DateFormat('dd.MM.yyyy').format(date));
+          // Navigator.pushReplacementNamed(context,'/journal');
+        },
+        child: Container(
+          width: 8 * vw,
+          height: 8 * vw,
+          alignment: Alignment.center,
+          child: Text(
+            "${date.day}",
+            style: TextStyle(
+              color: Colors.white,
+              fontFamily: 'Manrope',
+              fontWeight: FontWeight.w500,
+              decoration: TextDecoration.none,
+              fontSize: 4 * vw),
+          ),
+        ),
       ),
+))
+                    
+                   
+                  ],
+                );
+            }).toList(),
+          ),
+        ),
+      ],
     );
   }
 }

@@ -24,7 +24,7 @@ class CardService extends StatelessWidget {
                 Expanded(
                   flex: 1,
                   child: GestureDetector(
-                    onTap: (){Navigator.pushReplacementNamed(context,'/profile');},
+                    onTap: (){Navigator.pushNamed(context,'/profile');},
                     child: Container(
                       child: Row(
                         children: [
@@ -59,7 +59,7 @@ class CardService extends StatelessWidget {
                 Expanded(
                   flex: 1,
                   child: GestureDetector(
-                    onTap: (){Navigator.pushReplacementNamed(context,'/workoutscheme');},
+                    onTap: (){Navigator.pushNamed(context,'/workoutscheme');},
                     child: Container(
                       child: Row(
                         children: [

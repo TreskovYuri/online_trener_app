@@ -20,43 +20,45 @@ class _PlannerState extends State<Planner> {
     final vh = MediaQuery.of(context).size.height / 100;
 
     return Scaffold(
-      body: Container(
-        padding: EdgeInsets.only(top: 2 * vh),
-        width: 100 * vw,
-        color: Color(0xff1B1C20),
-        child: Column(
-          children: [
-            Expanded(
-                flex: 1,
-                child: Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 5 * vw),
-                  child: Header(),
-                )),
-            Expanded(
-                flex: 2,
-                child: Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 5 * vw),
-                  child: Cal(),
-                )),
-            Expanded(
-              flex: 6,
-              child: SingleChildScrollView(
-                child: Padding(
-                  padding: EdgeInsets.only(top: 3 * vh, bottom: 4 * vh),
-                  child: const Column(
-                    children: [
-                      TrainingCard(),
-                      TestsCard(),
-                      NutritionsCard(),
-                      FixResiltsCard(),
-                      NutritiosPriemCard(),
-                      ConsultationsCard(),
-                    ],
+      body: SafeArea(
+        child: Container(
+          padding: EdgeInsets.symmetric(horizontal: 2 * vw, vertical: 2*vh),
+          width: 100 * vw,
+          color: Color(0xff1B1C20),
+          child: Column(
+            children: [
+              Expanded(
+                  flex: 1,
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 5 * vw),
+                    child: Header(),
+                  )),
+              Expanded(
+                  flex: 2,
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 5 * vw),
+                    child: Cal(),
+                  )),
+              Expanded(
+                flex: 6,
+                child: SingleChildScrollView(
+                  child: Padding(
+                    padding: EdgeInsets.only(top: 3 * vh, bottom: 4 * vh),
+                    child: const Column(
+                      children: [
+                        TrainingCard(),
+                        TestsCard(),
+                        NutritionsCard(),
+                        FixResiltsCard(),
+                        NutritiosPriemCard(),
+                        ConsultationsCard(),
+                      ],
+                    ),
                   ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
       bottomNavigationBar:  Navbar(),

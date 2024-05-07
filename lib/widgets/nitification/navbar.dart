@@ -27,8 +27,9 @@ class Navbar extends StatelessWidget {
           Observer(
             builder: (context) {
               return Opacity(
-                opacity: mobx.pageName == 'План'? 1 : .6,
+                opacity: mobx.pageName == 'План'? 1 : .4,
                 child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [IconButton(
                         onPressed: () async {
                           if(mobx.user['post'] == 'Супер тренер' || mobx.user['post'] == 'Тренер'){
@@ -66,8 +67,9 @@ class Navbar extends StatelessWidget {
 
                 builder: (context) {
                   return Opacity(
-                    opacity: mobx.pageName == 'Прогресс'? 1 : .6,
+                    opacity: mobx.pageName == 'Прогресс'? 1 : .4,
                     child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         IconButton(
                           
@@ -101,6 +103,7 @@ class Navbar extends StatelessWidget {
             child: Row(
               children: [
                 Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     GestureDetector(
                       onTap: () {
@@ -125,9 +128,10 @@ class Navbar extends StatelessWidget {
           Observer(
             builder: (context) {
               return Opacity(
-                opacity: mobx.pageName == 'Чат'? 1: .5,
+                opacity: mobx.pageName == 'Чат'? 1: .4,
                 child: Container(
                   child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       IconButton(
                         onPressed: () {
@@ -162,6 +166,7 @@ class Navbar extends StatelessWidget {
                   return Opacity(
                     opacity: mobx.pageName == 'Сервисы'?1:.6,
                     child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         IconButton(
                           onPressed: () {
