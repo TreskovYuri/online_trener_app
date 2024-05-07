@@ -101,9 +101,11 @@ class _UserCardState extends State<UserCard> {
   @override
   Widget build(BuildContext context) {
     final vw = MediaQuery.of(context).size.width / 100;
+    final vh = MediaQuery.of(context).size.height / 100;
+    final mobx = Provider.of<Mobx>(context);
 
     return Container(
-      padding: EdgeInsets.all(16.0),
+      padding: EdgeInsets.all(1*vw),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -160,7 +162,7 @@ class _UserCardState extends State<UserCard> {
                     ),
                     borderRadius: BorderRadius.circular(100)),
                 child: Text(
-                  widget.array['state'].length.toString(),
+                  mobx.trenerUserExercisesOnDay(mobx.currentDate, widget.array['id']).length.toString(),
                   style: TextStyle(
                       color: Colors.white,
                       fontFamily: 'Manrope',
@@ -209,10 +211,71 @@ class _UserCardState extends State<UserCard> {
             ],
           ),
 modalFlag ?
-  Column(
-    children: [
-
-    ],
+  Container(
+    child: Column(
+    children: mobx
+        .trenerUserExercisesOnDay(mobx.currentDate, widget.array['id'])
+        .map((e) => Container(
+          margin: EdgeInsets.only(top: 1 * vh),
+                              child: Slidable(
+                                key: UniqueKey(),
+                                endActionPane: ActionPane(
+                                    motion: const BehindMotion(),
+                                    key: UniqueKey(),
+                                    dismissible: DismissiblePane(
+                                      key: UniqueKey(),
+                                      onDismissed: () => print('delete'),
+                                    ),
+                                    children: [
+                                      SlidableAction(
+                                        onPressed: (context) {},
+                                        backgroundColor: Colors.red,
+    
+                                        // icon: Icons.delete,
+                                        label: "Отменить",
+                                        borderRadius: BorderRadius.circular(20),
+                                      )
+                                    ]),
+                                child: Container(
+                                  padding: EdgeInsets.symmetric(vertical: 2 * vw, horizontal: 4 * vw),
+                                  decoration: BoxDecoration(
+                                      color: Color(0xff23252B),
+                                      borderRadius:
+                                          BorderRadius.circular(5 * vw)),
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Container(
+                                        width: 60*vw,
+                                        child: Text(
+                                          e['name'].toString(),
+                                          style: TextStyle(
+                                              color: const Color.fromARGB(
+                                                  210, 255, 255, 255),
+                                              fontFamily: 'Manrope',
+                                              fontWeight: FontWeight.w600,
+                                              decoration: TextDecoration.none,
+                                              fontSize: 3 * vw),
+                                        ),
+                                      ),
+                                      IconButton(
+                                        onPressed: () {
+                                          setState(() {
+                                            debugPrint('dev');
+                                          });
+                                        },
+                                        icon: const Icon(Icons
+                                            .arrow_forward_ios_rounded), // Иконка
+                                        iconSize: 4 * vw,
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              )
+        ))
+        .toList(),
+    ),
   ):Container()
         ],
       ),
@@ -248,7 +311,7 @@ class _HeaderState extends State<Header> {
         ),
         IconButton(
           onPressed: () {
-            Navigator.pushNamed(
+            Navigator.pushReplacementNamed(
               context,
               '/calendar', // Переход на login
             );
@@ -308,11 +371,11 @@ class _CalState extends State<Cal> {
               SizedBox(
                 height: 1 * vh,
               ),
-              date.day == now.day
+              mobx.currentDate == DateFormat('dd.MM.yyyy').format(date)
                   ? InkWell(
                       onTap: () {
-                        mobx.setCurrentDate(
-                            DateFormat('dd.MM.yyyy').format(date));
+                        mobx.setCurrentDate(DateFormat('dd.MM.yyyy').format(date));
+                        Navigator.pushReplacementNamed(context,'/journal');
                       },
                       child: Container(
                         width: 8 * vw,
@@ -343,8 +406,8 @@ class _CalState extends State<Cal> {
                     )
                   : InkWell(
                       onTap: () {
-                        mobx.setCurrentDate(
-                            DateFormat('dd.MM.yyyy').format(date));
+                        mobx.setCurrentDate(DateFormat('dd.MM.yyyy').format(date));
+                        Navigator.pushReplacementNamed(context,'/journal');
                       },
                       child: Container(
                         width: 8 * vw,
@@ -517,7 +580,7 @@ class _TrainingCardState extends State<TrainingCard> {
                                     )
                                   ]),
                               child: Container(
-                                padding: EdgeInsets.all(4 * vw),
+                                padding: EdgeInsets.all(3 * vw),
                                 decoration: BoxDecoration(
                                     color: Color(0xff23252B),
                                     borderRadius:

@@ -94,22 +94,15 @@ void loadData() async {
           emailError = false;
         });
 
-        var data = await SignIn(email: email, password: password);
+        var data = await SignIn(email: email, password: password, mobx: mobx);
         // print(data);
         if (data != null) {
           switch (data['status']) {
             case 200:
               cacheEmailPassword();
               if (data['body']['post'] == 'Тренер' || data['body']['post'] == 'Супер тренер') {
-                Navigator.pushReplacementNamed(
-                  context,
-                  '/journal', // Переход на login
-                );
-              }else{
-                Navigator.pushReplacementNamed(
-                  context,
-                  '/planner', // Переход на login
-                );
+                Navigator.pushReplacementNamed(context,'/planner');
+              }else{Navigator.pushReplacementNamed(context,'/planner');
               }
             case 400:
               if (data['body']['message'] != null) {

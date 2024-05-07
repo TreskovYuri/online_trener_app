@@ -12,6 +12,7 @@ abstract class _Mobx with Store {
   var exercises = [];
   var currentDate = '';
   var userExercises = [];
+  Map <String,dynamic> user = {};
 
   @action
   void setUserExercises(List<dynamic> exercises) {
@@ -28,9 +29,34 @@ abstract class _Mobx with Store {
     exercises = exercise;
   }
 
+  @action
+  void setUser(Map <String,dynamic> newUser) {
+    user = newUser ;
+  }
+
+  List<Map<String, dynamic>> trenerUserExercisesOnDay(String date, int id) {
+    if (id == 1) {
+      return [
+        {"name": "Силовая тренировка", 'type': ""},
+        {"name": "Йога", 'type': ""},
+        {"name": "Максимальный вес приседания с штангой на спине", 'type': ""},
+      ];
+    } else if (id == 2) {
+      return [
+        {"name": "Силовая тренировка", 'type': ""},
+        {"name": "Максимальный вес приседания с штангой на спине", 'type': ""},
+      ];
+    } else if (id == 3) {
+      return [
+        {"name": "Силовая тренировка", 'type': ""},
+      ];
+    }
+    return [];
+  }
+
 // Функция преобразует массив со взязями и массив с упражнениями в один общий массив
   @computed
-  List<dynamic> get userExercisesOnFinal {
+  List get userExercisesOnFinal {
     var array = [];
     userExercises.forEach((element) {
       var ar = exercises.where((obj) => obj['id'] == element['exerciseId']);
@@ -77,11 +103,13 @@ abstract class _Mobx with Store {
 //   }
 
 // Функция возвращает список упражнения по заданному дню
-  List<Map<String,dynamic>> trenerDataOnDay(String date) {
+  @observable
+  List<Map<String, dynamic>> trenerDataOnDay(String date) {
     if (int.parse(date.split('.')[0]) % 2 == 0) {
       return [
         {
           "username": "Миронов А.В.",
+          'id': 1,
           "date": "06.05.2024",
           "post": "Вратарь",
           "team": "СКА",
@@ -119,9 +147,8 @@ abstract class _Mobx with Store {
             },
             {
               'sets': '',
-              'id': '1',
               'name': 'Йога',
-              
+              'id': 2,
               'nameEng': ' Twisting',
               'descriptionRu':
                   'Развивает мышцы плеч, спины и груди, улучшает осанку',
@@ -155,6 +182,7 @@ abstract class _Mobx with Store {
           "username": "Никонов И.Ф.",
           "date": "06.05.2024",
           "post": "Крайний нападающий",
+          'id': 2,
           "team": "СКА",
           "state": [
             {
@@ -194,6 +222,7 @@ abstract class _Mobx with Store {
           "username": "Никонов И.Ф.",
           "date": "06.05.2024",
           "post": "Крайний нападающий",
+          'id': 3,
           "team": "СКА",
           "state": [
             {
@@ -298,6 +327,7 @@ abstract class _Mobx with Store {
           "username": "Никонов И.Ф.",
           "post": "Вратарь",
           "date": "06.05.2024",
+          'id': 1,
           "team": "СКА",
           "state": [
             {
@@ -368,6 +398,7 @@ abstract class _Mobx with Store {
           "username": "Крюков А.М.",
           "date": "06.05.2024",
           "post": "Крайний нападающий",
+          'id': 2,
           "team": "СКА",
           "state": [
             {
@@ -438,13 +469,125 @@ abstract class _Mobx with Store {
     }
   }
 
+  @observable
+  List <Map <String,dynamic>> exercisesOnTrainingId(int id) {
+    return [
+{
+              'sets': '',
+              'id': '1',
+              'nameRu': 'Круги руками',
+              'prevSets':"3X15",
+              'prevVes':"20кг",
+              'prevTime':"40",
+              'nameEng': ' Circles with hands',
+              'descriptionRu':
+                  'Развивает мышцы плеч, спины и груди, улучшает осанку, Развивает мышцы плеч, спины и груди, улучшает осанку, Развивает мышцы плеч, спины и груди, улучшает осанку',
+              'descriptionEn':
+                  'Развивает мышцы плеч, спины и груди, улучшает осанку',
+              'link': 'https://youtu.be/YMx8Bbev6T4?si=R9qEwkH0wmGImgii',
+              'img': '9811ef87-a51a-4c53-8e13-85b6539ede97.png',
+              'video': 'https://youtu.be/YMx8Bbev6T4?si=R9qEwkH0wmGImgii',
+              'stage': ['Роллер','Стена','Стул'],
+              'equipment': '',
+              'musclegroups': '',
+              'pocazatel1Name': '',
+              'pocazatel1Type': '',
+              'pocazatel1SPFlag': '',
+              'pocazatel2Name': '',
+              'pocazatel2Type': '',
+              'pocazatel2SPFlag': '',
+              'pocazatel3Name': '',
+              'pocazatel3Type': '',
+              'pocazatel3SPFlag': '',
+              'pocazatel4Name': '',
+              'pocazatel4Type': '',
+              'pocazatel4SPFlag': '',
+              'pocazatel5Name': '',
+              'pocazatel5Type': '',
+              'pocazatel5SPFlag': '',
+            },
+            {
+              'sets': '',
+              'id': '2',
+              'prevSets':"2X25",
+              'prevVes':"20кг",
+              'prevTime':"40",
+              'nameRu': 'Жим лежа',
+              'nameEng': ' Circles with hands',
+              'descriptionRu':
+                  'Развивает мышцы плеч, спины и груди, улучшает осанку',
+              'descriptionEn':
+                  'Развивает мышцы плеч, спины и груди, улучшает осанку',
+              'link': 'https://youtu.be/YMx8Bbev6T4?si=R9qEwkH0wmGImgii',
+              'img': '0c50cda7-8543-492c-8d92-840921bf7c4e.jpg',
+              'video': 'https://youtu.be/YMx8Bbev6T4?si=R9qEwkH0wmGImgii',
+              'stage': ['Роллер','Стена','Стул'],
+              'equipment': '',
+              'musclegroups': '',
+              'pocazatel1Name': '',
+              'pocazatel1Type': '',
+              'pocazatel1SPFlag': '',
+              'pocazatel2Name': '',
+              'pocazatel2Type': '',
+              'pocazatel2SPFlag': '',
+              'pocazatel3Name': '',
+              'pocazatel3Type': '',
+              'pocazatel3SPFlag': '',
+              'pocazatel4Name': '',
+              'pocazatel4Type': '',
+              'pocazatel4SPFlag': '',
+              'pocazatel5Name': '',
+              'pocazatel5Type': '',
+              'pocazatel5SPFlag': '',
+            },
+            {
+              'sets': '',
+              'prevSets':"4X10 50",
+              'prevVes':"20кг",
+              'prevTime':"40",
+              'id': '3',
+              'nameRu': 'Скручивание на пресс',
+              'nameEng': ' Circles with hands',
+              'descriptionRu':
+                  'Развивает мышцы плеч, спины и груди, улучшает осанку',
+              'descriptionEn':
+                  'Развивает мышцы плеч, спины и груди, улучшает осанку',
+              'link': 'https://youtu.be/YMx8Bbev6T4?si=R9qEwkH0wmGImgii',
+              'img': '6411cec5-9276-490e-8b9a-a718f3dfd97d.jpg',
+              'video': '',
+              'stage': ['Роллер','Стена','Стул'],
+              'equipment': '',
+              'musclegroups': '',
+              'pocazatel1Name': '',
+              'pocazatel1Type': '',
+              'pocazatel1SPFlag': '',
+              'pocazatel2Name': '',
+              'pocazatel2Type': '',
+              'pocazatel2SPFlag': '',
+              'pocazatel3Name': '',
+              'pocazatel3Type': '',
+              'pocazatel3SPFlag': '',
+              'pocazatel4Name': '',
+              'pocazatel4Type': '',
+              'pocazatel4SPFlag': '',
+              'pocazatel5Name': '',
+              'pocazatel5Type': '',
+              'pocazatel5SPFlag': '',
+            },
+    ];
+  }
 // Функция возвращает список упражнения по заданному дню
+  @observable
   List<dynamic> userExercisesOnDay(String date) {
     if (int.parse(date.split('.')[0]) % 2 == 0) {
       return [
         {
           "name": "Йога",
+          'id': 1,
           "date": "06.05.2024",
+          'stage': ['Стена', 'Стул'],
+          'img':"http://web-hub.pro:5004/assets/0c50cda7-8543-492c-8d92-840921bf7c4e.jpg",
+          'description':'Йога — это ряд упражнений с собственным весом или отягощением. Их основной целью является увеличение силы мышц и развитие выносливости тела.Все силовые направления выполняются в достаточно интенсивном темпе, и цели у них, как правило, жиросжигание, тонус мышц, активная работа дыхательной и сердечно-сосудистой систем.Основная цель занятий на растяжку - гибкость, эластичность, работа с дыханием, улучшение кровотока и снятие напряжения.',
           "exercises": [
             {
               'sets': '',
@@ -512,7 +655,12 @@ abstract class _Mobx with Store {
         },
         {
           "name": "Силовая тренировка",
+          'id': 2,
           "date": "06.05.2024",
+          'stage': ['Роллер', 'Стена', 'Стул'],
+          'img':"http://web-hub.pro:5004/assets/9811ef87-a51a-4c53-8e13-85b6539ede97.png",
+          'description':'Силовая тренировка — это ряд упражнений с собственным весом или отягощением. Их основной целью является увеличение силы мышц и развитие выносливости тела.Все силовые направления выполняются в достаточно интенсивном темпе, и цели у них, как правило, жиросжигание, тонус мышц, активная работа дыхательной и сердечно-сосудистой систем.Основная цель занятий на растяжку - гибкость, эластичность, работа с дыханием, улучшение кровотока и снятие напряжения.',
+
           "exercises": [
             {
               'sets': '',
@@ -583,7 +731,11 @@ abstract class _Mobx with Store {
       return [
         {
           "name": "Йога",
+          'id': 1,
           "date": "06.05.2024",
+          'stage': ['Стена', 'Стул'],
+          'img':"http://web-hub.pro:5004/assets/0c50cda7-8543-492c-8d92-840921bf7c4e.jpg",
+          'description':'Йога — это ряд упражнений с собственным весом или отягощением. Их основной целью является увеличение силы мышц и развитие выносливости тела.Все силовые направления выполняются в достаточно интенсивном темпе, и цели у них, как правило, жиросжигание, тонус мышц, активная работа дыхательной и сердечно-сосудистой систем.Основная цель занятий на растяжку - гибкость, эластичность, работа с дыханием, улучшение кровотока и снятие напряжения.',
           "exercises": [
             {
               'sets': '',
@@ -651,7 +803,12 @@ abstract class _Mobx with Store {
         },
         {
           "name": "Силовая тренировка",
+          'id': 2,
           "date": "06.05.2024",
+          'stage': ['Роллер', 'Стена', 'Стул'],
+          'img':"http://web-hub.pro:5004/assets/9811ef87-a51a-4c53-8e13-85b6539ede97.png",
+          'description':
+        'Силовая тренировка — это ряд упражнений с собственным весом или отягощением. Их основной целью является увеличение силы мышц и развитие выносливости тела.Все силовые направления выполняются в достаточно интенсивном темпе, и цели у них, как правило, жиросжигание, тонус мышц, активная работа дыхательной и сердечно-сосудистой систем.Основная цель занятий на растяжку - гибкость, эластичность, работа с дыханием, улучшение кровотока и снятие напряжения.',
           "exercises": [
             {
               'sets': '',
@@ -722,6 +879,7 @@ abstract class _Mobx with Store {
   }
 
 // Функция возвращает список упражнения по заданному дню
+  @observable
   List<dynamic> userTestsOnDay(String date) {
     if (int.parse(date.split('.')[0]) % 2 == 0) {
       return [
@@ -795,6 +953,7 @@ abstract class _Mobx with Store {
   }
 
 // Функция возвращает список упражнения по заданному дню
+  @observable
   List<dynamic> userFixResultsOnDay(String date) {
     if (int.parse(date.split('.')[0]) % 2 == 0) {
       return [
@@ -868,6 +1027,7 @@ abstract class _Mobx with Store {
   }
 
 // Функция возвращает список упражнения по заданному дню
+  @observable
   List<dynamic> userNutritionsOnDay(String date) {
     if (int.parse(date.split('.')[0]) % 2 == 0) {
       return [
@@ -941,6 +1101,7 @@ abstract class _Mobx with Store {
   }
 
 // Функция возвращает список упражнения по заданному дню
+  @observable
   List<dynamic> userConsultationsOnDay(String date) {
     if (int.parse(date.split('.')[0]) % 2 == 0) {
       return [];
@@ -985,6 +1146,7 @@ abstract class _Mobx with Store {
   }
 
 // Функция возвращает список упражнения по заданному дню
+  @observable
   List<dynamic> userNutritionsPriemOnDay(String date) {
     if (int.parse(date.split('.')[0]) % 2 == 0) {
       return [

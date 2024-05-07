@@ -14,7 +14,6 @@ class Planner extends StatefulWidget {
 }
 
 class _PlannerState extends State<Planner> {
-
   @override
   Widget build(BuildContext context) {
     final vw = MediaQuery.of(context).size.width / 100;
@@ -22,13 +21,23 @@ class _PlannerState extends State<Planner> {
 
     return Scaffold(
       body: Container(
-        padding: EdgeInsets.all(5 * vw),
+        padding: EdgeInsets.only(top: 2 * vh),
         width: 100 * vw,
         color: Color(0xff1B1C20),
         child: Column(
           children: [
-            const Expanded(flex: 1, child: Header()),
-            const Expanded(flex: 2, child: Cal()),
+            Expanded(
+                flex: 1,
+                child: Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 5 * vw),
+                  child: Header(),
+                )),
+            Expanded(
+                flex: 2,
+                child: Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 5 * vw),
+                  child: Cal(),
+                )),
             Expanded(
               flex: 6,
               child: SingleChildScrollView(
@@ -104,7 +113,7 @@ class _HeaderState extends State<Header> {
         ),
         IconButton(
           onPressed: () {
-            Navigator.pushNamed(
+            Navigator.pushReplacementNamed(
               context,
               '/calendar', // Переход на login
             );
@@ -164,10 +173,13 @@ class _CalState extends State<Cal> {
               SizedBox(
                 height: 1 * vh,
               ),
-              date.day == now.day
+              mobx.currentDate == DateFormat('dd.MM.yyyy').format(date)
                   ? InkWell(
-                    onTap: (){mobx.setCurrentDate(DateFormat('dd.MM.yyyy').format(date));},
-                    child: Container(
+                      onTap: () {
+                        mobx.setCurrentDate(DateFormat('dd.MM.yyyy').format(date));
+                        Navigator.pushReplacementNamed(context,'/planner');
+                      },
+                      child: Container(
                         width: 8 * vw,
                         height: 8 * vw,
                         alignment: Alignment.center,
@@ -179,8 +191,8 @@ class _CalState extends State<Cal> {
                                 Color(0xff2932FF)
                               ], // Цвета для радиального градиента
                               radius: 0.6, // Радиус градиента (от 0 до 1)
-                              center:
-                                  Alignment.center, // Центр радиального градиента
+                              center: Alignment
+                                  .center, // Центр радиального градиента
                             ),
                             borderRadius: BorderRadius.circular(100)),
                         child: Text(
@@ -193,10 +205,13 @@ class _CalState extends State<Cal> {
                               fontSize: 4 * vw),
                         ),
                       ),
-                  )
+                    )
                   : InkWell(
-                    onTap: (){mobx.setCurrentDate(DateFormat('dd.MM.yyyy').format(date));},
-                    child: Container(
+                      onTap: () {
+                        mobx.setCurrentDate(DateFormat('dd.MM.yyyy').format(date));
+                        Navigator.pushReplacementNamed(context,'/planner');
+                      },
+                      child: Container(
                         width: 8 * vw,
                         height: 8 * vw,
                         alignment: Alignment.center,
@@ -210,7 +225,7 @@ class _CalState extends State<Cal> {
                               fontSize: 4 * vw),
                         ),
                       ),
-                  )
+                    )
             ],
           );
         }).toList(),
@@ -248,38 +263,42 @@ class _TrainingCardState extends State<TrainingCard> {
                   builder: (_) => Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Text(
-                            "Тренировки",
-                            style: TextStyle(
-                                color: const Color.fromARGB(220, 255, 255, 255),
-                                fontSize: 5 * vw),
-                          ),
-                          !trainingOnOff
-                              ? IconButton(
-                                  onPressed: () {
-                                    setState(() {
-                                      trainingOnOff = !trainingOnOff;
-                                    });
-                                  },
-                                  icon: const Icon(Icons
-                                      .arrow_forward_ios_rounded), // Иконка
-                                  iconSize: 4 * vw,
-                                )
-                              : IconButton(
-                                  onPressed: () {
-                                    setState(() {
-                                      trainingOnOff = !trainingOnOff;
-                                    });
-                                  },
-                                  icon: const Icon(Icons
-                                      .keyboard_arrow_down_rounded), // Иконка
-                                  iconSize: 6 * vw,
-                                ),
-                        ],
+                      Container(
+                        width: 60 * vw,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Text(
+                              "Тренировки",
+                              style: TextStyle(
+                                  color:
+                                      const Color.fromARGB(220, 255, 255, 255),
+                                  fontSize: 5 * vw),
+                            ),
+                            !trainingOnOff
+                                ? IconButton(
+                                    onPressed: () {
+                                      setState(() {
+                                        trainingOnOff = !trainingOnOff;
+                                      });
+                                    },
+                                    icon: const Icon(Icons
+                                        .arrow_forward_ios_rounded), // Иконка
+                                    iconSize: 4 * vw,
+                                  )
+                                : IconButton(
+                                    onPressed: () {
+                                      setState(() {
+                                        trainingOnOff = !trainingOnOff;
+                                      });
+                                    },
+                                    icon: const Icon(Icons
+                                        .keyboard_arrow_down_rounded), // Иконка
+                                    iconSize: 6 * vw,
+                                  ),
+                          ],
+                        ),
                       ),
                       mobx.userExercisesOnDay(mobx.currentDate).length > 0
                           ? Container(
@@ -342,68 +361,78 @@ class _TrainingCardState extends State<TrainingCard> {
                 trainingOnOff
                     // ignore: dead_code
                     ? Column(
-                        children: mobx
-                            .userExercisesOnDay(mobx.currentDate)
-                            .map((e) {
-                              final uniqueKey = UniqueKey();
-                               return Container(
-                              margin: EdgeInsets.only(top:1*vh),
+                        children:
+                            mobx.userExercisesOnDay(mobx.currentDate).map((e) {
+                          final uniqueKey = UniqueKey();
+                          return GestureDetector(
+                            onTap: () {
+                              // Обработчик нажатия
+                              Navigator.pushNamed(
+                                context,
+                                arguments: e,
+                                '/workout', // Переход на login
+                              );
+                            },
+                            child: Container(
+                              margin: EdgeInsets.only(top: 1 * vh),
                               child: Slidable(
+                                key: uniqueKey,
+                                endActionPane: ActionPane(
+                                    motion: const BehindMotion(),
                                     key: uniqueKey,
-                                    endActionPane: ActionPane(
-                                        motion: const BehindMotion(),
-                                        key: uniqueKey,
-                                        dismissible: DismissiblePane(
-                                          key: UniqueKey(),
-                                          onDismissed: () => print('delete'),
-                                        ),
-                                        children: [
-                                          SlidableAction(
-                                            onPressed: (context) {},
-                                            backgroundColor: Colors.red,
-                                            
-                                            // icon: Icons.delete,
-                                            label: "Отменить",
-                                            borderRadius: BorderRadius.circular(20),
-                                          )
-                                        ]),
-                                    child: Container(
-                                      padding: EdgeInsets.all(4 * vw),
-                                      decoration: BoxDecoration(
-                                          color: Color(0xff23252B),
-                                          borderRadius:
-                                              BorderRadius.circular(5 * vw)),
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Text(
-                                            e['name'].toString(),
-                                            style: TextStyle(
-                                                color: const Color.fromARGB(
-                                                    210, 255, 255, 255),
-                                                fontFamily: 'Manrope',
-                                                fontWeight: FontWeight.w600,
-                                                decoration: TextDecoration.none,
-                                                fontSize: 4 * vw),
-                                          ),
-                                          IconButton(
-                                            onPressed: () {
-                                              setState(() {
-                                                trainingOnOff = !trainingOnOff;
-                                              });
-                                            },
-                                            icon: const Icon(Icons
-                                                .arrow_forward_ios_rounded), // Иконка
-                                            iconSize: 6 * vw,
-                                          ),
-                                        ],
-                                      ),
+                                    dismissible: DismissiblePane(
+                                      key: UniqueKey(),
+                                      onDismissed: () => print('delete'),
                                     ),
+                                    children: [
+                                      SlidableAction(
+                                        onPressed: (context) {
+                                        },
+                                        backgroundColor: Colors.red,
+
+                                        // icon: Icons.delete,
+                                        label: "Отменить",
+                                        borderRadius: BorderRadius.circular(20),
+                                      )
+                                    ]),
+                                child: Container(
+                                  padding: EdgeInsets.symmetric(
+                                      vertical: 1 * vw, horizontal: 3 * vw),
+                                  decoration: BoxDecoration(
+                                      color: Color(0xff23252B),
+                                      borderRadius:
+                                          BorderRadius.circular(5 * vw)),
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Text(
+                                        e['name'].toString(),
+                                        style: TextStyle(
+                                            color: const Color.fromARGB(
+                                                210, 255, 255, 255),
+                                            fontFamily: 'Manrope',
+                                            fontWeight: FontWeight.w600,
+                                            decoration: TextDecoration.none,
+                                            fontSize: 3 * vw),
+                                      ),
+                                      IconButton(
+                                        onPressed: () {
+                                          setState(() {
+                                            trainingOnOff = !trainingOnOff;
+                                          });
+                                        },
+                                        icon: const Icon(Icons
+                                            .arrow_forward_ios_rounded), // Иконка
+                                        iconSize: 4 * vw,
+                                      ),
+                                    ],
+                                  ),
+                                ),
                               ),
-                            );}
-                            )
-                            .toList(), // Преобразуйте список объектов Text в список виджетов
+                            ),
+                          );
+                        }).toList(), // Преобразуйте список объектов Text в список виджетов
                       )
                     : Container(), // Вернуть пустой контейнер, если trainingOnOff равно false
               ],
@@ -443,39 +472,42 @@ class _TestsCardState extends State<TestsCard> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                Text(
-                                  "Тесты",
-                                  style: TextStyle(
-                                      color: const Color.fromARGB(
-                                          220, 255, 255, 255),
-                                      fontSize: 5 * vw),
-                                ),
-                                !trainingOnOff
-                                    ? IconButton(
-                                        onPressed: () {
-                                          setState(() {
-                                            trainingOnOff = !trainingOnOff;
-                                          });
-                                        },
-                                        icon: const Icon(Icons
-                                            .arrow_forward_ios_rounded), // Иконка
-                                        iconSize: 4 * vw,
-                                      )
-                                    : IconButton(
-                                        onPressed: () {
-                                          setState(() {
-                                            trainingOnOff = !trainingOnOff;
-                                          });
-                                        },
-                                        icon: const Icon(Icons
-                                            .keyboard_arrow_down_rounded), // Иконка
-                                        iconSize: 6 * vw,
-                                      ),
-                              ],
+                            Container(
+                              width: 60 * vw,
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    "Тесты",
+                                    style: TextStyle(
+                                        color: const Color.fromARGB(
+                                            220, 255, 255, 255),
+                                        fontSize: 5 * vw),
+                                  ),
+                                  !trainingOnOff
+                                      ? IconButton(
+                                          onPressed: () {
+                                            setState(() {
+                                              trainingOnOff = !trainingOnOff;
+                                            });
+                                          },
+                                          icon: const Icon(Icons
+                                              .arrow_forward_ios_rounded), // Иконка
+                                          iconSize: 4 * vw,
+                                        )
+                                      : IconButton(
+                                          onPressed: () {
+                                            setState(() {
+                                              trainingOnOff = !trainingOnOff;
+                                            });
+                                          },
+                                          icon: const Icon(Icons
+                                              .keyboard_arrow_down_rounded), // Иконка
+                                          iconSize: 6 * vw,
+                                        ),
+                                ],
+                              ),
                             ),
                             mobx.userTestsOnDay(mobx.currentDate).length > 0
                                 ? Container(
@@ -544,35 +576,41 @@ class _TestsCardState extends State<TestsCard> {
                                 children: mobx
                                     .userTestsOnDay(mobx.currentDate)
                                     .map((e) => Container(
-                                      margin: EdgeInsets.only(top:1*vh),
-                                      child: Slidable(
-                                      key: UniqueKey(),
-                                      endActionPane: ActionPane(
-                                          motion: const BehindMotion(),
-                                          dismissible: DismissiblePane(
+                                          margin: EdgeInsets.only(top: 1 * vh),
+                                          child: Slidable(
                                             key: UniqueKey(),
-                                            onDismissed: () => print('delete'),
-                                          ),
-                                          children: [
-                                            SlidableAction(
-                                              onPressed: (context) {},
-                                              backgroundColor: Colors.red,
-                                              
-                                              // icon: Icons.delete,
-                                              label: "Отменить",
-                                              borderRadius: BorderRadius.circular(20),
-                                            )
-                                          ]),
-                                      child:  Container(
-                                              padding: EdgeInsets.all(4 * vw),
+                                            endActionPane: ActionPane(
+                                                motion: const BehindMotion(),
+                                                dismissible: DismissiblePane(
+                                                  key: UniqueKey(),
+                                                  onDismissed: () =>
+                                                      print('delete'),
+                                                ),
+                                                children: [
+                                                  SlidableAction(
+                                                    onPressed: (context) {},
+                                                    backgroundColor: Colors.red,
+
+                                                    // icon: Icons.delete,
+                                                    label: "Отменить",
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            20),
+                                                  )
+                                                ]),
+                                            child: Container(
+                                              padding: EdgeInsets.symmetric(
+                                                  vertical: 1 * vw,
+                                                  horizontal: 3 * vw),
                                               decoration: BoxDecoration(
                                                   color: Color(0xff23252B),
                                                   borderRadius:
                                                       BorderRadius.circular(
-                                                          5 * vw)),
+                                                          4 * vw)),
                                               child: Row(
                                                 mainAxisAlignment:
-                                                    MainAxisAlignment.spaceBetween,
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
                                                 children: [
                                                   Container(
                                                     width: 70 * vw,
@@ -580,14 +618,15 @@ class _TestsCardState extends State<TestsCard> {
                                                       e['name'].toString(),
                                                       style: TextStyle(
                                                           color: const Color
-                                                              .fromARGB(
-                                                              210, 255, 255, 255),
+                                                              .fromARGB(210,
+                                                              255, 255, 255),
                                                           fontFamily: 'Manrope',
                                                           fontWeight:
                                                               FontWeight.w600,
                                                           decoration:
-                                                              TextDecoration.none,
-                                                          fontSize: 4 * vw),
+                                                              TextDecoration
+                                                                  .none,
+                                                          fontSize: 3 * vw),
                                                     ),
                                                   ),
                                                   IconButton(
@@ -599,13 +638,13 @@ class _TestsCardState extends State<TestsCard> {
                                                     },
                                                     icon: const Icon(Icons
                                                         .arrow_forward_ios_rounded), // Иконка
-                                                    iconSize: 6 * vw,
+                                                    iconSize: 4 * vw,
                                                   ),
                                                 ],
                                               ),
                                             ),
-                                      ),
-                                    ))
+                                          ),
+                                        ))
                                     .toList(), // Преобразуйте список объектов Text в список виджетов
                               )
                             : Container(), // Вернуть пустой контейнер, если trainingOnOff равно false
@@ -647,39 +686,42 @@ class _NutritionsCardState extends State<NutritionsCard> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                Text(
-                                  "Питание",
-                                  style: TextStyle(
-                                      color: const Color.fromARGB(
-                                          220, 255, 255, 255),
-                                      fontSize: 5 * vw),
-                                ),
-                                !trainingOnOff
-                                    ? IconButton(
-                                        onPressed: () {
-                                          setState(() {
-                                            trainingOnOff = !trainingOnOff;
-                                          });
-                                        },
-                                        icon: const Icon(Icons
-                                            .arrow_forward_ios_rounded), // Иконка
-                                        iconSize: 4 * vw,
-                                      )
-                                    : IconButton(
-                                        onPressed: () {
-                                          setState(() {
-                                            trainingOnOff = !trainingOnOff;
-                                          });
-                                        },
-                                        icon: const Icon(Icons
-                                            .keyboard_arrow_down_rounded), // Иконка
-                                        iconSize: 6 * vw,
-                                      ),
-                              ],
+                            Container(
+                              width: 60 * vw,
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    "Питание",
+                                    style: TextStyle(
+                                        color: const Color.fromARGB(
+                                            220, 255, 255, 255),
+                                        fontSize: 5 * vw),
+                                  ),
+                                  !trainingOnOff
+                                      ? IconButton(
+                                          onPressed: () {
+                                            setState(() {
+                                              trainingOnOff = !trainingOnOff;
+                                            });
+                                          },
+                                          icon: const Icon(Icons
+                                              .arrow_forward_ios_rounded), // Иконка
+                                          iconSize: 4 * vw,
+                                        )
+                                      : IconButton(
+                                          onPressed: () {
+                                            setState(() {
+                                              trainingOnOff = !trainingOnOff;
+                                            });
+                                          },
+                                          icon: const Icon(Icons
+                                              .keyboard_arrow_down_rounded), // Иконка
+                                          iconSize: 6 * vw,
+                                        ),
+                                ],
+                              ),
                             ),
                             mobx.userNutritionsOnDay(mobx.currentDate).length >
                                     0
@@ -749,46 +791,54 @@ class _NutritionsCardState extends State<NutritionsCard> {
                                 children: mobx
                                     .userNutritionsOnDay(mobx.currentDate)
                                     .map((e) => Container(
-                                      margin: EdgeInsets.only(top:1*vh),
-                                      child: Slidable(
-                                      key: UniqueKey(),
-                                      endActionPane: ActionPane(
-                                          motion: const BehindMotion(),
-                                          dismissible: DismissiblePane(
+                                          margin: EdgeInsets.only(top: 1 * vh),
+                                          child: Slidable(
                                             key: UniqueKey(),
-                                            onDismissed: () => print('delete'),
-                                          ),
-                                          children: [
-                                            SlidableAction(
-                                              onPressed: (context) {},
-                                              backgroundColor: Colors.red,
-                                              
-                                              // icon: Icons.delete,
-                                              label: "Отменить",
-                                              borderRadius: BorderRadius.circular(20),
-                                            )
-                                          ]),
-                                      child: Container(
-                                              padding: EdgeInsets.all(4 * vw),
+                                            endActionPane: ActionPane(
+                                                motion: const BehindMotion(),
+                                                dismissible: DismissiblePane(
+                                                  key: UniqueKey(),
+                                                  onDismissed: () =>
+                                                      print('delete'),
+                                                ),
+                                                children: [
+                                                  SlidableAction(
+                                                    onPressed: (context) {},
+                                                    backgroundColor: Colors.red,
+
+                                                    // icon: Icons.delete,
+                                                    label: "Отменить",
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            20),
+                                                  )
+                                                ]),
+                                            child: Container(
+                                              padding: EdgeInsets.symmetric(
+                                                  vertical: 1 * vw,
+                                                  horizontal: 3 * vw),
                                               decoration: BoxDecoration(
                                                   color: Color(0xff23252B),
                                                   borderRadius:
                                                       BorderRadius.circular(
-                                                          5 * vw)),
+                                                          4 * vw)),
                                               child: Row(
                                                 mainAxisAlignment:
-                                                    MainAxisAlignment.spaceBetween,
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
                                                 children: [
                                                   Text(
                                                     e['name'].toString(),
                                                     style: TextStyle(
-                                                        color: const Color.fromARGB(
+                                                        color: const Color
+                                                            .fromARGB(
                                                             210, 255, 255, 255),
                                                         fontFamily: 'Manrope',
-                                                        fontWeight: FontWeight.w600,
+                                                        fontWeight:
+                                                            FontWeight.w600,
                                                         decoration:
                                                             TextDecoration.none,
-                                                        fontSize: 4 * vw),
+                                                        fontSize: 3 * vw),
                                                   ),
                                                   IconButton(
                                                     onPressed: () {
@@ -799,13 +849,13 @@ class _NutritionsCardState extends State<NutritionsCard> {
                                                     },
                                                     icon: const Icon(Icons
                                                         .arrow_forward_ios_rounded), // Иконка
-                                                    iconSize: 6 * vw,
+                                                    iconSize: 4 * vw,
                                                   ),
                                                 ],
                                               ),
                                             ),
-                                      ),
-                                    ))
+                                          ),
+                                        ))
                                     .toList(), // Преобразуйте список объектов Text в список виджетов
                               )
                             : Container(), // Вернуть пустой контейнер, если trainingOnOff равно false
@@ -846,39 +896,42 @@ class _FixResiltsCardState extends State<FixResiltsCard> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                Text(
-                                  "Фиксация результатов",
-                                  style: TextStyle(
-                                      color: const Color.fromARGB(
-                                          220, 255, 255, 255),
-                                      fontSize: 5 * vw),
-                                ),
-                                !trainingOnOff
-                                    ? IconButton(
-                                        onPressed: () {
-                                          setState(() {
-                                            trainingOnOff = !trainingOnOff;
-                                          });
-                                        },
-                                        icon: const Icon(Icons
-                                            .arrow_forward_ios_rounded), // Иконка
-                                        iconSize: 4 * vw,
-                                      )
-                                    : IconButton(
-                                        onPressed: () {
-                                          setState(() {
-                                            trainingOnOff = !trainingOnOff;
-                                          });
-                                        },
-                                        icon: const Icon(Icons
-                                            .keyboard_arrow_down_rounded), // Иконка
-                                        iconSize: 6 * vw,
-                                      ),
-                              ],
+                            Container(
+                              width: 70 * vw,
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    "Фиксация результатов",
+                                    style: TextStyle(
+                                        color: const Color.fromARGB(
+                                            220, 255, 255, 255),
+                                        fontSize: 5 * vw),
+                                  ),
+                                  !trainingOnOff
+                                      ? IconButton(
+                                          onPressed: () {
+                                            setState(() {
+                                              trainingOnOff = !trainingOnOff;
+                                            });
+                                          },
+                                          icon: const Icon(Icons
+                                              .arrow_forward_ios_rounded), // Иконка
+                                          iconSize: 4 * vw,
+                                        )
+                                      : IconButton(
+                                          onPressed: () {
+                                            setState(() {
+                                              trainingOnOff = !trainingOnOff;
+                                            });
+                                          },
+                                          icon: const Icon(Icons
+                                              .keyboard_arrow_down_rounded), // Иконка
+                                          iconSize: 6 * vw,
+                                        ),
+                                ],
+                              ),
                             ),
                             mobx.userFixResultsOnDay(mobx.currentDate).length >
                                     0
@@ -948,46 +1001,54 @@ class _FixResiltsCardState extends State<FixResiltsCard> {
                                 children: mobx
                                     .userFixResultsOnDay(mobx.currentDate)
                                     .map((e) => Container(
-                                      margin: EdgeInsets.only(top:1*vh),
-                                      child: Slidable(
-                                      key: UniqueKey(),
-                                      endActionPane: ActionPane(
-                                          motion: const BehindMotion(),
-                                          dismissible: DismissiblePane(
+                                          margin: EdgeInsets.only(top: 1 * vh),
+                                          child: Slidable(
                                             key: UniqueKey(),
-                                            onDismissed: () => print('delete'),
-                                          ),
-                                          children: [
-                                            SlidableAction(
-                                              onPressed: (context) {},
-                                              backgroundColor: Colors.red,
-                                              
-                                              // icon: Icons.delete,
-                                              label: "Отменить",
-                                              borderRadius: BorderRadius.circular(20),
-                                            )
-                                          ]),
-                                      child: Container(
-                                              padding: EdgeInsets.all(4 * vw),
+                                            endActionPane: ActionPane(
+                                                motion: const BehindMotion(),
+                                                dismissible: DismissiblePane(
+                                                  key: UniqueKey(),
+                                                  onDismissed: () =>
+                                                      print('delete'),
+                                                ),
+                                                children: [
+                                                  SlidableAction(
+                                                    onPressed: (context) {},
+                                                    backgroundColor: Colors.red,
+
+                                                    // icon: Icons.delete,
+                                                    label: "Отменить",
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            20),
+                                                  )
+                                                ]),
+                                            child: Container(
+                                              padding: EdgeInsets.symmetric(
+                                                  vertical: 1 * vw,
+                                                  horizontal: 3 * vw),
                                               decoration: BoxDecoration(
                                                   color: Color(0xff23252B),
                                                   borderRadius:
                                                       BorderRadius.circular(
-                                                          5 * vw)),
+                                                          4 * vw)),
                                               child: Row(
                                                 mainAxisAlignment:
-                                                    MainAxisAlignment.spaceBetween,
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
                                                 children: [
                                                   Text(
                                                     e['name'].toString(),
                                                     style: TextStyle(
-                                                        color: const Color.fromARGB(
+                                                        color: const Color
+                                                            .fromARGB(
                                                             210, 255, 255, 255),
                                                         fontFamily: 'Manrope',
-                                                        fontWeight: FontWeight.w600,
+                                                        fontWeight:
+                                                            FontWeight.w600,
                                                         decoration:
                                                             TextDecoration.none,
-                                                        fontSize: 4 * vw),
+                                                        fontSize: 3 * vw),
                                                   ),
                                                   IconButton(
                                                     onPressed: () {
@@ -998,13 +1059,13 @@ class _FixResiltsCardState extends State<FixResiltsCard> {
                                                     },
                                                     icon: const Icon(Icons
                                                         .arrow_forward_ios_rounded), // Иконка
-                                                    iconSize: 6 * vw,
+                                                    iconSize: 4 * vw,
                                                   ),
                                                 ],
                                               ),
                                             ),
-                                      ),
-                                    ))
+                                          ),
+                                        ))
                                     .toList(), // Преобразуйте список объектов Text в список виджетов
                               )
                             : Container(), // Вернуть пустой контейнер, если trainingOnOff равно false
@@ -1151,27 +1212,32 @@ class _NutritiosPriemCardState extends State<NutritiosPriemCard> {
                                 children: mobx
                                     .userNutritionsPriemOnDay(mobx.currentDate)
                                     .map((e) => Container(
-                                      margin: EdgeInsets.only(top:1*vh),
-                                      child: Slidable(
-                                      key: UniqueKey(),
-                                      endActionPane: ActionPane(
-                                          motion: const BehindMotion(),
-                                          dismissible: DismissiblePane(
+                                          margin: EdgeInsets.only(top: 1 * vh),
+                                          child: Slidable(
                                             key: UniqueKey(),
-                                            onDismissed: () => print('delete'),
-                                          ),
-                                          children: [
-                                            SlidableAction(
-                                              onPressed: (context) {},
-                                              backgroundColor: Colors.red,
-                                              
-                                              // icon: Icons.delete,
-                                              label: "Отменить",
-                                              borderRadius: BorderRadius.circular(20),
-                                            )
-                                          ]),
-                                      child: Container(
-                                              padding: EdgeInsets.all(4 * vw),
+                                            endActionPane: ActionPane(
+                                                motion: const BehindMotion(),
+                                                dismissible: DismissiblePane(
+                                                  key: UniqueKey(),
+                                                  onDismissed: () =>
+                                                      print('delete'),
+                                                ),
+                                                children: [
+                                                  SlidableAction(
+                                                    onPressed: (context) {},
+                                                    backgroundColor: Colors.red,
+
+                                                    // icon: Icons.delete,
+                                                    label: "Отменить",
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            20),
+                                                  )
+                                                ]),
+                                            child: Container(
+                                              padding: EdgeInsets.symmetric(
+                                                  vertical: 1 * vw,
+                                                  horizontal: 3 * vw),
                                               decoration: BoxDecoration(
                                                   color: Color(0xff23252B),
                                                   borderRadius:
@@ -1179,18 +1245,21 @@ class _NutritiosPriemCardState extends State<NutritiosPriemCard> {
                                                           5 * vw)),
                                               child: Row(
                                                 mainAxisAlignment:
-                                                    MainAxisAlignment.spaceBetween,
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
                                                 children: [
                                                   Text(
                                                     e['name'].toString(),
                                                     style: TextStyle(
-                                                        color: const Color.fromARGB(
+                                                        color: const Color
+                                                            .fromARGB(
                                                             210, 255, 255, 255),
                                                         fontFamily: 'Manrope',
-                                                        fontWeight: FontWeight.w600,
+                                                        fontWeight:
+                                                            FontWeight.w600,
                                                         decoration:
                                                             TextDecoration.none,
-                                                        fontSize: 4 * vw),
+                                                        fontSize: 3 * vw),
                                                   ),
                                                   IconButton(
                                                     onPressed: () {
@@ -1201,13 +1270,13 @@ class _NutritiosPriemCardState extends State<NutritiosPriemCard> {
                                                     },
                                                     icon: const Icon(Icons
                                                         .arrow_forward_ios_rounded), // Иконка
-                                                    iconSize: 6 * vw,
+                                                    iconSize: 4 * vw,
                                                   ),
                                                 ],
                                               ),
                                             ),
-                                      ),
-                                    ))
+                                          ),
+                                        ))
                                     .toList(), // Преобразуйте список объектов Text в список виджетов
                               )
                             : Container(), // Вернуть пустой контейнер, если trainingOnOff равно false
@@ -1235,17 +1304,21 @@ class _ConsultationsCardState extends State<ConsultationsCard> {
     final mobx = Provider.of<Mobx>(context);
     final vw = MediaQuery.of(context).size.width / 100;
     final vh = MediaQuery.of(context).size.height / 100;
+
+
+
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Center(
-          child: Observer(
-              builder: (_) => Container(
-                    width: 90 * vw,
-                    margin: EdgeInsets.only(top: 3 * vh),
-                    child: Column(
-                      children: [
-                        Row(
+          child: Container(
+                width: 90 * vw,
+                margin: EdgeInsets.only(top: 3 * vh),
+                child: Column(
+                  children: [
+                    Observer(
+                      builder: (context) {
+                        return Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Row(
@@ -1282,11 +1355,7 @@ class _ConsultationsCardState extends State<ConsultationsCard> {
                                       ),
                               ],
                             ),
-                            mobx
-                                        .userConsultationsOnDay(
-                                            mobx.currentDate)
-                                        .length >
-                                    0
+                            mobx.userConsultationsOnDay(mobx.currentDate).isNotEmpty
                                 ? Container(
                                     width: 11 * vw,
                                     height: 6 * vw,
@@ -1347,81 +1416,88 @@ class _ConsultationsCardState extends State<ConsultationsCard> {
                                     ),
                                   ),
                           ],
-                        ),
-                        trainingOnOff
-                            // ignore: dead_code
-                            ? Column(
-                                children: mobx
-                                    .userConsultationsOnDay(mobx.currentDate)
-                                    .map((e) => Container(
-                                      margin: EdgeInsets.only(top:1*vh),
+                        );
+                      }
+                    ),
+                    trainingOnOff
+                        // ignore: dead_code
+                        ? Column(
+                            children: mobx
+                                .userConsultationsOnDay(mobx.currentDate)
+                                .map((e) => Container(
+                                      margin: EdgeInsets.only(top: 1 * vh),
                                       child: Slidable(
-                                      key: UniqueKey(),
-                                      endActionPane: ActionPane(
-                                          motion: const BehindMotion(),
-                                          dismissible: DismissiblePane(
-                                            key: UniqueKey(),
-                                            onDismissed: () => print('delete'),
-                                          ),
-                                          children: [
-                                            SlidableAction(
-                                              onPressed: (context) {},
-                                              backgroundColor: Colors.red,
-                                              
-                                              // icon: Icons.delete,
-                                              label: "Отменить",
-                                              borderRadius: BorderRadius.circular(20),
-                                            )
-                                          ]),
-                                      child: Container(
-                                              padding: EdgeInsets.all(4 * vw),
-                                              decoration: BoxDecoration(
-                                                  color: Color(0xff23252B),
-                                                  borderRadius:
-                                                      BorderRadius.circular(
-                                                          5 * vw)),
-                                              child: Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.spaceBetween,
-                                                children: [
-                                                  Container(
-                                                    width: 70 * vw,
-                                                    child: Text(
-                                                      e['name'].toString(),
-                                                      style: TextStyle(
-                                                          color: const Color
-                                                              .fromARGB(
-                                                              210, 255, 255, 255),
-                                                          fontFamily: 'Manrope',
-                                                          fontWeight:
-                                                              FontWeight.w600,
-                                                          decoration:
-                                                              TextDecoration.none,
-                                                          fontSize: 4 * vw),
-                                                    ),
-                                                  ),
-                                                  IconButton(
-                                                    onPressed: () {
-                                                      setState(() {
-                                                        trainingOnOff =
-                                                            !trainingOnOff;
-                                                      });
-                                                    },
-                                                    icon: const Icon(Icons
-                                                        .arrow_forward_ios_rounded), // Иконка
-                                                    iconSize: 6 * vw,
-                                                  ),
-                                                ],
-                                              ),
+                                        key: UniqueKey(),
+                                        endActionPane: ActionPane(
+                                            motion: const BehindMotion(),
+                                            dismissible: DismissiblePane(
+                                              key: UniqueKey(),
+                                              onDismissed: () =>
+                                                  print('delete'),
                                             ),
+                                            children: [
+                                              SlidableAction(
+                                                onPressed: (context) {},
+                                                backgroundColor: Colors.red,
+          
+                                                // icon: Icons.delete,
+                                                label: "Отменить",
+                                                borderRadius:
+                                                    BorderRadius.circular(
+                                                        20),
+                                              )
+                                            ]),
+                                        child: Container(
+                                          padding: EdgeInsets.all(4 * vw),
+                                          decoration: BoxDecoration(
+                                              color: Color(0xff23252B),
+                                              borderRadius:
+                                                  BorderRadius.circular(
+                                                      4 * vw)),
+                                          child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment
+                                                    .spaceBetween,
+                                            children: [
+                                              Container(
+                                                width: 70 * vw,
+                                                child: Text(
+                                                  e['name'].toString(),
+                                                  style: TextStyle(
+                                                      color: const Color
+                                                          .fromARGB(210,
+                                                          255, 255, 255),
+                                                      fontFamily: 'Manrope',
+                                                      fontWeight:
+                                                          FontWeight.w600,
+                                                      decoration:
+                                                          TextDecoration
+                                                              .none,
+                                                      fontSize: 3 * vw),
+                                                ),
+                                              ),
+                                              IconButton(
+                                                onPressed: () {
+                                                  setState(() {
+                                                    trainingOnOff =
+                                                        !trainingOnOff;
+                                                  });
+                                                },
+                                                icon: const Icon(Icons
+                                                    .arrow_forward_ios_rounded), // Иконка
+                                                iconSize: 4 * vw,
+                                              ),
+                                            ],
+                                          ),
+                                        ),
                                       ),
                                     ))
-                                    .toList(), // Преобразуйте список объектов Text в список виджетов
-                              )
-                            : Container(), // Вернуть пустой контейнер, если trainingOnOff равно false
-                      ],
-                    ),
-                  )),
+                                .toList(), // Преобразуйте список объектов Text в список виджетов
+                          )
+                        : Container(), // Вернуть пустой контейнер, если trainingOnOff равно false
+                  ],
+                ),
+              ),
         ),
       ],
     );

@@ -2,6 +2,7 @@ import 'dart:ffi';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:trener_app/mobx/mobx.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
@@ -213,45 +214,38 @@ class Calendar extends StatelessWidget {
                                                                         TextDecoration
                                                                             .none,
                                                                     fontSize:
-                                                                        3 * vw,
+                                                                        4 * vw,
                                                                   ),
                                                                 ),
                                                               ),
                                                             )
                                                           : GestureDetector(
                                                               onTap: () {
-                                                                mobx.setCurrentDate(DateFormat('dd.MM.yyyy').format(date));
-                                                                Navigator.pop(context);
+                                                    mobx.setCurrentDate(DateFormat('dd.MM.yyyy').format(date));
+                                                      if(mobx.user['post'] == 'Тренер' || mobx.user['post'] == 'Супер тренер'){
+                                                          Navigator.pushReplacementNamed(context, '/journal');
+                                                      }else{
+                                                          Navigator.pushReplacementNamed(context, '/planner');
+                                                      }
                                                               },
                                                               child: Text(
                                                                 '${date.day}',
                                                                 style:
                                                                     TextStyle(
-                                                                  color: Color
-                                                                      .fromARGB(
-                                                                          240,
-                                                                          255,
-                                                                          255,
-                                                                          255),
-                                                                  fontFamily:
-                                                                      'Manrope',
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .w600,
-                                                                  decoration:
-                                                                      TextDecoration
-                                                                          .none,
-                                                                  fontSize:
-                                                                      3 * vw,
-                                                                ),
+                                                                  color: const Color.fromARGB(240,255,255, 255),
+                                                                  fontFamily:'Manrope',fontWeight:FontWeight.w600,decoration:
+                                                                      TextDecoration.none,
+                                                                  fontSize:4 * vw,),
                                                               ),
                                                             ))
                                               : GestureDetector(
                                                   onTap: () {
-                                                    mobx.setCurrentDate(
-                                                        DateFormat('dd.MM.yyyy')
-                                                            .format(date));
-                                                    Navigator.pop(context);
+                                                    mobx.setCurrentDate(DateFormat('dd.MM.yyyy').format(date));
+                                                      if(mobx.user['post'] == 'Тренер' || mobx.user['post'] == 'Супер тренер'){
+                                                          Navigator.pushReplacementNamed(context, '/journal');
+                                                      }else{
+                                                          Navigator.pushReplacementNamed(context, '/planner');
+                                                      }
                                                   },
                                                   child: Text(
                                                     '${date.day}',
@@ -263,7 +257,7 @@ class Calendar extends StatelessWidget {
                                                           FontWeight.w500,
                                                       decoration:
                                                           TextDecoration.none,
-                                                      fontSize: 3 * vw,
+                                                      fontSize: 4 * vw,
                                                     ),
                                                   ),
                                                 ), // Если дата больше или равна текущей дате, возвращаем пустой виджет
@@ -349,6 +343,7 @@ class _HeaderState extends State<Header> {
   @override
   Widget build(BuildContext context) {
     final vw = MediaQuery.of(context).size.width / 100;
+    final mobx = Provider.of<Mobx>(context);
     return Row(
       children: [
         Expanded(
@@ -365,19 +360,28 @@ class _HeaderState extends State<Header> {
                 end: Alignment.centerRight, // Конец градиента
               ).createShader(bounds);
             },
-            child: GestureDetector(
-              onTap: () {
-Navigator.pop(context);
-              },
-              child: Text(
-                "Закрыть",
-                style: TextStyle(
-                  fontFamily: 'Manrope',
-                  fontWeight: FontWeight.w500,
-                  decoration: TextDecoration.none,
-                  fontSize: 5 * vw,
-                ),
-              ),
+            child: Observer(
+              builder: (context) {
+                return GestureDetector(
+                  onTap: () {
+                    if(mobx.user['post'] == 'Тренер' || mobx.user['post'] == 'Супер тренер'){
+                        Navigator.pushReplacementNamed(context, '/journal');
+                    }else{
+                        Navigator.pushReplacementNamed(context, '/planner');
+                    }
+                
+                  },
+                  child: Text(
+                    "Закрыть",
+                    style: TextStyle(
+                      fontFamily: 'Manrope',
+                      fontWeight: FontWeight.w500,
+                      decoration: TextDecoration.none,
+                      fontSize: 5 * vw,
+                    ),
+                  ),
+                );
+              }
             ),
           ),
         ),

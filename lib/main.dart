@@ -11,6 +11,7 @@ import 'package:trener_app/pages/profile.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:provider/provider.dart';
+import 'package:trener_app/pages/workout.dart';
 
 
 void main() async {
@@ -35,8 +36,7 @@ class MyApp extends StatelessWidget {
           '/planner': (context) => const Planner(),
           '/journal': (context) => const Journal(),
           '/calendar': (context) => const Calendar(),
-          '/chat': (context) => const Chats(),
-          '/profile': (context) => const Profile(),
+          '/workout': (context) => const Workout(),
         },
       ),
     );
