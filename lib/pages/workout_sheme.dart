@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:trener_app/widgets/nitification/navbar.dart';
 import 'package:trener_app/widgets/workout/nav.dart';
 import 'package:trener_app/widgets/workout/workout_sheme_on_day.dart';
 
@@ -11,20 +12,23 @@ class WorkoutSheme extends StatelessWidget {
     final vw = MediaQuery.of(context).size.width / 100;
     final topMargin = screenHeight * 0.38; // 40% от высоты экрана
 
-    return SingleChildScrollView(
-      child: SafeArea(
-        child: Container(
-
-          color: const Color.fromARGB(255, 23, 23, 23),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              Nav(),
-              WorkoutShemeOnDay()
-            ],
+    return Scaffold(
+      body: SingleChildScrollView(
+        child: SafeArea(
+          child: Container(
+      
+            color: const Color.fromARGB(255, 23, 23, 23),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Nav(),
+                WorkoutShemeOnDay()
+              ],
+            ),
           ),
         ),
       ),
+      bottomNavigationBar:  Navbar(),
     );
   }
 }

@@ -555,7 +555,6 @@ class WorkoutShemeOnDay extends StatelessWidget {
           ),
         ),
         SizedBox(height: 20*vw,),
-        Navbar()
       ]),
     );
   }

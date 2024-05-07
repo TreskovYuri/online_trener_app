@@ -12,11 +12,17 @@ abstract class _Mobx with Store {
   var exercises = [];
   var currentDate = '';
   var userExercises = [];
+  String pageName = 'План';
   Map <String,dynamic> user = {};
 
   @action
   void setUserExercises(List<dynamic> exercises) {
     userExercises = exercises;
+  }
+
+  @action
+  void setPageName(String name) {
+    pageName = name;
   }
 
   @action
@@ -37,18 +43,18 @@ abstract class _Mobx with Store {
   List<Map<String, dynamic>> trenerUserExercisesOnDay(String date, int id) {
     if (id == 1) {
       return [
-        {"name": "Силовая тренировка", 'type': ""},
-        {"name": "Йога", 'type': ""},
-        {"name": "Максимальный вес приседания с штангой на спине", 'type': ""},
+        {"name": "Силовая тренировка", 'type': "training","id":1},
+        {"name": "Йога", 'type': "training","id":1},
+        {"name": "Максимальный вес приседания с штангой на спине", 'type': "test","id":1},
       ];
     } else if (id == 2) {
       return [
-        {"name": "Силовая тренировка", 'type': ""},
-        {"name": "Максимальный вес приседания с штангой на спине", 'type': ""},
+        {"name": "Силовая тренировка", 'type': "training","id":1},
+        {"name": "Максимальный вес приседания с штангой на спине", 'type': "test","id":1},
       ];
     } else if (id == 3) {
       return [
-        {"name": "Силовая тренировка", 'type': ""},
+        {"name": "Силовая тренировка", 'type': "training","id":1},
       ];
     }
     return [];
@@ -103,7 +109,7 @@ abstract class _Mobx with Store {
 //   }
 
 // Функция возвращает список упражнения по заданному дню
-  @observable
+  @computed
   List<Map<String, dynamic>> trenerDataOnDay(String date) {
     if (int.parse(date.split('.')[0]) % 2 == 0) {
       return [
@@ -469,7 +475,7 @@ abstract class _Mobx with Store {
     }
   }
 
-  @observable
+  @computed
   List <Map <String,dynamic>> exercisesOnTrainingId(int id) {
     return [
 {
@@ -484,7 +490,7 @@ abstract class _Mobx with Store {
                   'Развивает мышцы плеч, спины и груди, улучшает осанку, Развивает мышцы плеч, спины и груди, улучшает осанку, Развивает мышцы плеч, спины и груди, улучшает осанку',
               'descriptionEn':
                   'Развивает мышцы плеч, спины и груди, улучшает осанку',
-              'link': 'https://youtu.be/YMx8Bbev6T4?si=R9qEwkH0wmGImgii',
+              'link': 'https://youtu.be/qttcSh1Ld70?si=vLnjLfSEDj2MPX2K',
               'img': '9811ef87-a51a-4c53-8e13-85b6539ede97.png',
               'video': 'https://youtu.be/YMx8Bbev6T4?si=R9qEwkH0wmGImgii',
               'stage': ['Роллер','Стена','Стул'],
@@ -518,7 +524,7 @@ abstract class _Mobx with Store {
                   'Развивает мышцы плеч, спины и груди, улучшает осанку',
               'descriptionEn':
                   'Развивает мышцы плеч, спины и груди, улучшает осанку',
-              'link': 'https://youtu.be/YMx8Bbev6T4?si=R9qEwkH0wmGImgii',
+              'link': 'https://youtu.be/rIZirGYcbD8?si=tfEicSvO7Lm6yVt2',
               'img': '0c50cda7-8543-492c-8d92-840921bf7c4e.jpg',
               'video': 'https://youtu.be/YMx8Bbev6T4?si=R9qEwkH0wmGImgii',
               'stage': ['Роллер','Стена','Стул'],
@@ -552,7 +558,7 @@ abstract class _Mobx with Store {
                   'Развивает мышцы плеч, спины и груди, улучшает осанку',
               'descriptionEn':
                   'Развивает мышцы плеч, спины и груди, улучшает осанку',
-              'link': 'https://youtu.be/YMx8Bbev6T4?si=R9qEwkH0wmGImgii',
+              'link': 'https://youtu.be/H8xSHCAjM-I?si=s6QZEa06Jb5vD00-',
               'img': '6411cec5-9276-490e-8b9a-a718f3dfd97d.jpg',
               'video': '',
               'stage': ['Роллер','Стена','Стул'],
@@ -577,7 +583,7 @@ abstract class _Mobx with Store {
     ];
   }
 // Функция возвращает список упражнения по заданному дню
-  @observable
+  @computed
   List<dynamic> userExercisesOnDay(String date) {
     if (int.parse(date.split('.')[0]) % 2 == 0) {
       return [
@@ -595,8 +601,6 @@ abstract class _Mobx with Store {
               'nameRu': 'Круги руками',
               'nameEng': ' Circles with hands',
               'descriptionRu':
-                  'Развивает мышцы плеч, спины и груди, улучшает осанку',
-              'descriptionEn':
                   'Развивает мышцы плеч, спины и груди, улучшает осанку',
               'link': '',
               'img': '',
@@ -879,7 +883,7 @@ abstract class _Mobx with Store {
   }
 
 // Функция возвращает список упражнения по заданному дню
-  @observable
+  @computed
   List<dynamic> userTestsOnDay(String date) {
     if (int.parse(date.split('.')[0]) % 2 == 0) {
       return [
@@ -953,7 +957,7 @@ abstract class _Mobx with Store {
   }
 
 // Функция возвращает список упражнения по заданному дню
-  @observable
+  @computed
   List<dynamic> userFixResultsOnDay(String date) {
     if (int.parse(date.split('.')[0]) % 2 == 0) {
       return [
@@ -1027,7 +1031,7 @@ abstract class _Mobx with Store {
   }
 
 // Функция возвращает список упражнения по заданному дню
-  @observable
+  @computed
   List<dynamic> userNutritionsOnDay(String date) {
     if (int.parse(date.split('.')[0]) % 2 == 0) {
       return [
@@ -1101,7 +1105,7 @@ abstract class _Mobx with Store {
   }
 
 // Функция возвращает список упражнения по заданному дню
-  @observable
+  @computed
   List<dynamic> userConsultationsOnDay(String date) {
     if (int.parse(date.split('.')[0]) % 2 == 0) {
       return [];
@@ -1146,7 +1150,7 @@ abstract class _Mobx with Store {
   }
 
 // Функция возвращает список упражнения по заданному дню
-  @observable
+  @computed
   List<dynamic> userNutritionsPriemOnDay(String date) {
     if (int.parse(date.split('.')[0]) % 2 == 0) {
       return [

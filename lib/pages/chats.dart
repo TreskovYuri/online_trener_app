@@ -1,4 +1,6 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:trener_app/widgets/nitification/navbar.dart';
 
 class Chats extends StatelessWidget {
@@ -7,8 +9,8 @@ class Chats extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final vw = MediaQuery.of(context).size.width / 100;
-    return SingleChildScrollView(
-      child: SafeArea(
+    return Scaffold(
+      body: SafeArea(
         child: Container(
           padding: EdgeInsets.all(5 * vw),
           decoration: BoxDecoration(
@@ -16,59 +18,67 @@ class Chats extends StatelessWidget {
           ),
           child: Column(
             children: [
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    "Чаты",
-                    style: TextStyle(
-                        color: Color.fromARGB(255, 236, 236, 236),
-                        fontFamily: 'Manrope',
-                        fontWeight: FontWeight.w400,
-                        decoration: TextDecoration.none,
-                        fontSize: 6 * vw),
-                  ),
-                  Image(
-                    image: const AssetImage('assets/img/add_chat.png'),
-                    width: 6 * vw,
-                    height: 6 * vw,
-                    fit: BoxFit
-                        .cover, // Обрезать изображение в соответствии с размерами контейнера
-                  ),
-                ],
-              ),
-              SizedBox(
-                height: 5 * vw,
-              ),
-              Container(
-                padding: EdgeInsets.all(4 * vw),
-                decoration: BoxDecoration(
-                    color: Color(0xFF23252B),
-                    borderRadius: BorderRadius.circular(10)),
+              Expanded(
+                flex: 2,
                 child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      "Найти...",
+                      "Чаты",
                       style: TextStyle(
-                          color: Color.fromARGB(131, 236, 236, 236),
+                          color: Color.fromARGB(255, 236, 236, 236),
                           fontFamily: 'Manrope',
                           fontWeight: FontWeight.w400,
                           decoration: TextDecoration.none,
-                          fontSize: 4 * vw),
+                          fontSize: 6 * vw),
                     ),
                     Image(
-                      image: const AssetImage('assets/img/search.png'),
-                      width: 4 * vw,
-                      height: 4 * vw,
+                      image: const AssetImage('assets/img/add_chat.png'),
+                      width: 6 * vw,
+                      height: 6 * vw,
                       fit: BoxFit
                           .cover, // Обрезать изображение в соответствии с размерами контейнера
                     ),
                   ],
                 ),
               ),
-              Container(
+              Expanded(
+                flex: 1,
+                child: Container(
+                  height: 3*vw,
+                  padding: EdgeInsets.all(4 * vw),
+                  decoration: BoxDecoration(
+                      color: Color(0xFF23252B),
+                      borderRadius: BorderRadius.circular(10)),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        "Найти...",
+                        style: TextStyle(
+                            color: Color.fromARGB(131, 236, 236, 236),
+                            fontFamily: 'Manrope',
+                            fontWeight: FontWeight.w400,
+                            decoration: TextDecoration.none,
+                            fontSize: 4 * vw),
+                      ),
+                      Image(
+                        image: const AssetImage('assets/img/search.png'),
+                        width: 4 * vw,
+                        height: 4 * vw,
+                        fit: BoxFit
+                            .cover, // Обрезать изображение в соответствии с размерами контейнера
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              Expanded(
+                flex: 8,
+                child: Column(
+                children: [
+                  Container(
                 alignment: Alignment.centerLeft,
                 margin: EdgeInsets.only(top: 10 * vw),
                 child: Row(
@@ -340,12 +350,14 @@ class Chats extends StatelessWidget {
                   ],
                 ),
               ),
-              SizedBox(height: 50*vw,),
-              Navbar()
+                ],
+              )),
+              
             ],
           ),
         ),
       ),
+            bottomNavigationBar:  Navbar(),
     );
   }
 }

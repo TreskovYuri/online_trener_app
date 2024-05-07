@@ -56,10 +56,10 @@ class _PlannerState extends State<Planner> {
                 ),
               ),
             ),
-            const Expanded(flex: 1, child: Navbar()),
           ],
         ),
       ),
+      bottomNavigationBar:  Navbar(),
     );
   }
 }

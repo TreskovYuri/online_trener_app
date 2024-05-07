@@ -33,7 +33,7 @@ class _JournalState extends State<Journal> {
 
     return Scaffold(
       body: Container(
-        padding: EdgeInsets.all(5 * vw),
+        padding: EdgeInsets.all(1 * vw),
         width: 100 * vw,
         color: Color(0xff1B1C20),
         child: Column(
@@ -56,10 +56,10 @@ class _JournalState extends State<Journal> {
                     )),
               ),
             ),
-            const Expanded(flex: 1, child: Navbar()),
           ],
         ),
       ),
+      bottomNavigationBar:  Navbar(),
     );
   }
 }
@@ -215,64 +215,69 @@ modalFlag ?
     child: Column(
     children: mobx
         .trenerUserExercisesOnDay(mobx.currentDate, widget.array['id'])
-        .map((e) => Container(
-          margin: EdgeInsets.only(top: 1 * vh),
-                              child: Slidable(
-                                key: UniqueKey(),
-                                endActionPane: ActionPane(
-                                    motion: const BehindMotion(),
-                                    key: UniqueKey(),
-                                    dismissible: DismissiblePane(
+        .map((e) => GestureDetector(
+          onTap: (){
+            
+          },
+          child: Container(
+            margin: EdgeInsets.only(top: 1 * vh),
+                                child: Slidable(
+                                  key: UniqueKey(),
+                                  endActionPane: ActionPane(
+                                      motion: const BehindMotion(),
                                       key: UniqueKey(),
-                                      onDismissed: () => print('delete'),
-                                    ),
-                                    children: [
-                                      SlidableAction(
-                                        onPressed: (context) {},
-                                        backgroundColor: Colors.red,
-    
-                                        // icon: Icons.delete,
-                                        label: "Отменить",
-                                        borderRadius: BorderRadius.circular(20),
-                                      )
-                                    ]),
-                                child: Container(
-                                  padding: EdgeInsets.symmetric(vertical: 2 * vw, horizontal: 4 * vw),
-                                  decoration: BoxDecoration(
-                                      color: Color(0xff23252B),
-                                      borderRadius:
-                                          BorderRadius.circular(5 * vw)),
-                                  child: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Container(
-                                        width: 60*vw,
-                                        child: Text(
-                                          e['name'].toString(),
-                                          style: TextStyle(
-                                              color: const Color.fromARGB(
-                                                  210, 255, 255, 255),
-                                              fontFamily: 'Manrope',
-                                              fontWeight: FontWeight.w600,
-                                              decoration: TextDecoration.none,
-                                              fontSize: 3 * vw),
+                                      dismissible: DismissiblePane(
+                                        key: UniqueKey(),
+                                        onDismissed: () => print('delete'),
+                                      ),
+                                      children: [
+                                        SlidableAction(
+                                          onPressed: (context) {},
+                                          backgroundColor: Colors.red,
+              
+                                          // icon: Icons.delete,
+                                          label: "Отменить",
+                                          borderRadius: BorderRadius.circular(20),
+                                        )
+                                      ]),
+                                  child: Container(
+                                    padding: EdgeInsets.symmetric(vertical: 2 * vw, horizontal: 4 * vw),
+                                    decoration: BoxDecoration(
+                                        color: Color(0xff23252B),
+                                        borderRadius:
+                                            BorderRadius.circular(5 * vw)),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Container(
+                                          width: 60*vw,
+                                          child: Text(
+                                            e['name'].toString(),
+                                            style: TextStyle(
+                                                color: const Color.fromARGB(
+                                                    210, 255, 255, 255),
+                                                fontFamily: 'Manrope',
+                                                fontWeight: FontWeight.w600,
+                                                decoration: TextDecoration.none,
+                                                fontSize: 3 * vw),
+                                          ),
                                         ),
-                                      ),
-                                      IconButton(
-                                        onPressed: () {
-                                          setState(() {
-                                            debugPrint('dev');
-                                          });
-                                        },
-                                        icon: const Icon(Icons
-                                            .arrow_forward_ios_rounded), // Иконка
-                                        iconSize: 4 * vw,
-                                      ),
-                                    ],
+                                        IconButton(
+                                          onPressed: () {
+                                            setState(() {
+                                              debugPrint('dev');
+                                            });
+                                          },
+                                          icon: const Icon(Icons
+                                              .arrow_forward_ios_rounded), // Иконка
+                                          iconSize: 4 * vw,
+                                        ),
+                                      ],
+                                    ),
                                   ),
-                                ),
-                              )
+                                )
+          ),
         ))
         .toList(),
     ),
@@ -296,32 +301,35 @@ class _HeaderState extends State<Header> {
   Widget build(BuildContext context) {
     final vw = MediaQuery.of(context).size.width / 100;
 
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.end,
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Text(
-          "Журнал ",
-          style: TextStyle(
-              color: const Color.fromARGB(234, 255, 255, 255),
-              fontFamily: 'Manrope',
-              fontWeight: FontWeight.w500,
-              decoration: TextDecoration.none,
-              fontSize: 7 * vw),
-        ),
-        IconButton(
-          onPressed: () {
-            Navigator.pushReplacementNamed(
-              context,
-              '/calendar', // Переход на login
-            );
-          },
-          icon: const Icon(
-              color: Colors.blue,
-              Icons
-                  .calendar_today_outlined), // Иконка, которая будет отображаться на кнопке
-        ),
-      ],
+    return Padding(
+      padding: EdgeInsets.all(3*vw),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.end,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(
+            "Журнал ",
+            style: TextStyle(
+                color: const Color.fromARGB(234, 255, 255, 255),
+                fontFamily: 'Manrope',
+                fontWeight: FontWeight.w500,
+                decoration: TextDecoration.none,
+                fontSize: 7 * vw),
+          ),
+          IconButton(
+            onPressed: () {
+              Navigator.pushReplacementNamed(
+                context,
+                '/calendar', // Переход на login
+              );
+            },
+            icon: const Icon(
+                color: Colors.blue,
+                Icons
+                    .calendar_today_outlined), // Иконка, которая будет отображаться на кнопке
+          ),
+        ],
+      ),
     );
   }
 }
@@ -353,6 +361,7 @@ class _CalState extends State<Cal> {
 
     return Container(
       margin: EdgeInsets.only(top: 2 * vh),
+      padding: EdgeInsets.all(3*vw),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: lastWeek.map((date) {
@@ -620,1047 +629,6 @@ class _TrainingCardState extends State<TrainingCard> {
               ],
             ),
           ),
-        ),
-      ],
-    );
-  }
-}
-
-// <=============   Карточка Тестов ====================>
-class TestsCard extends StatefulWidget {
-  const TestsCard({super.key});
-
-  @override
-  State<TestsCard> createState() => _TestsCardState();
-}
-
-class _TestsCardState extends State<TestsCard> {
-  bool trainingOnOff = false;
-  @override
-  Widget build(BuildContext context) {
-    final mobx = Provider.of<Mobx>(context);
-    final vw = MediaQuery.of(context).size.width / 100;
-    final vh = MediaQuery.of(context).size.height / 100;
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Center(
-          child: Observer(
-              builder: (_) => Container(
-                    width: 90 * vw,
-                    margin: EdgeInsets.only(top: 3 * vh),
-                    child: Column(
-                      children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                Text(
-                                  "Тесты",
-                                  style: TextStyle(
-                                      color: const Color.fromARGB(
-                                          220, 255, 255, 255),
-                                      fontSize: 5 * vw),
-                                ),
-                                !trainingOnOff
-                                    ? IconButton(
-                                        onPressed: () {
-                                          setState(() {
-                                            trainingOnOff = !trainingOnOff;
-                                          });
-                                        },
-                                        icon: const Icon(Icons
-                                            .arrow_forward_ios_rounded), // Иконка
-                                        iconSize: 4 * vw,
-                                      )
-                                    : IconButton(
-                                        onPressed: () {
-                                          setState(() {
-                                            trainingOnOff = !trainingOnOff;
-                                          });
-                                        },
-                                        icon: const Icon(Icons
-                                            .keyboard_arrow_down_rounded), // Иконка
-                                        iconSize: 6 * vw,
-                                      ),
-                              ],
-                            ),
-                            mobx.userTestsOnDay(mobx.currentDate).length > 0
-                                ? Container(
-                                    width: 11 * vw,
-                                    height: 6 * vw,
-                                    alignment: Alignment.center,
-                                    decoration: BoxDecoration(
-                                        gradient: const RadialGradient(
-                                          colors: [
-                                            Color(0xff4D8AEE),
-                                            Color(0xff2932FF)
-                                          ], // Цвета для радиального градиента
-                                          radius:
-                                              0.6, // Радиус градиента (от 0 до 1)
-                                          center: Alignment
-                                              .center, // Центр радиального градиента
-                                        ),
-                                        borderRadius:
-                                            BorderRadius.circular(100)),
-                                    child: Text(
-                                      mobx
-                                          .userTestsOnDay(mobx.currentDate)
-                                          .length
-                                          .toString(),
-                                      style: TextStyle(
-                                          color: Colors.white,
-                                          fontFamily: 'Manrope',
-                                          fontWeight: FontWeight.w500,
-                                          decoration: TextDecoration.none,
-                                          fontSize: 3.5 * vw),
-                                    ),
-                                  )
-                                : Container(
-                                    width: 11 * vw,
-                                    height: 6 * vw,
-                                    alignment: Alignment.center,
-                                    decoration: BoxDecoration(
-                                        gradient: const RadialGradient(
-                                          colors: [
-                                            Color.fromARGB(83, 235, 238, 247),
-                                            Color.fromARGB(69, 235, 238, 247)
-                                          ], // Цвета для радиального градиента
-                                          radius:
-                                              0.6, // Радиус градиента (от 0 до 1)
-                                          center: Alignment
-                                              .center, // Центр радиального градиента
-                                        ),
-                                        borderRadius:
-                                            BorderRadius.circular(100)),
-                                    child: Text(
-                                      '0',
-                                      style: TextStyle(
-                                          color: const Color.fromARGB(
-                                              115, 255, 255, 255),
-                                          fontFamily: 'Manrope',
-                                          fontWeight: FontWeight.w600,
-                                          decoration: TextDecoration.none,
-                                          fontSize: 3.5 * vw),
-                                    ),
-                                  ),
-                          ],
-                        ),
-                        trainingOnOff
-                            // ignore: dead_code
-                            ? Column(
-                                children: mobx
-                                    .userTestsOnDay(mobx.currentDate)
-                                    .map((e) => Container(
-                                          margin: EdgeInsets.only(top: 1 * vh),
-                                          child: Slidable(
-                                            key: UniqueKey(),
-                                            endActionPane: ActionPane(
-                                                motion: const BehindMotion(),
-                                                dismissible: DismissiblePane(
-                                                  key: UniqueKey(),
-                                                  onDismissed: () =>
-                                                      print('delete'),
-                                                ),
-                                                children: [
-                                                  SlidableAction(
-                                                    onPressed: (context) {},
-                                                    backgroundColor: Colors.red,
-
-                                                    // icon: Icons.delete,
-                                                    label: "Отменить",
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            20),
-                                                  )
-                                                ]),
-                                            child: Container(
-                                              padding: EdgeInsets.all(4 * vw),
-                                              decoration: BoxDecoration(
-                                                  color: Color(0xff23252B),
-                                                  borderRadius:
-                                                      BorderRadius.circular(
-                                                          5 * vw)),
-                                              child: Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment
-                                                        .spaceBetween,
-                                                children: [
-                                                  Container(
-                                                    width: 70 * vw,
-                                                    child: Text(
-                                                      e['name'].toString(),
-                                                      style: TextStyle(
-                                                          color: const Color
-                                                              .fromARGB(210,
-                                                              255, 255, 255),
-                                                          fontFamily: 'Manrope',
-                                                          fontWeight:
-                                                              FontWeight.w600,
-                                                          decoration:
-                                                              TextDecoration
-                                                                  .none,
-                                                          fontSize: 4 * vw),
-                                                    ),
-                                                  ),
-                                                  IconButton(
-                                                    onPressed: () {
-                                                      setState(() {
-                                                        trainingOnOff =
-                                                            !trainingOnOff;
-                                                      });
-                                                    },
-                                                    icon: const Icon(Icons
-                                                        .arrow_forward_ios_rounded), // Иконка
-                                                    iconSize: 6 * vw,
-                                                  ),
-                                                ],
-                                              ),
-                                            ),
-                                          ),
-                                        ))
-                                    .toList(), // Преобразуйте список объектов Text в список виджетов
-                              )
-                            : Container(), // Вернуть пустой контейнер, если trainingOnOff равно false
-                      ],
-                    ),
-                  )),
-        ),
-      ],
-    );
-  }
-}
-
-// <=============   Карточка Питания ====================>
-class NutritionsCard extends StatefulWidget {
-  const NutritionsCard({super.key});
-
-  @override
-  State<NutritionsCard> createState() => _NutritionsCardState();
-}
-
-class _NutritionsCardState extends State<NutritionsCard> {
-  bool trainingOnOff = false;
-  @override
-  Widget build(BuildContext context) {
-    final mobx = Provider.of<Mobx>(context);
-    final vw = MediaQuery.of(context).size.width / 100;
-    final vh = MediaQuery.of(context).size.height / 100;
-    DateTime currentDate = DateTime.now();
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Center(
-          child: Observer(
-              builder: (_) => Container(
-                    width: 90 * vw,
-                    margin: EdgeInsets.only(top: 3 * vh),
-                    child: Column(
-                      children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                Text(
-                                  "Питание",
-                                  style: TextStyle(
-                                      color: const Color.fromARGB(
-                                          220, 255, 255, 255),
-                                      fontSize: 5 * vw),
-                                ),
-                                !trainingOnOff
-                                    ? IconButton(
-                                        onPressed: () {
-                                          setState(() {
-                                            trainingOnOff = !trainingOnOff;
-                                          });
-                                        },
-                                        icon: const Icon(Icons
-                                            .arrow_forward_ios_rounded), // Иконка
-                                        iconSize: 4 * vw,
-                                      )
-                                    : IconButton(
-                                        onPressed: () {
-                                          setState(() {
-                                            trainingOnOff = !trainingOnOff;
-                                          });
-                                        },
-                                        icon: const Icon(Icons
-                                            .keyboard_arrow_down_rounded), // Иконка
-                                        iconSize: 6 * vw,
-                                      ),
-                              ],
-                            ),
-                            mobx.userNutritionsOnDay(mobx.currentDate).length >
-                                    0
-                                ? Container(
-                                    width: 11 * vw,
-                                    height: 6 * vw,
-                                    alignment: Alignment.center,
-                                    decoration: BoxDecoration(
-                                        gradient: const RadialGradient(
-                                          colors: [
-                                            Color(0xff4D8AEE),
-                                            Color(0xff2932FF)
-                                          ], // Цвета для радиального градиента
-                                          radius:
-                                              0.6, // Радиус градиента (от 0 до 1)
-                                          center: Alignment
-                                              .center, // Центр радиального градиента
-                                        ),
-                                        borderRadius:
-                                            BorderRadius.circular(100)),
-                                    child: Text(
-                                      mobx
-                                          .userNutritionsOnDay(mobx.currentDate)
-                                          .length
-                                          .toString(),
-                                      style: TextStyle(
-                                          color: Colors.white,
-                                          fontFamily: 'Manrope',
-                                          fontWeight: FontWeight.w500,
-                                          decoration: TextDecoration.none,
-                                          fontSize: 3.5 * vw),
-                                    ),
-                                  )
-                                : Container(
-                                    width: 11 * vw,
-                                    height: 6 * vw,
-                                    alignment: Alignment.center,
-                                    decoration: BoxDecoration(
-                                        gradient: const RadialGradient(
-                                          colors: [
-                                            Color.fromARGB(83, 235, 238, 247),
-                                            Color.fromARGB(69, 235, 238, 247)
-                                          ], // Цвета для радиального градиента
-                                          radius:
-                                              0.6, // Радиус градиента (от 0 до 1)
-                                          center: Alignment
-                                              .center, // Центр радиального градиента
-                                        ),
-                                        borderRadius:
-                                            BorderRadius.circular(100)),
-                                    child: Text(
-                                      '0',
-                                      style: TextStyle(
-                                          color: const Color.fromARGB(
-                                              115, 255, 255, 255),
-                                          fontFamily: 'Manrope',
-                                          fontWeight: FontWeight.w600,
-                                          decoration: TextDecoration.none,
-                                          fontSize: 3.5 * vw),
-                                    ),
-                                  ),
-                          ],
-                        ),
-                        trainingOnOff
-                            // ignore: dead_code
-                            ? Column(
-                                children: mobx
-                                    .userNutritionsOnDay(mobx.currentDate)
-                                    .map((e) => Container(
-                                          margin: EdgeInsets.only(top: 1 * vh),
-                                          child: Slidable(
-                                            key: UniqueKey(),
-                                            endActionPane: ActionPane(
-                                                motion: const BehindMotion(),
-                                                dismissible: DismissiblePane(
-                                                  key: UniqueKey(),
-                                                  onDismissed: () =>
-                                                      print('delete'),
-                                                ),
-                                                children: [
-                                                  SlidableAction(
-                                                    onPressed: (context) {},
-                                                    backgroundColor: Colors.red,
-
-                                                    // icon: Icons.delete,
-                                                    label: "Отменить",
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            20),
-                                                  )
-                                                ]),
-                                            child: Container(
-                                              padding: EdgeInsets.all(4 * vw),
-                                              decoration: BoxDecoration(
-                                                  color: Color(0xff23252B),
-                                                  borderRadius:
-                                                      BorderRadius.circular(
-                                                          5 * vw)),
-                                              child: Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment
-                                                        .spaceBetween,
-                                                children: [
-                                                  Text(
-                                                    e['name'].toString(),
-                                                    style: TextStyle(
-                                                        color: const Color
-                                                            .fromARGB(
-                                                            210, 255, 255, 255),
-                                                        fontFamily: 'Manrope',
-                                                        fontWeight:
-                                                            FontWeight.w600,
-                                                        decoration:
-                                                            TextDecoration.none,
-                                                        fontSize: 4 * vw),
-                                                  ),
-                                                  IconButton(
-                                                    onPressed: () {
-                                                      setState(() {
-                                                        trainingOnOff =
-                                                            !trainingOnOff;
-                                                      });
-                                                    },
-                                                    icon: const Icon(Icons
-                                                        .arrow_forward_ios_rounded), // Иконка
-                                                    iconSize: 6 * vw,
-                                                  ),
-                                                ],
-                                              ),
-                                            ),
-                                          ),
-                                        ))
-                                    .toList(), // Преобразуйте список объектов Text в список виджетов
-                              )
-                            : Container(), // Вернуть пустой контейнер, если trainingOnOff равно false
-                      ],
-                    ),
-                  )),
-        ),
-      ],
-    );
-  }
-}
-
-// <=============   Карточка Фиксация результатов ====================>
-class FixResiltsCard extends StatefulWidget {
-  const FixResiltsCard({super.key});
-
-  @override
-  State<FixResiltsCard> createState() => _FixResiltsCardState();
-}
-
-class _FixResiltsCardState extends State<FixResiltsCard> {
-  bool trainingOnOff = false;
-  @override
-  Widget build(BuildContext context) {
-    final mobx = Provider.of<Mobx>(context);
-    final vw = MediaQuery.of(context).size.width / 100;
-    final vh = MediaQuery.of(context).size.height / 100;
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Center(
-          child: Observer(
-              builder: (_) => Container(
-                    width: 90 * vw,
-                    margin: EdgeInsets.only(top: 3 * vh),
-                    child: Column(
-                      children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                Text(
-                                  "Фиксация результатов",
-                                  style: TextStyle(
-                                      color: const Color.fromARGB(
-                                          220, 255, 255, 255),
-                                      fontSize: 5 * vw),
-                                ),
-                                !trainingOnOff
-                                    ? IconButton(
-                                        onPressed: () {
-                                          setState(() {
-                                            trainingOnOff = !trainingOnOff;
-                                          });
-                                        },
-                                        icon: const Icon(Icons
-                                            .arrow_forward_ios_rounded), // Иконка
-                                        iconSize: 4 * vw,
-                                      )
-                                    : IconButton(
-                                        onPressed: () {
-                                          setState(() {
-                                            trainingOnOff = !trainingOnOff;
-                                          });
-                                        },
-                                        icon: const Icon(Icons
-                                            .keyboard_arrow_down_rounded), // Иконка
-                                        iconSize: 6 * vw,
-                                      ),
-                              ],
-                            ),
-                            mobx.userFixResultsOnDay(mobx.currentDate).length >
-                                    0
-                                ? Container(
-                                    width: 11 * vw,
-                                    height: 6 * vw,
-                                    alignment: Alignment.center,
-                                    decoration: BoxDecoration(
-                                        gradient: const RadialGradient(
-                                          colors: [
-                                            Color(0xff4D8AEE),
-                                            Color(0xff2932FF)
-                                          ], // Цвета для радиального градиента
-                                          radius:
-                                              0.6, // Радиус градиента (от 0 до 1)
-                                          center: Alignment
-                                              .center, // Центр радиального градиента
-                                        ),
-                                        borderRadius:
-                                            BorderRadius.circular(100)),
-                                    child: Text(
-                                      mobx
-                                          .userFixResultsOnDay(mobx.currentDate)
-                                          .length
-                                          .toString(),
-                                      style: TextStyle(
-                                          color: Colors.white,
-                                          fontFamily: 'Manrope',
-                                          fontWeight: FontWeight.w500,
-                                          decoration: TextDecoration.none,
-                                          fontSize: 3.5 * vw),
-                                    ),
-                                  )
-                                : Container(
-                                    width: 11 * vw,
-                                    height: 6 * vw,
-                                    alignment: Alignment.center,
-                                    decoration: BoxDecoration(
-                                        gradient: const RadialGradient(
-                                          colors: [
-                                            Color.fromARGB(83, 235, 238, 247),
-                                            Color.fromARGB(69, 235, 238, 247)
-                                          ], // Цвета для радиального градиента
-                                          radius:
-                                              0.6, // Радиус градиента (от 0 до 1)
-                                          center: Alignment
-                                              .center, // Центр радиального градиента
-                                        ),
-                                        borderRadius:
-                                            BorderRadius.circular(100)),
-                                    child: Text(
-                                      '0',
-                                      style: TextStyle(
-                                          color: const Color.fromARGB(
-                                              115, 255, 255, 255),
-                                          fontFamily: 'Manrope',
-                                          fontWeight: FontWeight.w600,
-                                          decoration: TextDecoration.none,
-                                          fontSize: 3.5 * vw),
-                                    ),
-                                  ),
-                          ],
-                        ),
-                        trainingOnOff
-                            // ignore: dead_code
-                            ? Column(
-                                children: mobx
-                                    .userFixResultsOnDay(mobx.currentDate)
-                                    .map((e) => Container(
-                                          margin: EdgeInsets.only(top: 1 * vh),
-                                          child: Slidable(
-                                            key: UniqueKey(),
-                                            endActionPane: ActionPane(
-                                                motion: const BehindMotion(),
-                                                dismissible: DismissiblePane(
-                                                  key: UniqueKey(),
-                                                  onDismissed: () =>
-                                                      print('delete'),
-                                                ),
-                                                children: [
-                                                  SlidableAction(
-                                                    onPressed: (context) {},
-                                                    backgroundColor: Colors.red,
-
-                                                    // icon: Icons.delete,
-                                                    label: "Отменить",
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            20),
-                                                  )
-                                                ]),
-                                            child: Container(
-                                              padding: EdgeInsets.all(4 * vw),
-                                              decoration: BoxDecoration(
-                                                  color: Color(0xff23252B),
-                                                  borderRadius:
-                                                      BorderRadius.circular(
-                                                          5 * vw)),
-                                              child: Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment
-                                                        .spaceBetween,
-                                                children: [
-                                                  Text(
-                                                    e['name'].toString(),
-                                                    style: TextStyle(
-                                                        color: const Color
-                                                            .fromARGB(
-                                                            210, 255, 255, 255),
-                                                        fontFamily: 'Manrope',
-                                                        fontWeight:
-                                                            FontWeight.w600,
-                                                        decoration:
-                                                            TextDecoration.none,
-                                                        fontSize: 4 * vw),
-                                                  ),
-                                                  IconButton(
-                                                    onPressed: () {
-                                                      setState(() {
-                                                        trainingOnOff =
-                                                            !trainingOnOff;
-                                                      });
-                                                    },
-                                                    icon: const Icon(Icons
-                                                        .arrow_forward_ios_rounded), // Иконка
-                                                    iconSize: 6 * vw,
-                                                  ),
-                                                ],
-                                              ),
-                                            ),
-                                          ),
-                                        ))
-                                    .toList(), // Преобразуйте список объектов Text в список виджетов
-                              )
-                            : Container(), // Вернуть пустой контейнер, если trainingOnOff равно false
-                      ],
-                    ),
-                  )),
-        ),
-      ],
-    );
-  }
-}
-
-// <=============   Карточка Прием нутриентов ====================>
-class NutritiosPriemCard extends StatefulWidget {
-  const NutritiosPriemCard({super.key});
-
-  @override
-  State<NutritiosPriemCard> createState() => _NutritiosPriemCardState();
-}
-
-class _NutritiosPriemCardState extends State<NutritiosPriemCard> {
-  bool trainingOnOff = false;
-  @override
-  Widget build(BuildContext context) {
-    final mobx = Provider.of<Mobx>(context);
-    final vw = MediaQuery.of(context).size.width / 100;
-    final vh = MediaQuery.of(context).size.height / 100;
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Center(
-          child: Observer(
-              builder: (_) => Container(
-                    width: 90 * vw,
-                    margin: EdgeInsets.only(top: 3 * vh),
-                    child: Column(
-                      children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                Text(
-                                  "Прием нутриентов",
-                                  style: TextStyle(
-                                      color: const Color.fromARGB(
-                                          220, 255, 255, 255),
-                                      fontSize: 5 * vw),
-                                ),
-                                !trainingOnOff
-                                    ? IconButton(
-                                        onPressed: () {
-                                          setState(() {
-                                            trainingOnOff = !trainingOnOff;
-                                          });
-                                        },
-                                        icon: const Icon(Icons
-                                            .arrow_forward_ios_rounded), // Иконка
-                                        iconSize: 4 * vw,
-                                      )
-                                    : IconButton(
-                                        onPressed: () {
-                                          setState(() {
-                                            trainingOnOff = !trainingOnOff;
-                                          });
-                                        },
-                                        icon: const Icon(Icons
-                                            .keyboard_arrow_down_rounded), // Иконка
-                                        iconSize: 6 * vw,
-                                      ),
-                              ],
-                            ),
-                            mobx
-                                        .userNutritionsPriemOnDay(
-                                            mobx.currentDate)
-                                        .length >
-                                    0
-                                ? Container(
-                                    width: 11 * vw,
-                                    height: 6 * vw,
-                                    alignment: Alignment.center,
-                                    decoration: BoxDecoration(
-                                        gradient: const RadialGradient(
-                                          colors: [
-                                            Color(0xff4D8AEE),
-                                            Color(0xff2932FF)
-                                          ], // Цвета для радиального градиента
-                                          radius:
-                                              0.6, // Радиус градиента (от 0 до 1)
-                                          center: Alignment
-                                              .center, // Центр радиального градиента
-                                        ),
-                                        borderRadius:
-                                            BorderRadius.circular(100)),
-                                    child: Text(
-                                      mobx
-                                          .userNutritionsPriemOnDay(
-                                              mobx.currentDate)
-                                          .length
-                                          .toString(),
-                                      style: TextStyle(
-                                          color: Colors.white,
-                                          fontFamily: 'Manrope',
-                                          fontWeight: FontWeight.w500,
-                                          decoration: TextDecoration.none,
-                                          fontSize: 3.5 * vw),
-                                    ),
-                                  )
-                                : Container(
-                                    width: 11 * vw,
-                                    height: 6 * vw,
-                                    alignment: Alignment.center,
-                                    decoration: BoxDecoration(
-                                        gradient: const RadialGradient(
-                                          colors: [
-                                            Color.fromARGB(83, 235, 238, 247),
-                                            Color.fromARGB(69, 235, 238, 247)
-                                          ], // Цвета для радиального градиента
-                                          radius:
-                                              0.6, // Радиус градиента (от 0 до 1)
-                                          center: Alignment
-                                              .center, // Центр радиального градиента
-                                        ),
-                                        borderRadius:
-                                            BorderRadius.circular(100)),
-                                    child: Text(
-                                      '0',
-                                      style: TextStyle(
-                                          color: const Color.fromARGB(
-                                              115, 255, 255, 255),
-                                          fontFamily: 'Manrope',
-                                          fontWeight: FontWeight.w600,
-                                          decoration: TextDecoration.none,
-                                          fontSize: 3.5 * vw),
-                                    ),
-                                  ),
-                          ],
-                        ),
-                        trainingOnOff
-                            // ignore: dead_code
-                            ? Column(
-                                children: mobx
-                                    .userNutritionsPriemOnDay(mobx.currentDate)
-                                    .map((e) => Container(
-                                          margin: EdgeInsets.only(top: 1 * vh),
-                                          child: Slidable(
-                                            key: UniqueKey(),
-                                            endActionPane: ActionPane(
-                                                motion: const BehindMotion(),
-                                                dismissible: DismissiblePane(
-                                                  key: UniqueKey(),
-                                                  onDismissed: () =>
-                                                      print('delete'),
-                                                ),
-                                                children: [
-                                                  SlidableAction(
-                                                    onPressed: (context) {},
-                                                    backgroundColor: Colors.red,
-
-                                                    // icon: Icons.delete,
-                                                    label: "Отменить",
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            20),
-                                                  )
-                                                ]),
-                                            child: Container(
-                                              padding: EdgeInsets.all(4 * vw),
-                                              decoration: BoxDecoration(
-                                                  color: Color(0xff23252B),
-                                                  borderRadius:
-                                                      BorderRadius.circular(
-                                                          5 * vw)),
-                                              child: Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment
-                                                        .spaceBetween,
-                                                children: [
-                                                  Text(
-                                                    e['name'].toString(),
-                                                    style: TextStyle(
-                                                        color: const Color
-                                                            .fromARGB(
-                                                            210, 255, 255, 255),
-                                                        fontFamily: 'Manrope',
-                                                        fontWeight:
-                                                            FontWeight.w600,
-                                                        decoration:
-                                                            TextDecoration.none,
-                                                        fontSize: 4 * vw),
-                                                  ),
-                                                  IconButton(
-                                                    onPressed: () {
-                                                      setState(() {
-                                                        trainingOnOff =
-                                                            !trainingOnOff;
-                                                      });
-                                                    },
-                                                    icon: const Icon(Icons
-                                                        .arrow_forward_ios_rounded), // Иконка
-                                                    iconSize: 6 * vw,
-                                                  ),
-                                                ],
-                                              ),
-                                            ),
-                                          ),
-                                        ))
-                                    .toList(), // Преобразуйте список объектов Text в список виджетов
-                              )
-                            : Container(), // Вернуть пустой контейнер, если trainingOnOff равно false
-                      ],
-                    ),
-                  )),
-        ),
-      ],
-    );
-  }
-}
-
-// <=============   Карточка Консультации ====================>
-class ConsultationsCard extends StatefulWidget {
-  const ConsultationsCard({super.key});
-
-  @override
-  State<ConsultationsCard> createState() => _ConsultationsCardState();
-}
-
-class _ConsultationsCardState extends State<ConsultationsCard> {
-  bool trainingOnOff = false;
-  @override
-  Widget build(BuildContext context) {
-    final mobx = Provider.of<Mobx>(context);
-    final vw = MediaQuery.of(context).size.width / 100;
-    final vh = MediaQuery.of(context).size.height / 100;
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Center(
-          child: Observer(
-              builder: (_) => Container(
-                    width: 90 * vw,
-                    margin: EdgeInsets.only(top: 3 * vh),
-                    child: Column(
-                      children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                Text(
-                                  "Консультации",
-                                  style: TextStyle(
-                                      color: const Color.fromARGB(
-                                          220, 255, 255, 255),
-                                      fontSize: 5 * vw),
-                                ),
-                                !trainingOnOff
-                                    ? IconButton(
-                                        onPressed: () {
-                                          setState(() {
-                                            trainingOnOff = !trainingOnOff;
-                                          });
-                                        },
-                                        icon: const Icon(Icons
-                                            .arrow_forward_ios_rounded), // Иконка
-                                        iconSize: 4 * vw,
-                                      )
-                                    : IconButton(
-                                        onPressed: () {
-                                          setState(() {
-                                            trainingOnOff = !trainingOnOff;
-                                          });
-                                        },
-                                        icon: const Icon(Icons
-                                            .keyboard_arrow_down_rounded), // Иконка
-                                        iconSize: 6 * vw,
-                                      ),
-                              ],
-                            ),
-                            mobx
-                                        .userConsultationsOnDay(
-                                            mobx.currentDate)
-                                        .length >
-                                    0
-                                ? Container(
-                                    width: 11 * vw,
-                                    height: 6 * vw,
-                                    alignment: Alignment.center,
-                                    decoration: BoxDecoration(
-                                        gradient: const RadialGradient(
-                                          colors: [
-                                            Color(0xff4D8AEE),
-                                            Color(0xff2932FF)
-                                          ], // Цвета для радиального градиента
-                                          radius:
-                                              0.6, // Радиус градиента (от 0 до 1)
-                                          center: Alignment
-                                              .center, // Центр радиального градиента
-                                        ),
-                                        borderRadius:
-                                            BorderRadius.circular(100)),
-                                    child: Text(
-                                      mobx
-                                          .userConsultationsOnDay(
-                                              mobx.currentDate)
-                                          .length
-                                          .toString(),
-                                      style: TextStyle(
-                                          color: Colors.white,
-                                          fontFamily: 'Manrope',
-                                          fontWeight: FontWeight.w500,
-                                          decoration: TextDecoration.none,
-                                          fontSize: 3.5 * vw),
-                                    ),
-                                  )
-                                : Container(
-                                    width: 11 * vw,
-                                    height: 6 * vw,
-                                    alignment: Alignment.center,
-                                    decoration: BoxDecoration(
-                                        gradient: const RadialGradient(
-                                          colors: [
-                                            Color.fromARGB(83, 235, 238, 247),
-                                            Color.fromARGB(69, 235, 238, 247)
-                                          ], // Цвета для радиального градиента
-                                          radius:
-                                              0.6, // Радиус градиента (от 0 до 1)
-                                          center: Alignment
-                                              .center, // Центр радиального градиента
-                                        ),
-                                        borderRadius:
-                                            BorderRadius.circular(100)),
-                                    child: Text(
-                                      '0',
-                                      style: TextStyle(
-                                          color: const Color.fromARGB(
-                                              115, 255, 255, 255),
-                                          fontFamily: 'Manrope',
-                                          fontWeight: FontWeight.w600,
-                                          decoration: TextDecoration.none,
-                                          fontSize: 3.5 * vw),
-                                    ),
-                                  ),
-                          ],
-                        ),
-                        trainingOnOff
-                            // ignore: dead_code
-                            ? Column(
-                                children: mobx
-                                    .userConsultationsOnDay(mobx.currentDate)
-                                    .map((e) => Container(
-                                          margin: EdgeInsets.only(top: 1 * vh),
-                                          child: Slidable(
-                                            key: UniqueKey(),
-                                            endActionPane: ActionPane(
-                                                motion: const BehindMotion(),
-                                                dismissible: DismissiblePane(
-                                                  key: UniqueKey(),
-                                                  onDismissed: () =>
-                                                      print('delete'),
-                                                ),
-                                                children: [
-                                                  SlidableAction(
-                                                    onPressed: (context) {},
-                                                    backgroundColor: Colors.red,
-
-                                                    // icon: Icons.delete,
-                                                    label: "Отменить",
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            20),
-                                                  )
-                                                ]),
-                                            child: Container(
-                                              padding: EdgeInsets.all(4 * vw),
-                                              decoration: BoxDecoration(
-                                                  color: Color(0xff23252B),
-                                                  borderRadius:
-                                                      BorderRadius.circular(
-                                                          5 * vw)),
-                                              child: Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment
-                                                        .spaceBetween,
-                                                children: [
-                                                  Container(
-                                                    width: 70 * vw,
-                                                    child: Text(
-                                                      e['name'].toString(),
-                                                      style: TextStyle(
-                                                          color: const Color
-                                                              .fromARGB(210,
-                                                              255, 255, 255),
-                                                          fontFamily: 'Manrope',
-                                                          fontWeight:
-                                                              FontWeight.w600,
-                                                          decoration:
-                                                              TextDecoration
-                                                                  .none,
-                                                          fontSize: 4 * vw),
-                                                    ),
-                                                  ),
-                                                  IconButton(
-                                                    onPressed: () {
-                                                      setState(() {
-                                                        trainingOnOff =
-                                                            !trainingOnOff;
-                                                      });
-                                                    },
-                                                    icon: const Icon(Icons
-                                                        .arrow_forward_ios_rounded), // Иконка
-                                                    iconSize: 6 * vw,
-                                                  ),
-                                                ],
-                                              ),
-                                            ),
-                                          ),
-                                        ))
-                                    .toList(), // Преобразуйте список объектов Text в список виджетов
-                              )
-                            : Container(), // Вернуть пустой контейнер, если trainingOnOff равно false
-                      ],
-                    ),
-                  )),
         ),
       ],
     );

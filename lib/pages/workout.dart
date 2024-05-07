@@ -17,6 +17,7 @@ class Workout extends StatefulWidget {
 
 class _WorkoutState extends State<Workout> {
   bool descriptionModalFlag = false;
+  bool muscleGroupModalFlag = false;
   @override
   Widget build(BuildContext context) {
     final screenHeight = MediaQuery.of(context).size.height;
@@ -264,7 +265,7 @@ class _WorkoutState extends State<Workout> {
                         ],
                       ),
                       SizedBox(
-                        height: 20,
+                        height: 1*vw,
                       ),
                       descriptionModalFlag
                           ? Opacity(
@@ -281,6 +282,63 @@ class _WorkoutState extends State<Workout> {
                             )
                           : Container(),
                       SizedBox(
+                        height: 1,
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+            GestureDetector(
+              onTap: () {
+                setState(() {
+                  muscleGroupModalFlag = !muscleGroupModalFlag;
+                });
+              },
+              child: Padding(
+                padding: EdgeInsets.all(3 * vw),
+                child: Padding(
+                  padding: EdgeInsets.all(10),
+                  child: Column(
+                    children: [
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Text(
+                            "Группы мышц",
+                            style: TextStyle(
+                                color: Color.fromARGB(202, 255, 255, 255),
+                                fontFamily: 'Manrope',
+                                fontWeight: FontWeight.w600,
+                                decoration: TextDecoration.none,
+                                fontSize: 4 * vw),
+                          ),
+                          SizedBox(
+                            width: 10,
+                          ),
+                          Opacity(
+                            opacity: 0.7,
+                            child: Transform.rotate(
+                                angle: -90 *
+                                    (pi / 180), // Угол поворота в радианах
+                                child: descriptionModalFlag
+                                    ? Icon(Icons.arrow_forward_ios_rounded,
+                                        color: Colors.white, size: 5 * vw)
+                                    : Icon(
+                                        Icons.keyboard_arrow_down_rounded,
+                                        color: Colors.white,
+                                        size: 5 * vw,
+                                      )),
+                          )
+                        ],
+                      ),
+                      SizedBox(
+                        height: 20,
+                      ),
+                      muscleGroupModalFlag
+                          ?Image.asset('assets/img/workout_muskle_group.png')
+                          : Container(),
+                      SizedBox(
                         height: 10,
                       ),
                     ],
@@ -288,6 +346,7 @@ class _WorkoutState extends State<Workout> {
                 ),
               ),
             ),
+            
           ],
         ),
       ),
@@ -295,6 +354,15 @@ class _WorkoutState extends State<Workout> {
   }
 }
 
+
+
+
+
+
+
+
+
+// Модальное окно
 class ExerciseModal extends StatefulWidget {
   final Map map;
 

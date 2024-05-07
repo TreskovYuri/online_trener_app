@@ -1,16 +1,22 @@
 import 'package:flutter/material.dart';
 
-class Services extends StatelessWidget {
+class Services extends StatefulWidget {
   const Services({super.key});
 
+  @override
+  State<Services> createState() => _ServicesState();
+}
+
+class _ServicesState extends State<Services> {
   @override
   Widget build(BuildContext context) {
     final height = MediaQuery.of(context).size.height;
     final vw = MediaQuery.of(context).size.width / 100;
+    final vh = MediaQuery.of(context).size.height / 100;
     return Container(
-      height: height*0.3,
+      // height: height*0.3,
       child: Padding(
-        padding: EdgeInsets.only(top:height*0.1, left: 5*vw, right: 5*vw,bottom: 40),
+        padding: EdgeInsets.only(top:height*0.1, left: 5*vw, right: 5*vw,bottom: 4),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -22,10 +28,10 @@ class Services extends StatelessWidget {
                   fontFamily: 'Manrope',
                   fontWeight: FontWeight.w400,
                   decoration: TextDecoration.none,
-                  fontSize: 6 * vw),
+                  fontSize: 3 * vh),
             ),
             Padding(
-              padding: EdgeInsets.only(top: 20),
+              padding: EdgeInsets.only(top: 3*vh),
               child: Container(
                 decoration:BoxDecoration(
                     color: const Color.fromARGB(139, 40, 40, 40), // Цвет фона
@@ -50,7 +56,7 @@ class Services extends StatelessWidget {
                   fontFamily: 'Manrope',
                   fontWeight: FontWeight.w800,
                   decoration: TextDecoration.none,
-                  fontSize: 3.5 * vw),),
+                  fontSize: 1.5 * vh),),
                       ),
                     ),
                     Container(
@@ -62,7 +68,7 @@ class Services extends StatelessWidget {
                   fontFamily: 'Manrope',
                   fontWeight: FontWeight.w800,
                   decoration: TextDecoration.none,
-                  fontSize: 3.5 * vw),),
+                  fontSize: 1.5 * vh),),
                       ),
                     ),
                   ],

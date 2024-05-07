@@ -6,12 +6,14 @@ import 'package:trener_app/pages/forgot.dart';
 import 'package:trener_app/pages/journal.dart';
 import 'package:trener_app/pages/loading.dart';
 import 'package:trener_app/pages/login.dart';
+import 'package:trener_app/pages/notification.dart';
 import 'package:trener_app/pages/planner.dart';
 import 'package:trener_app/pages/profile.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:provider/provider.dart';
 import 'package:trener_app/pages/workout.dart';
+import 'package:trener_app/pages/workout_sheme.dart';
 
 
 void main() async {
@@ -37,6 +39,10 @@ class MyApp extends StatelessWidget {
           '/journal': (context) => const Journal(),
           '/calendar': (context) => const Calendar(),
           '/workout': (context) => const Workout(),
+          '/workoutscheme': (context) => const WorkoutSheme(),
+          '/service': (context) => const Service(),
+          '/profile': (context) => const Profile(),
+          '/chats': (context) => const Chats(),
         },
       ),
     );
