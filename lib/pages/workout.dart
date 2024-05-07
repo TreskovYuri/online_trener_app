@@ -317,7 +317,6 @@ class _ExerciseModalState extends State<ExerciseModal> {
         flags: YoutubePlayerFlags(
           controlsVisibleAtStart: true,
           autoPlay: false,
-          forceHD: true,
         ));
     super.initState();
   }
@@ -332,7 +331,7 @@ class _ExerciseModalState extends State<ExerciseModal> {
       width: double.infinity,
       decoration: BoxDecoration(
           color: Color(0xff1B1C20),
-          borderRadius: BorderRadius.circular(3 * vw)),
+          borderRadius: BorderRadius.only(topLeft: Radius.circular(10), topRight:Radius.circular(10))),
       child: Column(
         children: [
           Container(
@@ -459,6 +458,17 @@ class _ExerciseModalState extends State<ExerciseModal> {
                 child: YoutubePlayer(
                   controller: _controller,
                   showVideoProgressIndicator: true,
+                  onReady: (){debugPrint('Готово');},
+                  bottomActions: [
+                    CurrentPosition(),
+                    ProgressBar(
+                      isExpanded: true,
+                      colors: const ProgressBarColors(
+                        playedColor: Colors.red,
+                        handleColor: Colors.red
+                      ),
+                    )
+                  ],
                 ),
               ),
             ),
