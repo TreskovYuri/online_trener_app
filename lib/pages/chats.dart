@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:trener_app/widgets/nitification/navbar.dart';
+import 'package:trener_app/widgets/service/navbar.dart';
 
 class Chats extends StatelessWidget {
   const Chats({super.key});

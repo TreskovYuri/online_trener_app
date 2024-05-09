@@ -5,7 +5,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:provider/provider.dart';
 import 'package:trener_app/mobx/mobx.dart';
-import 'package:trener_app/widgets/nitification/navbar.dart';
+import 'package:trener_app/widgets/service/navbar.dart';
 
 class Profile extends StatelessWidget {
   const Profile({super.key});

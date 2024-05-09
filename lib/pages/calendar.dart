@@ -19,7 +19,7 @@ class Calendar extends StatelessWidget {
     final mobx = Provider.of<Mobx>(context);
     DateTime now = DateTime.now().subtract(Duration(hours: DateTime.now().hour, minutes: DateTime.now().minute, seconds: DateTime.now().second, milliseconds: DateTime.now().millisecond, microseconds: DateTime.now().microsecond));
     int weekday = now.weekday;
-    MyController myGetxController = Get.put(MyController());
+    MyGetxController myGetxController = Get.put(MyGetxController());
 
 
     // Находим последний понедельник
@@ -167,7 +167,8 @@ class Calendar extends StatelessWidget {
                                                                   now.month
                                                           ? InkWell(
                                                               onTap: () {
-                                                                myGetxController.repository.setCurrentDate(DateFormat('dd.MM.yyyy').format(date));
+                                                                myGetxController.setUserExercisesOnDay(DateFormat('dd.MM.yyyy').format(date));
+                                                                myGetxController.setCurrentDate(DateFormat('dd.MM.yyyy').format(date));
                                                                 mobx.setCurrentDate(
                                                                     DateFormat(
                                                                             'dd.MM.yyyy')
@@ -226,8 +227,8 @@ class Calendar extends StatelessWidget {
                                                             )
                                                           : GestureDetector(
                                                               onTap: () {
-                                                                myGetxController.repository.setCurrentDate(DateFormat('dd.MM.yyyy').format(date));
-                                                    mobx.setCurrentDate(DateFormat('dd.MM.yyyy').format(date));
+                                                                myGetxController.setUserExercisesOnDay(DateFormat('dd.MM.yyyy').format(date));
+                                                                myGetxController.setCurrentDate(DateFormat('dd.MM.yyyy').format(date));
                                                       if(mobx.user['post'] == 'Тренер' || mobx.user['post'] == 'Супер тренер'){
                                                           Navigator.pop(context);
                                                       }else{
@@ -370,11 +371,7 @@ class _HeaderState extends State<Header> {
               builder: (context) {
                 return GestureDetector(
                   onTap: () {
-                    if(mobx.user['post'] == 'Тренер' || mobx.user['post'] == 'Супер тренер'){
-                        Navigator.pushReplacementNamed(context, '/journal');
-                    }else{
-                        Navigator.pushReplacementNamed(context, '/planner');
-                    }
+                        Navigator.pop(context);
                 
                   },
                   child: Text(

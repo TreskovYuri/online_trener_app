@@ -1,13 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:intl/date_symbol_data_local.dart';
 import 'package:trener_app/mobx/mobx.dart';
+import 'package:trener_app/pages/ResultFix.dart';
+import 'package:trener_app/pages/TrainingFix.dart';
 import 'package:trener_app/pages/calendar.dart';
 import 'package:trener_app/pages/chats.dart';
 import 'package:trener_app/pages/forgot.dart';
 import 'package:trener_app/pages/journal.dart';
 import 'package:trener_app/pages/loading.dart';
 import 'package:trener_app/pages/login.dart';
-import 'package:trener_app/pages/notification.dart';
+import 'package:trener_app/pages/service.dart';
+import 'package:trener_app/pages/nutrition.dart';
 import 'package:trener_app/pages/planner.dart';
 import 'package:trener_app/pages/profile.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -21,6 +25,7 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await dotenv.load(fileName: '.env');
   await GetStorage.init();
+  initializeDateFormatting();
   runApp(MyApp());
 }
 
@@ -47,6 +52,8 @@ class MyApp extends StatelessWidget {
           '/service': (context) => const Service(),
           '/profile': (context) => const Profile(),
           '/chats': (context) => const Chats(),
+          '/training_fix': (context) => const TrainingFix(),
+          '/nutrition': (context) => const Nutrition(),
         },
       ),
     );

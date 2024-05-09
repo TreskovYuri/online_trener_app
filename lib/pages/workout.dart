@@ -39,11 +39,18 @@ class _WorkoutState extends State<Workout> {
               children: [
                 Container(
                   height: 50 * vh,
-                  child: Image.network(
-                    arguments['img'],
-                    height: 50 *
-                        vh, // Устанавливаем ширину изображения равной ширине экрана
-                    fit: BoxFit.cover,
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.only(
+                      bottomLeft: Radius.circular(
+                          2*vw), // Радиус закругления нижнего левого угла
+                      bottomRight: Radius.circular(
+                          2*vw), // Радиус закругления нижнего правого угла
+                    ),
+                    child: Image.network(
+                      arguments['img'],
+                      width: double.infinity,
+                      fit: BoxFit.cover,
+                    ),
                   ),
                 ),
                 Positioned(
@@ -265,7 +272,7 @@ class _WorkoutState extends State<Workout> {
                         ],
                       ),
                       SizedBox(
-                        height: 1*vw,
+                        height: 1 * vw,
                       ),
                       descriptionModalFlag
                           ? Opacity(
@@ -313,7 +320,7 @@ class _WorkoutState extends State<Workout> {
                                 decoration: TextDecoration.none,
                                 fontSize: 4 * vw),
                           ),
-                          SizedBox(
+                          const SizedBox(
                             width: 10,
                           ),
                           Opacity(
@@ -321,9 +328,9 @@ class _WorkoutState extends State<Workout> {
                             child: Transform.rotate(
                                 angle: -90 *
                                     (pi / 180), // Угол поворота в радианах
-                                child: descriptionModalFlag
+                                child: muscleGroupModalFlag
                                     ? Icon(Icons.arrow_forward_ios_rounded,
-                                        color: Colors.white, size: 5 * vw)
+                                        color: Colors.white, size: 3 * vw)
                                     : Icon(
                                         Icons.keyboard_arrow_down_rounded,
                                         color: Colors.white,
@@ -332,13 +339,13 @@ class _WorkoutState extends State<Workout> {
                           )
                         ],
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 20,
                       ),
                       muscleGroupModalFlag
-                          ?Image.asset('assets/img/workout_muskle_group.png')
+                          ? Image.asset('assets/img/workout_muskle_group.png')
                           : Container(),
-                      SizedBox(
+                      const SizedBox(
                         height: 10,
                       ),
                     ],
@@ -346,21 +353,54 @@ class _WorkoutState extends State<Workout> {
                 ),
               ),
             ),
-            
+            ElevatedButton(
+              style: ButtonStyle(
+                // Устанавливаем фоновый градиент
+                backgroundColor: MaterialStateProperty.resolveWith((states) {
+                  return Colors.transparent;
+                }),
+                overlayColor: MaterialStateProperty.resolveWith((states) {
+                  return null;
+                }),
+                foregroundColor: MaterialStateProperty.resolveWith((states) {
+                  return null;
+                }),
+              ),
+              onPressed: () {
+                Navigator.pushNamed(context, '/training_fix',
+                    arguments: arguments);
+              },
+              child: Ink(
+                padding: EdgeInsets.symmetric(
+                    vertical: 1.5 * vh, horizontal: 9 * vw),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10 * vw),
+                  gradient: const RadialGradient(
+                      colors: [Color(0xff4D8AEE), Color(0xff2932FF)],
+                      radius: 5),
+                ),
+                child: Container(
+                  alignment: Alignment.center,
+                  child: Text(
+                    'Заполнить',
+                    style: TextStyle(
+                        fontFamily: 'Manrope',
+                        fontSize: 3.5 * vw,
+                        color: Colors.white,
+                        fontWeight: FontWeight.w600),
+                  ),
+                ),
+              ),
+            ),
+            SizedBox(
+              height: 4 * vh,
+            )
           ],
         ),
       ),
     );
   }
 }
-
-
-
-
-
-
-
-
 
 // Модальное окно
 class ExerciseModal extends StatefulWidget {
@@ -399,7 +439,8 @@ class _ExerciseModalState extends State<ExerciseModal> {
       width: double.infinity,
       decoration: BoxDecoration(
           color: Color(0xff1B1C20),
-          borderRadius: BorderRadius.only(topLeft: Radius.circular(10), topRight:Radius.circular(10))),
+          borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(10), topRight: Radius.circular(10))),
       child: Column(
         children: [
           Container(
@@ -526,15 +567,15 @@ class _ExerciseModalState extends State<ExerciseModal> {
                 child: YoutubePlayer(
                   controller: _controller,
                   showVideoProgressIndicator: true,
-                  onReady: (){debugPrint('Готово');},
+                  onReady: () {
+                    debugPrint('Готово');
+                  },
                   bottomActions: [
                     CurrentPosition(),
                     ProgressBar(
                       isExpanded: true,
                       colors: const ProgressBarColors(
-                        playedColor: Colors.red,
-                        handleColor: Colors.red
-                      ),
+                          playedColor: Colors.red, handleColor: Colors.red),
                     )
                   ],
                 ),
@@ -568,7 +609,7 @@ class _ExerciseModalState extends State<ExerciseModal> {
           ),
           Container(
             width: double.infinity,
-            padding: EdgeInsets.symmetric(horizontal: 5*vw,vertical: 2*vh),
+            padding: EdgeInsets.symmetric(horizontal: 5 * vw, vertical: 2 * vh),
             child: Text(
               textAlign: TextAlign.start,
               'Техника выполнения',
@@ -583,7 +624,7 @@ class _ExerciseModalState extends State<ExerciseModal> {
           ),
           Container(
             width: double.infinity,
-            padding: EdgeInsets.symmetric(horizontal: 5*vw,vertical: 2*vh),
+            padding: EdgeInsets.symmetric(horizontal: 5 * vw, vertical: 2 * vh),
             child: Text(
               widget.map['descriptionRu'],
               style: TextStyle(

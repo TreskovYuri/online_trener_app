@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 import 'package:trener_app/mobx/mobx.dart';
 
@@ -24,18 +25,17 @@ class CardService extends StatelessWidget {
                 Expanded(
                   flex: 1,
                   child: GestureDetector(
-                    onTap: (){Navigator.pushNamed(context,'/profile');},
+                    onTap: () {
+                      Navigator.pushNamed(context, '/profile');
+                    },
                     child: Container(
                       child: Row(
                         children: [
                           Column(
                             children: [
-                              Image(
-                                image: const AssetImage('assets/img/card1_1.png'),
+                              SvgPicture.asset(
+                                'assets/img/card1_1.svg',
                                 width: 15 * vw,
-                                height: 15 * vw,
-                                fit: BoxFit
-                                    .cover, // Обрезать изображение в соответствии с размерами контейнера
                               ),
                               SizedBox(
                                 height: 5,
@@ -59,18 +59,17 @@ class CardService extends StatelessWidget {
                 Expanded(
                   flex: 1,
                   child: GestureDetector(
-                    onTap: (){Navigator.pushNamed(context,'/workoutscheme');},
+                    onTap: () {
+                      Navigator.pushNamed(context, '/workoutscheme');
+                    },
                     child: Container(
                       child: Row(
                         children: [
                           Column(
                             children: [
-                              Image(
-                                image: const AssetImage('assets/img/card2_2.png'),
+                               SvgPicture.asset(
+                                'assets/img/card2_2.svg',
                                 width: 15 * vw,
-                                height: 15 * vw,
-                                fit: BoxFit
-                                    .cover, // Обрезать изображение в соответствии с размерами контейнера
                               ),
                               SizedBox(
                                 height: 5,
@@ -98,13 +97,10 @@ class CardService extends StatelessWidget {
                       children: [
                         Column(
                           children: [
-                            Image(
-                              image: const AssetImage('assets/img/card3_3.png'),
-                              width: 15 * vw,
-                              height: 15 * vw,
-                              fit: BoxFit
-                                  .cover, // Обрезать изображение в соответствии с размерами контейнера
-                            ),
+                             SvgPicture.asset(
+                                'assets/img/card3_3.svg',
+                                width: 15 * vw,
+                              ),
                             SizedBox(
                               height: 5,
                             ),
@@ -131,13 +127,10 @@ class CardService extends StatelessWidget {
                       children: [
                         Column(
                           children: [
-                            Image(
-                              image: const AssetImage('assets/img/card4_4.png'),
-                              width: 15 * vw,
-                              height: 15 * vw,
-                              fit: BoxFit
-                                  .cover, // Обрезать изображение в соответствии с размерами контейнера
-                            ),
+                             SvgPicture.asset(
+                                'assets/img/card4_4.svg',
+                                width: 15 * vw,
+                              ),
                             SizedBox(
                               height: 5,
                             ),
@@ -158,25 +151,26 @@ class CardService extends StatelessWidget {
                 ),
               ],
             ),
-            SizedBox(height: 20,),
+            SizedBox(
+              height: 20,
+            ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Expanded(
                   flex: 1,
                   child: GestureDetector(
-                    onTap: (){Navigator.pushReplacementNamed(context,'/profile');},
+                    onTap: () {
+                      Navigator.pushReplacementNamed(context, '/profile');
+                    },
                     child: Container(
                       child: Row(
                         children: [
                           Column(
                             children: [
-                              Image(
-                                image: const AssetImage('assets/img/card5_5.png'),
+                               SvgPicture.asset(
+                                'assets/img/card5_5.svg',
                                 width: 15 * vw,
-                                height: 15 * vw,
-                                fit: BoxFit
-                                    .cover, // Обрезать изображение в соответствии с размерами контейнера
                               ),
                               SizedBox(
                                 height: 5,
@@ -204,14 +198,11 @@ class CardService extends StatelessWidget {
                       children: [
                         Column(
                           children: [
-                            Image(
-                              image: const AssetImage('assets/img/card6_6.png'),
-                              width: 15 * vw,
-                              height: 15 * vw,
-                              fit: BoxFit
-                                  .cover, // Обрезать изображение в соответствии с размерами контейнера
-                            ),
-                            SizedBox(
+                             SvgPicture.asset(
+                                'assets/img/card6_6.svg',
+                                width: 15 * vw,
+                              ),
+                            const SizedBox(
                               height: 5,
                             ),
                             Text(
@@ -231,7 +222,7 @@ class CardService extends StatelessWidget {
                 ),
                 Expanded(
                   flex: 1,
-                  child: Container( ),
+                  child: Container(),
                 ),
                 Expanded(
                   flex: 1,

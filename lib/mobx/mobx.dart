@@ -13,7 +13,7 @@ abstract class _Mobx with Store {
   var currentDate = '';
   var userExercises = [];
   String pageName = 'План';
-  Map <String,dynamic> user = {};
+  Map<String, dynamic> user = {};
 
   @action
   void setUserExercises(List<dynamic> exercises) {
@@ -36,25 +36,33 @@ abstract class _Mobx with Store {
   }
 
   @action
-  void setUser(Map <String,dynamic> newUser) {
-    user = newUser ;
+  void setUser(Map<String, dynamic> newUser) {
+    user = newUser;
   }
 
-  List<Map<String, dynamic>> trenerUserExercisesOnDay(String date, int id) {
+  List<Map<dynamic, dynamic>> trenerUserExercisesOnDay(String date, int id) {
     if (id == 1) {
       return [
-        {"name": "Силовая тренировка", 'type': "training","id":1},
-        {"name": "Йога", 'type': "training","id":1},
-        {"name": "Максимальный вес приседания с штангой на спине", 'type': "test","id":1},
+        {"name": "Силовая тренировка", 'type': "training", "id": 1},
+        {"name": "Йога", 'type': "training", "id": 1},
+        {
+          "name": "Максимальный вес приседания с штангой на спине",
+          'type': "test",
+          "id": 1
+        },
       ];
     } else if (id == 2) {
       return [
-        {"name": "Силовая тренировка", 'type': "training","id":1},
-        {"name": "Максимальный вес приседания с штангой на спине", 'type': "test","id":1},
+        {"name": "Силовая тренировка", 'type': "training", "id": 1},
+        {
+          "name": "Максимальный вес приседания с штангой на спине",
+          'type': "test",
+          "id": 1
+        },
       ];
     } else if (id == 3) {
       return [
-        {"name": "Силовая тренировка", 'type': "training","id":1},
+        {"name": "Силовая тренировка", 'type': "training", "id": 1},
       ];
     }
     return [];
@@ -476,115 +484,111 @@ abstract class _Mobx with Store {
   }
 
   @computed
-  List <Map <String,dynamic>> exercisesOnTrainingId(int id) {
+  List<Map<dynamic, dynamic>> exercisesOnTrainingId(int id) {
     return [
-{
-              'sets': '',
-              'id': '1',
-              'nameRu': 'Круги руками',
-              'prevSets':"3X15",
-              'prevVes':"20кг",
-              'prevTime':"40",
-              'nameEng': ' Circles with hands',
-              'descriptionRu':
-                  'Развивает мышцы плеч, спины и груди, улучшает осанку, Развивает мышцы плеч, спины и груди, улучшает осанку, Развивает мышцы плеч, спины и груди, улучшает осанку',
-              'descriptionEn':
-                  'Развивает мышцы плеч, спины и груди, улучшает осанку',
-              'link': 'https://youtu.be/qttcSh1Ld70?si=vLnjLfSEDj2MPX2K',
-              'img': '9811ef87-a51a-4c53-8e13-85b6539ede97.png',
-              'video': 'https://youtu.be/YMx8Bbev6T4?si=R9qEwkH0wmGImgii',
-              'stage': ['Роллер','Стена','Стул'],
-              'equipment': '',
-              'musclegroups': '',
-              'pocazatel1Name': '',
-              'pocazatel1Type': '',
-              'pocazatel1SPFlag': '',
-              'pocazatel2Name': '',
-              'pocazatel2Type': '',
-              'pocazatel2SPFlag': '',
-              'pocazatel3Name': '',
-              'pocazatel3Type': '',
-              'pocazatel3SPFlag': '',
-              'pocazatel4Name': '',
-              'pocazatel4Type': '',
-              'pocazatel4SPFlag': '',
-              'pocazatel5Name': '',
-              'pocazatel5Type': '',
-              'pocazatel5SPFlag': '',
-            },
-            {
-              'sets': '',
-              'id': '2',
-              'prevSets':"2X25",
-              'prevVes':"20кг",
-              'prevTime':"40",
-              'nameRu': 'Жим лежа',
-              'nameEng': ' Circles with hands',
-              'descriptionRu':
-                  'Развивает мышцы плеч, спины и груди, улучшает осанку',
-              'descriptionEn':
-                  'Развивает мышцы плеч, спины и груди, улучшает осанку',
-              'link': 'https://youtu.be/rIZirGYcbD8?si=tfEicSvO7Lm6yVt2',
-              'img': '0c50cda7-8543-492c-8d92-840921bf7c4e.jpg',
-              'video': 'https://youtu.be/YMx8Bbev6T4?si=R9qEwkH0wmGImgii',
-              'stage': ['Роллер','Стена','Стул'],
-              'equipment': '',
-              'musclegroups': '',
-              'pocazatel1Name': '',
-              'pocazatel1Type': '',
-              'pocazatel1SPFlag': '',
-              'pocazatel2Name': '',
-              'pocazatel2Type': '',
-              'pocazatel2SPFlag': '',
-              'pocazatel3Name': '',
-              'pocazatel3Type': '',
-              'pocazatel3SPFlag': '',
-              'pocazatel4Name': '',
-              'pocazatel4Type': '',
-              'pocazatel4SPFlag': '',
-              'pocazatel5Name': '',
-              'pocazatel5Type': '',
-              'pocazatel5SPFlag': '',
-            },
-            {
-              'sets': '',
-              'prevSets':"4X10 50",
-              'prevVes':"20кг",
-              'prevTime':"40",
-              'id': '3',
-              'nameRu': 'Скручивание на пресс',
-              'nameEng': ' Circles with hands',
-              'descriptionRu':
-                  'Развивает мышцы плеч, спины и груди, улучшает осанку',
-              'descriptionEn':
-                  'Развивает мышцы плеч, спины и груди, улучшает осанку',
-              'link': 'https://youtu.be/H8xSHCAjM-I?si=s6QZEa06Jb5vD00-',
-              'img': '6411cec5-9276-490e-8b9a-a718f3dfd97d.jpg',
-              'video': '',
-              'stage': ['Роллер','Стена','Стул'],
-              'equipment': '',
-              'musclegroups': '',
-              'pocazatel1Name': '',
-              'pocazatel1Type': '',
-              'pocazatel1SPFlag': '',
-              'pocazatel2Name': '',
-              'pocazatel2Type': '',
-              'pocazatel2SPFlag': '',
-              'pocazatel3Name': '',
-              'pocazatel3Type': '',
-              'pocazatel3SPFlag': '',
-              'pocazatel4Name': '',
-              'pocazatel4Type': '',
-              'pocazatel4SPFlag': '',
-              'pocazatel5Name': '',
-              'pocazatel5Type': '',
-              'pocazatel5SPFlag': '',
-            },
+      {
+        'sets': '',
+        'id': '1',
+        'nameRu': 'Круги руками',
+        'prevSets': "3X15",
+        'prevVes': "20кг",
+        'prevTime': "40",
+        'nameEng': ' Circles with hands',
+        'descriptionRu':
+            'Развивает мышцы плеч, спины и груди, улучшает осанку, Развивает мышцы плеч, спины и груди, улучшает осанку, Развивает мышцы плеч, спины и груди, улучшает осанку',
+        'descriptionEn': 'Развивает мышцы плеч, спины и груди, улучшает осанку',
+        'link': 'https://youtu.be/qttcSh1Ld70?si=vLnjLfSEDj2MPX2K',
+        'img': '9811ef87-a51a-4c53-8e13-85b6539ede97.png',
+        'video': 'https://youtu.be/YMx8Bbev6T4?si=R9qEwkH0wmGImgii',
+        'stage': ['Роллер', 'Стена', 'Стул'],
+        'equipment': '',
+        'musclegroups': '',
+        'pocazatel1Name': '',
+        'pocazatel1Type': '',
+        'pocazatel1SPFlag': '',
+        'pocazatel2Name': '',
+        'pocazatel2Type': '',
+        'pocazatel2SPFlag': '',
+        'pocazatel3Name': '',
+        'pocazatel3Type': '',
+        'pocazatel3SPFlag': '',
+        'pocazatel4Name': '',
+        'pocazatel4Type': '',
+        'pocazatel4SPFlag': '',
+        'pocazatel5Name': '',
+        'pocazatel5Type': '',
+        'pocazatel5SPFlag': '',
+      },
+      {
+        'sets': '',
+        'id': '2',
+        'prevSets': "2X25",
+        'prevVes': "20кг",
+        'prevTime': "40",
+        'nameRu': 'Жим лежа',
+        'nameEng': ' Circles with hands',
+        'descriptionRu': 'Развивает мышцы плеч, спины и груди, улучшает осанку',
+        'descriptionEn': 'Развивает мышцы плеч, спины и груди, улучшает осанку',
+        'link': 'https://youtu.be/rIZirGYcbD8?si=tfEicSvO7Lm6yVt2',
+        'img': '0c50cda7-8543-492c-8d92-840921bf7c4e.jpg',
+        'video': 'https://youtu.be/YMx8Bbev6T4?si=R9qEwkH0wmGImgii',
+        'stage': ['Роллер', 'Стена', 'Стул'],
+        'equipment': '',
+        'musclegroups': '',
+        'pocazatel1Name': '',
+        'pocazatel1Type': '',
+        'pocazatel1SPFlag': '',
+        'pocazatel2Name': '',
+        'pocazatel2Type': '',
+        'pocazatel2SPFlag': '',
+        'pocazatel3Name': '',
+        'pocazatel3Type': '',
+        'pocazatel3SPFlag': '',
+        'pocazatel4Name': '',
+        'pocazatel4Type': '',
+        'pocazatel4SPFlag': '',
+        'pocazatel5Name': '',
+        'pocazatel5Type': '',
+        'pocazatel5SPFlag': '',
+      },
+      {
+        'sets': '',
+        'prevSets': "4X10 50",
+        'prevVes': "20кг",
+        'prevTime': "40",
+        'id': '3',
+        'nameRu': 'Скручивание на пресс',
+        'nameEng': ' Circles with hands',
+        'descriptionRu': 'Развивает мышцы плеч, спины и груди, улучшает осанку',
+        'descriptionEn': 'Развивает мышцы плеч, спины и груди, улучшает осанку',
+        'link': 'https://youtu.be/H8xSHCAjM-I?si=s6QZEa06Jb5vD00-',
+        'img': '6411cec5-9276-490e-8b9a-a718f3dfd97d.jpg',
+        'video': '',
+        'stage': ['Роллер', 'Стена', 'Стул'],
+        'equipment': '',
+        'musclegroups': '',
+        'pocazatel1Name': '',
+        'pocazatel1Type': '',
+        'pocazatel1SPFlag': '',
+        'pocazatel2Name': '',
+        'pocazatel2Type': '',
+        'pocazatel2SPFlag': '',
+        'pocazatel3Name': '',
+        'pocazatel3Type': '',
+        'pocazatel3SPFlag': '',
+        'pocazatel4Name': '',
+        'pocazatel4Type': '',
+        'pocazatel4SPFlag': '',
+        'pocazatel5Name': '',
+        'pocazatel5Type': '',
+        'pocazatel5SPFlag': '',
+      },
     ];
   }
+
 // Функция возвращает список упражнения по заданному дню
   @computed
-  List<dynamic> userExercisesOnDay(String date) {
+  List<Map<dynamic, dynamic>> userExercisesOnDay(String date) {
     if (int.parse(date.split('.')[0]) % 2 == 0) {
       return [
         {
@@ -592,227 +596,82 @@ abstract class _Mobx with Store {
           'id': 1,
           "date": "06.05.2024",
           'stage': ['Стена', 'Стул'],
-          'img':"http://web-hub.pro:5004/assets/0c50cda7-8543-492c-8d92-840921bf7c4e.jpg",
-          'description':'Йога — это ряд упражнений с собственным весом или отягощением. Их основной целью является увеличение силы мышц и развитие выносливости тела.Все силовые направления выполняются в достаточно интенсивном темпе, и цели у них, как правило, жиросжигание, тонус мышц, активная работа дыхательной и сердечно-сосудистой систем.Основная цель занятий на растяжку - гибкость, эластичность, работа с дыханием, улучшение кровотока и снятие напряжения.',
-          "exercises": [
-            {
-              'sets': '',
-              'id': '1',
-              'nameRu': 'Круги руками',
-              'nameEng': ' Circles with hands',
-              'descriptionRu':
-                  'Развивает мышцы плеч, спины и груди, улучшает осанку',
-              'link': '',
-              'img': '',
-              'video': '',
-              'stage': '',
-              'equipment': '',
-              'musclegroups': '',
-              'pocazatel1Name': '',
-              'pocazatel1Type': '',
-              'pocazatel1SPFlag': '',
-              'pocazatel2Name': '',
-              'pocazatel2Type': '',
-              'pocazatel2SPFlag': '',
-              'pocazatel3Name': '',
-              'pocazatel3Type': '',
-              'pocazatel3SPFlag': '',
-              'pocazatel4Name': '',
-              'pocazatel4Type': '',
-              'pocazatel4SPFlag': '',
-              'pocazatel5Name': '',
-              'pocazatel5Type': '',
-              'pocazatel5SPFlag': '',
-            },
-            {
-              'sets': '',
-              'id': '1',
-              'nameRu': 'Скручивание',
-              'nameEng': ' Twisting',
-              'descriptionRu':
-                  'Развивает мышцы плеч, спины и груди, улучшает осанку',
-              'descriptionEn':
-                  'Развивает мышцы плеч, спины и груди, улучшает осанку',
-              'link': '',
-              'img': '',
-              'video': '',
-              'stage': '',
-              'equipment': '',
-              'musclegroups': '',
-              'pocazatel1Name': '',
-              'pocazatel1Type': '',
-              'pocazatel1SPFlag': '',
-              'pocazatel2Name': '',
-              'pocazatel2Type': '',
-              'pocazatel2SPFlag': '',
-              'pocazatel3Name': '',
-              'pocazatel3Type': '',
-              'pocazatel3SPFlag': '',
-              'pocazatel4Name': '',
-              'pocazatel4Type': '',
-              'pocazatel4SPFlag': '',
-              'pocazatel5Name': '',
-              'pocazatel5Type': '',
-              'pocazatel5SPFlag': '',
-            },
-          ]
-        },
-        {
-          "name": "Силовая тренировка",
-          'id': 2,
-          "date": "06.05.2024",
-          'stage': ['Роллер', 'Стена', 'Стул'],
-          'img':"http://web-hub.pro:5004/assets/9811ef87-a51a-4c53-8e13-85b6539ede97.png",
-          'description':'Силовая тренировка — это ряд упражнений с собственным весом или отягощением. Их основной целью является увеличение силы мышц и развитие выносливости тела.Все силовые направления выполняются в достаточно интенсивном темпе, и цели у них, как правило, жиросжигание, тонус мышц, активная работа дыхательной и сердечно-сосудистой систем.Основная цель занятий на растяжку - гибкость, эластичность, работа с дыханием, улучшение кровотока и снятие напряжения.',
-
-          "exercises": [
-            {
-              'sets': '',
-              'id': '1',
-              'nameRu': 'Круги руками',
-              'nameEng': ' Circles with hands',
-              'descriptionRu':
-                  'Развивает мышцы плеч, спины и груди, улучшает осанку',
-              'descriptionEn':
-                  'Развивает мышцы плеч, спины и груди, улучшает осанку',
-              'link': '',
-              'img': '',
-              'video': '',
-              'stage': '',
-              'equipment': '',
-              'musclegroups': '',
-              'pocazatel1Name': '',
-              'pocazatel1Type': '',
-              'pocazatel1SPFlag': '',
-              'pocazatel2Name': '',
-              'pocazatel2Type': '',
-              'pocazatel2SPFlag': '',
-              'pocazatel3Name': '',
-              'pocazatel3Type': '',
-              'pocazatel3SPFlag': '',
-              'pocazatel4Name': '',
-              'pocazatel4Type': '',
-              'pocazatel4SPFlag': '',
-              'pocazatel5Name': '',
-              'pocazatel5Type': '',
-              'pocazatel5SPFlag': '',
-            },
-            {
-              'sets': '',
-              'id': '1',
-              'nameRu': 'Скручивание',
-              'nameEng': ' Twisting',
-              'descriptionRu':
-                  'Развивает мышцы плеч, спины и груди, улучшает осанку',
-              'descriptionEn':
-                  'Развивает мышцы плеч, спины и груди, улучшает осанку',
-              'link': '',
-              'img': '',
-              'video': '',
-              'stage': '',
-              'equipment': '',
-              'musclegroups': '',
-              'pocazatel1Name': '',
-              'pocazatel1Type': '',
-              'pocazatel1SPFlag': '',
-              'pocazatel2Name': '',
-              'pocazatel2Type': '',
-              'pocazatel2SPFlag': '',
-              'pocazatel3Name': '',
-              'pocazatel3Type': '',
-              'pocazatel3SPFlag': '',
-              'pocazatel4Name': '',
-              'pocazatel4Type': '',
-              'pocazatel4SPFlag': '',
-              'pocazatel5Name': '',
-              'pocazatel5Type': '',
-              'pocazatel5SPFlag': '',
-            },
-          ]
-        }
-      ];
-    } else {
-      return [
-        {
-          "name": "Йога",
-          'id': 1,
-          "date": "06.05.2024",
-          'stage': ['Стена', 'Стул'],
-          'img':"http://web-hub.pro:5004/assets/0c50cda7-8543-492c-8d92-840921bf7c4e.jpg",
-          'description':'Йога — это ряд упражнений с собственным весом или отягощением. Их основной целью является увеличение силы мышц и развитие выносливости тела.Все силовые направления выполняются в достаточно интенсивном темпе, и цели у них, как правило, жиросжигание, тонус мышц, активная работа дыхательной и сердечно-сосудистой систем.Основная цель занятий на растяжку - гибкость, эластичность, работа с дыханием, улучшение кровотока и снятие напряжения.',
-          "exercises": [
-            {
-              'sets': '',
-              'id': '1',
-              'nameRu': 'Круги руками',
-              'nameEng': ' Circles with hands',
-              'descriptionRu':
-                  'Развивает мышцы плеч, спины и груди, улучшает осанку',
-              'descriptionEn':
-                  'Развивает мышцы плеч, спины и груди, улучшает осанку',
-              'link': '',
-              'img': '',
-              'video': '',
-              'stage': '',
-              'equipment': '',
-              'musclegroups': '',
-              'pocazatel1Name': '',
-              'pocazatel1Type': '',
-              'pocazatel1SPFlag': '',
-              'pocazatel2Name': '',
-              'pocazatel2Type': '',
-              'pocazatel2SPFlag': '',
-              'pocazatel3Name': '',
-              'pocazatel3Type': '',
-              'pocazatel3SPFlag': '',
-              'pocazatel4Name': '',
-              'pocazatel4Type': '',
-              'pocazatel4SPFlag': '',
-              'pocazatel5Name': '',
-              'pocazatel5Type': '',
-              'pocazatel5SPFlag': '',
-            },
-            {
-              'sets': '',
-              'id': '1',
-              'nameRu': 'Скручивание',
-              'nameEng': ' Twisting',
-              'descriptionRu':
-                  'Развивает мышцы плеч, спины и груди, улучшает осанку',
-              'descriptionEn':
-                  'Развивает мышцы плеч, спины и груди, улучшает осанку',
-              'link': '',
-              'img': '',
-              'video': '',
-              'stage': '',
-              'equipment': '',
-              'musclegroups': '',
-              'pocazatel1Name': '',
-              'pocazatel1Type': '',
-              'pocazatel1SPFlag': '',
-              'pocazatel2Name': '',
-              'pocazatel2Type': '',
-              'pocazatel2SPFlag': '',
-              'pocazatel3Name': '',
-              'pocazatel3Type': '',
-              'pocazatel3SPFlag': '',
-              'pocazatel4Name': '',
-              'pocazatel4Type': '',
-              'pocazatel4SPFlag': '',
-              'pocazatel5Name': '',
-              'pocazatel5Type': '',
-              'pocazatel5SPFlag': '',
-            },
-          ]
-        },
-        {
-          "name": "Силовая тренировка",
-          'id': 2,
-          "date": "06.05.2024",
-          'stage': ['Роллер', 'Стена', 'Стул'],
-          'img':"http://web-hub.pro:5004/assets/9811ef87-a51a-4c53-8e13-85b6539ede97.png",
+          'img':
+              "http://web-hub.pro:5004/assets/0c50cda7-8543-492c-8d92-840921bf7c4e.jpg",
           'description':
-        'Силовая тренировка — это ряд упражнений с собственным весом или отягощением. Их основной целью является увеличение силы мышц и развитие выносливости тела.Все силовые направления выполняются в достаточно интенсивном темпе, и цели у них, как правило, жиросжигание, тонус мышц, активная работа дыхательной и сердечно-сосудистой систем.Основная цель занятий на растяжку - гибкость, эластичность, работа с дыханием, улучшение кровотока и снятие напряжения.',
+              'Йога — это ряд упражнений с собственным весом или отягощением. Их основной целью является увеличение силы мышц и развитие выносливости тела.Все силовые направления выполняются в достаточно интенсивном темпе, и цели у них, как правило, жиросжигание, тонус мышц, активная работа дыхательной и сердечно-сосудистой систем.Основная цель занятий на растяжку - гибкость, эластичность, работа с дыханием, улучшение кровотока и снятие напряжения.',
+          "exercises": [
+            {
+              'sets': '',
+              'id': '1',
+              'nameRu': 'Круги руками',
+              'nameEng': ' Circles with hands',
+              'descriptionRu':
+                  'Развивает мышцы плеч, спины и груди, улучшает осанку',
+              'link': '',
+              'img': '',
+              'video': '',
+              'stage': '',
+              'equipment': '',
+              'musclegroups': '',
+              'pocazatel1Name': '',
+              'pocazatel1Type': '',
+              'pocazatel1SPFlag': '',
+              'pocazatel2Name': '',
+              'pocazatel2Type': '',
+              'pocazatel2SPFlag': '',
+              'pocazatel3Name': '',
+              'pocazatel3Type': '',
+              'pocazatel3SPFlag': '',
+              'pocazatel4Name': '',
+              'pocazatel4Type': '',
+              'pocazatel4SPFlag': '',
+              'pocazatel5Name': '',
+              'pocazatel5Type': '',
+              'pocazatel5SPFlag': '',
+            },
+            {
+              'sets': '',
+              'id': '1',
+              'nameRu': 'Скручивание',
+              'nameEng': ' Twisting',
+              'descriptionRu':
+                  'Развивает мышцы плеч, спины и груди, улучшает осанку',
+              'descriptionEn':
+                  'Развивает мышцы плеч, спины и груди, улучшает осанку',
+              'link': '',
+              'img': '',
+              'video': '',
+              'stage': '',
+              'equipment': '',
+              'musclegroups': '',
+              'pocazatel1Name': '',
+              'pocazatel1Type': '',
+              'pocazatel1SPFlag': '',
+              'pocazatel2Name': '',
+              'pocazatel2Type': '',
+              'pocazatel2SPFlag': '',
+              'pocazatel3Name': '',
+              'pocazatel3Type': '',
+              'pocazatel3SPFlag': '',
+              'pocazatel4Name': '',
+              'pocazatel4Type': '',
+              'pocazatel4SPFlag': '',
+              'pocazatel5Name': '',
+              'pocazatel5Type': '',
+              'pocazatel5SPFlag': '',
+            },
+          ]
+        },
+        {
+          "name": "Силовая тренировка",
+          'id': 2,
+          "date": "06.05.2024",
+          'stage': ['Роллер', 'Стена', 'Стул'],
+          'img':
+              "http://web-hub.pro:5004/assets/9811ef87-a51a-4c53-8e13-85b6539ede97.png",
+          'description':
+              'Силовая тренировка — это ряд упражнений с собственным весом или отягощением. Их основной целью является увеличение силы мышц и развитие выносливости тела.Все силовые направления выполняются в достаточно интенсивном темпе, и цели у них, как правило, жиросжигание, тонус мышц, активная работа дыхательной и сердечно-сосудистой систем.Основная цель занятий на растяжку - гибкость, эластичность, работа с дыханием, улучшение кровотока и снятие напряжения.',
           "exercises": [
             {
               'sets': '',
@@ -879,12 +738,160 @@ abstract class _Mobx with Store {
           ]
         }
       ];
+    } else {
+      return [
+        // {
+        //   "name": "Йога",
+        //   'id': 1,
+        //   "date": "06.05.2024",
+        //   'stage': ['Стена', 'Стул'],
+        //   'img':"http://web-hub.pro:5004/assets/0c50cda7-8543-492c-8d92-840921bf7c4e.jpg",
+        //   'description':'Йога — это ряд упражнений с собственным весом или отягощением. Их основной целью является увеличение силы мышц и развитие выносливости тела.Все силовые направления выполняются в достаточно интенсивном темпе, и цели у них, как правило, жиросжигание, тонус мышц, активная работа дыхательной и сердечно-сосудистой систем.Основная цель занятий на растяжку - гибкость, эластичность, работа с дыханием, улучшение кровотока и снятие напряжения.',
+        //   "exercises": [
+        //     {
+        //       'sets': '',
+        //       'id': '1',
+        //       'nameRu': 'Круги руками',
+        //       'nameEng': ' Circles with hands',
+        //       'descriptionRu':
+        //           'Развивает мышцы плеч, спины и груди, улучшает осанку',
+        //       'descriptionEn':
+        //           'Развивает мышцы плеч, спины и груди, улучшает осанку',
+        //       'link': '',
+        //       'img': '',
+        //       'video': '',
+        //       'stage': '',
+        //       'equipment': '',
+        //       'musclegroups': '',
+        //       'pocazatel1Name': '',
+        //       'pocazatel1Type': '',
+        //       'pocazatel1SPFlag': '',
+        //       'pocazatel2Name': '',
+        //       'pocazatel2Type': '',
+        //       'pocazatel2SPFlag': '',
+        //       'pocazatel3Name': '',
+        //       'pocazatel3Type': '',
+        //       'pocazatel3SPFlag': '',
+        //       'pocazatel4Name': '',
+        //       'pocazatel4Type': '',
+        //       'pocazatel4SPFlag': '',
+        //       'pocazatel5Name': '',
+        //       'pocazatel5Type': '',
+        //       'pocazatel5SPFlag': '',
+        //     },
+        //     {
+        //       'sets': '',
+        //       'id': '1',
+        //       'nameRu': 'Скручивание',
+        //       'nameEng': ' Twisting',
+        //       'descriptionRu':
+        //           'Развивает мышцы плеч, спины и груди, улучшает осанку',
+        //       'descriptionEn':
+        //           'Развивает мышцы плеч, спины и груди, улучшает осанку',
+        //       'link': '',
+        //       'img': '',
+        //       'video': '',
+        //       'stage': '',
+        //       'equipment': '',
+        //       'musclegroups': '',
+        //       'pocazatel1Name': '',
+        //       'pocazatel1Type': '',
+        //       'pocazatel1SPFlag': '',
+        //       'pocazatel2Name': '',
+        //       'pocazatel2Type': '',
+        //       'pocazatel2SPFlag': '',
+        //       'pocazatel3Name': '',
+        //       'pocazatel3Type': '',
+        //       'pocazatel3SPFlag': '',
+        //       'pocazatel4Name': '',
+        //       'pocazatel4Type': '',
+        //       'pocazatel4SPFlag': '',
+        //       'pocazatel5Name': '',
+        //       'pocazatel5Type': '',
+        //       'pocazatel5SPFlag': '',
+        //     },
+        //   ]
+        // },
+        // {
+        //   "name": "Силовая тренировка",
+        //   'id': 2,
+        //   "date": "06.05.2024",
+        //   'stage': ['Роллер', 'Стена', 'Стул'],
+        //   'img':"http://web-hub.pro:5004/assets/9811ef87-a51a-4c53-8e13-85b6539ede97.png",
+        //   'description':
+        // 'Силовая тренировка — это ряд упражнений с собственным весом или отягощением. Их основной целью является увеличение силы мышц и развитие выносливости тела.Все силовые направления выполняются в достаточно интенсивном темпе, и цели у них, как правило, жиросжигание, тонус мышц, активная работа дыхательной и сердечно-сосудистой систем.Основная цель занятий на растяжку - гибкость, эластичность, работа с дыханием, улучшение кровотока и снятие напряжения.',
+        //   "exercises": [
+        //     {
+        //       'sets': '',
+        //       'id': '1',
+        //       'nameRu': 'Круги руками',
+        //       'nameEng': ' Circles with hands',
+        //       'descriptionRu':
+        //           'Развивает мышцы плеч, спины и груди, улучшает осанку',
+        //       'descriptionEn':
+        //           'Развивает мышцы плеч, спины и груди, улучшает осанку',
+        //       'link': '',
+        //       'img': '',
+        //       'video': '',
+        //       'stage': '',
+        //       'equipment': '',
+        //       'musclegroups': '',
+        //       'pocazatel1Name': '',
+        //       'pocazatel1Type': '',
+        //       'pocazatel1SPFlag': '',
+        //       'pocazatel2Name': '',
+        //       'pocazatel2Type': '',
+        //       'pocazatel2SPFlag': '',
+        //       'pocazatel3Name': '',
+        //       'pocazatel3Type': '',
+        //       'pocazatel3SPFlag': '',
+        //       'pocazatel4Name': '',
+        //       'pocazatel4Type': '',
+        //       'pocazatel4SPFlag': '',
+        //       'pocazatel5Name': '',
+        //       'pocazatel5Type': '',
+        //       'pocazatel5SPFlag': '',
+        //     },
+        //     {
+        //       'sets': '',
+        //       'id': '1',
+        //       'nameRu': 'Скручивание',
+        //       'nameEng': ' Twisting',
+        //       'descriptionRu':
+        //           'Развивает мышцы плеч, спины и груди, улучшает осанку',
+        //       'descriptionEn':
+        //           'Развивает мышцы плеч, спины и груди, улучшает осанку',
+        //       'link': '',
+        //       'img': '',
+        //       'video': '',
+        //       'stage': '',
+        //       'equipment': '',
+        //       'musclegroups': '',
+        //       'pocazatel1Name': '',
+        //       'pocazatel1Type': '',
+        //       'pocazatel1SPFlag': '',
+        //       'pocazatel2Name': '',
+        //       'pocazatel2Type': '',
+        //       'pocazatel2SPFlag': '',
+        //       'pocazatel3Name': '',
+        //       'pocazatel3Type': '',
+        //       'pocazatel3SPFlag': '',
+        //       'pocazatel4Name': '',
+        //       'pocazatel4Type': '',
+        //       'pocazatel4SPFlag': '',
+        //       'pocazatel5Name': '',
+        //       'pocazatel5Type': '',
+        //       'pocazatel5SPFlag': '',
+        //     },
+        //   ]
+        // }
+      ];
     }
   }
 
 // Функция возвращает список упражнения по заданному дню
   @computed
-  List<dynamic> userTestsOnDay(String date) {
+  List<Map<dynamic, dynamic>> userTestsOnDay(String date) {
     if (int.parse(date.split('.')[0]) % 2 == 0) {
       return [
         {
@@ -958,7 +965,7 @@ abstract class _Mobx with Store {
 
 // Функция возвращает список упражнения по заданному дню
   @computed
-  List<dynamic> userFixResultsOnDay(String date) {
+  List<Map<dynamic, dynamic>> userFixResultsOnDay(String date) {
     if (int.parse(date.split('.')[0]) % 2 == 0) {
       return [
         {
@@ -1032,73 +1039,63 @@ abstract class _Mobx with Store {
 
 // Функция возвращает список упражнения по заданному дню
   @computed
-  List<dynamic> userNutritionsOnDay(String date) {
+  List<Map<dynamic, dynamic>> userNutritionsOnDay(String date) {
     if (int.parse(date.split('.')[0]) % 2 == 0) {
       return [
         {
-          'sets': '',
+          'sets': [
+            {
+              'name': "Завтрак",
+              'description':
+                  "Омлет или яичница 4 белка, 2 желтка если на выезде и нет возможно сти отделить белки от желтков, то просто умеренно"
+            },
+            {
+              'name': "Обед",
+              'description':
+                  "Омлет или яичница 4 белка, 2 желтка если на выезде и нет возможно сти отделить белки от желтков, то просто умеренно"
+            },
+            {
+              'name': "Ужин",
+              'description':
+                  "Омлет или яичница 4 белка, 2 желтка если на выезде и нет возможно сти отделить белки от желтков, то просто умеренно"
+            },
+          ],
           'id': '1',
           'name': 'Еда за день',
           'nameEng': ' Circles with hands',
-          'descriptionRu':
-              'Развивает мышцы плеч, спины и груди, улучшает осанку',
-          'descriptionEn':
-              'Развивает мышцы плеч, спины и груди, улучшает осанку',
+          'description': 'Развивает мышцы плеч, спины и груди, улучшает осанку',
           'link': '',
           'img': '',
           'video': '',
-          'stage': '',
-          'equipment': '',
-          'musclegroups': '',
-          'pocazatel1Name': '',
-          'pocazatel1Type': '',
-          'pocazatel1SPFlag': '',
-          'pocazatel2Name': '',
-          'pocazatel2Type': '',
-          'pocazatel2SPFlag': '',
-          'pocazatel3Name': '',
-          'pocazatel3Type': '',
-          'pocazatel3SPFlag': '',
-          'pocazatel4Name': '',
-          'pocazatel4Type': '',
-          'pocazatel4SPFlag': '',
-          'pocazatel5Name': '',
-          'pocazatel5Type': '',
-          'pocazatel5SPFlag': '',
         }
       ];
     } else {
       return [
-        {
-          'sets': '',
+       {
+          'sets': [
+            {
+              'name': "Завтрак",
+              'description':
+                  "Омлет или яичница 4 белка, 2 желтка если на выезде и нет возможно сти отделить белки от желтков, то просто умеренно"
+            },
+            {
+              'name': "Обед",
+              'description':
+                  "Омлет или яичница 4 белка, 2 желтка если на выезде и нет возможно сти отделить белки от желтков, то просто умеренно"
+            },
+            {
+              'name': "Ужин",
+              'description':
+                  "Омлет или яичница 4 белка, 2 желтка если на выезде и нет возможно сти отделить белки от желтков, то просто умеренно"
+            },
+          ],
           'id': '1',
           'name': 'Еда за день',
           'nameEng': ' Circles with hands',
-          'descriptionRu':
-              'Развивает мышцы плеч, спины и груди, улучшает осанку',
-          'descriptionEn':
-              'Развивает мышцы плеч, спины и груди, улучшает осанку',
+          'description': 'Развивает мышцы плеч, спины и груди, улучшает осанку',
           'link': '',
           'img': '',
           'video': '',
-          'stage': '',
-          'equipment': '',
-          'musclegroups': '',
-          'pocazatel1Name': '',
-          'pocazatel1Type': '',
-          'pocazatel1SPFlag': '',
-          'pocazatel2Name': '',
-          'pocazatel2Type': '',
-          'pocazatel2SPFlag': '',
-          'pocazatel3Name': '',
-          'pocazatel3Type': '',
-          'pocazatel3SPFlag': '',
-          'pocazatel4Name': '',
-          'pocazatel4Type': '',
-          'pocazatel4SPFlag': '',
-          'pocazatel5Name': '',
-          'pocazatel5Type': '',
-          'pocazatel5SPFlag': '',
         }
       ];
     }
@@ -1106,7 +1103,7 @@ abstract class _Mobx with Store {
 
 // Функция возвращает список упражнения по заданному дню
   @computed
-  List<dynamic> userConsultationsOnDay(String date) {
+  List<Map<dynamic, dynamic>> userConsultationsOnDay(String date) {
     if (int.parse(date.split('.')[0]) % 2 == 0) {
       return [];
     } else {
@@ -1151,7 +1148,7 @@ abstract class _Mobx with Store {
 
 // Функция возвращает список упражнения по заданному дню
   @computed
-  List<dynamic> userNutritionsPriemOnDay(String date) {
+  List<Map<dynamic, dynamic>> userNutritionsPriemOnDay(String date) {
     if (int.parse(date.split('.')[0]) % 2 == 0) {
       return [
         {

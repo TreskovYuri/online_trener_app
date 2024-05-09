@@ -101,7 +101,7 @@ void loadData() async {
             case 200:
               cacheEmailPassword();
               if (data['body']['post'] == 'Тренер' || data['body']['post'] == 'Супер тренер') {
-                Navigator.pushReplacementNamed(context,'/journal');
+                Navigator.pushReplacementNamed(context,'/planner');
               }else{Navigator.pushReplacementNamed(context,'/planner');
               }
             case 400:
@@ -160,10 +160,10 @@ void loadData() async {
           height: MediaQuery.of(context)
               .size
               .height, // Установите высоту контейнера равной высоте экрана
-          decoration: BoxDecoration(color: Color(0xff1B1C20)),
+          decoration: const BoxDecoration(color: Color(0xff1B1C20)),
           child: SingleChildScrollView(
             physics:
-                AlwaysScrollableScrollPhysics(), // Установите физику прокрутки AlwaysScrollableScrollPhysics()
+                const AlwaysScrollableScrollPhysics(), // Установите физику прокрутки AlwaysScrollableScrollPhysics()
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [

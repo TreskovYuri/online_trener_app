@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:trener_app/getx/getx_controller.dart';
 import 'package:trener_app/mobx/mobx.dart';
-import 'package:trener_app/widgets/nitification/navbar.dart';
+import 'package:trener_app/widgets/service/navbar.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:provider/provider.dart';
 import 'package:intl/intl.dart';
@@ -106,11 +106,13 @@ class UserCard extends StatefulWidget {
 class _UserCardState extends State<UserCard> {
   bool modalFlag = false;
 
+
   @override
   Widget build(BuildContext context) {
     final vw = MediaQuery.of(context).size.width / 100;
     final vh = MediaQuery.of(context).size.height / 100;
     final mobx = Provider.of<Mobx>(context);
+    MyGetxController myGetxController = Get.put(MyGetxController());
 
     return Container(
       padding: EdgeInsets.all(1*vw),
@@ -169,14 +171,15 @@ class _UserCardState extends State<UserCard> {
                       center: Alignment.center, // Центр радиального градиента
                     ),
                     borderRadius: BorderRadius.circular(100)),
-                child: Text(
-                  mobx.trenerUserExercisesOnDay(mobx.currentDate, widget.array['id']).length.toString(),
-                  style: TextStyle(
-                      color: Colors.white,
-                      fontFamily: 'Manrope',
-                      fontWeight: FontWeight.w500,
-                      decoration: TextDecoration.none,
-                      fontSize: 3.5 * vw),
+                child: Obx(()=>  Text(
+                      myGetxController.getx.userExercisesOnDay.length.toString(),
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontFamily: 'Manrope',
+                          fontWeight: FontWeight.w500,
+                          decoration: TextDecoration.none,
+                          fontSize: 3.5 * vw),
+                    )    
                 ),
               ),
             ],
@@ -220,10 +223,8 @@ class _UserCardState extends State<UserCard> {
           ),
 modalFlag ?
   Container(
-    child: Column(
-    children: mobx
-        .trenerUserExercisesOnDay(mobx.currentDate, widget.array['id'])
-        .map((e) => GestureDetector(
+    child: Obx(() => Column(
+    children: myGetxController.getx.userExercisesOnDay.map((e) => GestureDetector(
           onTap: (){
             
           },
@@ -288,7 +289,7 @@ modalFlag ?
           ),
         ))
         .toList(),
-    ),
+    ),)
   ):Container()
         ],
       ),
@@ -365,8 +366,9 @@ class _CalState extends State<Cal> {
     final vw = MediaQuery.of(context).size.width / 100;
     final vh = MediaQuery.of(context).size.height / 100;
     // final mobx = Provider.of<Mobx>(context);
-    MyController myGetxController = Get.put(MyController());
-    myGetxController.repository.setCurrentDate(DateFormat('dd.MM.yyyy').format(now));
+    MyGetxController myGetxController = Get.put(MyGetxController());
+    myGetxController.setCurrentDate(DateFormat('dd.MM.yyyy').format(now));
+    myGetxController.setUserExercisesOnDay(DateFormat('dd.MM.yyyy').format(now));
 
     int weekday = now.weekday;
 
@@ -380,7 +382,6 @@ class _CalState extends State<Cal> {
 
     return Column(
       children: [
-        Obx(() => Text("${myGetxController.repository.date}",style: TextStyle(color: Colors.white),)),
         Container(
           margin: EdgeInsets.only(top: 2 * vh),
           padding: EdgeInsets.all(3*vw),
@@ -403,10 +404,12 @@ class _CalState extends State<Cal> {
                       height: 1 * vh,
                     ),
                    Obx(() => Container(
-  child: myGetxController.repository.date.value == DateFormat('dd.MM.yyyy').format(date) // Access value with .value
+  child: myGetxController.getx.date == DateFormat('dd.MM.yyyy').format(date) // Access value with .value
     ? InkWell(
         onTap: () {
-          myGetxController.repository.setCurrentDate(DateFormat('dd.MM.yyyy').format(date));
+
+          myGetxController.setCurrentDate(DateFormat('dd.MM.yyyy').format(date));
+          myGetxController.setUserExercisesOnDay(DateFormat('dd.MM.yyyy').format(date));
           // Navigator.pushReplacementNamed(context,'/journal');
         },
         child: Container(
@@ -438,6 +441,7 @@ class _CalState extends State<Cal> {
     : InkWell(
         onTap: () {
           myGetxController.setCurrentDate(DateFormat('dd.MM.yyyy').format(date));
+          myGetxController.setUserExercisesOnDay(DateFormat('dd.MM.yyyy').format(date).toString());
           // Navigator.pushReplacementNamed(context,'/journal');
         },
         child: Container(
@@ -483,6 +487,7 @@ class _TrainingCardState extends State<TrainingCard> {
     final mobx = Provider.of<Mobx>(context);
     final vw = MediaQuery.of(context).size.width / 100;
     final vh = MediaQuery.of(context).size.height / 100;
+    MyGetxController myGetxController = Get.put(MyGetxController());
 
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
@@ -493,106 +498,109 @@ class _TrainingCardState extends State<TrainingCard> {
             margin: EdgeInsets.only(top: 0 * vh),
             child: Column(
               children: [
-                Observer(
-                  builder: (_) => Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Text(
-                            "Тренировки",
-                            style: TextStyle(
-                                color: const Color.fromARGB(220, 255, 255, 255),
-                                fontSize: 5 * vw),
-                          ),
-                          !trainingOnOff
-                              ? IconButton(
-                                  onPressed: () {
-                                    setState(() {
-                                      trainingOnOff = !trainingOnOff;
-                                    });
-                                  },
-                                  icon: const Icon(Icons
-                                      .arrow_forward_ios_rounded), // Иконка
-                                  iconSize: 4 * vw,
-                                )
-                              : IconButton(
-                                  onPressed: () {
-                                    setState(() {
-                                      trainingOnOff = !trainingOnOff;
-                                    });
-                                  },
-                                  icon: const Icon(Icons
-                                      .keyboard_arrow_down_rounded), // Иконка
-                                  iconSize: 6 * vw,
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Text(
+                          "Тренировки",
+                          style: TextStyle(
+                              color: const Color.fromARGB(220, 255, 255, 255),
+                              fontSize: 5 * vw),
+                        ),
+                        !trainingOnOff
+                            ? IconButton(
+                                onPressed: () {
+                                  setState(() {
+                                    trainingOnOff = !trainingOnOff;
+                                  });
+                                },
+                                icon: const Icon(Icons
+                                    .arrow_forward_ios_rounded), // Иконка
+                                iconSize: 4 * vw,
+                              )
+                            : IconButton(
+                                onPressed: () {
+                                  setState(() {
+                                    trainingOnOff = !trainingOnOff;
+                                  });
+                                },
+                                icon: const Icon(Icons
+                                    .keyboard_arrow_down_rounded), // Иконка
+                                iconSize: 6 * vw,
+                              ),
+                      ],
+                    ),
+                    Obx(() => Container(
+                      child: mobx.userExercisesOnDay(myGetxController.getx.date).isNotEmpty
+                        ? Container(
+                            width: 11 * vw,
+                            height: 6 * vw,
+                            alignment: Alignment.center,
+                            decoration: BoxDecoration(
+                                gradient: const RadialGradient(
+                                  colors: [
+                                    Color(0xff4D8AEE),
+                                    Color(0xff2932FF)
+                                  ], // Цвета для радиального градиента
+                                  radius: 0.6, // Радиус градиента (от 0 до 1)
+                                  center: Alignment
+                                      .center, // Центр радиального градиента
                                 ),
-                        ],
-                      ),
-                      mobx.userExercisesOnDay(mobx.currentDate).length > 0
-                          ? Container(
-                              width: 11 * vw,
-                              height: 6 * vw,
-                              alignment: Alignment.center,
-                              decoration: BoxDecoration(
-                                  gradient: const RadialGradient(
-                                    colors: [
-                                      Color(0xff4D8AEE),
-                                      Color(0xff2932FF)
-                                    ], // Цвета для радиального градиента
-                                    radius: 0.6, // Радиус градиента (от 0 до 1)
-                                    center: Alignment
-                                        .center, // Центр радиального градиента
-                                  ),
-                                  borderRadius: BorderRadius.circular(100)),
-                              child: Text(
-                                mobx
-                                    .userExercisesOnDay(mobx.currentDate)
-                                    .length
-                                    .toString(),
-                                style: TextStyle(
-                                    color: Colors.white,
-                                    fontFamily: 'Manrope',
-                                    fontWeight: FontWeight.w500,
-                                    decoration: TextDecoration.none,
-                                    fontSize: 3.5 * vw),
-                              ),
-                            )
-                          : Container(
-                              width: 11 * vw,
-                              height: 6 * vw,
-                              alignment: Alignment.center,
-                              decoration: BoxDecoration(
-                                  gradient: const RadialGradient(
-                                    colors: [
-                                      Color.fromARGB(83, 235, 238, 247),
-                                      Color.fromARGB(69, 235, 238, 247)
-                                    ], // Цвета для радиального градиента
-                                    radius: 0.6, // Радиус градиента (от 0 до 1)
-                                    center: Alignment
-                                        .center, // Центр радиального градиента
-                                  ),
-                                  borderRadius: BorderRadius.circular(100)),
-                              child: Text(
-                                '0',
-                                style: TextStyle(
-                                    color: const Color.fromARGB(
-                                        115, 255, 255, 255),
-                                    fontFamily: 'Manrope',
-                                    fontWeight: FontWeight.w600,
-                                    decoration: TextDecoration.none,
-                                    fontSize: 3.5 * vw),
-                              ),
+                                borderRadius: BorderRadius.circular(100)),
+                            child: Text(
+                              mobx
+                                  .userExercisesOnDay(myGetxController.getx.date)
+                                  .length
+                                  .toString(),
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontFamily: 'Manrope',
+                                  fontWeight: FontWeight.w500,
+                                  decoration: TextDecoration.none,
+                                  fontSize: 3.5 * vw),
                             ),
-                    ],
-                  ),
+                          )
+                        : Container(
+                            width: 11 * vw,
+                            height: 6 * vw,
+                            alignment: Alignment.center,
+                            decoration: BoxDecoration(
+                                gradient: const RadialGradient(
+                                  colors: [
+                                    Color.fromARGB(83, 235, 238, 247),
+                                    Color.fromARGB(69, 235, 238, 247)
+                                  ], // Цвета для радиального градиента
+                                  radius: 0.6, // Радиус градиента (от 0 до 1)
+                                  center: Alignment
+                                      .center, // Центр радиального градиента
+                                ),
+                                borderRadius: BorderRadius.circular(100)),
+                            child: Text(
+                              '0',
+                              style: TextStyle(
+                                  color: const Color.fromARGB(
+                                      115, 255, 255, 255),
+                                  fontFamily: 'Manrope',
+                                  fontWeight: FontWeight.w600,
+                                  decoration: TextDecoration.none,
+                                  fontSize: 3.5 * vw),
+                            ),
+                          ),
+                    ))
+                    
+                  ],
                 ),
-                trainingOnOff
+                
+                Obx(() => Container(
+                  child: trainingOnOff
                     // ignore: dead_code
                     ? Column(
                         children:
-                            mobx.userExercisesOnDay(mobx.currentDate).map((e) {
+                            mobx.userExercisesOnDay(myGetxController.getx.date).map((e) {
                           final uniqueKey = UniqueKey();
                           return Container(
                             margin: EdgeInsets.only(top: 1 * vh),
@@ -652,7 +660,10 @@ class _TrainingCardState extends State<TrainingCard> {
                           );
                         }).toList(), // Преобразуйте список объектов Text в список виджетов
                       )
-                    : Container(), // Вернуть пустой контейнер, если trainingOnOff равно false
+                    : Container(), 
+                )
+                )
+                // Вернуть пустой контейнер, если trainingOnOff равно false
               ],
             ),
           ),
