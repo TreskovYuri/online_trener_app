@@ -211,14 +211,7 @@ class _WorkoutState extends State<Workout> {
                                   ),
                                   Opacity(
                                     opacity: 0.7,
-                                    child: Image(
-                                      image: const AssetImage(
-                                          'assets/img/arrow.png'),
-                                      width: 5 * vw,
-                                      height: 5 * vw,
-                                      fit: BoxFit
-                                          .cover, // Обрезать изображение в соответствии с размерами контейнера
-                                    ),
+                                    child: Icon(Icons.arrow_forward_ios_rounded, color: Colors.white,size: 4*vw,)
                                   )
                                 ],
                               ),

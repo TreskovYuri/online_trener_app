@@ -1,12 +1,16 @@
 import 'package:get/get.dart';
 import 'package:trener_app/getx/getx.dart';
+import 'package:trener_app/models/user.dart';
 
 class MyGetxController extends GetxController {
   // Инициализация репозитория
   var getx = MyeGetx();
 
-// Установка новой даты
+  // Установка новой даты
   void setCurrentDate(String date) => getx.setCurrentDate(date);
+
+  // Установка новой даты
+  void setUser(Map user) => getx.setUser(user);
 
   void setUserExercisesOnDay(String date) {
     if (int.parse(date.split('.')[0]) % 2 == 0) {

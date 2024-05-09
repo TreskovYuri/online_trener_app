@@ -89,7 +89,7 @@ class Calendar extends StatelessWidget {
       child: Scaffold(
         body: SingleChildScrollView(
           child: Container(
-            padding: EdgeInsets.all(5 * vw),
+            padding: EdgeInsets.symmetric(horizontal:5 * vw,vertical: 7*vh),
             width: 100 * vw,
             color: Color(0xff1B1C20),
             child: Column(

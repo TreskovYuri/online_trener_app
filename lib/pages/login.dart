@@ -101,7 +101,7 @@ void loadData() async {
             case 200:
               cacheEmailPassword();
               if (data['body']['post'] == 'Тренер' || data['body']['post'] == 'Супер тренер') {
-                Navigator.pushReplacementNamed(context,'/planner');
+                Navigator.pushReplacementNamed(context,'/journal');
               }else{Navigator.pushReplacementNamed(context,'/planner');
               }
             case 400:

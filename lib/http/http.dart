@@ -22,8 +22,7 @@ class Session {
   Future post(String url, dynamic data) async {
     final box = GetStorage();
     var apiUrl = Uri.parse('$URL/$url');
-    http.Response response = await http.post(apiUrl,
-        body: data, headers: {'session': box.read('session') ?? ''});
+    http.Response response = await http.post(apiUrl,body: data, headers: {'session': box.read('session') ?? ''});
     try {
       var responseBody = utf8.decode(response.bodyBytes);
       try {
@@ -33,7 +32,7 @@ class Session {
       } catch (e) {
         print(e);
       }
-      return {'status': response.statusCode, 'body': jsonDecode(responseBody)};
+      return {'status': response.statusCode, 'body': jsonDecode(responseBody) as Map<String, dynamic>};
     } catch (e) {
       print(e);
       return {'status': 418};

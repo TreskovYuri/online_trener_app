@@ -9,6 +9,7 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:provider/provider.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:trener_app/widgets/service/navbar_scroll.dart';
 
 class Planner extends StatefulWidget {
   const Planner({super.key});
@@ -18,6 +19,29 @@ class Planner extends StatefulWidget {
 }
 
 class _PlannerState extends State<Planner> {
+
+    ScrollController _scrollController = ScrollController();
+  bool _isAtTop = true;
+
+  @override
+  void initState() {
+    super.initState();
+    _scrollController.addListener(_onScroll);
+  }
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
+  }
+
+  void _onScroll() {
+    setState(() {
+      _isAtTop = _scrollController.position.pixels == 0;
+    });
+  }
+
+
   @override
   Widget build(BuildContext context) {
     final vw = MediaQuery.of(context).size.width / 100;
@@ -25,47 +49,44 @@ class _PlannerState extends State<Planner> {
 
     return Scaffold(
       body: SafeArea(
-        child: Container(
+        child: Stack(
+          fit: StackFit.expand,
+          children: [
+          Container(
           padding: EdgeInsets.symmetric(horizontal: 2 * vw, vertical: 2 * vh),
           width: 100 * vw,
           color: Color(0xff1B1C20),
-          child: Column(
+          child: ListView(
+            controller: _scrollController,
             children: [
-              Expanded(
-                  flex: 1,
-                  child: Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 5 * vw),
-                    child: Header(),
-                  )),
-              Expanded(
-                  flex: 2,
-                  child: Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 5 * vw),
-                    child: Cal(),
-                  )),
-              Expanded(
-                flex: 6,
-                child: SingleChildScrollView(
-                  child: Padding(
-                    padding: EdgeInsets.only(top: 3 * vh, bottom: 4 * vh),
-                    child: const Column(
-                      children: [
-                        TrainingCard(),
-                        TestsCard(),
-                        NutritionsCard(),
-                        FixResiltsCard(),
-                        NutritiosPriemCard(),
-                        ConsultationsCard(),
-                      ],
-                    ),
-                  ),
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 5 * vw),
+                child: Header(),
+              ),
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 5 * vw),
+                child: Cal(),
+              ),
+              Padding(
+                padding: EdgeInsets.only(top: 3 * vh, bottom: 4 * vh),
+                child: const Column(
+                  children: [
+                    TrainingCard(),
+                    TestsCard(),
+                    NutritionsCard(),
+                    FixResiltsCard(),
+                    NutritiosPriemCard(),
+                    ConsultationsCard(),
+                  ],
                 ),
               ),
+              SizedBox(height: 7*vh,),
             ],
           ),
         ),
+         _isAtTop?Navbar():NavbarScroll()
+        ],)
       ),
-      bottomNavigationBar: Navbar(),
     );
   }
 }

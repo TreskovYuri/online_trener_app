@@ -5,8 +5,8 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 import 'package:trener_app/mobx/mobx.dart';
 
-class CardService extends StatelessWidget {
-  const CardService({super.key});
+class CardServicePlayer extends StatelessWidget {
+  const CardServicePlayer({super.key});
 
   @override
   Widget build(BuildContext context) {

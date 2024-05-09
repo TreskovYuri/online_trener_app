@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -5,14 +7,14 @@ import 'package:provider/provider.dart';
 import 'package:trener_app/mobx/mobx.dart';
 import 'package:trener_app/pages/profile.dart';
 
-class Navbar extends StatefulWidget {
-  const Navbar({super.key});
+class NavbarScroll extends StatefulWidget {
+  const NavbarScroll({super.key});
 
   @override
-  State<Navbar> createState() => _NavbarState();
+  State<NavbarScroll> createState() => _NavbarScrollState();
 }
 
-class _NavbarState extends State<Navbar> {
+class _NavbarScrollState extends State<NavbarScroll> {
   @override
   Widget build(BuildContext context) {
     final vw = MediaQuery.of(context).size.width / 100;
@@ -24,20 +26,27 @@ class _NavbarState extends State<Navbar> {
         left: 0,
         right: 0,
         child: Container(
-          height: 12 * vh,
+          height: 10 * vh,
+          width: 90*vw,
+          clipBehavior: Clip.antiAlias,
+          margin: EdgeInsets.all(2 * vw),
           padding: EdgeInsets.symmetric(horizontal: 2 * vw),
           decoration: BoxDecoration(
-            color: Color(0xff1B1C20),
+            borderRadius: BorderRadius.circular(5 * vw),
+            color: Color.fromARGB(82, 42, 42, 42),
+                
+            
+            // color: Color.fromARGB(24, 77, 77, 77),
           ),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Observer(builder: (context) {
-                return Opacity(
-                  opacity: mobx.pageName == 'План' ? 1 : .4,
-                  child: Container(
-                    width: 13 * vw,
+          child: BackdropFilter(
+          filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Observer(builder: (context) {
+                  return Opacity(
+                    opacity: mobx.pageName == 'План' ? 1 : .4,
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
@@ -62,27 +71,15 @@ class _NavbarState extends State<Navbar> {
                             width: 2.4 * vh,
                           ),
                         ),
-                        Text(
-                          "План",
-                          style: TextStyle(
-                              color: const Color.fromARGB(255, 255, 255, 255),
-                              fontFamily: 'Manrope',
-                              fontWeight: FontWeight.w600,
-                              decoration: TextDecoration.none,
-                              fontSize: 2.7 * vw),
-                        ),
                       ],
                     ),
-                  ),
-                );
-              }),
-              Row(
-                children: [
-                  Observer(builder: (context) {
-                    return Opacity(
-                      opacity: mobx.pageName == 'Спортсмены' ? 1 : .4,
-                      child: Container(
-                        width: 13 * vw,
+                  );
+                }),
+                Row(
+                  children: [
+                    Observer(builder: (context) {
+                      return Opacity(
+                        opacity: mobx.pageName == 'Спортсмены' ? 1 : .4,
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
@@ -99,80 +96,57 @@ class _NavbarState extends State<Navbar> {
                                 width: 2.6 * vh,
                               ), // Иконка, которая будет отображаться на кнопке
                             ),
-                            Text(
-                              "Спортсмены",
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                  color: Color.fromARGB(255, 255, 255, 255),
-                                  fontFamily: 'Manrope',
-                                  fontWeight: FontWeight.w600,
-                                  decoration: TextDecoration.none,
-                                  fontSize: 2.7 * vw),
-                            ),
                           ],
                         ),
-                      ),
-                    );
-                  })
-                ],
-              ),
-              Container(
-                child: Row(
-                  children: [
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        IconButton(
-                          onPressed: () {},
-                          icon: SvgPicture.asset(
-                            'assets/img/nav_plus.svg',
-                            width: 7 * vh,
-                          ),
-                        )
-                      ],
-                    )
+                      );
+                    })
                   ],
                 ),
-              ),
-              Observer(builder: (context) {
-                return Opacity(
-                  opacity: mobx.pageName == 'Чат' ? 1 : .4,
-                  child: Container(
-                    width: 13 * vw,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        IconButton(
-                          onPressed: () {
-                            Navigator.pushReplacementNamed(context, '/chats');
-                            mobx.setPageName('Чат');
-                          },
-                          icon: SvgPicture.asset(
-                            'assets/img/chats.svg',
-                            width: 3 * vh,
-                          ), // Иконка, которая будет отображаться на кнопке
-                        ),
-                        Text(
-                          "Чат",
-                          style: TextStyle(
-                              color: const Color.fromARGB(255, 255, 255, 255),
-                              fontFamily: 'Manrope',
-                              fontWeight: FontWeight.w600,
-                              decoration: TextDecoration.none,
-                              fontSize: 2.7 * vw),
-                        ),
-                      ],
-                    ),
+                Container(
+                  child: Row(
+                    children: [
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          IconButton(
+                            onPressed: () {},
+                            icon: SvgPicture.asset(
+                              'assets/img/nav_plus.svg',
+                              width: 7 * vh,
+                            ),
+                          )
+                        ],
+                      )
+                    ],
                   ),
-                );
-              }),
-              Row(
-                children: [
-                  Observer(builder: (context) {
-                    return Opacity(
-                      opacity: mobx.pageName == 'Сервисы' ? 1 : .6,
-                      child: Container(
-                        width: 13*vw,
+                ),
+                Observer(builder: (context) {
+                  return Opacity(
+                    opacity: mobx.pageName == 'Чат' ? 1 : .4,
+                    child: Container(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          IconButton(
+                            onPressed: () {
+                              Navigator.pushReplacementNamed(context, '/chats');
+                              mobx.setPageName('Чат');
+                            },
+                            icon: SvgPicture.asset(
+                              'assets/img/chats.svg',
+                              width: 3 * vh,
+                            ), // Иконка, которая будет отображаться на кнопке
+                          ),
+                        ],
+                      ),
+                    ),
+                  );
+                }),
+                Row(
+                  children: [
+                    Observer(builder: (context) {
+                      return Opacity(
+                        opacity: mobx.pageName == 'Сервисы' ? 1 : .6,
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
@@ -189,24 +163,14 @@ class _NavbarState extends State<Navbar> {
                                 width: 3 * vh,
                               ), // Иконка, которая будет отображаться на кнопке
                             ),
-                            Text(
-                              "Сервисы",
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                  color: const Color.fromARGB(255, 255, 255, 255),
-                                  fontFamily: 'Manrope',
-                                  fontWeight: FontWeight.w600,
-                                  decoration: TextDecoration.none,
-                                  fontSize: 2.7 * vw),
-                            ),
                           ],
                         ),
-                      ),
-                    );
-                  })
-                ],
-              ),
-            ],
+                      );
+                    })
+                  ],
+                ),
+              ],
+            ),
           ),
         ),
       );

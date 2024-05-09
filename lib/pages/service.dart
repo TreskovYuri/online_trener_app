@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:trener_app/widgets/service/carts.dart';
+import 'package:provider/provider.dart';
+import 'package:trener_app/mobx/mobx.dart';
+import 'package:trener_app/widgets/service/card_service_player.dart';
+import 'package:trener_app/widgets/service/card_service_trener.dart';
 import 'package:trener_app/widgets/service/navbar.dart';
+import 'package:trener_app/widgets/service/navbar_scroll.dart';
 import 'package:trener_app/widgets/service/servises.dart';
 
 class Service extends StatefulWidget {
@@ -11,15 +15,37 @@ class Service extends StatefulWidget {
 }
 
 class _ServiceState extends State<Service> {
+    ScrollController _scrollController = ScrollController();
+  bool _isAtTop = true;
+
+  @override
+  void initState() {
+    super.initState();
+    _scrollController.addListener(_onScroll);
+  }
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
+  }
+
+  void _onScroll() {
+    setState(() {
+      _isAtTop = _scrollController.position.pixels == 0;
+    });
+  }
   bool serviseMotification = true;
   @override
   Widget build(BuildContext context) {
     final screenHeight = MediaQuery.of(context).size.height;
     final vw = MediaQuery.of(context).size.width / 100;
-
+    final mobx = Provider.of<Mobx  >(context);
     return Scaffold(
       body: SafeArea(
-        child: SingleChildScrollView(
+        child: Stack(children: [
+          SingleChildScrollView(
+            controller: _scrollController,
           child: Container(
             height: screenHeight,
             color: const Color(0xff1B1C20),
@@ -38,7 +64,7 @@ class _ServiceState extends State<Service> {
                 Expanded(
                   flex: 5,
                   child: serviseMotification
-                      ? CardService()
+                      ? (mobx.user['post'] == 'Тренер' || mobx.user['post'] == 'Супер тренер') ? CardServiceTrener(): CardServicePlayer()
                       : Container(
                         width: 80*vw,
                           alignment: Alignment.topCenter,
@@ -55,8 +81,9 @@ class _ServiceState extends State<Service> {
             ),
           ),
         ),
+        _isAtTop ? Navbar() : NavbarScroll(),
+        ],)
       ),
-      bottomNavigationBar: Navbar(),
     );
   }
 }
