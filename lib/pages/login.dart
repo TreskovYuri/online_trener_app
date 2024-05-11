@@ -94,7 +94,7 @@ void loadData() async {
           emailError = false;
         });
 
-        var data = await SignIn(email: email, password: password, mobx: mobx);
+        var data = await SignIn(email: email.replaceAll(' ', ''), password: password.replaceAll(' ', ''), mobx: mobx);
         // print(data);
         if (data != null) {
           switch (data['status']) {
@@ -375,7 +375,7 @@ void loadData() async {
                               backgroundColor:
                                   Colors.transparent, // Прозрачный фон кнопки
                               elevation: 0, // Убирает тень кнопки
-                              padding: EdgeInsets.symmetric(vertical: 3.5 * vw),
+                              padding: EdgeInsets.symmetric(vertical: 3 * vw),
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(
                                     8.0), // Округление углов кнопки должно соответствовать контейнеру
@@ -388,7 +388,7 @@ void loadData() async {
                                   fontFamily: 'Manrope',
                                   fontWeight: FontWeight.w800,
                                   decoration: TextDecoration.none,
-                                  fontSize: 4.5 * vw),
+                                  fontSize: 4 * vw),
                             ),
                           ),
                         ),

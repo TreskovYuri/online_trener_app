@@ -43,7 +43,7 @@ class _JournalState extends State<Journal> {
     final vw = MediaQuery.of(context).size.width / 100;
     final vh = MediaQuery.of(context).size.height / 100;
     final mobx = Provider.of<Mobx>(context);
-    ThemeData theme = Theme.of(context);
+
 
     DateTime now = DateTime.now();
     int weekday = now.weekday;
@@ -57,7 +57,7 @@ class _JournalState extends State<Journal> {
     }
 
     return Scaffold(
-        backgroundColor: theme.scaffoldBackgroundColor,
+
         // extendBody: true,
         body: SafeArea(
             child: Stack(
@@ -67,8 +67,7 @@ class _JournalState extends State<Journal> {
               controller: _scrollController,
               children: [
                 Container(
-                  padding: EdgeInsets.symmetric(
-                      horizontal: 2 * vw, vertical: 2 * vh),
+                  padding: EdgeInsets.fromLTRB(2 * vw, 3 * vh,2*vw,7*vh),
                   width: 100 * vw,
                   color: Color(0xff1B1C20),
                   child: Column(
@@ -138,6 +137,7 @@ class _UserCardState extends State<UserCard> {
     final vw = MediaQuery.of(context).size.width / 100;
     final vh = MediaQuery.of(context).size.height / 100;
     final mobx = Provider.of<Mobx>(context);
+    List<Map<String,dynamic>> sets = widget.array['state'];
     MyGetxController myGetxController = Get.put(MyGetxController());
 
     return Container(
@@ -251,14 +251,15 @@ class _UserCardState extends State<UserCard> {
           ),
           modalFlag
               ? Container(
-                  child: Obx(
-                  () => Column(
-                    children: myGetxController.getx.userExercisesOnDay
-                        .map((e) => GestureDetector(
+                  child: Column(
+                    children: sets.map((e) => GestureDetector(
                               onTap: () {
+                                if(e['type']=='training'){
                                 Navigator.pushNamed(
                                     context, '/training_details_trener',
                                     arguments: e);
+                                }
+
                               },
                               child: Container(
                                   margin: EdgeInsets.only(top: 1 * vh),
@@ -324,7 +325,7 @@ class _UserCardState extends State<UserCard> {
                             ))
                         .toList(),
                   ),
-                ))
+                )
               : Container()
         ],
       ),

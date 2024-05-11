@@ -114,7 +114,7 @@ class _LoadingState extends State<Loading> {
                           fontFamily: 'Manrope',
                           fontWeight: FontWeight.w400,
                           decoration: TextDecoration.none,
-                          fontSize: 4.5 * vw),
+                          fontSize: 3.7 * vw),
                     ),
                     SizedBox(
                       height: 4 * vw,

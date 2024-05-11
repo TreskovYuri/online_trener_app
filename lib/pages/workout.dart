@@ -230,7 +230,7 @@ class _WorkoutState extends State<Workout> {
               child: Padding(
                 padding: EdgeInsets.all(3 * vw),
                 child: Padding(
-                  padding: EdgeInsets.all(10),
+                  padding: const EdgeInsets.all(10),
                   child: Column(
                     children: [
                       Row(
@@ -239,13 +239,13 @@ class _WorkoutState extends State<Workout> {
                           Text(
                             "Описание",
                             style: TextStyle(
-                                color: Color.fromARGB(202, 255, 255, 255),
+                                color: const Color.fromARGB(202, 255, 255, 255),
                                 fontFamily: 'Manrope',
                                 fontWeight: FontWeight.w600,
                                 decoration: TextDecoration.none,
                                 fontSize: 4 * vw),
                           ),
-                          SizedBox(
+                          const SizedBox(
                             width: 10,
                           ),
                           Opacity(
@@ -281,7 +281,7 @@ class _WorkoutState extends State<Workout> {
                               ),
                             )
                           : Container(),
-                      SizedBox(
+                      const SizedBox(
                         height: 1,
                       ),
                     ],
@@ -406,6 +406,7 @@ class ExerciseModal extends StatefulWidget {
 }
 
 class _ExerciseModalState extends State<ExerciseModal> {
+  // ignore: non_constant_identifier_names
   late String VIDEO_URL;
   late YoutubePlayerController _controller;
 
@@ -415,7 +416,7 @@ class _ExerciseModalState extends State<ExerciseModal> {
     final VideoID = YoutubePlayer.convertUrlToId(VIDEO_URL);
     _controller = YoutubePlayerController(
         initialVideoId: VideoID!,
-        flags: YoutubePlayerFlags(
+        flags: const YoutubePlayerFlags(
           controlsVisibleAtStart: true,
           autoPlay: false,
         ));
@@ -430,7 +431,7 @@ class _ExerciseModalState extends State<ExerciseModal> {
     return Container(
       height: 80 * vh,
       width: double.infinity,
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
           color: Color(0xff1B1C20),
           borderRadius: BorderRadius.only(
               topLeft: Radius.circular(10), topRight: Radius.circular(10))),
@@ -554,8 +555,7 @@ class _ExerciseModalState extends State<ExerciseModal> {
             padding: EdgeInsets.only(top: 4 * vh),
             child: ClipRRect(
               borderRadius: BorderRadius.circular(5 * vw),
-              child: Container(
-                decoration: BoxDecoration(),
+              child: SizedBox(
                 width: 90 * vw,
                 child: YoutubePlayer(
                   controller: _controller,
@@ -584,7 +584,7 @@ class _ExerciseModalState extends State<ExerciseModal> {
                       color: Color.fromARGB(118, 80, 80, 80),
                       borderRadius: BorderRadius.circular(10 * vw)),
                   margin: EdgeInsets.only(top: 2 * vh),
-                  padding: EdgeInsets.symmetric(
+                  padding: const EdgeInsets.symmetric(
                       vertical: 8, horizontal: 16), // Отступы текста от краев
                   child: Text(
                     'Гантели',

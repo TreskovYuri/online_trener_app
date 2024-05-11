@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:trener_app/widgets/service/navbar.dart';
+import 'package:trener_app/widgets/service/navbar_scroll.dart';
 
 
-class WorkoutSheme extends StatelessWidget {
+class WorkoutSheme extends StatefulWidget {
   const WorkoutSheme({Key? key}) : super(key: key);
  
   static List<Map<dynamic,dynamic>> DaysArray = [
@@ -61,9 +62,64 @@ class WorkoutSheme extends StatelessWidget {
           "type":"training",
         }
       ]
+    }, {
+      'date':"04.02.2024",
+      'stage': ['Стена', 'Стул'],
+      'img':"http://web-hub.pro:5004/assets/0c50cda7-8543-492c-8d92-840921bf7c4e.jpg",
+      'description':'''Йога — это ряд упражнений с собственным весом или отягощением. Их основной целью является 
+      увеличение силы мышц и развитие выносливости тела.Все силовые направления выполняются в достаточно интенсивном 
+      темпе, и цели у них, как правило, жиросжигание, тонус мышц, активная работа дыхательной и сердечно-сосудистой 
+      систем.Основная цель занятий на растяжку - гибкость, эластичность, работа с дыханием, улучшение кровотока и 
+      снятие напряжения.''',
+      "sets":[
+        {
+          "name":"Йога",
+          "type":"training",
+        }
+      ]
+    }, {
+      'date':"05.02.2024",
+      'stage': ['Стена', 'Стул'],
+      'img':"http://web-hub.pro:5004/assets/0c50cda7-8543-492c-8d92-840921bf7c4e.jpg",
+      'description':'''Йога — это ряд упражнений с собственным весом или отягощением. Их основной целью является 
+      увеличение силы мышц и развитие выносливости тела.Все силовые направления выполняются в достаточно интенсивном 
+      темпе, и цели у них, как правило, жиросжигание, тонус мышц, активная работа дыхательной и сердечно-сосудистой 
+      систем.Основная цель занятий на растяжку - гибкость, эластичность, работа с дыханием, улучшение кровотока и 
+      снятие напряжения.''',
+      "sets":[
+        {
+          "name":"Йога",
+          "type":"training",
+        }
+      ]
     },
   ];
 
+  @override
+  State<WorkoutSheme> createState() => _WorkoutShemeState();
+}
+
+class _WorkoutShemeState extends State<WorkoutSheme> {
+    ScrollController _scrollController = ScrollController();
+  bool _isAtTop = true;
+
+  @override
+  void initState() {
+    super.initState();
+    _scrollController.addListener(_onScroll);
+  }
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
+  }
+
+  void _onScroll() {
+    setState(() {
+      _isAtTop = _scrollController.position.pixels == 0;
+    });
+  }
   @override
   Widget build(BuildContext context) {
     final vw = MediaQuery.of(context).size.width / 100;
@@ -84,22 +140,26 @@ class WorkoutSheme extends StatelessWidget {
           color: Color(0xff1B1C20),
         ),
         centerTitle: true,
-        title: Nav(firstDate: DaysArray.first['date'],lastDate:DaysArray.last['date'] ,),
+        title: Nav(firstDate: WorkoutSheme.DaysArray.first['date'],lastDate:WorkoutSheme.DaysArray.last['date'] ,),
       ),
-      body: SingleChildScrollView(
-        child: SafeArea(
-          child: Container(
-            color: const Color(0xff1B1C20),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                WorkoutShemeOnDay(array: DaysArray,)
-              ],
-            ),
+      body: Stack(
+        fit: StackFit.expand,
+        children: [
+          ListView(
+            controller: _scrollController,
+            children: [
+              Container(
+                padding: EdgeInsets.only(bottom: 10*vh),
+                child: Column(children: [
+                    WorkoutShemeOnDay(array: WorkoutSheme.DaysArray,)
+                ],),
+              )
+              
+            ],
           ),
-        ),
+          _isAtTop ? Navbar() : NavbarScroll(),
+        ],
       ),
-      bottomNavigationBar:  const Navbar(),
     );
   }
 }

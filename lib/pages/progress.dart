@@ -60,7 +60,7 @@ class _UserProgressState extends State<UserProgress> {
                       child: Observer(
                         builder: (_) => mobx.user['img'] != null
                             ? Image.network(
-                                'http://91.222.236.65:5004/assets/${mobx.user['img']}',
+                                'https://mobilecoach.ru:5004/assets/${mobx.user['img']}',
                                 width: 13 * vw,
                               )
                             : Image.asset(

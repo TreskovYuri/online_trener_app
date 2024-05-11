@@ -19,13 +19,16 @@ import 'package:trener_app/pages/profile.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:provider/provider.dart';
+import 'package:trener_app/pages/trener_sportprogramm.dart';
+import 'package:trener_app/pages/trener_tests.dart';
+import 'package:trener_app/pages/trener_training_pattern.dart';
+import 'package:trener_app/pages/trener_trainings.dart';
+import 'package:trener_app/pages/trener_trainings_current_type.dart';
 import 'package:trener_app/pages/workout.dart';
 import 'package:trener_app/pages/workout_sheme.dart';
 import 'dart:ui';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter/material.dart';
-import 'package:flex_color_scheme/flex_color_scheme.dart';
-import 'package:zoom_tap_animation/zoom_tap_animation.dart';
+
 
 
 void main() async {
@@ -69,6 +72,11 @@ class MyApp extends StatelessWidget {
           '/user_progress': (context) => const UserProgress(),
           '/faq': (context) => const Faq(),
           '/training_details_trener': (context) => const TrainingDetailsTrener(),
+          '/trener_trainings': (context) => const TrenerTrainings(),
+          '/trener_trainings_current_type': (context) => const TrenerTrainingsCurrentsType(),
+          '/trener_tests': (context) => const TrenerTests(),
+          '/trener_training_pattern': (context) => const TrenerTrainingPattern(),
+          '/trener_sportprogramm': (context) => const TrenerSportProgramm(),
         },
       ),
     );
@@ -76,27 +84,3 @@ class MyApp extends StatelessWidget {
 }
 
 
-
-class AppTheme {
-  AppTheme._();
-
-  /// Light Theme
-  static ThemeData lightTheme = FlexThemeData.light(
-    visualDensity: FlexColorScheme.comfortablePlatformDensity,
-    swapLegacyOnMaterial3: true,
-    useMaterial3: true,
-    scheme: FlexScheme.deepBlue,
-    fontFamily: GoogleFonts.ubuntu().fontFamily,
-  );
-
-  /// Dark Theme
-  static ThemeData darkTheme = FlexThemeData.dark(
-    visualDensity: FlexColorScheme.comfortablePlatformDensity,
-    swapLegacyOnMaterial3: true,
-    useMaterial3: true,
-    dialogBackground: Colors.grey.shade900,
-    scheme: FlexScheme.indigo,
-    tabBarStyle: FlexTabBarStyle.forBackground,
-    fontFamily: GoogleFonts.ubuntu().fontFamily,
-  );
-}
