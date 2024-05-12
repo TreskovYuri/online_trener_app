@@ -48,6 +48,7 @@ class _NavbarState extends State<Navbar> {
                               Navigator.pushReplacementNamed(
                                 context,
                                 '/journal',
+                                
                               );
                             } else {
                               Navigator.pushReplacementNamed(
