@@ -32,7 +32,7 @@ class CardServiceTrener extends StatelessWidget {
                           'assets/img/card1_1_1.svg',
                           width: 15 * vw,
                         ),
-                        onPressed: () {Navigator.pushNamed(context, '/faq');},
+                        onPressed: () {Navigator.pushReplacementNamed(context, '/faq');},
 
                       ),
                       Container(
@@ -117,7 +117,7 @@ class CardServiceTrener extends StatelessWidget {
                           'assets/img/card2_2.svg',
                           width: 15 * vw,
                         ),
-                        onPressed: () {Navigator.pushNamed(context, '/trener_training_pattern');},
+                        onPressed: () {Navigator.pushReplacementNamed(context, '/trener_training_pattern');},
 
                       ),
                       Container(
@@ -182,7 +182,7 @@ class CardServiceTrener extends StatelessWidget {
                           'assets/img/card6_6_6.svg',
                           width: 15 * vw,
                         ),
-                        onPressed: () {Navigator.pushNamed(context, '/trener_sportprogramm');},
+                        onPressed: () {Navigator.pushReplacementNamed(context, '/trener_sportprogramm');},
                       ),
                       Container(
                         width: 20 * vw,

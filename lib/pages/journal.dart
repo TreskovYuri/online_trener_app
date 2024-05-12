@@ -442,10 +442,7 @@ class _CalState extends State<Cal> {
                     height: 1 * vh,
                   ),
                   Obx(() => Container(
-                        child: myGetxController.getx.date ==
-                                DateFormat('dd.MM.yyyy')
-                                    .format(date) // Access value with .value
-                            ? InkWell(
+                        child:InkWell(
                                 onTap: () {
                                   myGetxController.setCurrentDate(
                                       DateFormat('dd.MM.yyyy').format(date));
@@ -453,17 +450,18 @@ class _CalState extends State<Cal> {
                                       DateFormat('dd.MM.yyyy').format(date));
                                   // Navigator.pushReplacementNamed(context,'/journal');
                                 },
-                                child: Container(
+                                child: AnimatedContainer(
+                                  duration: Duration(milliseconds: 250),
                                   width: 8 * vw,
                                   height: 8 * vw,
                                   alignment: Alignment.center,
                                   // padding: EdgeInsets.all(1),
                                   decoration: BoxDecoration(
-                                      gradient: const RadialGradient(
-                                        colors: [
+                                      gradient:RadialGradient(
+                                        colors: myGetxController.getx.date == DateFormat('dd.MM.yyyy').format(date) ? [
                                           Color(0xff4D8AEE),
                                           Color(0xff2932FF)
-                                        ],
+                                        ] : [Color.fromARGB(0, 77, 139, 238),Color.fromARGB(0, 41, 52, 255)],
                                         radius: 0.6,
                                         center: Alignment.center,
                                       ),
@@ -479,31 +477,7 @@ class _CalState extends State<Cal> {
                                   ),
                                 ),
                               )
-                            : InkWell(
-                                onTap: () {
-                                  myGetxController.setCurrentDate(
-                                      DateFormat('dd.MM.yyyy').format(date));
-                                  myGetxController.setUserExercisesOnDay(
-                                      DateFormat('dd.MM.yyyy')
-                                          .format(date)
-                                          .toString());
-                                  // Navigator.pushReplacementNamed(context,'/journal');
-                                },
-                                child: Container(
-                                  width: 8 * vw,
-                                  height: 8 * vw,
-                                  alignment: Alignment.center,
-                                  child: Text(
-                                    "${date.day}",
-                                    style: TextStyle(
-                                        color: Colors.white,
-                                        fontFamily: 'Manrope',
-                                        fontWeight: FontWeight.w500,
-                                        decoration: TextDecoration.none,
-                                        fontSize: 4 * vw),
-                                  ),
-                                ),
-                              ),
+              
                       ))
                 ],
               );

@@ -3,7 +3,45 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 import 'package:trener_app/mobx/mobx.dart';
+import 'package:trener_app/pages/chats.dart';
+import 'package:trener_app/pages/journal.dart';
 import 'package:trener_app/pages/profile.dart';
+import 'package:trener_app/pages/progress.dart';
+import 'package:trener_app/pages/service.dart';
+
+
+// Route _createRoute( Widget widget, ) {
+//   return PageRouteBuilder(
+//     pageBuilder: (context, animation, secondaryAnimation) => const Journal(),
+//     transitionsBuilder: (context, animation, secondaryAnimation, child) {
+//       const begin = Offset(-1.0, 0.0);
+//       const end = Offset(0.0, 0.0);
+//       const curve = Curves.ease;
+
+//       var tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+
+//       return SlideTransition(
+//         position: animation.drive(tween),
+//         child: child,
+//       );
+//     },
+//   );
+// }
+
+Route _createRoute(Widget widget, Offset begin, Offset end) {
+  return PageRouteBuilder(
+    pageBuilder: (context, animation, secondaryAnimation) => widget,
+    transitionsBuilder: (context, animation, secondaryAnimation, child) {
+      var tween = Tween(begin: begin, end: end).chain(CurveTween(curve: Curves.ease));
+
+      return SlideTransition(
+        position: animation.drive(tween),
+        child: child,
+      );
+    },
+  );
+}
+
 
 class Navbar extends StatefulWidget {
   const Navbar({super.key});
@@ -34,7 +72,8 @@ class _NavbarState extends State<Navbar> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Observer(builder: (context) {
-                return Opacity(
+                return AnimatedOpacity(
+                  duration: const Duration(milliseconds: 10000),
                   opacity: mobx.pageName == 'План' ? 1 : .4,
                   child: Container(
                     width: 18 * vw,
@@ -45,11 +84,12 @@ class _NavbarState extends State<Navbar> {
                           onPressed: () async {
                             if (mobx.user['post'] == 'Супер тренер' ||
                                 mobx.user['post'] == 'Тренер') {
-                              Navigator.pushReplacementNamed(
-                                context,
-                                '/journal',
+                              // Navigator.pushReplacementNamed(
+                              //   context,
+                              //   '/journal',
                                 
-                              );
+                              // );
+                              Navigator.of(context).pushReplacement(_createRoute(Journal(), Offset(-1.0, 0.0),Offset(0.0, 0.0)));
                             } else {
                               Navigator.pushReplacementNamed(
                                 context,
@@ -90,10 +130,11 @@ class _NavbarState extends State<Navbar> {
                             IconButton(
                               onPressed: () {
                                 mobx.setPageName('Спортсмены');
-                                Navigator.pushReplacementNamed(
-                                  context,
-                                  '/user_progress',
-                                );
+                                // Navigator.pushReplacementNamed(
+                                //   context,
+                                //   '/user_progress',
+                                // );
+                                Navigator.of(context).pushReplacement(_createRoute(UserProgress(), Offset(-1.0, 0.0),Offset(0.0, 0.0)));
                               },
                               icon: SvgPicture.asset(
                                 'assets/img/pleers_trener.svg',
@@ -145,7 +186,8 @@ class _NavbarState extends State<Navbar> {
                       children: [
                         IconButton(
                           onPressed: () {
-                            Navigator.pushReplacementNamed(context, '/chats');
+                            // Navigator.pushReplacementNamed(context, '/chats');
+                            Navigator.of(context).pushReplacement(_createRoute(Chats(), Offset(1.0, 0.0),Offset(0.0, 0.0)));
                             mobx.setPageName('Чат');
                           },
                           icon: SvgPicture.asset(
@@ -179,10 +221,11 @@ class _NavbarState extends State<Navbar> {
                           children: [
                             IconButton(
                               onPressed: () {
-                                Navigator.pushReplacementNamed(
-                                  context,
-                                  '/service',
-                                );
+                                // Navigator.pushReplacementNamed(
+                                //   context,
+                                //   '/service',
+                                // );
+                                Navigator.of(context).pushReplacement(_createRoute(Service(), Offset(1.0, 0.0),Offset(0.0, 0.0)));
                                 mobx.setPageName('Сервисы');
                               },
                               icon: SvgPicture.asset(
