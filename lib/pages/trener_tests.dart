@@ -5,6 +5,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:trener_app/models/constants/images.dart';
 import 'package:trener_app/widgets/service/navbar.dart';
 import 'package:trener_app/widgets/service/navbar_scroll.dart';
+import 'package:trener_app/widgets/tests/addTests.dart';
 
 class TrenerTests extends StatefulWidget {
   const TrenerTests({super.key});
@@ -96,6 +97,7 @@ class _TrenerTestsState extends State<TrenerTests> {
               .arrow_back_ios_new_rounded), // Устанавливаем иконку "домой" вместо стрелки "назад"
           onPressed: () {
             Navigator.pushReplacementNamed(context,'/faq');
+
           },
         ),
         surfaceTintColor: Colors.transparent,
@@ -103,7 +105,11 @@ class _TrenerTestsState extends State<TrenerTests> {
           Padding(
             padding: EdgeInsets.only(right: 2 * vw),
             child: IconButton(
-              onPressed: () {},
+              onPressed: () {
+                showModalBottomSheet(
+                  isScrollControlled: true,
+                  context: context, builder: (_)=>ModalAddTest());
+              },
               icon: SvgPicture.asset(
                 'assets/img/blue_plus.svg',
                 width: 2.6 * vh,
@@ -127,6 +133,7 @@ class _TrenerTestsState extends State<TrenerTests> {
         ),
         backgroundColor: Color(0xff1B1C20), // Устанавливаем прозрачный фон
       ),
+      
       body: Stack(
         fit: StackFit.expand,
         children: [
