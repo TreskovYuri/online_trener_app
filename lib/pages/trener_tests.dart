@@ -95,7 +95,7 @@ class _TrenerTestsState extends State<TrenerTests> {
           icon: const Icon(Icons
               .arrow_back_ios_new_rounded), // Устанавливаем иконку "домой" вместо стрелки "назад"
           onPressed: () {
-            Navigator.pop(context);
+            Navigator.pushReplacementNamed(context,'/faq');
           },
         ),
         surfaceTintColor: Colors.transparent,

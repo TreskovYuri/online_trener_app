@@ -4,6 +4,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:trener_app/widgets/service/navbar.dart';
 import 'package:trener_app/widgets/service/navbar_scroll.dart';
+import 'package:trener_app/widgets/workout/modal_create_training.dart';
 
 class TrenerTrainings extends StatefulWidget {
   const TrenerTrainings({super.key});
@@ -114,14 +115,14 @@ class _TrenerTrainingsState extends State<TrenerTrainings> {
           icon: const Icon(Icons
               .arrow_back_ios_new_rounded), // Устанавливаем иконку "домой" вместо стрелки "назад"
           onPressed: () {
-            Navigator.pop(context);
+            Navigator.pushReplacementNamed(context,'/faq');
           },
         ),
         actions: [
           Padding(
             padding: EdgeInsets.only(right: 2 * vw),
             child: IconButton(
-              onPressed: () {},
+              onPressed: () {showModalBottomSheet(isScrollControlled: true,context: context, builder: (_)=>ModalCreateTraining());},
               icon: SvgPicture.asset(
                 'assets/img/blue_plus.svg',
                 width: 2.6 * vh,

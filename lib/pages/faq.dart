@@ -44,7 +44,7 @@ class _FaqState extends State<Faq> {
           icon: const Icon(Icons
               .arrow_back_ios_new_rounded), // Устанавливаем иконку "домой" вместо стрелки "назад"
           onPressed: () {
-            Navigator.pop(context);
+            Navigator.pushReplacementNamed(context,'/service');
           },
         ),
         toolbarHeight: 13*vh,
@@ -77,7 +77,7 @@ class _FaqState extends State<Faq> {
                     ),
                   ),
                   onPressed: () {
-                    Navigator.pushNamed(context, '/trener_trainings');
+                    Navigator.pushReplacementNamed(context, '/trener_trainings');
                   },
                   child: Container(
                     width: 90 * vw,
@@ -125,7 +125,7 @@ class _FaqState extends State<Faq> {
                           8.0), // Указываем радиус скругления углов
                     ),
                   ),
-                  onPressed: () {Navigator.pushNamed(context, '/trener_tests');},
+                  onPressed: () {Navigator.pushReplacementNamed(context, '/trener_tests');},
                   child: Container(
                     width: 90 * vw,
                     alignment: Alignment.centerLeft,

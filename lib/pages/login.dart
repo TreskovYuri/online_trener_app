@@ -100,10 +100,8 @@ void loadData() async {
           switch (data['status']) {
             case 200:
               cacheEmailPassword();
-              if (data['body']['post'] == 'Тренер' || data['body']['post'] == 'Супер тренер') {
                 Navigator.pushReplacementNamed(context,'/journal');
-              }else{Navigator.pushReplacementNamed(context,'/planner');
-              }
+              break;
             case 400:
               if (data['body']['message'] != null) {
                 // print(data['body']['message']);
@@ -112,6 +110,7 @@ void loadData() async {
                   emailErrorText = '${data['body']['message']}';
                 });
               }
+              break;
             case 404:
               if (data['body']['message'] != null) {
                 // print(data['body']['message']);

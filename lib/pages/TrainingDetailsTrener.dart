@@ -20,7 +20,7 @@ class _TrainingDetailsTrenerState extends State<TrainingDetailsTrener> {
     final vw = MediaQuery.of(context).size.width / 100;
     final vh = MediaQuery.of(context).size.height / 100;
     List<Map<String, dynamic>> sets = arguments['sets'];
-    print(sets);
+
     return Scaffold(
       appBar: AppBar(
         iconTheme: IconThemeData(color: Colors.white),
