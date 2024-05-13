@@ -8,6 +8,7 @@ import 'package:trener_app/pages/journal.dart';
 import 'package:trener_app/pages/profile.dart';
 import 'package:trener_app/pages/progress.dart';
 import 'package:trener_app/pages/service.dart';
+import 'package:trener_app/pages/sportsmans.dart';
 
 
 // Route _createRoute( Widget widget, ) {
@@ -134,7 +135,7 @@ class _NavbarState extends State<Navbar> {
                                 //   context,
                                 //   '/user_progress',
                                 // );
-                                Navigator.of(context).pushReplacement(_createRoute(UserProgress(), Offset(-1.0, 0.0),Offset(0.0, 0.0)));
+                                Navigator.of(context).pushReplacement(_createRoute(Sportsmans(), Offset(-1.0, 0.0),Offset(0.0, 0.0)));
                               },
                               icon: SvgPicture.asset(
                                 'assets/img/pleers_trener.svg',

@@ -1,4 +1,5 @@
 import 'dart:ffi';
+import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
@@ -6,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:file_picker/file_picker.dart';
 
 class ModalCreateTraining extends StatefulWidget {
   const ModalCreateTraining({super.key});
@@ -18,6 +20,8 @@ class _ModalCreateTrainingState extends State<ModalCreateTraining> {
   int page = 1;
   List muscleGroups = [];
   List<String> listEquipments = [];
+  final TextEditingController nameRuController = TextEditingController();
+  final TextEditingController nameEngController = TextEditingController();
 
   void setListEquipments(String equipment) {
     setState(() {
@@ -52,15 +56,18 @@ class _ModalCreateTrainingState extends State<ModalCreateTraining> {
           color: Color(0xff1B1C20),
           borderRadius: BorderRadius.only(
               topLeft: Radius.circular(10), topRight: Radius.circular(10))),
-      child: Column(
+      child: ListView(
         children: [
           Container(
-            margin: EdgeInsets.only(top: 1 * vh),
-            width: 15 * vw,
-            height: 4,
-            decoration: BoxDecoration(
-                color: const Color.fromARGB(59, 255, 255, 255),
-                borderRadius: BorderRadius.circular(50 * vw)),
+            padding: EdgeInsets.symmetric(horizontal: 40 * vw),
+            child: Container(
+              margin: EdgeInsets.only(top: 1 * vh),
+              width: 15 * vw,
+              height: 4,
+              decoration: BoxDecoration(
+                  color: const Color.fromARGB(59, 255, 255, 255),
+                  borderRadius: BorderRadius.circular(50 * vw)),
+            ),
           ),
           Row(
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -140,11 +147,18 @@ class _ModalCreateTrainingState extends State<ModalCreateTraining> {
                   )),
               Expanded(
                 flex: 1,
-                child: page < 6
+                child: page < 4
                     ? GestureDetector(
                         onTap: () {
                           setState(() {
-                            page++; // Увеличиваем значение page на 1
+                            if (nameRuController.text.length > 0) {
+                              page++;
+                            } else {
+                              Get.snackbar('Ошибка ввода!',
+                                  'Введите название упражнения...',
+                                  colorText:
+                                      Color.fromARGB(181, 255, 255, 255));
+                            }
                           });
                         },
                         child: Container(
@@ -171,7 +185,7 @@ class _ModalCreateTrainingState extends State<ModalCreateTraining> {
                           padding: EdgeInsets.only(top: 2 * vh),
                           alignment: Alignment.center,
                           child: Text(
-                            'Готово',
+                            '',
                             style: TextStyle(
                               color: Color(0xff4D8AEE),
                               fontSize: 3.3 * vw,
@@ -187,7 +201,14 @@ class _ModalCreateTrainingState extends State<ModalCreateTraining> {
           SizedBox(
             height: 3 * vh,
           ),
-          page == 1 ? Page1(vw: vw, vh: vh) : SizedBox.shrink(),
+          page == 1
+              ? Page1(
+                  vw: vw,
+                  vh: vh,
+                  controllerEng: nameEngController,
+                  controllerRu: nameRuController,
+                )
+              : SizedBox.shrink(),
           page == 2
               ? Page2(
                   vw: vw,
@@ -218,10 +239,17 @@ class _ModalCreateTrainingState extends State<ModalCreateTraining> {
 }
 
 class Page1 extends StatelessWidget {
-  Page1({super.key, required this.vw, required this.vh});
+  Page1(
+      {super.key,
+      required this.vw,
+      required this.vh,
+      required this.controllerEng,
+      required this.controllerRu});
 
   final double vw;
   final double vh;
+  TextEditingController controllerRu;
+  TextEditingController controllerEng;
 
   @override
   Widget build(BuildContext context) {
@@ -244,6 +272,7 @@ class Page1 extends StatelessWidget {
         Padding(
           padding: EdgeInsets.symmetric(horizontal: 5 * vw),
           child: TextField(
+            controller: controllerRu,
             cursorColor: Color.fromRGBO(112, 112, 112, 1),
             style: TextStyle(color: Colors.white, fontSize: 4 * vw),
             decoration: InputDecoration(
@@ -285,10 +314,11 @@ class Page1 extends StatelessWidget {
         Padding(
           padding: EdgeInsets.symmetric(horizontal: 5 * vw),
           child: TextField(
+            controller: controllerEng,
             cursorColor: Color.fromRGBO(112, 112, 112, 1),
             style: TextStyle(color: Colors.white, fontSize: 4 * vw),
             decoration: InputDecoration(
-              hintText: 'Название упражнения',
+              hintText: 'Workout name',
               hintStyle: const TextStyle(
                 color: Colors.grey, // Цвет текста плейсхолдера
                 fontSize: 16, // Размер текста плейсхолдера
@@ -331,11 +361,11 @@ class Page2 extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      // width: double.infinity,
-      child: ListView(
-        children: [
-          Stack(
+    return Column(
+      children: [
+        Container(
+          height: 35 * vh,
+          child: Stack(
             children: [
               SvgPicture.asset(
                 'assets/img/frame.svg',
@@ -412,1054 +442,1054 @@ class Page2 extends StatelessWidget {
                   : SizedBox.shrink(),
             ],
           ),
-          SizedBox(
-            height: 3 * vh,
-          ),
-          Row(
-            children: [
-              Expanded(
-                child: Container(
-                  decoration: BoxDecoration(
-                      gradient: muscleGroups.contains('Пресс')
-                          ? const RadialGradient(
-                              colors: [Color(0xff4D8AEE), Color(0xff2932FF)],
-                              radius: 8)
-                          : const RadialGradient(
-                              colors: [Colors.transparent, Colors.transparent]),
-                      borderRadius: BorderRadius.circular(3 * vw)),
-                  padding: EdgeInsets.all(1),
-                  margin: EdgeInsets.only(left: 2 * vw, right: 1 * vw),
-                  child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      foregroundColor: Color.fromARGB(112, 1, 110, 179),
-                      backgroundColor: Color(0xff23252B),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(
-                            3 * vw), // Устанавливаем радиус круглых углов
-                      ),
+        ),
+        SizedBox(
+          height: 3 * vh,
+        ),
+        Row(
+          children: [
+            Expanded(
+              child: Container(
+                decoration: BoxDecoration(
+                    gradient: muscleGroups.contains('Пресс')
+                        ? const RadialGradient(
+                            colors: [Color(0xff4D8AEE), Color(0xff2932FF)],
+                            radius: 8)
+                        : const RadialGradient(
+                            colors: [Colors.transparent, Colors.transparent]),
+                    borderRadius: BorderRadius.circular(3 * vw)),
+                padding: EdgeInsets.all(1),
+                margin: EdgeInsets.only(left: 2 * vw, right: 1 * vw),
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    foregroundColor: Color.fromARGB(112, 1, 110, 179),
+                    backgroundColor: Color(0xff23252B),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(
+                          3 * vw), // Устанавливаем радиус круглых углов
                     ),
-                    onPressed: () {
-                      // Вызываем функцию обратного вызова для установки группы мышц
-                      setMuscleGroup('Пресс');
-                    },
-                    child: Padding(
-                      padding: EdgeInsets.symmetric(vertical: 2 * vh),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          !muscleGroups.contains('Пресс')
-                              ? Container(
-                                  width: 5 * vw,
-                                  height: 5 * vw,
-                                  decoration: BoxDecoration(
-                                      color: const Color.fromARGB(
-                                          255, 206, 206, 206),
-                                      borderRadius:
-                                          BorderRadius.circular(100 * vw)),
-                                )
-                              : Container(
-                                  alignment: Alignment.center,
-                                  width: 5 * vw,
-                                  height: 5 * vw,
-                                  decoration: BoxDecoration(
-                                      gradient: const RadialGradient(colors: [
-                                        Color(0xff4D8AEE),
-                                        Color(0xff2932FF),
-                                      ], radius: 5),
-                                      borderRadius:
-                                          BorderRadius.circular(100 * vw)),
-                                  child: SvgPicture.asset(
-                                    'assets/img/ok_white.svg',
-                                    width: 3 * vw,
-                                  ),
+                  ),
+                  onPressed: () {
+                    // Вызываем функцию обратного вызова для установки группы мышц
+                    setMuscleGroup('Пресс');
+                  },
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(vertical: 2 * vh),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        !muscleGroups.contains('Пресс')
+                            ? Container(
+                                width: 5 * vw,
+                                height: 5 * vw,
+                                decoration: BoxDecoration(
+                                    color: const Color.fromARGB(
+                                        255, 206, 206, 206),
+                                    borderRadius:
+                                        BorderRadius.circular(100 * vw)),
+                              )
+                            : Container(
+                                alignment: Alignment.center,
+                                width: 5 * vw,
+                                height: 5 * vw,
+                                decoration: BoxDecoration(
+                                    gradient: const RadialGradient(colors: [
+                                      Color(0xff4D8AEE),
+                                      Color(0xff2932FF),
+                                    ], radius: 5),
+                                    borderRadius:
+                                        BorderRadius.circular(100 * vw)),
+                                child: SvgPicture.asset(
+                                  'assets/img/ok_white.svg',
+                                  width: 3 * vw,
                                 ),
-                          SizedBox(
-                            width: 2 * vw,
-                          ),
-                          Text('Пресс',
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontFamily: 'Manrope',
-                                  fontSize: 4 * vw,
-                                  fontWeight: FontWeight.w400))
-                        ],
-                      ),
+                              ),
+                        SizedBox(
+                          width: 2 * vw,
+                        ),
+                        Text('Пресс',
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontFamily: 'Manrope',
+                                fontSize: 4 * vw,
+                                fontWeight: FontWeight.w400))
+                      ],
                     ),
                   ),
                 ),
               ),
-              Expanded(
-                child: Container(
-                  decoration: BoxDecoration(
-                      gradient: muscleGroups.contains('Шея')
-                          ? const RadialGradient(
-                              colors: [Color(0xff4D8AEE), Color(0xff2932FF)],
-                              radius: 8)
-                          : const RadialGradient(
-                              colors: [Colors.transparent, Colors.transparent]),
-                      borderRadius: BorderRadius.circular(3 * vw)),
-                  padding: EdgeInsets.all(1),
-                  margin: EdgeInsets.only(right: 2 * vw, left: 1 * vw),
-                  child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      foregroundColor: Color.fromARGB(112, 1, 110, 179),
-                      backgroundColor: Color(0xff23252B),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(
-                            3 * vw), // Устанавливаем радиус круглых углов
-                      ),
+            ),
+            Expanded(
+              child: Container(
+                decoration: BoxDecoration(
+                    gradient: muscleGroups.contains('Шея')
+                        ? const RadialGradient(
+                            colors: [Color(0xff4D8AEE), Color(0xff2932FF)],
+                            radius: 8)
+                        : const RadialGradient(
+                            colors: [Colors.transparent, Colors.transparent]),
+                    borderRadius: BorderRadius.circular(3 * vw)),
+                padding: EdgeInsets.all(1),
+                margin: EdgeInsets.only(right: 2 * vw, left: 1 * vw),
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    foregroundColor: Color.fromARGB(112, 1, 110, 179),
+                    backgroundColor: Color(0xff23252B),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(
+                          3 * vw), // Устанавливаем радиус круглых углов
                     ),
-                    onPressed: () {
-                      // Вызываем функцию обратного вызова для установки группы мышц
-                      setMuscleGroup('Шея');
-                    },
-                    child: Padding(
-                      padding: EdgeInsets.symmetric(vertical: 2 * vh),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          !muscleGroups.contains('Шея')
-                              ? Container(
-                                  width: 5 * vw,
-                                  height: 5 * vw,
-                                  decoration: BoxDecoration(
-                                      color: const Color.fromARGB(
-                                          255, 206, 206, 206),
-                                      borderRadius:
-                                          BorderRadius.circular(100 * vw)),
-                                )
-                              : Container(
-                                  alignment: Alignment.center,
-                                  width: 5 * vw,
-                                  height: 5 * vw,
-                                  decoration: BoxDecoration(
-                                      gradient: const RadialGradient(colors: [
-                                        Color(0xff4D8AEE),
-                                        Color(0xff2932FF),
-                                      ], radius: 5),
-                                      borderRadius:
-                                          BorderRadius.circular(100 * vw)),
-                                  child: SvgPicture.asset(
-                                    'assets/img/ok_white.svg',
-                                    width: 3 * vw,
-                                  ),
+                  ),
+                  onPressed: () {
+                    // Вызываем функцию обратного вызова для установки группы мышц
+                    setMuscleGroup('Шея');
+                  },
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(vertical: 2 * vh),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        !muscleGroups.contains('Шея')
+                            ? Container(
+                                width: 5 * vw,
+                                height: 5 * vw,
+                                decoration: BoxDecoration(
+                                    color: const Color.fromARGB(
+                                        255, 206, 206, 206),
+                                    borderRadius:
+                                        BorderRadius.circular(100 * vw)),
+                              )
+                            : Container(
+                                alignment: Alignment.center,
+                                width: 5 * vw,
+                                height: 5 * vw,
+                                decoration: BoxDecoration(
+                                    gradient: const RadialGradient(colors: [
+                                      Color(0xff4D8AEE),
+                                      Color(0xff2932FF),
+                                    ], radius: 5),
+                                    borderRadius:
+                                        BorderRadius.circular(100 * vw)),
+                                child: SvgPicture.asset(
+                                  'assets/img/ok_white.svg',
+                                  width: 3 * vw,
                                 ),
-                          SizedBox(
-                            width: 2 * vw,
-                          ),
-                          Text('Шея',
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontFamily: 'Manrope',
-                                  fontSize: 4 * vw,
-                                  fontWeight: FontWeight.w400))
-                        ],
-                      ),
+                              ),
+                        SizedBox(
+                          width: 2 * vw,
+                        ),
+                        Text('Шея',
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontFamily: 'Manrope',
+                                fontSize: 4 * vw,
+                                fontWeight: FontWeight.w400))
+                      ],
                     ),
                   ),
                 ),
               ),
-            ],
-          ),
-          SizedBox(
-            height: 1 * vh,
-          ),
-          Row(
-            children: [
-              Expanded(
-                child: Container(
-                  decoration: BoxDecoration(
-                      gradient: muscleGroups.contains('Ноги')
-                          ? const RadialGradient(
-                              colors: [Color(0xff4D8AEE), Color(0xff2932FF)],
-                              radius: 8)
-                          : const RadialGradient(
-                              colors: [Colors.transparent, Colors.transparent]),
-                      borderRadius: BorderRadius.circular(3 * vw)),
-                  padding: EdgeInsets.all(1),
-                  margin: EdgeInsets.only(left: 2 * vw, right: 1 * vw),
-                  child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      foregroundColor: Color.fromARGB(112, 1, 110, 179),
-                      backgroundColor: Color(0xff23252B),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(
-                            3 * vw), // Устанавливаем радиус круглых углов
-                      ),
+            ),
+          ],
+        ),
+        SizedBox(
+          height: 1 * vh,
+        ),
+        Row(
+          children: [
+            Expanded(
+              child: Container(
+                decoration: BoxDecoration(
+                    gradient: muscleGroups.contains('Ноги')
+                        ? const RadialGradient(
+                            colors: [Color(0xff4D8AEE), Color(0xff2932FF)],
+                            radius: 8)
+                        : const RadialGradient(
+                            colors: [Colors.transparent, Colors.transparent]),
+                    borderRadius: BorderRadius.circular(3 * vw)),
+                padding: EdgeInsets.all(1),
+                margin: EdgeInsets.only(left: 2 * vw, right: 1 * vw),
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    foregroundColor: Color.fromARGB(112, 1, 110, 179),
+                    backgroundColor: Color(0xff23252B),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(
+                          3 * vw), // Устанавливаем радиус круглых углов
                     ),
-                    onPressed: () {
-                      // Вызываем функцию обратного вызова для установки группы мышц
-                      setMuscleGroup('Ноги');
-                    },
-                    child: Padding(
-                      padding: EdgeInsets.symmetric(vertical: 2 * vh),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          !muscleGroups.contains('Ноги')
-                              ? Container(
-                                  width: 5 * vw,
-                                  height: 5 * vw,
-                                  decoration: BoxDecoration(
-                                      color: const Color.fromARGB(
-                                          255, 206, 206, 206),
-                                      borderRadius:
-                                          BorderRadius.circular(100 * vw)),
-                                )
-                              : Container(
-                                  alignment: Alignment.center,
-                                  width: 5 * vw,
-                                  height: 5 * vw,
-                                  decoration: BoxDecoration(
-                                      gradient: const RadialGradient(colors: [
-                                        Color(0xff4D8AEE),
-                                        Color(0xff2932FF),
-                                      ], radius: 5),
-                                      borderRadius:
-                                          BorderRadius.circular(100 * vw)),
-                                  child: SvgPicture.asset(
-                                    'assets/img/ok_white.svg',
-                                    width: 3 * vw,
-                                  ),
+                  ),
+                  onPressed: () {
+                    // Вызываем функцию обратного вызова для установки группы мышц
+                    setMuscleGroup('Ноги');
+                  },
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(vertical: 2 * vh),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        !muscleGroups.contains('Ноги')
+                            ? Container(
+                                width: 5 * vw,
+                                height: 5 * vw,
+                                decoration: BoxDecoration(
+                                    color: const Color.fromARGB(
+                                        255, 206, 206, 206),
+                                    borderRadius:
+                                        BorderRadius.circular(100 * vw)),
+                              )
+                            : Container(
+                                alignment: Alignment.center,
+                                width: 5 * vw,
+                                height: 5 * vw,
+                                decoration: BoxDecoration(
+                                    gradient: const RadialGradient(colors: [
+                                      Color(0xff4D8AEE),
+                                      Color(0xff2932FF),
+                                    ], radius: 5),
+                                    borderRadius:
+                                        BorderRadius.circular(100 * vw)),
+                                child: SvgPicture.asset(
+                                  'assets/img/ok_white.svg',
+                                  width: 3 * vw,
                                 ),
-                          SizedBox(
-                            width: 2 * vw,
-                          ),
-                          Text('Ноги',
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontFamily: 'Manrope',
-                                  fontSize: 4 * vw,
-                                  fontWeight: FontWeight.w400))
-                        ],
-                      ),
+                              ),
+                        SizedBox(
+                          width: 2 * vw,
+                        ),
+                        Text('Ноги',
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontFamily: 'Manrope',
+                                fontSize: 4 * vw,
+                                fontWeight: FontWeight.w400))
+                      ],
                     ),
                   ),
                 ),
               ),
-              Expanded(
-                child: Container(
-                  decoration: BoxDecoration(
-                      gradient: muscleGroups.contains('Икры')
-                          ? const RadialGradient(
-                              colors: [Color(0xff4D8AEE), Color(0xff2932FF)],
-                              radius: 8)
-                          : const RadialGradient(
-                              colors: [Colors.transparent, Colors.transparent]),
-                      borderRadius: BorderRadius.circular(3 * vw)),
-                  padding: EdgeInsets.all(1),
-                  margin: EdgeInsets.only(right: 2 * vw, left: 1 * vw),
-                  child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      foregroundColor: Color.fromARGB(112, 1, 110, 179),
-                      backgroundColor: Color(0xff23252B),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(
-                            3 * vw), // Устанавливаем радиус круглых углов
-                      ),
+            ),
+            Expanded(
+              child: Container(
+                decoration: BoxDecoration(
+                    gradient: muscleGroups.contains('Икры')
+                        ? const RadialGradient(
+                            colors: [Color(0xff4D8AEE), Color(0xff2932FF)],
+                            radius: 8)
+                        : const RadialGradient(
+                            colors: [Colors.transparent, Colors.transparent]),
+                    borderRadius: BorderRadius.circular(3 * vw)),
+                padding: EdgeInsets.all(1),
+                margin: EdgeInsets.only(right: 2 * vw, left: 1 * vw),
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    foregroundColor: Color.fromARGB(112, 1, 110, 179),
+                    backgroundColor: Color(0xff23252B),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(
+                          3 * vw), // Устанавливаем радиус круглых углов
                     ),
-                    onPressed: () {
-                      // Вызываем функцию обратного вызова для установки группы мышц
-                      setMuscleGroup('Икры');
-                    },
-                    child: Padding(
-                      padding: EdgeInsets.symmetric(vertical: 2 * vh),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          !muscleGroups.contains('Икры')
-                              ? Container(
-                                  width: 5 * vw,
-                                  height: 5 * vw,
-                                  decoration: BoxDecoration(
-                                      color: const Color.fromARGB(
-                                          255, 206, 206, 206),
-                                      borderRadius:
-                                          BorderRadius.circular(100 * vw)),
-                                )
-                              : Container(
-                                  alignment: Alignment.center,
-                                  width: 5 * vw,
-                                  height: 5 * vw,
-                                  decoration: BoxDecoration(
-                                      gradient: const RadialGradient(colors: [
-                                        Color(0xff4D8AEE),
-                                        Color(0xff2932FF),
-                                      ], radius: 5),
-                                      borderRadius:
-                                          BorderRadius.circular(100 * vw)),
-                                  child: SvgPicture.asset(
-                                    'assets/img/ok_white.svg',
-                                    width: 3 * vw,
-                                  ),
+                  ),
+                  onPressed: () {
+                    // Вызываем функцию обратного вызова для установки группы мышц
+                    setMuscleGroup('Икры');
+                  },
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(vertical: 2 * vh),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        !muscleGroups.contains('Икры')
+                            ? Container(
+                                width: 5 * vw,
+                                height: 5 * vw,
+                                decoration: BoxDecoration(
+                                    color: const Color.fromARGB(
+                                        255, 206, 206, 206),
+                                    borderRadius:
+                                        BorderRadius.circular(100 * vw)),
+                              )
+                            : Container(
+                                alignment: Alignment.center,
+                                width: 5 * vw,
+                                height: 5 * vw,
+                                decoration: BoxDecoration(
+                                    gradient: const RadialGradient(colors: [
+                                      Color(0xff4D8AEE),
+                                      Color(0xff2932FF),
+                                    ], radius: 5),
+                                    borderRadius:
+                                        BorderRadius.circular(100 * vw)),
+                                child: SvgPicture.asset(
+                                  'assets/img/ok_white.svg',
+                                  width: 3 * vw,
                                 ),
-                          SizedBox(
-                            width: 2 * vw,
-                          ),
-                          Text('Икры',
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontFamily: 'Manrope',
-                                  fontSize: 4 * vw,
-                                  fontWeight: FontWeight.w400))
-                        ],
-                      ),
+                              ),
+                        SizedBox(
+                          width: 2 * vw,
+                        ),
+                        Text('Икры',
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontFamily: 'Manrope',
+                                fontSize: 4 * vw,
+                                fontWeight: FontWeight.w400))
+                      ],
                     ),
                   ),
                 ),
               ),
-            ],
-          ),
-          SizedBox(
-            height: 1 * vh,
-          ),
-          Row(
-            children: [
-              Expanded(
-                child: Container(
-                  decoration: BoxDecoration(
-                      gradient: muscleGroups.contains('Руки')
-                          ? const RadialGradient(
-                              colors: [Color(0xff4D8AEE), Color(0xff2932FF)],
-                              radius: 8)
-                          : const RadialGradient(
-                              colors: [Colors.transparent, Colors.transparent]),
-                      borderRadius: BorderRadius.circular(3 * vw)),
-                  padding: EdgeInsets.all(1),
-                  margin: EdgeInsets.only(left: 2 * vw, right: 1 * vw),
-                  child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      foregroundColor: Color.fromARGB(112, 1, 110, 179),
-                      backgroundColor: Color(0xff23252B),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(
-                            3 * vw), // Устанавливаем радиус круглых углов
-                      ),
+            ),
+          ],
+        ),
+        SizedBox(
+          height: 1 * vh,
+        ),
+        Row(
+          children: [
+            Expanded(
+              child: Container(
+                decoration: BoxDecoration(
+                    gradient: muscleGroups.contains('Руки')
+                        ? const RadialGradient(
+                            colors: [Color(0xff4D8AEE), Color(0xff2932FF)],
+                            radius: 8)
+                        : const RadialGradient(
+                            colors: [Colors.transparent, Colors.transparent]),
+                    borderRadius: BorderRadius.circular(3 * vw)),
+                padding: EdgeInsets.all(1),
+                margin: EdgeInsets.only(left: 2 * vw, right: 1 * vw),
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    foregroundColor: Color.fromARGB(112, 1, 110, 179),
+                    backgroundColor: Color(0xff23252B),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(
+                          3 * vw), // Устанавливаем радиус круглых углов
                     ),
-                    onPressed: () {
-                      // Вызываем функцию обратного вызова для установки группы мышц
-                      setMuscleGroup('Руки');
-                    },
-                    child: Padding(
-                      padding: EdgeInsets.symmetric(vertical: 2 * vh),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          !muscleGroups.contains('Руки')
-                              ? Container(
-                                  width: 5 * vw,
-                                  height: 5 * vw,
-                                  decoration: BoxDecoration(
-                                      color: const Color.fromARGB(
-                                          255, 206, 206, 206),
-                                      borderRadius:
-                                          BorderRadius.circular(100 * vw)),
-                                )
-                              : Container(
-                                  alignment: Alignment.center,
-                                  width: 5 * vw,
-                                  height: 5 * vw,
-                                  decoration: BoxDecoration(
-                                      gradient: const RadialGradient(colors: [
-                                        Color(0xff4D8AEE),
-                                        Color(0xff2932FF),
-                                      ], radius: 5),
-                                      borderRadius:
-                                          BorderRadius.circular(100 * vw)),
-                                  child: SvgPicture.asset(
-                                    'assets/img/ok_white.svg',
-                                    width: 3 * vw,
-                                  ),
+                  ),
+                  onPressed: () {
+                    // Вызываем функцию обратного вызова для установки группы мышц
+                    setMuscleGroup('Руки');
+                  },
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(vertical: 2 * vh),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        !muscleGroups.contains('Руки')
+                            ? Container(
+                                width: 5 * vw,
+                                height: 5 * vw,
+                                decoration: BoxDecoration(
+                                    color: const Color.fromARGB(
+                                        255, 206, 206, 206),
+                                    borderRadius:
+                                        BorderRadius.circular(100 * vw)),
+                              )
+                            : Container(
+                                alignment: Alignment.center,
+                                width: 5 * vw,
+                                height: 5 * vw,
+                                decoration: BoxDecoration(
+                                    gradient: const RadialGradient(colors: [
+                                      Color(0xff4D8AEE),
+                                      Color(0xff2932FF),
+                                    ], radius: 5),
+                                    borderRadius:
+                                        BorderRadius.circular(100 * vw)),
+                                child: SvgPicture.asset(
+                                  'assets/img/ok_white.svg',
+                                  width: 3 * vw,
                                 ),
-                          SizedBox(
-                            width: 2 * vw,
-                          ),
-                          Text('Руки',
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontFamily: 'Manrope',
-                                  fontSize: 4 * vw,
-                                  fontWeight: FontWeight.w400))
-                        ],
-                      ),
+                              ),
+                        SizedBox(
+                          width: 2 * vw,
+                        ),
+                        Text('Руки',
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontFamily: 'Manrope',
+                                fontSize: 4 * vw,
+                                fontWeight: FontWeight.w400))
+                      ],
                     ),
                   ),
                 ),
               ),
-              Expanded(
-                child: Container(
-                  decoration: BoxDecoration(
-                      gradient: muscleGroups.contains('Плечи')
-                          ? const RadialGradient(
-                              colors: [Color(0xff4D8AEE), Color(0xff2932FF)],
-                              radius: 8)
-                          : const RadialGradient(
-                              colors: [Colors.transparent, Colors.transparent]),
-                      borderRadius: BorderRadius.circular(3 * vw)),
-                  padding: EdgeInsets.all(1),
-                  margin: EdgeInsets.only(right: 2 * vw, left: 1 * vw),
-                  child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      foregroundColor: Color.fromARGB(112, 1, 110, 179),
-                      backgroundColor: Color(0xff23252B),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(
-                            3 * vw), // Устанавливаем радиус круглых углов
-                      ),
+            ),
+            Expanded(
+              child: Container(
+                decoration: BoxDecoration(
+                    gradient: muscleGroups.contains('Плечи')
+                        ? const RadialGradient(
+                            colors: [Color(0xff4D8AEE), Color(0xff2932FF)],
+                            radius: 8)
+                        : const RadialGradient(
+                            colors: [Colors.transparent, Colors.transparent]),
+                    borderRadius: BorderRadius.circular(3 * vw)),
+                padding: EdgeInsets.all(1),
+                margin: EdgeInsets.only(right: 2 * vw, left: 1 * vw),
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    foregroundColor: Color.fromARGB(112, 1, 110, 179),
+                    backgroundColor: Color(0xff23252B),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(
+                          3 * vw), // Устанавливаем радиус круглых углов
                     ),
-                    onPressed: () {
-                      // Вызываем функцию обратного вызова для установки группы мышц
-                      setMuscleGroup('Плечи');
-                    },
-                    child: Padding(
-                      padding: EdgeInsets.symmetric(vertical: 2 * vh),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          !muscleGroups.contains('Плечи')
-                              ? Container(
-                                  width: 5 * vw,
-                                  height: 5 * vw,
-                                  decoration: BoxDecoration(
-                                      color: const Color.fromARGB(
-                                          255, 206, 206, 206),
-                                      borderRadius:
-                                          BorderRadius.circular(100 * vw)),
-                                )
-                              : Container(
-                                  alignment: Alignment.center,
-                                  width: 5 * vw,
-                                  height: 5 * vw,
-                                  decoration: BoxDecoration(
-                                      gradient: const RadialGradient(colors: [
-                                        Color(0xff4D8AEE),
-                                        Color(0xff2932FF),
-                                      ], radius: 5),
-                                      borderRadius:
-                                          BorderRadius.circular(100 * vw)),
-                                  child: SvgPicture.asset(
-                                    'assets/img/ok_white.svg',
-                                    width: 3 * vw,
-                                  ),
+                  ),
+                  onPressed: () {
+                    // Вызываем функцию обратного вызова для установки группы мышц
+                    setMuscleGroup('Плечи');
+                  },
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(vertical: 2 * vh),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        !muscleGroups.contains('Плечи')
+                            ? Container(
+                                width: 5 * vw,
+                                height: 5 * vw,
+                                decoration: BoxDecoration(
+                                    color: const Color.fromARGB(
+                                        255, 206, 206, 206),
+                                    borderRadius:
+                                        BorderRadius.circular(100 * vw)),
+                              )
+                            : Container(
+                                alignment: Alignment.center,
+                                width: 5 * vw,
+                                height: 5 * vw,
+                                decoration: BoxDecoration(
+                                    gradient: const RadialGradient(colors: [
+                                      Color(0xff4D8AEE),
+                                      Color(0xff2932FF),
+                                    ], radius: 5),
+                                    borderRadius:
+                                        BorderRadius.circular(100 * vw)),
+                                child: SvgPicture.asset(
+                                  'assets/img/ok_white.svg',
+                                  width: 3 * vw,
                                 ),
-                          SizedBox(
-                            width: 2 * vw,
-                          ),
-                          Text('Плечи',
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontFamily: 'Manrope',
-                                  fontSize: 4 * vw,
-                                  fontWeight: FontWeight.w400))
-                        ],
-                      ),
+                              ),
+                        SizedBox(
+                          width: 2 * vw,
+                        ),
+                        Text('Плечи',
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontFamily: 'Manrope',
+                                fontSize: 4 * vw,
+                                fontWeight: FontWeight.w400))
+                      ],
                     ),
                   ),
                 ),
               ),
-            ],
-          ),
-          SizedBox(
-            height: 1 * vh,
-          ),
-          Row(
-            children: [
-              Expanded(
-                child: Container(
-                  decoration: BoxDecoration(
-                      gradient: muscleGroups.contains('Грудь')
-                          ? const RadialGradient(
-                              colors: [Color(0xff4D8AEE), Color(0xff2932FF)],
-                              radius: 8)
-                          : const RadialGradient(
-                              colors: [Colors.transparent, Colors.transparent]),
-                      borderRadius: BorderRadius.circular(3 * vw)),
-                  padding: EdgeInsets.all(1),
-                  margin: EdgeInsets.only(left: 2 * vw, right: 1 * vw),
-                  child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      foregroundColor: Color.fromARGB(112, 1, 110, 179),
-                      backgroundColor: Color(0xff23252B),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(
-                            3 * vw), // Устанавливаем радиус круглых углов
-                      ),
+            ),
+          ],
+        ),
+        SizedBox(
+          height: 1 * vh,
+        ),
+        Row(
+          children: [
+            Expanded(
+              child: Container(
+                decoration: BoxDecoration(
+                    gradient: muscleGroups.contains('Грудь')
+                        ? const RadialGradient(
+                            colors: [Color(0xff4D8AEE), Color(0xff2932FF)],
+                            radius: 8)
+                        : const RadialGradient(
+                            colors: [Colors.transparent, Colors.transparent]),
+                    borderRadius: BorderRadius.circular(3 * vw)),
+                padding: EdgeInsets.all(1),
+                margin: EdgeInsets.only(left: 2 * vw, right: 1 * vw),
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    foregroundColor: Color.fromARGB(112, 1, 110, 179),
+                    backgroundColor: Color(0xff23252B),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(
+                          3 * vw), // Устанавливаем радиус круглых углов
                     ),
-                    onPressed: () {
-                      // Вызываем функцию обратного вызова для установки группы мышц
-                      setMuscleGroup('Грудь');
-                    },
-                    child: Padding(
-                      padding: EdgeInsets.symmetric(vertical: 2 * vh),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          !muscleGroups.contains('Грудь')
-                              ? Container(
-                                  width: 5 * vw,
-                                  height: 5 * vw,
-                                  decoration: BoxDecoration(
-                                      color: const Color.fromARGB(
-                                          255, 206, 206, 206),
-                                      borderRadius:
-                                          BorderRadius.circular(100 * vw)),
-                                )
-                              : Container(
-                                  alignment: Alignment.center,
-                                  width: 5 * vw,
-                                  height: 5 * vw,
-                                  decoration: BoxDecoration(
-                                      gradient: const RadialGradient(colors: [
-                                        Color(0xff4D8AEE),
-                                        Color(0xff2932FF),
-                                      ], radius: 5),
-                                      borderRadius:
-                                          BorderRadius.circular(100 * vw)),
-                                  child: SvgPicture.asset(
-                                    'assets/img/ok_white.svg',
-                                    width: 3 * vw,
-                                  ),
+                  ),
+                  onPressed: () {
+                    // Вызываем функцию обратного вызова для установки группы мышц
+                    setMuscleGroup('Грудь');
+                  },
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(vertical: 2 * vh),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        !muscleGroups.contains('Грудь')
+                            ? Container(
+                                width: 5 * vw,
+                                height: 5 * vw,
+                                decoration: BoxDecoration(
+                                    color: const Color.fromARGB(
+                                        255, 206, 206, 206),
+                                    borderRadius:
+                                        BorderRadius.circular(100 * vw)),
+                              )
+                            : Container(
+                                alignment: Alignment.center,
+                                width: 5 * vw,
+                                height: 5 * vw,
+                                decoration: BoxDecoration(
+                                    gradient: const RadialGradient(colors: [
+                                      Color(0xff4D8AEE),
+                                      Color(0xff2932FF),
+                                    ], radius: 5),
+                                    borderRadius:
+                                        BorderRadius.circular(100 * vw)),
+                                child: SvgPicture.asset(
+                                  'assets/img/ok_white.svg',
+                                  width: 3 * vw,
                                 ),
-                          SizedBox(
-                            width: 2 * vw,
-                          ),
-                          Text('Грудь',
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontFamily: 'Manrope',
-                                  fontSize: 4 * vw,
-                                  fontWeight: FontWeight.w400))
-                        ],
-                      ),
+                              ),
+                        SizedBox(
+                          width: 2 * vw,
+                        ),
+                        Text('Грудь',
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontFamily: 'Manrope',
+                                fontSize: 4 * vw,
+                                fontWeight: FontWeight.w400))
+                      ],
                     ),
                   ),
                 ),
               ),
-              Expanded(
-                child: Container(
-                  decoration: BoxDecoration(
-                      gradient: muscleGroups.contains('Бицепс')
-                          ? const RadialGradient(
-                              colors: [Color(0xff4D8AEE), Color(0xff2932FF)],
-                              radius: 8)
-                          : const RadialGradient(
-                              colors: [Colors.transparent, Colors.transparent]),
-                      borderRadius: BorderRadius.circular(3 * vw)),
-                  padding: EdgeInsets.all(1),
-                  margin: EdgeInsets.only(right: 2 * vw, left: 1 * vw),
-                  child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      foregroundColor: Color.fromARGB(112, 1, 110, 179),
-                      backgroundColor: Color(0xff23252B),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(
-                            3 * vw), // Устанавливаем радиус круглых углов
-                      ),
+            ),
+            Expanded(
+              child: Container(
+                decoration: BoxDecoration(
+                    gradient: muscleGroups.contains('Бицепс')
+                        ? const RadialGradient(
+                            colors: [Color(0xff4D8AEE), Color(0xff2932FF)],
+                            radius: 8)
+                        : const RadialGradient(
+                            colors: [Colors.transparent, Colors.transparent]),
+                    borderRadius: BorderRadius.circular(3 * vw)),
+                padding: EdgeInsets.all(1),
+                margin: EdgeInsets.only(right: 2 * vw, left: 1 * vw),
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    foregroundColor: Color.fromARGB(112, 1, 110, 179),
+                    backgroundColor: Color(0xff23252B),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(
+                          3 * vw), // Устанавливаем радиус круглых углов
                     ),
-                    onPressed: () {
-                      // Вызываем функцию обратного вызова для установки группы мышц
-                      setMuscleGroup('Бицепс');
-                    },
-                    child: Padding(
-                      padding: EdgeInsets.symmetric(vertical: 2 * vh),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          !muscleGroups.contains('Бицепс')
-                              ? Container(
-                                  width: 5 * vw,
-                                  height: 5 * vw,
-                                  decoration: BoxDecoration(
-                                      color: const Color.fromARGB(
-                                          255, 206, 206, 206),
-                                      borderRadius:
-                                          BorderRadius.circular(100 * vw)),
-                                )
-                              : Container(
-                                  alignment: Alignment.center,
-                                  width: 5 * vw,
-                                  height: 5 * vw,
-                                  decoration: BoxDecoration(
-                                      gradient: const RadialGradient(colors: [
-                                        Color(0xff4D8AEE),
-                                        Color(0xff2932FF),
-                                      ], radius: 5),
-                                      borderRadius:
-                                          BorderRadius.circular(100 * vw)),
-                                  child: SvgPicture.asset(
-                                    'assets/img/ok_white.svg',
-                                    width: 3 * vw,
-                                  ),
+                  ),
+                  onPressed: () {
+                    // Вызываем функцию обратного вызова для установки группы мышц
+                    setMuscleGroup('Бицепс');
+                  },
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(vertical: 2 * vh),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        !muscleGroups.contains('Бицепс')
+                            ? Container(
+                                width: 5 * vw,
+                                height: 5 * vw,
+                                decoration: BoxDecoration(
+                                    color: const Color.fromARGB(
+                                        255, 206, 206, 206),
+                                    borderRadius:
+                                        BorderRadius.circular(100 * vw)),
+                              )
+                            : Container(
+                                alignment: Alignment.center,
+                                width: 5 * vw,
+                                height: 5 * vw,
+                                decoration: BoxDecoration(
+                                    gradient: const RadialGradient(colors: [
+                                      Color(0xff4D8AEE),
+                                      Color(0xff2932FF),
+                                    ], radius: 5),
+                                    borderRadius:
+                                        BorderRadius.circular(100 * vw)),
+                                child: SvgPicture.asset(
+                                  'assets/img/ok_white.svg',
+                                  width: 3 * vw,
                                 ),
-                          SizedBox(
-                            width: 2 * vw,
-                          ),
-                          Text('Бицепс',
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontFamily: 'Manrope',
-                                  fontSize: 4 * vw,
-                                  fontWeight: FontWeight.w400))
-                        ],
-                      ),
+                              ),
+                        SizedBox(
+                          width: 2 * vw,
+                        ),
+                        Text('Бицепс',
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontFamily: 'Manrope',
+                                fontSize: 4 * vw,
+                                fontWeight: FontWeight.w400))
+                      ],
                     ),
                   ),
                 ),
               ),
-            ],
-          ),
-          SizedBox(
-            height: 1 * vh,
-          ),
-          Row(
-            children: [
-              Expanded(
-                child: Container(
-                  decoration: BoxDecoration(
-                      gradient: muscleGroups.contains('Трицепс')
-                          ? const RadialGradient(
-                              colors: [Color(0xff4D8AEE), Color(0xff2932FF)],
-                              radius: 8)
-                          : const RadialGradient(
-                              colors: [Colors.transparent, Colors.transparent]),
-                      borderRadius: BorderRadius.circular(3 * vw)),
-                  padding: EdgeInsets.all(1),
-                  margin: EdgeInsets.only(left: 2 * vw, right: 1 * vw),
-                  child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      foregroundColor: Color.fromARGB(112, 1, 110, 179),
-                      backgroundColor: Color(0xff23252B),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(
-                            3 * vw), // Устанавливаем радиус круглых углов
-                      ),
+            ),
+          ],
+        ),
+        SizedBox(
+          height: 1 * vh,
+        ),
+        Row(
+          children: [
+            Expanded(
+              child: Container(
+                decoration: BoxDecoration(
+                    gradient: muscleGroups.contains('Трицепс')
+                        ? const RadialGradient(
+                            colors: [Color(0xff4D8AEE), Color(0xff2932FF)],
+                            radius: 8)
+                        : const RadialGradient(
+                            colors: [Colors.transparent, Colors.transparent]),
+                    borderRadius: BorderRadius.circular(3 * vw)),
+                padding: EdgeInsets.all(1),
+                margin: EdgeInsets.only(left: 2 * vw, right: 1 * vw),
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    foregroundColor: Color.fromARGB(112, 1, 110, 179),
+                    backgroundColor: Color(0xff23252B),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(
+                          3 * vw), // Устанавливаем радиус круглых углов
                     ),
-                    onPressed: () {
-                      // Вызываем функцию обратного вызова для установки группы мышц
-                      setMuscleGroup('Трицепс');
-                    },
-                    child: Padding(
-                      padding: EdgeInsets.symmetric(vertical: 2 * vh),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          !muscleGroups.contains('Трицепс')
-                              ? Container(
-                                  width: 5 * vw,
-                                  height: 5 * vw,
-                                  decoration: BoxDecoration(
-                                      color: const Color.fromARGB(
-                                          255, 206, 206, 206),
-                                      borderRadius:
-                                          BorderRadius.circular(100 * vw)),
-                                )
-                              : Container(
-                                  alignment: Alignment.center,
-                                  width: 5 * vw,
-                                  height: 5 * vw,
-                                  decoration: BoxDecoration(
-                                      gradient: const RadialGradient(colors: [
-                                        Color(0xff4D8AEE),
-                                        Color(0xff2932FF),
-                                      ], radius: 5),
-                                      borderRadius:
-                                          BorderRadius.circular(100 * vw)),
-                                  child: SvgPicture.asset(
-                                    'assets/img/ok_white.svg',
-                                    width: 3 * vw,
-                                  ),
+                  ),
+                  onPressed: () {
+                    // Вызываем функцию обратного вызова для установки группы мышц
+                    setMuscleGroup('Трицепс');
+                  },
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(vertical: 2 * vh),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        !muscleGroups.contains('Трицепс')
+                            ? Container(
+                                width: 5 * vw,
+                                height: 5 * vw,
+                                decoration: BoxDecoration(
+                                    color: const Color.fromARGB(
+                                        255, 206, 206, 206),
+                                    borderRadius:
+                                        BorderRadius.circular(100 * vw)),
+                              )
+                            : Container(
+                                alignment: Alignment.center,
+                                width: 5 * vw,
+                                height: 5 * vw,
+                                decoration: BoxDecoration(
+                                    gradient: const RadialGradient(colors: [
+                                      Color(0xff4D8AEE),
+                                      Color(0xff2932FF),
+                                    ], radius: 5),
+                                    borderRadius:
+                                        BorderRadius.circular(100 * vw)),
+                                child: SvgPicture.asset(
+                                  'assets/img/ok_white.svg',
+                                  width: 3 * vw,
                                 ),
-                          SizedBox(
-                            width: 2 * vw,
-                          ),
-                          Text('Трицепс',
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontFamily: 'Manrope',
-                                  fontSize: 4 * vw,
-                                  fontWeight: FontWeight.w400))
-                        ],
-                      ),
+                              ),
+                        SizedBox(
+                          width: 2 * vw,
+                        ),
+                        Text('Трицепс',
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontFamily: 'Manrope',
+                                fontSize: 4 * vw,
+                                fontWeight: FontWeight.w400))
+                      ],
                     ),
                   ),
                 ),
               ),
-              Expanded(
-                child: Container(
-                  decoration: BoxDecoration(
-                      gradient: muscleGroups.contains('Спина')
-                          ? const RadialGradient(
-                              colors: [Color(0xff4D8AEE), Color(0xff2932FF)],
-                              radius: 8)
-                          : const RadialGradient(
-                              colors: [Colors.transparent, Colors.transparent]),
-                      borderRadius: BorderRadius.circular(3 * vw)),
-                  padding: EdgeInsets.all(1),
-                  margin: EdgeInsets.only(right: 2 * vw, left: 1 * vw),
-                  child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      foregroundColor: Color.fromARGB(112, 1, 110, 179),
-                      backgroundColor: Color(0xff23252B),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(
-                            3 * vw), // Устанавливаем радиус круглых углов
-                      ),
+            ),
+            Expanded(
+              child: Container(
+                decoration: BoxDecoration(
+                    gradient: muscleGroups.contains('Спина')
+                        ? const RadialGradient(
+                            colors: [Color(0xff4D8AEE), Color(0xff2932FF)],
+                            radius: 8)
+                        : const RadialGradient(
+                            colors: [Colors.transparent, Colors.transparent]),
+                    borderRadius: BorderRadius.circular(3 * vw)),
+                padding: EdgeInsets.all(1),
+                margin: EdgeInsets.only(right: 2 * vw, left: 1 * vw),
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    foregroundColor: Color.fromARGB(112, 1, 110, 179),
+                    backgroundColor: Color(0xff23252B),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(
+                          3 * vw), // Устанавливаем радиус круглых углов
                     ),
-                    onPressed: () {
-                      // Вызываем функцию обратного вызова для установки группы мышц
-                      setMuscleGroup('Спина');
-                    },
-                    child: Padding(
-                      padding: EdgeInsets.symmetric(vertical: 2 * vh),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          !muscleGroups.contains('Спина')
-                              ? Container(
-                                  width: 5 * vw,
-                                  height: 5 * vw,
-                                  decoration: BoxDecoration(
-                                      color: const Color.fromARGB(
-                                          255, 206, 206, 206),
-                                      borderRadius:
-                                          BorderRadius.circular(100 * vw)),
-                                )
-                              : Container(
-                                  alignment: Alignment.center,
-                                  width: 5 * vw,
-                                  height: 5 * vw,
-                                  decoration: BoxDecoration(
-                                      gradient: const RadialGradient(colors: [
-                                        Color(0xff4D8AEE),
-                                        Color(0xff2932FF),
-                                      ], radius: 5),
-                                      borderRadius:
-                                          BorderRadius.circular(100 * vw)),
-                                  child: SvgPicture.asset(
-                                    'assets/img/ok_white.svg',
-                                    width: 3 * vw,
-                                  ),
+                  ),
+                  onPressed: () {
+                    // Вызываем функцию обратного вызова для установки группы мышц
+                    setMuscleGroup('Спина');
+                  },
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(vertical: 2 * vh),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        !muscleGroups.contains('Спина')
+                            ? Container(
+                                width: 5 * vw,
+                                height: 5 * vw,
+                                decoration: BoxDecoration(
+                                    color: const Color.fromARGB(
+                                        255, 206, 206, 206),
+                                    borderRadius:
+                                        BorderRadius.circular(100 * vw)),
+                              )
+                            : Container(
+                                alignment: Alignment.center,
+                                width: 5 * vw,
+                                height: 5 * vw,
+                                decoration: BoxDecoration(
+                                    gradient: const RadialGradient(colors: [
+                                      Color(0xff4D8AEE),
+                                      Color(0xff2932FF),
+                                    ], radius: 5),
+                                    borderRadius:
+                                        BorderRadius.circular(100 * vw)),
+                                child: SvgPicture.asset(
+                                  'assets/img/ok_white.svg',
+                                  width: 3 * vw,
                                 ),
-                          SizedBox(
-                            width: 2 * vw,
-                          ),
-                          Text('Спина',
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontFamily: 'Manrope',
-                                  fontSize: 4 * vw,
-                                  fontWeight: FontWeight.w400))
-                        ],
-                      ),
+                              ),
+                        SizedBox(
+                          width: 2 * vw,
+                        ),
+                        Text('Спина',
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontFamily: 'Manrope',
+                                fontSize: 4 * vw,
+                                fontWeight: FontWeight.w400))
+                      ],
                     ),
                   ),
                 ),
               ),
-            ],
-          ),
-          SizedBox(
-            height: 1 * vh,
-          ),
-          Row(
-            children: [
-              Expanded(
-                child: Container(
-                  decoration: BoxDecoration(
-                      gradient: muscleGroups.contains('Бедра')
-                          ? const RadialGradient(
-                              colors: [Color(0xff4D8AEE), Color(0xff2932FF)],
-                              radius: 8)
-                          : const RadialGradient(
-                              colors: [Colors.transparent, Colors.transparent]),
-                      borderRadius: BorderRadius.circular(3 * vw)),
-                  padding: EdgeInsets.all(1),
-                  margin: EdgeInsets.only(left: 2 * vw, right: 1 * vw),
-                  child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      foregroundColor: Color.fromARGB(112, 1, 110, 179),
-                      backgroundColor: Color(0xff23252B),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(
-                            3 * vw), // Устанавливаем радиус круглых углов
-                      ),
+            ),
+          ],
+        ),
+        SizedBox(
+          height: 1 * vh,
+        ),
+        Row(
+          children: [
+            Expanded(
+              child: Container(
+                decoration: BoxDecoration(
+                    gradient: muscleGroups.contains('Бедра')
+                        ? const RadialGradient(
+                            colors: [Color(0xff4D8AEE), Color(0xff2932FF)],
+                            radius: 8)
+                        : const RadialGradient(
+                            colors: [Colors.transparent, Colors.transparent]),
+                    borderRadius: BorderRadius.circular(3 * vw)),
+                padding: EdgeInsets.all(1),
+                margin: EdgeInsets.only(left: 2 * vw, right: 1 * vw),
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    foregroundColor: Color.fromARGB(112, 1, 110, 179),
+                    backgroundColor: Color(0xff23252B),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(
+                          3 * vw), // Устанавливаем радиус круглых углов
                     ),
-                    onPressed: () {
-                      // Вызываем функцию обратного вызова для установки группы мышц
-                      setMuscleGroup('Бедра');
-                    },
-                    child: Padding(
-                      padding: EdgeInsets.symmetric(vertical: 2 * vh),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          !muscleGroups.contains('Бедра')
-                              ? Container(
-                                  width: 5 * vw,
-                                  height: 5 * vw,
-                                  decoration: BoxDecoration(
-                                      color: const Color.fromARGB(
-                                          255, 206, 206, 206),
-                                      borderRadius:
-                                          BorderRadius.circular(100 * vw)),
-                                )
-                              : Container(
-                                  alignment: Alignment.center,
-                                  width: 5 * vw,
-                                  height: 5 * vw,
-                                  decoration: BoxDecoration(
-                                      gradient: const RadialGradient(colors: [
-                                        Color(0xff4D8AEE),
-                                        Color(0xff2932FF),
-                                      ], radius: 5),
-                                      borderRadius:
-                                          BorderRadius.circular(100 * vw)),
-                                  child: SvgPicture.asset(
-                                    'assets/img/ok_white.svg',
-                                    width: 3 * vw,
-                                  ),
+                  ),
+                  onPressed: () {
+                    // Вызываем функцию обратного вызова для установки группы мышц
+                    setMuscleGroup('Бедра');
+                  },
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(vertical: 2 * vh),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        !muscleGroups.contains('Бедра')
+                            ? Container(
+                                width: 5 * vw,
+                                height: 5 * vw,
+                                decoration: BoxDecoration(
+                                    color: const Color.fromARGB(
+                                        255, 206, 206, 206),
+                                    borderRadius:
+                                        BorderRadius.circular(100 * vw)),
+                              )
+                            : Container(
+                                alignment: Alignment.center,
+                                width: 5 * vw,
+                                height: 5 * vw,
+                                decoration: BoxDecoration(
+                                    gradient: const RadialGradient(colors: [
+                                      Color(0xff4D8AEE),
+                                      Color(0xff2932FF),
+                                    ], radius: 5),
+                                    borderRadius:
+                                        BorderRadius.circular(100 * vw)),
+                                child: SvgPicture.asset(
+                                  'assets/img/ok_white.svg',
+                                  width: 3 * vw,
                                 ),
-                          SizedBox(
-                            width: 2 * vw,
-                          ),
-                          Text('Бедра',
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontFamily: 'Manrope',
-                                  fontSize: 4 * vw,
-                                  fontWeight: FontWeight.w400))
-                        ],
-                      ),
+                              ),
+                        SizedBox(
+                          width: 2 * vw,
+                        ),
+                        Text('Бедра',
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontFamily: 'Manrope',
+                                fontSize: 4 * vw,
+                                fontWeight: FontWeight.w400))
+                      ],
                     ),
                   ),
                 ),
               ),
-              Expanded(
-                child: Container(
-                  decoration: BoxDecoration(
-                      gradient: muscleGroups.contains('Голень')
-                          ? const RadialGradient(
-                              colors: [Color(0xff4D8AEE), Color(0xff2932FF)],
-                              radius: 8)
-                          : const RadialGradient(
-                              colors: [Colors.transparent, Colors.transparent]),
-                      borderRadius: BorderRadius.circular(3 * vw)),
-                  padding: EdgeInsets.all(1),
-                  margin: EdgeInsets.only(right: 2 * vw, left: 1 * vw),
-                  child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      foregroundColor: Color.fromARGB(112, 1, 110, 179),
-                      backgroundColor: Color(0xff23252B),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(
-                            3 * vw), // Устанавливаем радиус круглых углов
-                      ),
+            ),
+            Expanded(
+              child: Container(
+                decoration: BoxDecoration(
+                    gradient: muscleGroups.contains('Голень')
+                        ? const RadialGradient(
+                            colors: [Color(0xff4D8AEE), Color(0xff2932FF)],
+                            radius: 8)
+                        : const RadialGradient(
+                            colors: [Colors.transparent, Colors.transparent]),
+                    borderRadius: BorderRadius.circular(3 * vw)),
+                padding: EdgeInsets.all(1),
+                margin: EdgeInsets.only(right: 2 * vw, left: 1 * vw),
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    foregroundColor: Color.fromARGB(112, 1, 110, 179),
+                    backgroundColor: Color(0xff23252B),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(
+                          3 * vw), // Устанавливаем радиус круглых углов
                     ),
-                    onPressed: () {
-                      // Вызываем функцию обратного вызова для установки группы мышц
-                      setMuscleGroup('Голень');
-                    },
-                    child: Padding(
-                      padding: EdgeInsets.symmetric(vertical: 2 * vh),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          !muscleGroups.contains('Голень')
-                              ? Container(
-                                  width: 5 * vw,
-                                  height: 5 * vw,
-                                  decoration: BoxDecoration(
-                                      color: const Color.fromARGB(
-                                          255, 206, 206, 206),
-                                      borderRadius:
-                                          BorderRadius.circular(100 * vw)),
-                                )
-                              : Container(
-                                  alignment: Alignment.center,
-                                  width: 5 * vw,
-                                  height: 5 * vw,
-                                  decoration: BoxDecoration(
-                                      gradient: const RadialGradient(colors: [
-                                        Color(0xff4D8AEE),
-                                        Color(0xff2932FF),
-                                      ], radius: 5),
-                                      borderRadius:
-                                          BorderRadius.circular(100 * vw)),
-                                  child: SvgPicture.asset(
-                                    'assets/img/ok_white.svg',
-                                    width: 3 * vw,
-                                  ),
+                  ),
+                  onPressed: () {
+                    // Вызываем функцию обратного вызова для установки группы мышц
+                    setMuscleGroup('Голень');
+                  },
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(vertical: 2 * vh),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        !muscleGroups.contains('Голень')
+                            ? Container(
+                                width: 5 * vw,
+                                height: 5 * vw,
+                                decoration: BoxDecoration(
+                                    color: const Color.fromARGB(
+                                        255, 206, 206, 206),
+                                    borderRadius:
+                                        BorderRadius.circular(100 * vw)),
+                              )
+                            : Container(
+                                alignment: Alignment.center,
+                                width: 5 * vw,
+                                height: 5 * vw,
+                                decoration: BoxDecoration(
+                                    gradient: const RadialGradient(colors: [
+                                      Color(0xff4D8AEE),
+                                      Color(0xff2932FF),
+                                    ], radius: 5),
+                                    borderRadius:
+                                        BorderRadius.circular(100 * vw)),
+                                child: SvgPicture.asset(
+                                  'assets/img/ok_white.svg',
+                                  width: 3 * vw,
                                 ),
-                          SizedBox(
-                            width: 2 * vw,
-                          ),
-                          Text('Голень',
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontFamily: 'Manrope',
-                                  fontSize: 4 * vw,
-                                  fontWeight: FontWeight.w400))
-                        ],
-                      ),
+                              ),
+                        SizedBox(
+                          width: 2 * vw,
+                        ),
+                        Text('Голень',
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontFamily: 'Manrope',
+                                fontSize: 4 * vw,
+                                fontWeight: FontWeight.w400))
+                      ],
                     ),
                   ),
                 ),
               ),
-            ],
-          ),
-          SizedBox(
-            height: 1 * vh,
-          ),
-          Row(
-            children: [
-              Expanded(
-                child: Container(
-                  decoration: BoxDecoration(
-                      gradient: muscleGroups.contains('Предплечье')
-                          ? const RadialGradient(
-                              colors: [Color(0xff4D8AEE), Color(0xff2932FF)],
-                              radius: 8)
-                          : const RadialGradient(
-                              colors: [Colors.transparent, Colors.transparent]),
-                      borderRadius: BorderRadius.circular(3 * vw)),
-                  padding: EdgeInsets.all(1),
-                  margin: EdgeInsets.only(left: 2 * vw, right: 1 * vw),
-                  child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      foregroundColor: Color.fromARGB(112, 1, 110, 179),
-                      backgroundColor: Color(0xff23252B),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(
-                            3 * vw), // Устанавливаем радиус круглых углов
-                      ),
+            ),
+          ],
+        ),
+        SizedBox(
+          height: 1 * vh,
+        ),
+        Row(
+          children: [
+            Expanded(
+              child: Container(
+                decoration: BoxDecoration(
+                    gradient: muscleGroups.contains('Предплечье')
+                        ? const RadialGradient(
+                            colors: [Color(0xff4D8AEE), Color(0xff2932FF)],
+                            radius: 8)
+                        : const RadialGradient(
+                            colors: [Colors.transparent, Colors.transparent]),
+                    borderRadius: BorderRadius.circular(3 * vw)),
+                padding: EdgeInsets.all(1),
+                margin: EdgeInsets.only(left: 2 * vw, right: 1 * vw),
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    foregroundColor: Color.fromARGB(112, 1, 110, 179),
+                    backgroundColor: Color(0xff23252B),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(
+                          3 * vw), // Устанавливаем радиус круглых углов
                     ),
-                    onPressed: () {
-                      // Вызываем функцию обратного вызова для установки группы мышц
-                      setMuscleGroup('Предплечье');
-                    },
-                    child: Padding(
-                      padding: EdgeInsets.symmetric(vertical: 2 * vh),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          !muscleGroups.contains('Предплечье')
-                              ? Container(
-                                  width: 5 * vw,
-                                  height: 5 * vw,
-                                  decoration: BoxDecoration(
-                                      color: const Color.fromARGB(
-                                          255, 206, 206, 206),
-                                      borderRadius:
-                                          BorderRadius.circular(100 * vw)),
-                                )
-                              : Container(
-                                  alignment: Alignment.center,
-                                  width: 5 * vw,
-                                  height: 5 * vw,
-                                  decoration: BoxDecoration(
-                                      gradient: const RadialGradient(colors: [
-                                        Color(0xff4D8AEE),
-                                        Color(0xff2932FF),
-                                      ], radius: 5),
-                                      borderRadius:
-                                          BorderRadius.circular(100 * vw)),
-                                  child: SvgPicture.asset(
-                                    'assets/img/ok_white.svg',
-                                    width: 3 * vw,
-                                  ),
+                  ),
+                  onPressed: () {
+                    // Вызываем функцию обратного вызова для установки группы мышц
+                    setMuscleGroup('Предплечье');
+                  },
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(vertical: 2 * vh),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        !muscleGroups.contains('Предплечье')
+                            ? Container(
+                                width: 5 * vw,
+                                height: 5 * vw,
+                                decoration: BoxDecoration(
+                                    color: const Color.fromARGB(
+                                        255, 206, 206, 206),
+                                    borderRadius:
+                                        BorderRadius.circular(100 * vw)),
+                              )
+                            : Container(
+                                alignment: Alignment.center,
+                                width: 5 * vw,
+                                height: 5 * vw,
+                                decoration: BoxDecoration(
+                                    gradient: const RadialGradient(colors: [
+                                      Color(0xff4D8AEE),
+                                      Color(0xff2932FF),
+                                    ], radius: 5),
+                                    borderRadius:
+                                        BorderRadius.circular(100 * vw)),
+                                child: SvgPicture.asset(
+                                  'assets/img/ok_white.svg',
+                                  width: 3 * vw,
                                 ),
-                          SizedBox(
-                            width: 2 * vw,
-                          ),
-                          Text('Предплечье',
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontFamily: 'Manrope',
-                                  fontSize: 4 * vw,
-                                  fontWeight: FontWeight.w400))
-                        ],
-                      ),
+                              ),
+                        SizedBox(
+                          width: 2 * vw,
+                        ),
+                        Text('Предплечье',
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontFamily: 'Manrope',
+                                fontSize: 4 * vw,
+                                fontWeight: FontWeight.w400))
+                      ],
                     ),
                   ),
                 ),
               ),
-              Expanded(
-                child: Container(
-                  decoration: BoxDecoration(
-                      gradient: muscleGroups.contains('Кисти')
-                          ? const RadialGradient(
-                              colors: [Color(0xff4D8AEE), Color(0xff2932FF)],
-                              radius: 8)
-                          : const RadialGradient(
-                              colors: [Colors.transparent, Colors.transparent]),
-                      borderRadius: BorderRadius.circular(3 * vw)),
-                  padding: EdgeInsets.all(1),
-                  margin: EdgeInsets.only(right: 2 * vw, left: 1 * vw),
-                  child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      foregroundColor: Color.fromARGB(112, 1, 110, 179),
-                      backgroundColor: Color(0xff23252B),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(
-                            3 * vw), // Устанавливаем радиус круглых углов
-                      ),
+            ),
+            Expanded(
+              child: Container(
+                decoration: BoxDecoration(
+                    gradient: muscleGroups.contains('Кисти')
+                        ? const RadialGradient(
+                            colors: [Color(0xff4D8AEE), Color(0xff2932FF)],
+                            radius: 8)
+                        : const RadialGradient(
+                            colors: [Colors.transparent, Colors.transparent]),
+                    borderRadius: BorderRadius.circular(3 * vw)),
+                padding: EdgeInsets.all(1),
+                margin: EdgeInsets.only(right: 2 * vw, left: 1 * vw),
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    foregroundColor: Color.fromARGB(112, 1, 110, 179),
+                    backgroundColor: Color(0xff23252B),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(
+                          3 * vw), // Устанавливаем радиус круглых углов
                     ),
-                    onPressed: () {
-                      // Вызываем функцию обратного вызова для установки группы мышц
-                      setMuscleGroup('Кисти');
-                    },
-                    child: Padding(
-                      padding: EdgeInsets.symmetric(vertical: 2 * vh),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          !muscleGroups.contains('Кисти')
-                              ? Container(
-                                  width: 5 * vw,
-                                  height: 5 * vw,
-                                  decoration: BoxDecoration(
-                                      color: const Color.fromARGB(
-                                          255, 206, 206, 206),
-                                      borderRadius:
-                                          BorderRadius.circular(100 * vw)),
-                                )
-                              : Container(
-                                  alignment: Alignment.center,
-                                  width: 5 * vw,
-                                  height: 5 * vw,
-                                  decoration: BoxDecoration(
-                                      gradient: const RadialGradient(colors: [
-                                        Color(0xff4D8AEE),
-                                        Color(0xff2932FF),
-                                      ], radius: 5),
-                                      borderRadius:
-                                          BorderRadius.circular(100 * vw)),
-                                  child: SvgPicture.asset(
-                                    'assets/img/ok_white.svg',
-                                    width: 3 * vw,
-                                  ),
+                  ),
+                  onPressed: () {
+                    // Вызываем функцию обратного вызова для установки группы мышц
+                    setMuscleGroup('Кисти');
+                  },
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(vertical: 2 * vh),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        !muscleGroups.contains('Кисти')
+                            ? Container(
+                                width: 5 * vw,
+                                height: 5 * vw,
+                                decoration: BoxDecoration(
+                                    color: const Color.fromARGB(
+                                        255, 206, 206, 206),
+                                    borderRadius:
+                                        BorderRadius.circular(100 * vw)),
+                              )
+                            : Container(
+                                alignment: Alignment.center,
+                                width: 5 * vw,
+                                height: 5 * vw,
+                                decoration: BoxDecoration(
+                                    gradient: const RadialGradient(colors: [
+                                      Color(0xff4D8AEE),
+                                      Color(0xff2932FF),
+                                    ], radius: 5),
+                                    borderRadius:
+                                        BorderRadius.circular(100 * vw)),
+                                child: SvgPicture.asset(
+                                  'assets/img/ok_white.svg',
+                                  width: 3 * vw,
                                 ),
-                          SizedBox(
-                            width: 2 * vw,
-                          ),
-                          Text('Кисти',
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontFamily: 'Manrope',
-                                  fontSize: 4 * vw,
-                                  fontWeight: FontWeight.w400))
-                        ],
-                      ),
+                              ),
+                        SizedBox(
+                          width: 2 * vw,
+                        ),
+                        Text('Кисти',
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontFamily: 'Manrope',
+                                fontSize: 4 * vw,
+                                fontWeight: FontWeight.w400))
+                      ],
                     ),
                   ),
                 ),
               ),
-            ],
-          ),
-          SizedBox(
-            height: 3 * vh,
-          ),
-        ],
-      ),
+            ),
+          ],
+        ),
+        SizedBox(
+          height: 3 * vh,
+        ),
+      ],
     );
   }
 }
@@ -1685,8 +1715,14 @@ class _ModalAddEqState extends State<ModalAddEq> {
                 flex: 1,
                 child: GestureDetector(
                   onTap: () {
-                    widget.setMuscleGroup(inputController.text);
-                    Navigator.pop(context);
+                    if (inputController.text.length > 0) {
+                      widget.setMuscleGroup(inputController.text);
+                      Navigator.pop(context);
+                    } else {
+                      Get.snackbar(
+                          'Ошибка ввода!', 'Поле ввода не может быть пустым...',
+                          colorText: Color.fromARGB(181, 255, 255, 255));
+                    }
                   },
                   child: Container(
                     padding: EdgeInsets.only(top: 2 * widget.vh),
@@ -1768,10 +1804,19 @@ class Page4 extends StatefulWidget {
 class _Page4State extends State<Page4> {
   String stage = 'Разминка';
   bool stageModalFlag = false;
+  PlatformFile? file;
 
   void setStage(String newStage) {
     setState(() {
       stage = newStage;
+    });
+  }
+
+  Future selectFile() async {
+    final fileUpload = await FilePicker.platform.pickFiles();
+    if (fileUpload == null) return;
+    setState(() {
+      file = fileUpload.files.first;
     });
   }
 
@@ -1868,7 +1913,7 @@ class _Page4State extends State<Page4> {
             ),
           ),
           Padding(
-            padding: EdgeInsets.fromLTRB(5 * vw, 7 * vw, 5 * vw, 2 * vw),
+            padding: EdgeInsets.fromLTRB(5 * vw, 7 * vw, 5 * vw, 0 * vw),
             child: Row(
               children: [
                 Text('Этап тренировки',
@@ -1926,6 +1971,137 @@ class _Page4State extends State<Page4> {
               ),
             ),
           ),
+          Padding(
+            padding: EdgeInsets.fromLTRB(5 * vw, 2 * vw, 5 * vw, 0 * vw),
+            child: Row(
+              children: [
+                Text('Добавьте видео с техникой выполнения',
+                    textAlign: TextAlign.start,
+                    style: TextStyle(
+                        color: Color.fromARGB(115, 255, 255, 255),
+                        fontSize: 3.3 * vw,
+                        fontWeight: FontWeight.w500,
+                        fontFamily: 'Manrope')),
+              ],
+            ),
+          ),
+          file != null
+              ? GestureDetector(
+                  onTap: selectFile,
+                  child: Container(
+                    margin: EdgeInsets.all(3 * vw),
+                    width: double.infinity,
+                    height: 25 * vh,
+                    child: Image.file(
+                      File(file!.path!),
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                )
+              : GestureDetector(
+                  onTap: selectFile,
+                  child: Container(
+                    margin: EdgeInsets.all(3 * vw),
+                    width: double.infinity,
+                    height: 25 * vh,
+                    child: SvgPicture.asset(
+                      'assets/img/upload_file.svg',
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                ),
+          Padding(
+            padding: EdgeInsets.fromLTRB(5 * vw, 0 * vw, 5 * vw, 3 * vw),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text('или',
+                    textAlign: TextAlign.start,
+                    style: TextStyle(
+                        color: Color.fromARGB(115, 255, 255, 255),
+                        fontSize: 3.3 * vw,
+                        fontWeight: FontWeight.w500,
+                        fontFamily: 'Manrope')),
+              ],
+            ),
+          ),
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 3 * vw),
+            child: TextField(
+              cursorColor: Color.fromRGBO(112, 112, 112, 1),
+              style: TextStyle(color: Colors.white, fontSize: 4 * vw),
+              decoration: InputDecoration(
+                hintText: 'Добавьте ссылку YouTube',
+                hintStyle: const TextStyle(
+                  color: Colors.grey, // Цвет текста плейсхолдера
+                  fontSize: 16, // Размер текста плейсхолдера
+                  fontWeight:
+                      FontWeight.normal, // Начертание текста плейсхолдера
+                ),
+                contentPadding: EdgeInsets.symmetric(
+                    horizontal: 4 * vw, vertical: 1.5 * vh),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(4 * vw),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(4 * vw),
+                  borderSide: const BorderSide(
+                    color: Color.fromARGB(255, 112, 112, 112),
+                    width: 2.0,
+                  ),
+                ),
+              ),
+            ),
+          ),
+          SizedBox(
+            height: 3 * vh,
+          ),
+          ElevatedButton(
+            child: Container(
+              width: 90 * vw,
+              alignment: Alignment.center,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10 * vw),
+                gradient: const RadialGradient(
+                  colors: [
+                    Color(0xff4D8AEE),
+                    Color(0xff2932FF),
+                  ],
+                  radius: 5, // Радиус градиента
+                ),
+              ),
+              padding: EdgeInsets.symmetric(vertical: 1 * vh),
+              child: Text(
+                'Добавить',
+                style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 4 * vw,
+                    fontWeight: FontWeight.w500,
+                    fontFamily: 'Manrope'),
+              ),
+            ),
+            style: ElevatedButton.styleFrom(
+              backgroundColor:
+                  Colors.transparent, // Чтобы сделать фон прозрачным
+              shadowColor: Colors.transparent, // Чтобы убрать тень
+            ).copyWith(
+              backgroundColor:
+                  MaterialStateProperty.all<Color>(Colors.transparent),
+              elevation: MaterialStateProperty.all<double>(0),
+              overlayColor:
+                  MaterialStateProperty.all<Color>(Colors.transparent),
+              // Радиальный градиент
+              shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10),
+                  side: BorderSide(color: Colors.transparent),
+                ),
+              ),
+            ),
+            onPressed: () {
+              // Вызываем функцию обратного вызова для установки группы мышц
+            },
+          ),
         ],
       ),
     );
@@ -1949,8 +2125,8 @@ class ModalStage extends StatefulWidget {
 }
 
 class _ModalStageState extends State<ModalStage> {
-    String stage = '';
-    @override
+  String stage = '';
+  @override
   void initState() {
     setState(() {
       stage = widget.stage;
@@ -1960,10 +2136,6 @@ class _ModalStageState extends State<ModalStage> {
 
   @override
   Widget build(BuildContext context) {
-
-
-
-
     return Container(
       height: 50 * widget.vh,
       width: double.infinity,
@@ -1973,7 +2145,6 @@ class _ModalStageState extends State<ModalStage> {
               topLeft: Radius.circular(10), topRight: Radius.circular(10))),
       child: Column(
         children: [
-          
           Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.center,
@@ -2043,9 +2214,11 @@ class _ModalStageState extends State<ModalStage> {
               )
             ],
           ),
-          SizedBox(height: 5*widget.vh,),
+          SizedBox(
+            height: 5 * widget.vh,
+          ),
           Container(
-            padding: EdgeInsets.all(3*widget.vw),
+            padding: EdgeInsets.all(3 * widget.vw),
             decoration: BoxDecoration(
                 color: Color(0XFF23252B),
                 borderRadius: BorderRadius.circular(3 * widget.vw)),
@@ -2054,7 +2227,10 @@ class _ModalStageState extends State<ModalStage> {
               children: [
                 Container(
                   decoration: const BoxDecoration(
-                    border: Border(bottom: BorderSide(color: Color.fromARGB(14, 255, 255, 255), width: 1)),
+                    border: Border(
+                        bottom: BorderSide(
+                            color: Color.fromARGB(14, 255, 255, 255),
+                            width: 1)),
                   ),
                   child: ElevatedButton(
                     style: ElevatedButton.styleFrom(
@@ -2069,17 +2245,26 @@ class _ModalStageState extends State<ModalStage> {
                         )),
                     onPressed: () {
                       widget.setStage('Разминка');
-                      setState(() {stage = 'Разминка';});
-                      },
+                      setState(() {
+                        stage = 'Разминка';
+                      });
+                    },
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
                           'Разминка',
-                          style: TextStyle(color: Colors.white,fontSize: 4*widget.vw,fontFamily: 'Manrope',fontWeight: FontWeight.w400),
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 4 * widget.vw,
+                              fontFamily: 'Manrope',
+                              fontWeight: FontWeight.w400),
                         ),
                         stage == 'Разминка'
-                            ? SvgPicture.asset('assets/img/ok_white.svg',width: 4*widget.vw,)
+                            ? SvgPicture.asset(
+                                'assets/img/ok_white.svg',
+                                width: 4 * widget.vw,
+                              )
                             : SizedBox.shrink()
                       ],
                     ),
@@ -2087,7 +2272,10 @@ class _ModalStageState extends State<ModalStage> {
                 ),
                 Container(
                   decoration: const BoxDecoration(
-                    border: Border(bottom: BorderSide(color: Color.fromARGB(14, 255, 255, 255), width: 1)),
+                    border: Border(
+                        bottom: BorderSide(
+                            color: Color.fromARGB(14, 255, 255, 255),
+                            width: 1)),
                   ),
                   child: ElevatedButton(
                     style: ElevatedButton.styleFrom(
@@ -2102,17 +2290,26 @@ class _ModalStageState extends State<ModalStage> {
                         )),
                     onPressed: () {
                       widget.setStage('Заминка');
-                      setState(() {stage = 'Заминка';});
-                      },
+                      setState(() {
+                        stage = 'Заминка';
+                      });
+                    },
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
                           'Заминка',
-                          style: TextStyle(color: Colors.white,fontSize: 4*widget.vw,fontFamily: 'Manrope',fontWeight: FontWeight.w400),
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 4 * widget.vw,
+                              fontFamily: 'Manrope',
+                              fontWeight: FontWeight.w400),
                         ),
-                       stage == 'Заминка'
-                            ? SvgPicture.asset('assets/img/ok_white.svg',width: 4*widget.vw,)
+                        stage == 'Заминка'
+                            ? SvgPicture.asset(
+                                'assets/img/ok_white.svg',
+                                width: 4 * widget.vw,
+                              )
                             : SizedBox.shrink()
                       ],
                     ),
@@ -2132,17 +2329,26 @@ class _ModalStageState extends State<ModalStage> {
                         )),
                     onPressed: () {
                       widget.setStage('Упражнение');
-                      setState(() {stage = 'Упражнение';});
-                      },
+                      setState(() {
+                        stage = 'Упражнение';
+                      });
+                    },
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
                           'Упражнение',
-                          style: TextStyle(color: Colors.white,fontSize: 4*widget.vw,fontFamily: 'Manrope',fontWeight: FontWeight.w400),
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 4 * widget.vw,
+                              fontFamily: 'Manrope',
+                              fontWeight: FontWeight.w400),
                         ),
                         stage == 'Упражнение'
-                            ? SvgPicture.asset('assets/img/ok_white.svg',width: 4*widget.vw,)
+                            ? SvgPicture.asset(
+                                'assets/img/ok_white.svg',
+                                width: 4 * widget.vw,
+                              )
                             : SizedBox.shrink()
                       ],
                     ),
