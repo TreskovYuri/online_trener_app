@@ -4,6 +4,8 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:trener_app/widgets/service/navbar.dart';
 import 'package:trener_app/widgets/service/navbar_scroll.dart';
+import 'package:trener_app/widgets/workout/add_sportprogramm.dart';
+import 'package:trener_app/widgets/workout/add_training_pattern.dart';
 
 class TrenerSportProgramm extends StatefulWidget {
   const TrenerSportProgramm({super.key});
@@ -53,7 +55,7 @@ class _TrenerSportProgrammState extends State<TrenerSportProgramm> {
           Padding(
             padding: EdgeInsets.only(right: 2 * vw),
             child: IconButton(
-              onPressed: () {},
+              onPressed: () {showModalBottomSheet(isScrollControlled: true, context: context, builder: (_)=>AddSportProgramm());},
               icon: SvgPicture.asset(
                 'assets/img/blue_plus.svg',
                 width: 2.6 * vh,

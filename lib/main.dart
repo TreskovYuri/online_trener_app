@@ -52,7 +52,9 @@ class MyApp extends StatelessWidget {
       // darkTheme: AppTheme.darkTheme,
       // themeMode: ThemeMode.system,
         theme: ThemeData(
-          scaffoldBackgroundColor: Color(0xff1B1C20)
+          scaffoldBackgroundColor: Color(0xff1B1C20),
+          fontFamily: 'Manrope',
+  
 
         ),
         routes: {

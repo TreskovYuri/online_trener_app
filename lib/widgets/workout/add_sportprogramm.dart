@@ -4,14 +4,14 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 
-class AddTrainingPattern extends StatefulWidget {
-  const AddTrainingPattern({super.key});
+class AddSportProgramm extends StatefulWidget {
+  const AddSportProgramm({super.key});
 
   @override
-  State<AddTrainingPattern> createState() => _AddTrainingPatternState();
+  State<AddSportProgramm> createState() => _AddSportProgrammState();
 }
 
-class _AddTrainingPatternState extends State<AddTrainingPattern> {
+class _AddSportProgrammState extends State<AddSportProgramm> {
   int page = 1;
   List<Map<String, dynamic>> exercisesList = [];
 
@@ -83,7 +83,7 @@ class _AddTrainingPatternState extends State<AddTrainingPattern> {
                         ),
                         page == 1
                             ? Text(
-                                'Добавить шаблон',
+                                'Добавить программу',
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
                                   color: Colors.white,
@@ -95,7 +95,7 @@ class _AddTrainingPatternState extends State<AddTrainingPattern> {
                             : SizedBox.shrink(),
                         page == 2
                             ? Text(
-                                'Упражнения',
+                                'Программа тренировок',
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
                                   color: Colors.white,
@@ -218,6 +218,7 @@ class Page1 extends StatelessWidget {
       required this.vh,
       required this.controllerEng,
       required this.controllerRu});
+
   final double vw;
   final double vh;
   TextEditingController controllerRu;
@@ -248,7 +249,130 @@ class Page1 extends StatelessWidget {
             cursorColor: Color.fromRGBO(112, 112, 112, 1),
             style: TextStyle(color: Colors.white, fontSize: 4 * vw),
             decoration: InputDecoration(
-              hintText: 'Название упражнения',
+              hintText: 'Название программы',
+              hintStyle: const TextStyle(
+                color: Colors.grey, // Цвет текста плейсхолдера
+                fontSize: 16, // Размер текста плейсхолдера
+                fontWeight: FontWeight.normal, // Начертание текста плейсхолдера
+              ),
+              contentPadding:
+                  EdgeInsets.symmetric(horizontal: 4 * vw, vertical: 1.5 * vh),
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(4 * vw),
+              ),
+              focusedBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(4 * vw),
+                borderSide: const BorderSide(
+                  color: Color.fromARGB(255, 112, 112, 112),
+                  width: 2.0,
+                ),
+              ),
+            ),
+          ),
+        ),
+        Padding(
+          padding: EdgeInsets.fromLTRB(5 * vw, 7 * vw, 5 * vw, 2 * vw),
+          child: Row(
+            children: [
+              Text('Введите название на английском',
+                  textAlign: TextAlign.start,
+                  style: TextStyle(
+                      color: Color.fromARGB(115, 255, 255, 255),
+                      fontSize: 3.3 * vw,
+                      fontWeight: FontWeight.w500,
+                      fontFamily: 'Manrope')),
+            ],
+          ),
+        ),
+        Padding(
+          padding: EdgeInsets.symmetric(horizontal: 5 * vw),
+          child: TextField(
+            cursorColor: Color.fromRGBO(112, 112, 112, 1),
+            style: TextStyle(color: Colors.white, fontSize: 4 * vw),
+            decoration: InputDecoration(
+              hintText: 'English',
+              hintStyle: const TextStyle(
+                color: Colors.grey, // Цвет текста плейсхолдера
+                fontSize: 16, // Размер текста плейсхолдера
+                fontWeight: FontWeight.normal, // Начертание текста плейсхолдера
+              ),
+              contentPadding:
+                  EdgeInsets.symmetric(horizontal: 4 * vw, vertical: 1.5 * vh),
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(4 * vw),
+              ),
+              focusedBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(4 * vw),
+                borderSide: const BorderSide(
+                  color: Color.fromARGB(255, 112, 112, 112),
+                  width: 2.0,
+                ),
+              ),
+            ),
+          ),
+        ),
+        Padding(
+          padding: EdgeInsets.fromLTRB(5 * vw, 7 * vw, 5 * vw, 2 * vw),
+          child: Row(
+            children: [
+              Text('Описание (опционально)',
+                  textAlign: TextAlign.start,
+                  style: TextStyle(
+                      color: Color.fromARGB(115, 255, 255, 255),
+                      fontSize: 3.3 * vw,
+                      fontWeight: FontWeight.w500,
+                      fontFamily: 'Manrope')),
+            ],
+          ),
+        ),
+        Padding(
+          padding: EdgeInsets.symmetric(horizontal: 5 * vw),
+          child: TextField(
+            cursorColor: Color.fromRGBO(112, 112, 112, 1),
+            style: TextStyle(color: Colors.white, fontSize: 4 * vw),
+            decoration: InputDecoration(
+              hintText: 'Описание',
+              hintStyle: const TextStyle(
+                color: Colors.grey, // Цвет текста плейсхолдера
+                fontSize: 16, // Размер текста плейсхолдера
+                fontWeight: FontWeight.normal, // Начертание текста плейсхолдера
+              ),
+              contentPadding:
+                  EdgeInsets.symmetric(horizontal: 4 * vw, vertical: 1.5 * vh),
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(4 * vw),
+              ),
+              focusedBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(4 * vw),
+                borderSide: const BorderSide(
+                  color: Color.fromARGB(255, 112, 112, 112),
+                  width: 2.0,
+                ),
+              ),
+            ),
+          ),
+        ),
+        Padding(
+          padding: EdgeInsets.fromLTRB(5 * vw, 7 * vw, 5 * vw, 2 * vw),
+          child: Row(
+            children: [
+              Text('Введите описание на английском',
+                  textAlign: TextAlign.start,
+                  style: TextStyle(
+                      color: Color.fromARGB(115, 255, 255, 255),
+                      fontSize: 3.3 * vw,
+                      fontWeight: FontWeight.w500,
+                      fontFamily: 'Manrope')),
+            ],
+          ),
+        ),
+        Padding(
+          padding: EdgeInsets.symmetric(horizontal: 5 * vw),
+          child: TextField(
+            cursorColor: Color.fromRGBO(112, 112, 112, 1),
+            style: TextStyle(color: Colors.white, fontSize: 4 * vw),
+            decoration: InputDecoration(
+              hintText: 'English',
               hintStyle: const TextStyle(
                 color: Colors.grey, // Цвет текста плейсхолдера
                 fontSize: 16, // Размер текста плейсхолдера
@@ -338,9 +462,10 @@ class ModalCurrentType extends StatefulWidget {
 class _ModalCurrentTypeState extends State<ModalCurrentType> {
   List<String> categoryList = [
     'Разминка',
-    "Заминка",
     "Упражнение",
-    "Тест и норматив"
+    "Заминка",
+    "Тест и норматив",
+    "Серия",
   ];
   @override
   Widget build(BuildContext context) {
@@ -368,15 +493,7 @@ class _ModalCurrentTypeState extends State<ModalCurrentType> {
                         shadowColor: Colors.transparent,
                         surfaceTintColor: Colors.transparent,
                         padding: EdgeInsets.symmetric(vertical: 20)),
-                    onPressed: () {
-                      Navigator.pop(context);
-                      showModalBottomSheet(
-                          isScrollControlled: true,
-                          context: context,
-                          builder: (_) => ExercisePattarnModal(
-                                title: e,
-                              ));
-                    },
+                    onPressed: () {},
                     child: Container(
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -408,9 +525,7 @@ class _ModalCurrentTypeState extends State<ModalCurrentType> {
                   shadowColor: Colors.transparent,
                   surfaceTintColor: Colors.transparent,
                 ),
-                onPressed: () {
-                  Navigator.pop(context);
-                },
+                onPressed: () {Navigator.pop(context);},
                 child: const Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -430,197 +545,4 @@ class _ModalCurrentTypeState extends State<ModalCurrentType> {
   }
 }
 
-class ExercisePattarnModal extends StatefulWidget {
-  const ExercisePattarnModal({super.key, required this.title});
-  final String title;
 
-  @override
-  State<ExercisePattarnModal> createState() => _ExercisePattarnModalState();
-}
-
-class _ExercisePattarnModalState extends State<ExercisePattarnModal> {
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      height: 800,
-      width: double.infinity,
-      decoration: const BoxDecoration(
-          color: Color(0xff1B1C20),
-          borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(10), topRight: Radius.circular(10))),
-      child: ListView(
-        children: [
-          Container(
-            padding: EdgeInsets.symmetric(horizontal: 150),
-            child: Container(
-              margin: EdgeInsets.only(top: 10),
-              width: 15,
-              height: 4,
-              decoration: BoxDecoration(
-                  color: const Color.fromARGB(59, 255, 255, 255),
-                  borderRadius: BorderRadius.circular(50)),
-            ),
-          ),
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Expanded(
-                  flex: 2,
-                  child: Container(
-                    padding: EdgeInsets.only(left: 20),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const SizedBox(
-                          height: 10,
-                        ),
-                        Text(
-                          widget.title,
-                          style: const TextStyle(
-                              color: Color.fromARGB(255, 255, 255, 255),
-                              fontSize: 20),
-                        ),
-                      ],
-                    ),
-                  )),
-              Expanded(
-                flex: 1,
-                child: GestureDetector(
-                  onTap: () {},
-                  child: Container(
-                      padding: EdgeInsets.only(top: 10),
-                      alignment: Alignment.center,
-                      child: const Text(
-                        'Добавить',
-                        style: TextStyle(
-                          color: Color(0xff4D8AEE),
-                          fontSize: 20,
-                          fontWeight: FontWeight.w400,
-                          fontFamily: 'Manrope',
-                        ),
-                      )),
-                ),
-              )
-            ],
-          ),
-          Padding(
-            padding: const EdgeInsets.all(13),
-            child: TextField(
-              cursorColor: const Color.fromARGB(255, 112, 112, 112),
-              style: const TextStyle(color: Colors.white, fontSize: 16),
-              decoration: InputDecoration(
-                hintText: 'Найти...',
-                filled: true, // Set to true to fill the background
-                fillColor: Color(0xff23252B), // Set background color
-                hintStyle: const TextStyle(
-                    color: Colors.grey), // Customize hint text color
-                contentPadding:
-                    const EdgeInsets.symmetric(horizontal: 20, vertical: 1.5),
-                border: OutlineInputBorder(
-                  borderSide: BorderSide.none, // Remove border
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                focusedBorder: OutlineInputBorder(
-                  borderSide: BorderSide.none, // Remove border
-                  borderRadius: BorderRadius.circular(4),
-                ),
-              ),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(13),
-            child: Row(
-              children: [
-                Expanded(
-                  child: Container(
-                    decoration: BoxDecoration(
-                        gradient: true
-                            ? const RadialGradient(
-                                colors: [Color(0xff4D8AEE), Color(0xff2932FF)],
-                                radius: 8)
-                            : const RadialGradient(
-                                colors: [Colors.transparent, Colors.transparent]),
-                        borderRadius: BorderRadius.circular(3)),
-                    // padding: EdgeInsets.all(1),
-                    margin: EdgeInsets.only(left: 1, right: 1),
-                    child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        foregroundColor: Color.fromARGB(112, 1, 110, 179),
-                        backgroundColor: Color(0xff23252B),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(
-                              3), // Устанавливаем радиус круглых углов
-                        ),
-                      ),
-                      onPressed: () {
-                        // Вызываем функцию обратного вызова для установки группы мышц
-                      },
-                      child: const Padding(
-                        padding: EdgeInsets.symmetric(vertical: 1),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            Text('Пресс',
-                                style: TextStyle(
-                                    color: Colors.white,
-                                    fontFamily: 'Manrope',
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w400))
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-                SizedBox(width: 5,),
-                Expanded(
-                  child: Container(
-                    decoration: BoxDecoration(
-                        gradient: true
-                            ? const RadialGradient(
-                                colors: [Color(0xff4D8AEE), Color(0xff2932FF)],
-                                radius: 8)
-                            : const RadialGradient(
-                                colors: [Colors.transparent, Colors.transparent]),
-                        borderRadius: BorderRadius.circular(3)),
-                    padding: EdgeInsets.all(1),
-                    margin: EdgeInsets.only(left: 2, right: 1),
-                    child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        foregroundColor: Color.fromARGB(112, 1, 110, 179),
-                        backgroundColor: Color(0xff23252B),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(
-                              3), // Устанавливаем радиус круглых углов
-                        ),
-                      ),
-                      onPressed: () {
-                        // Вызываем функцию обратного вызова для установки группы мышц
-                      },
-                      child: Padding(
-                        padding: EdgeInsets.symmetric(vertical: 2),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            Text('Пресс',
-                                style: TextStyle(
-                                    color: Colors.white,
-                                    fontFamily: 'Manrope',
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w400))
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          )
-        ],
-      ),
-    );
-    ;
-  }
-}

@@ -1091,6 +1091,8 @@ class _ModalGroupState extends State<ModalGroup> {
                 ...typeList.map(
                   (e) => ElevatedButton(
                     style: ElevatedButton.styleFrom(
+                      shadowColor: Colors.transparent,
+                      surfaceTintColor: Colors.transparent,
                       padding: const EdgeInsets.symmetric(
                           vertical: 20, horizontal: 20),
                       foregroundColor: const Color.fromARGB(112, 1, 110, 179),
