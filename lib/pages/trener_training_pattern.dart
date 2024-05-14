@@ -4,6 +4,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:trener_app/widgets/service/navbar.dart';
 import 'package:trener_app/widgets/service/navbar_scroll.dart';
+import 'package:trener_app/widgets/workout/add_training_pattern.dart';
 
 class TrenerTrainingPattern extends StatefulWidget {
   const TrenerTrainingPattern({super.key});
@@ -48,14 +49,14 @@ class _TrenerTrainingPatternState extends State<TrenerTrainingPattern> {
           icon: const Icon(Icons
               .arrow_back_ios_new_rounded), // Устанавливаем иконку "домой" вместо стрелки "назад"
           onPressed: () {
-            Navigator.pop(context);
+            Navigator.pushReplacementNamed(context, '/service');
           },
         ),
         actions: [
           Padding(
             padding: EdgeInsets.only(right: 2 * vw),
             child: IconButton(
-              onPressed: () {},
+              onPressed: () {showModalBottomSheet(isScrollControlled: true, context: context, builder: (_)=>AddTrainingPattern());},
               icon: SvgPicture.asset(
                 'assets/img/blue_plus.svg',
                 width: 2.6 * vh,
@@ -85,7 +86,7 @@ class _TrenerTrainingPatternState extends State<TrenerTrainingPattern> {
           ListView(
             children: [
               Padding(
-                      padding: EdgeInsets.all(3 * vw),
+                      padding: EdgeInsets.symmetric(horizontal:3 * vw),
                       child: TextField(
                         cursorColor: Color.fromARGB(255, 112, 112, 112),
                         style: TextStyle(color: Colors.white, fontSize: 4 * vw),
