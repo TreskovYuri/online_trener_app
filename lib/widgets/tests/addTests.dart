@@ -55,12 +55,16 @@ class _ModalAddTestState extends State<ModalAddTest> {
                     onTap: () {
                       Navigator.pop(context);
                     },
-                    child: Container(
-                        padding: EdgeInsets.only(top: 10),
-                        alignment: Alignment.center,
-                        child: SvgPicture.asset(
-                          'assets/img/x_white.svg',
-                        )),
+                    child: Row(
+                      children: [
+                        Container(
+                            padding: EdgeInsets.only(top: 10, left: 30),
+                            alignment: Alignment.center,
+                            child: SvgPicture.asset(
+                              'assets/img/x_white.svg',
+                            )),
+                      ],
+                    ),
                   )),
               Expanded(
                   flex: 2,
@@ -140,6 +144,7 @@ class _Page1State extends State<Page1> {
   Widget build(BuildContext context) {
     return Column(
       children: [
+        SizedBox(height: 80,),
         Container(
           margin: EdgeInsets.all(20),
           padding: EdgeInsets.all(10),
@@ -148,6 +153,7 @@ class _Page1State extends State<Page1> {
               borderRadius: BorderRadius.circular(25)),
           child: Column(
             children: [
+              
               ...typeList.map((e) => ElevatedButton(
                   style: ElevatedButton.styleFrom(
                     padding: EdgeInsets.symmetric(vertical: 20, horizontal: 20),
@@ -191,6 +197,9 @@ class _Page1State extends State<Page1> {
     );
   }
 }
+
+
+
 
 class Page2 extends StatefulWidget {
   Page2({super.key, required this.vh, required this.vw});
@@ -391,7 +400,7 @@ class _Page2State extends State<Page2> {
                     height: 1 * vh,
                   ),
                   ElevatedButton(
-                    onPressed: () {},
+                    onPressed: () {showCupertinoModalPopup(context: context, builder: (_)=>ModalEdIzm());},
                     style: ElevatedButton.styleFrom(
                       foregroundColor: Color.fromARGB(112, 1, 110, 179),
                       backgroundColor: Color(0xff23252B),
@@ -415,9 +424,9 @@ class _Page2State extends State<Page2> {
                                 fontWeight: FontWeight.w400,
                                 fontFamily: 'Manrope'),
                           ),
-                          Icon(
+                          const Icon(
                             Icons.keyboard_arrow_down_rounded,
-                            color: const Color.fromARGB(155, 255, 255, 255),
+                            color: Color.fromARGB(155, 255, 255, 255),
                           )
                         ],
                       ),
@@ -478,4 +487,23 @@ class _Page2State extends State<Page2> {
   }
 }
 
+class ModalEdIzm extends StatefulWidget {
+  const ModalEdIzm({super.key});
 
+  @override
+  State<ModalEdIzm> createState() => _ModalEdIzmState();
+}
+
+class _ModalEdIzmState extends State<ModalEdIzm> {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: 150,
+      height: 150,
+      color: Colors.red,
+      child: Column(
+        children: [],
+      ),
+    );
+  }
+}
