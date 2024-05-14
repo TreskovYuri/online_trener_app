@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
-import 'package:file_picker/file_picker.dart';
+// import 'package:file_picker/file_picker.dart';
 
 class ModalCreateTraining extends StatefulWidget {
   const ModalCreateTraining({super.key});
@@ -1804,7 +1804,7 @@ class Page4 extends StatefulWidget {
 class _Page4State extends State<Page4> {
   String stage = 'Разминка';
   bool stageModalFlag = false;
-  PlatformFile? file;
+  // PlatformFile? file;
 
   void setStage(String newStage) {
     setState(() {
@@ -1813,11 +1813,11 @@ class _Page4State extends State<Page4> {
   }
 
   Future selectFile() async {
-    final fileUpload = await FilePicker.platform.pickFiles();
-    if (fileUpload == null) return;
-    setState(() {
-      file = fileUpload.files.first;
-    });
+    // final fileUpload = await FilePicker.platform.pickFiles();
+    // if (fileUpload == null) return;
+    // setState(() {
+    //   file = fileUpload.files.first;
+    // });
   }
 
   @override
@@ -1985,31 +1985,31 @@ class _Page4State extends State<Page4> {
               ],
             ),
           ),
-          file != null
-              ? GestureDetector(
-                  onTap: selectFile,
-                  child: Container(
-                    margin: EdgeInsets.all(3 * vw),
-                    width: double.infinity,
-                    height: 25 * vh,
-                    child: Image.file(
-                      File(file!.path!),
-                      fit: BoxFit.cover,
-                    ),
-                  ),
-                )
-              : GestureDetector(
-                  onTap: selectFile,
-                  child: Container(
-                    margin: EdgeInsets.all(3 * vw),
-                    width: double.infinity,
-                    height: 25 * vh,
-                    child: SvgPicture.asset(
-                      'assets/img/upload_file.svg',
-                      fit: BoxFit.cover,
-                    ),
-                  ),
-                ),
+          // file != null
+          //     ? GestureDetector(
+          //         onTap: selectFile,
+          //         child: Container(
+          //           margin: EdgeInsets.all(3 * vw),
+          //           width: double.infinity,
+          //           height: 25 * vh,
+          //           child: Image.file(
+          //             File(file!.path!),
+          //             fit: BoxFit.cover,
+          //           ),
+          //         ),
+          //       )
+          //     : GestureDetector(
+          //         onTap: selectFile,
+          //         child: Container(
+          //           margin: EdgeInsets.all(3 * vw),
+          //           width: double.infinity,
+          //           height: 25 * vh,
+          //           child: SvgPicture.asset(
+          //             'assets/img/upload_file.svg',
+          //             fit: BoxFit.cover,
+          //           ),
+          //         ),
+          //       ),
           Padding(
             padding: EdgeInsets.fromLTRB(5 * vw, 0 * vw, 5 * vw, 3 * vw),
             child: Row(
