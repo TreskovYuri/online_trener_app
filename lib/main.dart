@@ -11,6 +11,7 @@ import 'package:trener_app/pages/forgot.dart';
 import 'package:trener_app/pages/journal.dart';
 import 'package:trener_app/pages/loading.dart';
 import 'package:trener_app/pages/login.dart';
+import 'package:trener_app/pages/profile_one_user.dart';
 import 'package:trener_app/pages/progress.dart';
 import 'package:trener_app/pages/service.dart';
 import 'package:trener_app/pages/nutrition.dart';
@@ -19,6 +20,7 @@ import 'package:trener_app/pages/profile.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:provider/provider.dart';
+import 'package:trener_app/pages/sportsmans.dart';
 import 'package:trener_app/pages/trener_sportprogramm.dart';
 import 'package:trener_app/pages/trener_tests.dart';
 import 'package:trener_app/pages/trener_training_pattern.dart';
@@ -68,6 +70,7 @@ class MyApp extends StatelessWidget {
           '/workoutscheme': (context) => const WorkoutSheme(),
           '/service': (context) => const Service(),
           '/profile': (context) => const Profile(),
+          '/profile_one_user': (context) => const ProfileOneUser(),
           '/chats': (context) => const Chats(),
           '/training_fix': (context) => const TrainingFix(),
           '/nutrition': (context) => const Nutrition(),
@@ -79,6 +82,7 @@ class MyApp extends StatelessWidget {
           '/trener_tests': (context) => const TrenerTests(),
           '/trener_training_pattern': (context) => const TrenerTrainingPattern(),
           '/trener_sportprogramm': (context) => const TrenerSportProgramm(),
+          '/sportsmans': (context) => const Sportsmans(),
         },
       ),
     );

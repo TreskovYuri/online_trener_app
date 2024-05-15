@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:trener_app/getx/getx_controller.dart';
 
 class AddTrainingPattern extends StatefulWidget {
   const AddTrainingPattern({super.key});
@@ -56,126 +57,129 @@ class _AddTrainingPatternState extends State<AddTrainingPattern> {
                   borderRadius: BorderRadius.circular(50 * vw)),
             ),
           ),
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Expanded(
-                  flex: 1,
-                  child: GestureDetector(
-                    onTap: () {
-                      Navigator.pop(context);
-                    },
+          Container(
+            height: 5 * vh,
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Expanded(
+                    flex: 1,
+                    child: GestureDetector(
+                      onTap: () {
+                        Navigator.pop(context);
+                      },
+                      child: Container(
+                          padding: EdgeInsets.only(top: 1.7 * vh),
+                          alignment: Alignment.center,
+                          child: SvgPicture.asset(
+                            'assets/img/x_white.svg',
+                          )),
+                    )),
+                Expanded(
+                    flex: 2,
                     child: Container(
-                        padding: EdgeInsets.only(top: 1.7 * vh),
-                        alignment: Alignment.center,
-                        child: SvgPicture.asset(
-                          'assets/img/x_white.svg',
-                        )),
-                  )),
-              Expanded(
-                  flex: 2,
-                  child: Container(
-                    child: Column(
-                      children: [
-                        SizedBox(
-                          height: 2 * vh,
-                        ),
-                        page == 1
-                            ? Text(
-                                'Добавить шаблон',
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontFamily: 'Manrope',
-                                  fontSize: 4 * vw,
-                                  fontWeight: FontWeight.w600,
-                                ),
-                              )
-                            : SizedBox.shrink(),
-                        page == 2
-                            ? Text(
-                                'Упражнения',
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontFamily: 'Manrope',
-                                  fontSize: 4 * vw,
-                                  fontWeight: FontWeight.w600,
-                                ),
-                              )
-                            : SizedBox.shrink(),
-                        page == 3
-                            ? Text(
-                                'Выбор оборудования',
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontFamily: 'Manrope',
-                                  fontSize: 4 * vw,
-                                  fontWeight: FontWeight.w600,
-                                ),
-                              )
-                            : SizedBox.shrink(),
-                        page == 4
-                            ? Text(
-                                'Добавить упражнение',
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontFamily: 'Manrope',
-                                  fontSize: 4 * vw,
-                                  fontWeight: FontWeight.w600,
-                                ),
-                              )
-                            : SizedBox.shrink(),
-                      ],
-                    ),
-                  )),
-              Expanded(
-                flex: 1,
-                child: page == 1
-                    ? GestureDetector(
-                        onTap: () {
-                          setState(() {
-                            if (nameRuController.text.length > 0) {
-                              page++;
-                            } else {
-                              Get.snackbar('Ошибка ввода!',
-                                  'Введите название упражнения...',
-                                  margin: EdgeInsets.only(top: 50),
-                                  colorText:
-                                      Color.fromARGB(181, 255, 255, 255));
-                            }
-                          });
-                        },
-                        child: Container(
-                            padding: EdgeInsets.only(top: 2 * vh),
-                            alignment: Alignment.center,
-                            child: Text(
-                              'Далее',
-                              style: TextStyle(
-                                color: Color(0xff4D8AEE),
-                                fontSize: 3.3 * vw,
-                                fontWeight: FontWeight.w500,
-                                fontFamily: 'Manrope',
-                              ),
-                            )),
-                      )
-                    : GestureDetector(
-                        onTap: () {
-                          showCupertinoModalPopup(
-                              context: context,
-                              builder: (_) => ModalCurrentType());
-                        },
-                        child: Container(
-                            padding: EdgeInsets.only(top: 2 * vh),
-                            alignment: Alignment.center,
-                            child:
-                                SvgPicture.asset('assets/img/blue_plus.svg')),
+                      child: Column(
+                        children: [
+                          SizedBox(
+                            height: 2 * vh,
+                          ),
+                          page == 1
+                              ? Text(
+                                  'Добавить шаблон',
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontFamily: 'Manrope',
+                                    fontSize: 4 * vw,
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                )
+                              : SizedBox.shrink(),
+                          page == 2
+                              ? Text(
+                                  'Упражнения',
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontFamily: 'Manrope',
+                                    fontSize: 4 * vw,
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                )
+                              : SizedBox.shrink(),
+                          page == 3
+                              ? Text(
+                                  'Выбор оборудования',
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontFamily: 'Manrope',
+                                    fontSize: 4 * vw,
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                )
+                              : SizedBox.shrink(),
+                          page == 4
+                              ? Text(
+                                  'Добавить упражнение',
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontFamily: 'Manrope',
+                                    fontSize: 4 * vw,
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                )
+                              : SizedBox.shrink(),
+                        ],
                       ),
-              )
-            ],
+                    )),
+                Expanded(
+                  flex: 1,
+                  child: page == 1
+                      ? GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              if (nameRuController.text.length > 0) {
+                                page++;
+                              } else {
+                                Get.snackbar('Ошибка ввода!',
+                                    'Введите название упражнения...',
+                                    margin: EdgeInsets.only(top: 50),
+                                    colorText:
+                                        Color.fromARGB(181, 255, 255, 255));
+                              }
+                            });
+                          },
+                          child: Container(
+                              padding: EdgeInsets.only(top: 2 * vh),
+                              alignment: Alignment.center,
+                              child: Text(
+                                'Далее',
+                                style: TextStyle(
+                                  color: Color(0xff4D8AEE),
+                                  fontSize: 3.3 * vw,
+                                  fontWeight: FontWeight.w500,
+                                  fontFamily: 'Manrope',
+                                ),
+                              )),
+                        )
+                      : GestureDetector(
+                          onTap: () {
+                            showCupertinoModalPopup(
+                                context: context,
+                                builder: (_) => ModalCurrentType());
+                          },
+                          child: Container(
+                              padding: EdgeInsets.only(top: 2 * vh),
+                              alignment: Alignment.center,
+                              child:
+                                  SvgPicture.asset('assets/img/blue_plus.svg')),
+                        ),
+                )
+              ],
+            ),
           ),
           SizedBox(
             height: 3 * vh,
@@ -284,8 +288,9 @@ class Page2 extends StatefulWidget {
 class _Page2State extends State<Page2> {
   @override
   Widget build(BuildContext context) {
+    final vh = MediaQuery.of(context).size.height / 100;
     return Container(
-      height: 700,
+      height: 78 * vh,
       width: double.infinity,
       child: Stack(
         children: [
@@ -340,7 +345,8 @@ class _ModalCurrentTypeState extends State<ModalCurrentType> {
     'Разминка',
     "Заминка",
     "Упражнение",
-    "Тест и норматив"
+    "Тест и норматив",
+    "Сеты"
   ];
   @override
   Widget build(BuildContext context) {
@@ -439,10 +445,101 @@ class ExercisePattarnModal extends StatefulWidget {
 }
 
 class _ExercisePattarnModalState extends State<ExercisePattarnModal> {
+  List<Map<String, dynamic>> exercisesList = [
+    {
+      "id": 1,
+      "name": "Махи ногами",
+      "img":
+          "http://web-hub.pro:5004/assets/9811ef87-a51a-4c53-8e13-85b6539ede97.png",
+      'descriptionRu': 'Развивает мышцы плеч, спины и груди, улучшает осанку',
+      'descriptionEn': 'Развивает мышцы плеч, спины и груди, улучшает осанку',
+      'link': '',
+      'video': '',
+      'stage': '',
+      'equipment': '',
+      'musclegroups': '',
+      'pocazatel1Name': 'Колличество',
+      'pocazatel1Type': 'раз',
+      'pocazatel1SPFlag': '',
+      'pocazatel2Name': '',
+      'pocazatel2Type': '',
+      'pocazatel2SPFlag': '',
+      'pocazatel3Name': '',
+      'pocazatel3Type': '',
+      'pocazatel3SPFlag': '',
+      'pocazatel4Name': '',
+      'pocazatel4Type': '',
+      'pocazatel4SPFlag': '',
+      'pocazatel5Name': '',
+      'pocazatel5Type': '',
+      'pocazatel5SPFlag': '',
+    },
+    {
+      "id": 2,
+      "name": "Скручивания на пресс",
+      "img":
+          "http://web-hub.pro:5004/assets/0c50cda7-8543-492c-8d92-840921bf7c4e.jpg",
+      'descriptionRu': 'Развивает мышцы плеч, спины и груди, улучшает осанку',
+      'descriptionEn': 'Развивает мышцы плеч, спины и груди, улучшает осанку',
+      'link': '',
+      'video': '',
+      'stage': '',
+      'equipment': '',
+      'musclegroups': '',
+      'pocazatel1Name': 'Колличество',
+      'pocazatel1Type': 'раз',
+      'pocazatel1SPFlag': '',
+      'pocazatel2Name': '',
+      'pocazatel2Type': '',
+      'pocazatel2SPFlag': '',
+      'pocazatel3Name': '',
+      'pocazatel3Type': '',
+      'pocazatel3SPFlag': '',
+      'pocazatel4Name': '',
+      'pocazatel4Type': '',
+      'pocazatel4SPFlag': '',
+      'pocazatel5Name': '',
+      'pocazatel5Type': '',
+      'pocazatel5SPFlag': '',
+    },
+    {
+      "id": 3,
+      "name": "Отжимания",
+      "img":
+          "http://web-hub.pro:5004/assets/6411cec5-9276-490e-8b9a-a718f3dfd97d.jpg",
+      'descriptionRu': 'Развивает мышцы плеч, спины и груди, улучшает осанку',
+      'descriptionEn': 'Развивает мышцы плеч, спины и груди, улучшает осанку',
+      'link': '',
+      'video': '',
+      'stage': '',
+      'equipment': '',
+      'musclegroups': '',
+      'pocazatel1Name': 'Колличество',
+      'pocazatel1Type': 'раз',
+      'pocazatel1SPFlag': '',
+      'pocazatel2Name': '',
+      'pocazatel2Type': '',
+      'pocazatel2SPFlag': '',
+      'pocazatel3Name': '',
+      'pocazatel3Type': '',
+      'pocazatel3SPFlag': '',
+      'pocazatel4Name': '',
+      'pocazatel4Type': '',
+      'pocazatel4SPFlag': '',
+      'pocazatel5Name': '',
+      'pocazatel5Type': '',
+      'pocazatel5SPFlag': '',
+    },
+  ];
+
+  List<Map<String, dynamic>> finalExercisesList = [];
+  Map<String, dynamic> currentExercise = {};
+
   @override
   Widget build(BuildContext context) {
+    final vh = MediaQuery.of(context).size.height / 100;
     return Container(
-      height: 800,
+      height: 90 * vh,
       width: double.infinity,
       decoration: const BoxDecoration(
           color: Color(0xff1B1C20),
@@ -487,7 +584,21 @@ class _ExercisePattarnModalState extends State<ExercisePattarnModal> {
               Expanded(
                 flex: 1,
                 child: GestureDetector(
-                  onTap: () {},
+                  onTap: () {
+                    if (currentExercise['id'] != null) {
+                      Navigator.pop(context);
+                      showModalBottomSheet(
+                          isScrollControlled: true,
+                          context: context,
+                          builder: (_) => _AddSets(
+                                exercise: currentExercise,
+                              ));
+                    } else {
+                      Get.snackbar('Ошибка ввода!', 'Выберите упражнение...',
+                          margin: EdgeInsets.only(top: 50),
+                          colorText: Color.fromARGB(181, 255, 255, 255));
+                    }
+                  },
                   child: Container(
                       padding: EdgeInsets.only(top: 10),
                       alignment: Alignment.center,
@@ -495,7 +606,7 @@ class _ExercisePattarnModalState extends State<ExercisePattarnModal> {
                         'Добавить',
                         style: TextStyle(
                           color: Color(0xff4D8AEE),
-                          fontSize: 20,
+                          fontSize: 18,
                           fontWeight: FontWeight.w400,
                           fontFamily: 'Manrope',
                         ),
@@ -534,93 +645,538 @@ class _ExercisePattarnModalState extends State<ExercisePattarnModal> {
               children: [
                 Expanded(
                   child: Container(
+                    padding: EdgeInsets.all(1),
                     decoration: BoxDecoration(
-                        gradient: true
-                            ? const RadialGradient(
-                                colors: [Color(0xff4D8AEE), Color(0xff2932FF)],
-                                radius: 8)
-                            : const RadialGradient(
-                                colors: [Colors.transparent, Colors.transparent]),
-                        borderRadius: BorderRadius.circular(3)),
-                    // padding: EdgeInsets.all(1),
-                    margin: EdgeInsets.only(left: 1, right: 1),
-                    child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        foregroundColor: Color.fromARGB(112, 1, 110, 179),
-                        backgroundColor: Color(0xff23252B),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(
-                              3), // Устанавливаем радиус круглых углов
-                        ),
-                      ),
-                      onPressed: () {
-                        // Вызываем функцию обратного вызова для установки группы мышц
-                      },
-                      child: const Padding(
-                        padding: EdgeInsets.symmetric(vertical: 1),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            Text('Пресс',
-                                style: TextStyle(
-                                    color: Colors.white,
-                                    fontFamily: 'Manrope',
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w400))
-                          ],
-                        ),
-                      ),
+                        gradient: const RadialGradient(
+                            colors: [Color(0xff4D8AEE), Color(0xff2932FF)],
+                            radius: 15),
+                        borderRadius: BorderRadius.circular(13)),
+                    child: Container(
+                      padding:
+                          EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+                      decoration: BoxDecoration(
+                          color: const Color(0xff23252B),
+                          borderRadius: BorderRadius.circular(13)),
+                      child: const Text('Группа мышц',
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 16,
+                              fontWeight: FontWeight.w400)),
                     ),
                   ),
                 ),
-                SizedBox(width: 5,),
+                const SizedBox(
+                  width: 10,
+                ),
                 Expanded(
                   child: Container(
-                    decoration: BoxDecoration(
-                        gradient: true
-                            ? const RadialGradient(
-                                colors: [Color(0xff4D8AEE), Color(0xff2932FF)],
-                                radius: 8)
-                            : const RadialGradient(
-                                colors: [Colors.transparent, Colors.transparent]),
-                        borderRadius: BorderRadius.circular(3)),
                     padding: EdgeInsets.all(1),
-                    margin: EdgeInsets.only(left: 2, right: 1),
-                    child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        foregroundColor: Color.fromARGB(112, 1, 110, 179),
-                        backgroundColor: Color(0xff23252B),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(
-                              3), // Устанавливаем радиус круглых углов
-                        ),
-                      ),
-                      onPressed: () {
-                        // Вызываем функцию обратного вызова для установки группы мышц
-                      },
-                      child: Padding(
-                        padding: EdgeInsets.symmetric(vertical: 2),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            Text('Пресс',
-                                style: TextStyle(
-                                    color: Colors.white,
-                                    fontFamily: 'Manrope',
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w400))
-                          ],
-                        ),
-                      ),
+                    decoration: BoxDecoration(
+                        gradient: const RadialGradient(
+                            colors: [Color(0xff4D8AEE), Color(0xff2932FF)],
+                            radius: 15),
+                        borderRadius: BorderRadius.circular(13)),
+                    child: Container(
+                      padding:
+                          EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+                      decoration: BoxDecoration(
+                          color: const Color(0xff23252B),
+                          borderRadius: BorderRadius.circular(13)),
+                      child: const Text('Категория',
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 16,
+                              fontWeight: FontWeight.w400)),
                     ),
                   ),
                 ),
+              ],
+            ),
+          ),
+          Padding(
+            padding: EdgeInsets.all(13),
+            child: Column(
+              children: [
+                ...exercisesList.map((e) => Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 5),
+                      child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            padding: const EdgeInsets.symmetric(vertical: 14),
+                            backgroundColor: const Color(0xff24252B),
+                            foregroundColor: const Color.fromARGB(0, 0, 41, 74),
+                            shadowColor: Colors.transparent,
+                            surfaceTintColor: Colors.transparent,
+                          ),
+                          onPressed: () {
+                            setState(() {
+                              currentExercise = e;
+                            });
+                          },
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 10),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Row(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    ClipRRect(
+                                      borderRadius: BorderRadius.circular(13),
+                                      child: Container(
+                                        height: 50,
+                                        width: 50,
+                                        child: Image.network(
+                                          e['img'],
+                                          fit: BoxFit.fitHeight,
+                                        ),
+                                      ),
+                                    ),
+                                    const SizedBox(
+                                      width: 10,
+                                    ),
+                                    Container(
+                                        width: 200,
+                                        child: Text(
+                                          e['name'],
+                                          style: const TextStyle(
+                                              color: Colors.white,
+                                              fontSize: 16),
+                                        ))
+                                  ],
+                                ),
+                                Padding(
+                                  padding: EdgeInsets.only(right: 10),
+                                  child: Container(
+                                      width: 22,
+                                      height: 22,
+                                      decoration: BoxDecoration(
+                                          gradient: currentExercise['id'] ==
+                                                  e['id']
+                                              ? const RadialGradient(colors: [
+                                                  Color(0xff4D8AEE),
+                                                  Color(0xff2932FF),
+                                                ], radius: 5)
+                                              : const RadialGradient(colors: [
+                                                  Color.fromARGB(
+                                                      87, 100, 100, 100),
+                                                  Color.fromARGB(
+                                                      96, 109, 109, 109)
+                                                ]),
+                                          borderRadius:
+                                              BorderRadius.circular(100)),
+                                      child: Opacity(
+                                        opacity:
+                                            currentExercise['id'] == e['id']
+                                                ? 1
+                                                : 0,
+                                        child: IconButton(
+                                          onPressed: () {
+                                            setState(() {
+                                              currentExercise = e;
+                                            });
+                                          },
+                                          icon: SvgPicture.asset(
+                                            'assets/img/ok_white.svg',
+                                            width: 16,
+                                            height: 16,
+                                          ),
+                                        ),
+                                      )),
+                                ),
+                              ],
+                            ),
+                          )),
+                    ))
               ],
             ),
           )
         ],
       ),
     );
-    ;
+  }
+}
+
+class _AddSets extends StatefulWidget {
+  _AddSets({super.key, required this.exercise});
+  Map<String, dynamic> exercise;
+
+  @override
+  State<_AddSets> createState() => __AddSetsState();
+}
+
+class __AddSetsState extends State<_AddSets> {
+  int sets = 1;
+  @override
+  Widget build(BuildContext context) {
+    final vh = MediaQuery.of(context).size.height / 100;
+    return Stack(
+      children: [
+        Positioned(
+            child: Container(
+          height: 90*vh,
+          width: double.infinity,
+          decoration: const BoxDecoration(
+              color: Color(0xff1B1C20),
+              borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(10), topRight: Radius.circular(10))),
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: ListView(
+              children: [
+                Container(
+                  padding: EdgeInsets.symmetric(horizontal: 150),
+                  child: Container(
+                    margin: EdgeInsets.only(top: 10),
+                    width: 15,
+                    height: 4,
+                    decoration: BoxDecoration(
+                        color: const Color.fromARGB(59, 255, 255, 255),
+                        borderRadius: BorderRadius.circular(50)),
+                  ),
+                ),
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Expanded(
+                      flex: 1,
+                      child: GestureDetector(
+                        onTap: () {
+                          Navigator.pop(context);
+                        },
+                        child: Container(
+                            padding: EdgeInsets.only(top: 10),
+                            alignment: Alignment.center,
+                            child: SvgPicture.asset('assets/img/x_white.svg')),
+                      ),
+                    ),
+                    Expanded(
+                        flex: 4,
+                        child: Container(
+                          padding: EdgeInsets.only(left: 20),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              const SizedBox(
+                                height: 10,
+                              ),
+                              Text(
+                                widget.exercise['name'],
+                                style: const TextStyle(
+                                    color: Color.fromARGB(255, 255, 255, 255),
+                                    fontSize: 20),
+                              ),
+                            ],
+                          ),
+                        )),
+                    Expanded(
+                      flex: 1,
+                      child: GestureDetector(
+                        onTap: () {},
+                        child: Container(
+                            padding: EdgeInsets.only(top: 10),
+                            alignment: Alignment.center,
+                            child: const Text(
+                              '',
+                              style: TextStyle(
+                                color: Color(0xff4D8AEE),
+                                fontSize: 18,
+                                fontWeight: FontWeight.w400,
+                                fontFamily: 'Manrope',
+                              ),
+                            )),
+                      ),
+                    )
+                  ],
+                ),
+                const SizedBox(
+                  height: 50,
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 8),
+                  child: Row(
+                    children: [
+                      const Expanded(
+                        child: Row(
+                          children: [
+                            Text(
+                              'Сет',
+                              style:
+                                  TextStyle(color: Colors.white38, fontSize: 13),
+                            )
+                          ],
+                        ),
+                      ),
+                      widget.exercise['pocazatel1Name'] != null
+                          ? Expanded(
+                              child: Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 8),
+                                child: Row(
+                                  children: [
+                                    Text(
+                                      widget.exercise['pocazatel1Name'],
+                                      style: TextStyle(
+                                          color: Colors.white38, fontSize: 13),
+                                    )
+                                  ],
+                                ),
+                              ),
+                            )
+                          : const SizedBox.shrink(),
+                    ],
+                  ),
+                ),
+                Column(
+                  children: [
+                    ...List.generate(
+                      sets,
+                      (index) => RowInputWidget(
+                        exercise: widget.exercise,
+                        set: index,
+                      ),
+                    )
+                  ],
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
+                Container(
+                  padding: const EdgeInsets.all(1),
+                  decoration: BoxDecoration(
+                      gradient: const RadialGradient(
+                          colors: [Color(0xff4D8AEE), Color(0xff2932FF)],
+                          radius: 71),
+                      borderRadius: BorderRadius.circular(100)),
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      foregroundColor: const Color.fromARGB(255, 0, 84, 122),
+                      backgroundColor: const Color(0xff1B1C20),
+                      padding:
+                          EdgeInsets.zero, // Убираем внутренний отступ кнопки
+                      minimumSize: const Size(
+                          0, 0), // Устанавливаем минимальный размер кнопки
+                      tapTargetSize: MaterialTapTargetSize
+                          .shrinkWrap, // Уменьшаем размер области клика
+                    ),
+                    onPressed: () {
+                      setState(() {
+                        sets++;
+                      });
+                    },
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 100, vertical: 15),
+                      child: Row(
+                        mainAxisSize:
+                            MainAxisSize.min, // Минимальный размер для Row
+                        children: [
+                          SvgPicture.asset(
+                            'assets/img/plus_white.svg',
+                            width: 15,
+                          ),
+                          const SizedBox(
+                            width: 10,
+                          ),
+                          const Text(
+                            'Добавить сет',
+                            style: TextStyle(color: Colors.white, fontSize: 16),
+                          )
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+                const SizedBox(
+                  height: 30,
+                ),
+                const Padding(
+                  padding: EdgeInsets.symmetric(vertical: 8),
+                  child: Row(
+                    children: [
+                      Text(
+                        'Время отдыха',
+                        style: TextStyle(color: Colors.white38, fontSize: 13),
+                      ),
+                    ],
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 0),
+                  child: TextField(
+                    cursorColor: const Color.fromARGB(255, 112, 112, 112),
+                    style: const TextStyle(color: Colors.white, fontSize: 16),
+                    decoration: InputDecoration(
+                      hintText: '',
+                      filled: true,
+                      fillColor: const Color(0xff23252B),
+                      hintStyle: const TextStyle(color: Colors.grey),
+                      contentPadding: const EdgeInsets.symmetric(
+                          horizontal: 4, vertical: 1.5),
+                      border: OutlineInputBorder(
+                        borderSide: BorderSide.none,
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderSide: BorderSide.none,
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                    ),
+                  ),
+                ),
+                const SizedBox(
+                  height: 30,
+                ),
+                const SizedBox(
+                  height: 30,
+                ),
+              ],
+            ),
+          ),
+        )),
+        Positioned(
+          bottom: 20,
+          right: 0,
+          left: 0,
+          child: ElevatedButton(
+            child: Container(
+              alignment: Alignment.center,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(100),
+                gradient: const RadialGradient(
+                  colors: [
+                    Color(0xff4D8AEE),
+                    Color(0xff2932FF),
+                  ],
+                  radius: 5, // Радиус градиента
+                ),
+              ),
+              padding: const EdgeInsets.symmetric(vertical: 13),
+              child: const Text(
+                'Сохранить',
+                style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 16,
+                    fontWeight: FontWeight.w500,
+                    fontFamily: 'Manrope'),
+              ),
+            ),
+            style: ElevatedButton.styleFrom(
+              backgroundColor:
+                  Colors.transparent, // Чтобы сделать фон прозрачным
+              shadowColor: Colors.transparent, // Чтобы убрать тень
+            ).copyWith(
+              backgroundColor:
+                  MaterialStateProperty.all<Color>(Colors.transparent),
+              elevation: MaterialStateProperty.all<double>(0),
+              overlayColor:
+                  MaterialStateProperty.all<Color>(Colors.transparent),
+              // Радиальный градиент
+              shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10),
+                  side: BorderSide(color: Colors.transparent),
+                ),
+              ),
+            ),
+            onPressed: () {
+              // Вызываем функцию обратного вызова для установки группы мышц
+            },
+          ),
+        )
+      ],
+    );
+  }
+}
+
+class RowInputWidget extends StatefulWidget {
+  RowInputWidget({super.key, required this.set, required this.exercise});
+  int set;
+  Map<String, dynamic> exercise;
+
+  @override
+  State<RowInputWidget> createState() => _RowInputWidgetState();
+}
+
+class _RowInputWidgetState extends State<RowInputWidget> {
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 5),
+      child: Row(
+        children: [
+          Expanded(
+            child: Container(
+              margin: const EdgeInsets.symmetric(horizontal: 3),
+              padding: const EdgeInsets.all(13),
+              decoration: BoxDecoration(
+                  color: const Color(0xff23252B),
+                  borderRadius: BorderRadius.circular(10)),
+              child: Text(
+                (widget.set + 1).toString(),
+                style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 16,
+                    fontWeight: FontWeight.w400),
+              ),
+            ),
+          ),
+          widget.exercise['pocazatel1Name'] != null
+              ? Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: 6),
+                    child: CustomTextField(
+                        label: widget.exercise['pocazatel1Type']),
+                  ),
+                )
+              : const SizedBox.shrink(),
+        ],
+      ),
+    );
+  }
+}
+
+class CustomTextField extends StatelessWidget {
+  final String label;
+
+  CustomTextField({required this.label});
+
+  @override
+  Widget build(BuildContext context) {
+    return Stack(
+      alignment: Alignment.centerRight,
+      children: [
+        TextField(
+          cursorColor: const Color.fromARGB(255, 112, 112, 112),
+          style: const TextStyle(color: Colors.white, fontSize: 16),
+          decoration: InputDecoration(
+            hintText: '',
+            filled: true,
+            fillColor: const Color(0xff23252B),
+            hintStyle: const TextStyle(color: Colors.grey),
+            contentPadding:
+                const EdgeInsets.symmetric(horizontal: 4, vertical: 1.5),
+            border: OutlineInputBorder(
+              borderSide: BorderSide.none,
+              borderRadius: BorderRadius.circular(10),
+            ),
+            focusedBorder: OutlineInputBorder(
+              borderSide: BorderSide.none,
+              borderRadius: BorderRadius.circular(10),
+            ),
+          ),
+        ),
+        Positioned(
+          right: 10, // Adjust as needed
+          child: Text(
+            label,
+            style: TextStyle(color: Colors.white),
+          ),
+        ),
+      ],
+    );
   }
 }

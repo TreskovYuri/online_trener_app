@@ -47,6 +47,9 @@ class _SportsmansState extends State<Sportsmans> {
         'weigth': "84",
         "team": "СКА",
         'post': "Центральный нападающий",
+        'date': "11.01.1996",
+        "number": "+7 (999) 999 99-99",
+        "email": "mail@mail.ru"
       },
       {
         "id": 2,
@@ -56,6 +59,9 @@ class _SportsmansState extends State<Sportsmans> {
         'weigth': "84",
         "team": "Красная машина",
         'post': "Защитник",
+        'date': "21.01.2001",
+        "number": "+7 (999) 999 99-92",
+        "email": "mail1@mail.ru"
       },
       {
         "id": 3,
@@ -65,6 +71,9 @@ class _SportsmansState extends State<Sportsmans> {
         'weigth': "73",
         "team": "СКА",
         'post': "Вратарь",
+        'date': "13.04.1999",
+        "number": "+7 (999) 999 99-93",
+        "email": "mail2@mail.ru"
       },
       {
         "id": 4,
@@ -74,6 +83,9 @@ class _SportsmansState extends State<Sportsmans> {
         'weigth': "74 ",
         "team": "СКА",
         'post': "Крайний нападающий",
+        'date': "30.10.2003",
+        "number": "+7 (999) 999 99-94",
+        "email": "mail5@mail.ru"
       },
     ];
 
@@ -163,30 +175,32 @@ class _SportsmansState extends State<Sportsmans> {
               ),
               ...sportsmansList.map(
                 (e) => Padding(
-                  padding: EdgeInsets.all(3*vw),
+                  padding: EdgeInsets.all(3 * vw),
                   child: ElevatedButton(
                     style: ElevatedButton.styleFrom(
                       padding: EdgeInsets.zero,
                       surfaceTintColor: Colors.transparent,
                       foregroundColor: Color.fromARGB(255, 0, 71, 115),
-                      backgroundColor: Color(0xff23252B), // Чтобы сделать фон прозрачным
+                      backgroundColor:
+                          Color(0xff23252B), // Чтобы сделать фон прозрачным
                       // shadowColor: Color(0xff23252B),
                     ).copyWith(
-
                       // Радиальный градиент
                       shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                         RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10),
-
                         ),
                       ),
                     ),
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.pushReplacementNamed(
+                          context, '/profile_one_user',
+                          arguments: e);
+                    },
                     child: Container(
                       margin: EdgeInsets.all(3 * vw),
                       padding: EdgeInsets.all(3 * vw),
                       decoration: BoxDecoration(
-                  
                           borderRadius: BorderRadius.circular(3 * vw)),
                       child: Column(
                         children: [
@@ -236,10 +250,12 @@ class _SportsmansState extends State<Sportsmans> {
                                     horizontal: 3 * vw, vertical: .5 * vh),
                                 decoration: BoxDecoration(
                                     color: Color(0xffEBEEF),
-                                    borderRadius: BorderRadius.circular(10 * vw)),
+                                    borderRadius:
+                                        BorderRadius.circular(10 * vw)),
                                 child: Text(e['post'],
                                     style: TextStyle(
-                                        color: Color.fromARGB(184, 255, 255, 255),
+                                        color:
+                                            Color.fromARGB(184, 255, 255, 255),
                                         fontSize: 3 * vw,
                                         fontFamily: 'Manrope')),
                               ),
@@ -251,10 +267,12 @@ class _SportsmansState extends State<Sportsmans> {
                                     horizontal: 3 * vw, vertical: .5 * vh),
                                 decoration: BoxDecoration(
                                     color: Color(0xffEBEEF),
-                                    borderRadius: BorderRadius.circular(10 * vw)),
+                                    borderRadius:
+                                        BorderRadius.circular(10 * vw)),
                                 child: Text(e['team'],
                                     style: TextStyle(
-                                        color: Color.fromARGB(184, 255, 255, 255),
+                                        color:
+                                            Color.fromARGB(184, 255, 255, 255),
                                         fontSize: 3 * vw,
                                         fontFamily: 'Manrope')),
                               ),
