@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
+import 'package:trener_app/getx/MyDateController.dart';
 import 'package:trener_app/getx/getx_controller.dart';
 import 'package:trener_app/mobx/mobx.dart';
 import 'package:trener_app/pages/ResultFix.dart';
@@ -165,16 +166,13 @@ class Cal extends StatefulWidget {
 
 class _CalState extends State<Cal> {
   final mobx = Mobx();
+  MyDateController myDateController = Get.put(MyDateController());
   DateTime now = DateTime.now();
-  MyGetxController myGetxController = Get.put(MyGetxController());
   @override
   void initState() {
     DateTime now = DateTime.now();
-    mobx.setCurrentDate(DateFormat('dd.MM.yyyy').format(now));
-    myGetxController.setCurrentDate(DateFormat('dd.MM.yyyy').format(now));
-    myGetxController
-        .setUserExercisesOnDay(DateFormat('dd.MM.yyyy').format(now));
-    myGetxController.userTestsOnDay(DateFormat('dd.MM.yyyy').format(now));
+    myDateController.setCurrentDate(DateFormat('dd.MM.yyyy').format(now));
+
     super.initState();
   }
 
@@ -198,7 +196,7 @@ class _CalState extends State<Cal> {
       children: [
         Container(
           margin: EdgeInsets.only(top: 2 * vh),
-          padding: EdgeInsets.symmetric(vertical: 3 * vw),
+          padding: EdgeInsets.all(3 * vw),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: lastWeek.map((date) {
@@ -218,28 +216,24 @@ class _CalState extends State<Cal> {
                     height: 1 * vh,
                   ),
                   Obx(() => Container(
-                        child: myGetxController.getx.date ==
-                                DateFormat('dd.MM.yyyy')
-                                    .format(date) // Access value with .value
-                            ? InkWell(
+                        child:InkWell(
                                 onTap: () {
-                                  myGetxController.setCurrentDate(
-                                      DateFormat('dd.MM.yyyy').format(date));
-                                  myGetxController.setUserExercisesOnDay(
+                                  myDateController.setCurrentDate(
                                       DateFormat('dd.MM.yyyy').format(date));
                                   // Navigator.pushReplacementNamed(context,'/journal');
                                 },
-                                child: Container(
+                                child: AnimatedContainer(
+                                  duration: Duration(milliseconds: 250),
                                   width: 8 * vw,
                                   height: 8 * vw,
                                   alignment: Alignment.center,
                                   // padding: EdgeInsets.all(1),
                                   decoration: BoxDecoration(
-                                      gradient: const RadialGradient(
-                                        colors: [
+                                      gradient:RadialGradient(
+                                        colors: myDateController.date == DateFormat('dd.MM.yyyy').format(date) ? [
                                           Color(0xff4D8AEE),
                                           Color(0xff2932FF)
-                                        ],
+                                        ] : [Color.fromARGB(0, 77, 139, 238),Color.fromARGB(0, 41, 52, 255)],
                                         radius: 0.6,
                                         center: Alignment.center,
                                       ),
@@ -255,31 +249,7 @@ class _CalState extends State<Cal> {
                                   ),
                                 ),
                               )
-                            : InkWell(
-                                onTap: () {
-                                  myGetxController.setCurrentDate(
-                                      DateFormat('dd.MM.yyyy').format(date));
-                                  myGetxController.setUserExercisesOnDay(
-                                      DateFormat('dd.MM.yyyy')
-                                          .format(date)
-                                          .toString());
-                                  // Navigator.pushReplacementNamed(context,'/journal');
-                                },
-                                child: Container(
-                                  width: 8 * vw,
-                                  height: 8 * vw,
-                                  alignment: Alignment.center,
-                                  child: Text(
-                                    "${date.day}",
-                                    style: TextStyle(
-                                        color: Colors.white,
-                                        fontFamily: 'Manrope',
-                                        fontWeight: FontWeight.w500,
-                                        decoration: TextDecoration.none,
-                                        fontSize: 4 * vw),
-                                  ),
-                                ),
-                              ),
+              
                       ))
                 ],
               );

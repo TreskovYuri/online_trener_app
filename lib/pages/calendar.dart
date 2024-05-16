@@ -4,23 +4,28 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:get/get.dart';
-import 'package:trener_app/getx/getx_controller.dart';
+import 'package:trener_app/getx/MyDateController.dart';
+
 import 'package:trener_app/mobx/mobx.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 class Calendar extends StatelessWidget {
-  const Calendar({super.key});
+  Calendar({super.key});
+  MyDateController myDateController = Get.put(MyDateController());
 
   @override
   Widget build(BuildContext context) {
     final vw = MediaQuery.of(context).size.width / 100;
     final vh = MediaQuery.of(context).size.height / 100;
     final mobx = Provider.of<Mobx>(context);
-    DateTime now = DateTime.now().subtract(Duration(hours: DateTime.now().hour, minutes: DateTime.now().minute, seconds: DateTime.now().second, milliseconds: DateTime.now().millisecond, microseconds: DateTime.now().microsecond));
+    DateTime now = DateTime.now().subtract(Duration(
+        hours: DateTime.now().hour,
+        minutes: DateTime.now().minute,
+        seconds: DateTime.now().second,
+        milliseconds: DateTime.now().millisecond,
+        microseconds: DateTime.now().microsecond));
     int weekday = now.weekday;
-    MyGetxController myGetxController = Get.put(MyGetxController());
-
 
     // Находим последний понедельник
     DateTime lastMonday = now.subtract(Duration(days: weekday - 1));
@@ -89,7 +94,7 @@ class Calendar extends StatelessWidget {
       child: Scaffold(
         body: SingleChildScrollView(
           child: Container(
-            padding: EdgeInsets.symmetric(horizontal:5 * vw,vertical: 7*vh),
+            padding: EdgeInsets.symmetric(horizontal: 5 * vw, vertical: 7 * vh),
             width: 100 * vw,
             color: Color(0xff1B1C20),
             child: Column(
@@ -158,7 +163,8 @@ class Calendar extends StatelessWidget {
                                   child: date.year == 1978
                                       ? const Text('')
                                       : Container(
-                                          child: date.isAfter(now) // Проверка, что дата меньше текущей даты
+                                          child: date.isAfter(
+                                                  now) // Проверка, что дата меньше текущей даты
                                               ? Container(
                                                   // ignore: unrelated_type_equality_checks
                                                   child:
@@ -167,14 +173,14 @@ class Calendar extends StatelessWidget {
                                                                   now.month
                                                           ? InkWell(
                                                               onTap: () {
-                                                                myGetxController.setUserExercisesOnDay(DateFormat('dd.MM.yyyy').format(date));
-                                                                myGetxController.setCurrentDate(DateFormat('dd.MM.yyyy').format(date));
-                                                                mobx.setCurrentDate(
-                                                                    DateFormat(
+                                                                myDateController
+                                                                    .setCurrentDate(DateFormat(
                                                                             'dd.MM.yyyy')
                                                                         .format(
                                                                             date));
-                                                                  Navigator.pop(context);
+
+                                                                Navigator.pop(
+                                                                    context);
                                                               },
                                                               child: Container(
                                                                 decoration:
@@ -227,38 +233,79 @@ class Calendar extends StatelessWidget {
                                                             )
                                                           : GestureDetector(
                                                               onTap: () {
-                                                                myGetxController.setUserExercisesOnDay(DateFormat('dd.MM.yyyy').format(date));
-                                                                myGetxController.setCurrentDate(DateFormat('dd.MM.yyyy').format(date));
-                                                      if(mobx.user['post'] == 'Тренер' || mobx.user['post'] == 'Супер тренер'){
-                                                          Navigator.pop(context);
-                                                      }else{
-                                                          Navigator.pop(context);
-                                                      }
+                                                                myDateController
+                                                                    .setCurrentDate(DateFormat(
+                                                                            'dd.MM.yyyy')
+                                                                        .format(
+                                                                            date));
+                                                                if (mobx.user[
+                                                                            'post'] ==
+                                                                        'Тренер' ||
+                                                                    mobx.user[
+                                                                            'post'] ==
+                                                                        'Супер тренер') {
+                                                                  Navigator.pop(
+                                                                      context);
+                                                                } else {
+                                                                  Navigator.pop(
+                                                                      context);
+                                                                }
                                                               },
                                                               child: Text(
                                                                 '${date.day}',
                                                                 style:
                                                                     TextStyle(
-                                                                  color: const Color.fromARGB(240,255,255, 255),
-                                                                  fontFamily:'Manrope',fontWeight:FontWeight.w600,decoration:
-                                                                      TextDecoration.none,
-                                                                  fontSize:4 * vw,),
+                                                                  color: const Color
+                                                                      .fromARGB(
+                                                                      240,
+                                                                      255,
+                                                                      255,
+                                                                      255),
+                                                                  fontFamily:
+                                                                      'Manrope',
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w600,
+                                                                  decoration:
+                                                                      TextDecoration
+                                                                          .none,
+                                                                  fontSize:
+                                                                      4 * vw,
+                                                                ),
                                                               ),
                                                             ))
                                               : GestureDetector(
                                                   onTap: () {
-                                                    mobx.setCurrentDate(DateFormat('dd.MM.yyyy').format(date));
-                                                      if(mobx.user['post'] == 'Тренер' || mobx.user['post'] == 'Супер тренер'){
-                                                          Navigator.pushReplacementNamed(context, '/journal');
-                                                      }else{
-                                                          Navigator.pushReplacementNamed(context, '/planner');
-                                                      }
+                                                    myDateController
+                                                        .setCurrentDate(
+                                                            DateFormat(
+                                                                    'dd.MM.yyyy')
+                                                                .format(date));
+
+                                                    if (mobx.user['post'] ==
+                                                            'Тренер' ||
+                                                        mobx.user['post'] ==
+                                                            'Супер тренер') {
+                                                      Navigator
+                                                          .pushReplacementNamed(
+                                                              context,
+                                                              '/journal');
+                                                    } else {
+                                                      Navigator
+                                                          .pushReplacementNamed(
+                                                              context,
+                                                              '/planner');
+                                                    }
                                                   },
                                                   child: Text(
                                                     '${date.day}',
                                                     style: TextStyle(
-                                                      color: Color.fromARGB(
-                                                          118, 255, 255, 255),
+                                                      color:
+                                                          const Color.fromARGB(
+                                                              118,
+                                                              255,
+                                                              255,
+                                                              255),
                                                       fontFamily: 'Manrope',
                                                       fontWeight:
                                                           FontWeight.w500,
@@ -367,25 +414,22 @@ class _HeaderState extends State<Header> {
                 end: Alignment.centerRight, // Конец градиента
               ).createShader(bounds);
             },
-            child: Observer(
-              builder: (context) {
-                return GestureDetector(
-                  onTap: () {
-                        Navigator.pop(context);
-                
-                  },
-                  child: Text(
-                    "Закрыть",
-                    style: TextStyle(
-                      fontFamily: 'Manrope',
-                      fontWeight: FontWeight.w500,
-                      decoration: TextDecoration.none,
-                      fontSize: 5 * vw,
-                    ),
+            child: Observer(builder: (context) {
+              return GestureDetector(
+                onTap: () {
+                  Navigator.pop(context);
+                },
+                child: Text(
+                  "Закрыть",
+                  style: TextStyle(
+                    fontFamily: 'Manrope',
+                    fontWeight: FontWeight.w500,
+                    decoration: TextDecoration.none,
+                    fontSize: 5 * vw,
                   ),
-                );
-              }
-            ),
+                ),
+              );
+            }),
           ),
         ),
         Expanded(

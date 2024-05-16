@@ -66,7 +66,7 @@ class MyApp extends StatelessWidget {
           '/forgot': (context) => const Forgot(),
           '/planner': (context) => const Planner(),
           '/journal': (context) => const Journal(),
-          '/calendar': (context) => const Calendar(),
+          '/calendar': (context) => Calendar(),
           '/workout': (context) => const Workout(),
           '/workoutscheme': (context) => const WorkoutSheme(),
           '/service': (context) => const Service(),

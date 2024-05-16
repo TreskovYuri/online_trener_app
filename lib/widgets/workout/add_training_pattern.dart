@@ -1,9 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
-import 'package:trener_app/getx/getx_controller.dart';
 
 class AddTrainingPattern extends StatefulWidget {
   const AddTrainingPattern({super.key});

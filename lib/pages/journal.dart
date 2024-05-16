@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:trener_app/getx/getx_controller.dart';
+import 'package:trener_app/getx/MyDateController.dart';
 import 'package:trener_app/mobx/mobx.dart';
 import 'package:trener_app/widgets/service/navbar.dart';
-import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:provider/provider.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
@@ -19,6 +18,7 @@ class Journal extends StatefulWidget {
 class _JournalState extends State<Journal> {
   ScrollController _scrollController = ScrollController();
   bool _isAtTop = true;
+  MyDateController myDateController = Get.put(MyDateController());
 
   @override
   void initState() {
@@ -138,7 +138,7 @@ class _UserCardState extends State<UserCard> {
     final vh = MediaQuery.of(context).size.height / 100;
     final mobx = Provider.of<Mobx>(context);
     List<Map<String,dynamic>> sets = widget.array['state'];
-    MyGetxController myGetxController = Get.put(MyGetxController());
+    
 
     return Container(
       padding: EdgeInsets.all(1 * vw),
@@ -197,16 +197,16 @@ class _UserCardState extends State<UserCard> {
                       center: Alignment.center, // Центр радиального градиента
                     ),
                     borderRadius: BorderRadius.circular(100)),
-                child: Obx(() => Text(
-                      myGetxController.getx.userExercisesOnDay.length
-                          .toString(),
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontFamily: 'Manrope',
-                          fontWeight: FontWeight.w500,
-                          decoration: TextDecoration.none,
-                          fontSize: 3.5 * vw),
-                    )),
+                // child: Obx(() => Text(
+                //       myGetxController.getx.userExercisesOnDay.length
+                //           .toString(),
+                //       style: TextStyle(
+                //           color: Colors.white,
+                //           fontFamily: 'Manrope',
+                //           fontWeight: FontWeight.w500,
+                //           decoration: TextDecoration.none,
+                //           fontSize: 3.5 * vw),
+                //     )),
               ),
             ],
           ),
@@ -389,16 +389,13 @@ class Cal extends StatefulWidget {
 
 class _CalState extends State<Cal> {
   final mobx = Mobx();
-  MyGetxController myGetxController = Get.put(MyGetxController());
+  MyDateController myDateController = Get.put(MyDateController());
   DateTime now = DateTime.now();
   @override
   void initState() {
     DateTime now = DateTime.now();
-    mobx.setCurrentDate(DateFormat('dd.MM.yyyy').format(now));
+    myDateController.setCurrentDate(DateFormat('dd.MM.yyyy').format(now));
 
-    myGetxController.setCurrentDate(DateFormat('dd.MM.yyyy').format(now));
-    myGetxController
-        .setUserExercisesOnDay(DateFormat('dd.MM.yyyy').format(now));
     super.initState();
   }
 
@@ -444,9 +441,7 @@ class _CalState extends State<Cal> {
                   Obx(() => Container(
                         child:InkWell(
                                 onTap: () {
-                                  myGetxController.setCurrentDate(
-                                      DateFormat('dd.MM.yyyy').format(date));
-                                  myGetxController.setUserExercisesOnDay(
+                                  myDateController.setCurrentDate(
                                       DateFormat('dd.MM.yyyy').format(date));
                                   // Navigator.pushReplacementNamed(context,'/journal');
                                 },
@@ -458,7 +453,7 @@ class _CalState extends State<Cal> {
                                   // padding: EdgeInsets.all(1),
                                   decoration: BoxDecoration(
                                       gradient:RadialGradient(
-                                        colors: myGetxController.getx.date == DateFormat('dd.MM.yyyy').format(date) ? [
+                                        colors: myDateController.date == DateFormat('dd.MM.yyyy').format(date) ? [
                                           Color(0xff4D8AEE),
                                           Color(0xff2932FF)
                                         ] : [Color.fromARGB(0, 77, 139, 238),Color.fromARGB(0, 41, 52, 255)],

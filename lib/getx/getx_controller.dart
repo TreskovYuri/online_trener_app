@@ -4,10 +4,10 @@ import 'package:trener_app/models/user.dart';
 
 class MyGetxController extends GetxController {
   // Инициализация репозитория
-  var getx = MyeGetx();
+  var getx = MyController();
 
   // Установка новой даты
-  void setCurrentDate(String date) => getx.setCurrentDate(date);
+
 
   // Установка новой даты
   void setUser(Map user) => getx.setUser(user);

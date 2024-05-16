@@ -1,12 +1,10 @@
 
 import 'package:get/get.dart';
-import 'package:trener_app/models/user.dart';
 
-class MyeGetx {
+
+class MyController  extends GetxController{
   // Выбранная дата
-  final _date = RxString('qwdqqwdqwdw');
-  String get  date => _date.value;
-  void setCurrentDate(String newDate) => _date.value = newDate;
+
 
   //Текущий пользователь
   var user = RxMap({});
@@ -14,11 +12,6 @@ class MyeGetx {
     user.clear(); // Очищаем текущий RxMap
     user.addAll(newUser);
     }
-
-
-
-
-  
 
 
   var userExercisesOnDay = RxList();
