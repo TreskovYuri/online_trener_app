@@ -4,6 +4,7 @@ import 'package:intl/date_symbol_data_local.dart';
 import 'package:trener_app/mobx/mobx.dart';
 import 'package:trener_app/pages/TrainingDetailsTrener.dart';
 import 'package:trener_app/pages/TrainingFix.dart';
+import 'package:trener_app/pages/add_sportprogramm.dart';
 import 'package:trener_app/pages/calendar.dart';
 import 'package:trener_app/pages/chats.dart';
 import 'package:trener_app/pages/faq.dart';
@@ -82,6 +83,7 @@ class MyApp extends StatelessWidget {
           '/trener_tests': (context) => const TrenerTests(),
           '/trener_training_pattern': (context) => const TrenerTrainingPattern(),
           '/trener_sportprogramm': (context) => const TrenerSportProgramm(),
+          '/add_sportprogramm_page': (context) => const AddSportProgrammPage(),
           '/sportsmans': (context) => const Sportsmans(),
         },
       ),

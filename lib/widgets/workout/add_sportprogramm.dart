@@ -99,42 +99,7 @@ class _AddSportProgrammState extends State<AddSportProgramm> {
                                 ),
                               )
                             : SizedBox.shrink(),
-                        page == 2
-                            ? Text(
-                                'Программа тренировок',
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontFamily: 'Manrope',
-                                  fontSize: 4 * vw,
-                                  fontWeight: FontWeight.w600,
-                                ),
-                              )
-                            : SizedBox.shrink(),
-                        page == 3
-                            ? Text(
-                                'Выбор оборудования',
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontFamily: 'Manrope',
-                                  fontSize: 4 * vw,
-                                  fontWeight: FontWeight.w600,
-                                ),
-                              )
-                            : SizedBox.shrink(),
-                        page == 4
-                            ? Text(
-                                'Добавить упражнение',
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontFamily: 'Manrope',
-                                  fontSize: 4 * vw,
-                                  fontWeight: FontWeight.w600,
-                                ),
-                              )
-                            : SizedBox.shrink(),
+                        
                       ],
                     ),
                   )),
@@ -145,7 +110,9 @@ class _AddSportProgrammState extends State<AddSportProgramm> {
                         onTap: () {
                           setState(() {
                             if (nameRuController.text.length > 0) {
-                              page++;
+                              Navigator.pushReplacementNamed(context, '/add_sportprogramm_page', arguments: {
+                                "nameRu":nameRuController.text
+                                });
                             } else {
                               Get.snackbar('Ошибка ввода!',
                                   'Введите название упражнения...',
@@ -183,7 +150,7 @@ class _AddSportProgrammState extends State<AddSportProgramm> {
               )
             ],
           ),
-          page == 2 ? Page2() : SizedBox.shrink(),
+          // page == 2 ? Page2() : SizedBox.shrink(),
           SizedBox(
             height: 3 * vh,
           ),
@@ -442,18 +409,29 @@ class _Page2State extends State<Page2> {
               bottom: 0,
               right: 20,
               left: 20,
-              child: ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                    padding: const EdgeInsets.symmetric(vertical: 15),
-                    backgroundColor: Color(0xff24252B)),
-                child: const Text(
-                  'Сохранить',
-                  style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 15,
-                      fontWeight: FontWeight.w400),
+              child: Container(
+                decoration:  BoxDecoration(
+                  borderRadius: BorderRadius.circular(100),
+                    gradient: const RadialGradient(
+                      radius: 5,
+                      colors: [
+                  Color(0xFF4D8AEE),
+                  Color(0xFF2932FF),
+                  
+                ])),
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                      padding: const EdgeInsets.symmetric(vertical: 15),
+                      backgroundColor: Colors.transparent),
+                  child: const Text(
+                    'Сохранить',
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 15,
+                        fontWeight: FontWeight.w400),
+                  ),
+                  onPressed: () {},
                 ),
-                onPressed: () {},
               ))
         ],
       ),
@@ -502,7 +480,7 @@ class _ModalCurrentTypeState extends State<ModalCurrentType> {
                         shadowColor: Colors.transparent,
                         surfaceTintColor: Colors.transparent,
                         padding: EdgeInsets.symmetric(vertical: 20)),
-                    onPressed: () {},
+                    onPressed: () {Navigator.pushReplacementNamed(context, '/add_sportprogramm_page', arguments: e);},
                     child: Container(
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -715,65 +693,67 @@ class __CalendarState extends State<_Calendar> {
                                               ? Container(
                                                   // ignore: unrelated_type_equality_checks
                                                   child: InkWell(
-                                                              onTap: () {
-                                                                setState(() {
-                                                                  currentDy = DateFormat(
-                                                                          'dd.MM.yyyy')
-                                                                      .format(
-                                                                          date);
-                                                                });
-                                                              },
-                                                              child: AnimatedContainer(
-                                                                duration: Duration(milliseconds: 250),
-                                                                decoration:
-                                                                    BoxDecoration(
-                                                                  borderRadius:
-                                                                      const BorderRadius.all(
-                                                                          Radius.circular(
-                                                                              50)),
-                                                                  gradient:
-                                                                      RadialGradient(
-                                                                    colors: date.day == int.parse(currentDy.split('.')[0]) && date.month ==int.parse(currentDy.split('.')[1]) ?  [
-                                                                      const Color(
-                                                                          0xFF4D8AEE),
-                                                                      const Color(
-                                                                          0xFF2932FF),
-                                                                    ]:[ Colors.transparent, Colors.transparent],
-                                                                    center: Alignment
-                                                                        .center,
-                                                                    radius: 1.0,
-                                                                  ),
-                                                                ),
-                                                                width:8 * vw,
-                                                                height: 8 * vw,
-                                                                alignment:
-                                                                    Alignment
-                                                                        .center,
-                                                                child: Text(
-                                                                  '${date.day}',
-                                                                  style:
-                                                                      TextStyle(
-                                                                    color: const Color
-                                                                        .fromARGB(
-                                                                        238,
-                                                                        255,
-                                                                        255,
-                                                                        255),
-                                                                    fontFamily:
-                                                                        'Manrope',
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .w600,
-                                                                    decoration:
-                                                                        TextDecoration
-                                                                            .none,
-                                                                    fontSize:
-                                                                        4 * vw,
-                                                                  ),
-                                                                ),
-                                                              ),
-                                                            )
-                                                          )
+                                                  onTap: () {
+                                                    setState(() {
+                                                      currentDy = DateFormat(
+                                                              'dd.MM.yyyy')
+                                                          .format(date);
+                                                    });
+                                                  },
+                                                  child: AnimatedContainer(
+                                                    duration: Duration(
+                                                        milliseconds: 250),
+                                                    decoration: BoxDecoration(
+                                                      borderRadius:
+                                                          const BorderRadius
+                                                              .all(
+                                                              Radius.circular(
+                                                                  50)),
+                                                      gradient: RadialGradient(
+                                                        colors: date.day ==
+                                                                    int.parse(
+                                                                        currentDy.split('.')[
+                                                                            0]) &&
+                                                                date.month ==
+                                                                    int.parse(
+                                                                        currentDy.split('.')[
+                                                                            1])
+                                                            ? [
+                                                                const Color(
+                                                                    0xFF4D8AEE),
+                                                                const Color(
+                                                                    0xFF2932FF),
+                                                              ]
+                                                            : [
+                                                                Colors
+                                                                    .transparent,
+                                                                Colors
+                                                                    .transparent
+                                                              ],
+                                                        center:
+                                                            Alignment.center,
+                                                        radius: 1.0,
+                                                      ),
+                                                    ),
+                                                    width: 8 * vw,
+                                                    height: 8 * vw,
+                                                    alignment: Alignment.center,
+                                                    child: Text(
+                                                      '${date.day}',
+                                                      style: TextStyle(
+                                                        color: const Color
+                                                            .fromARGB(
+                                                            238, 255, 255, 255),
+                                                        fontFamily: 'Manrope',
+                                                        fontWeight:
+                                                            FontWeight.w600,
+                                                        decoration:
+                                                            TextDecoration.none,
+                                                        fontSize: 4 * vw,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ))
                                               : GestureDetector(
                                                   onTap: () {
                                                     setState(() {
