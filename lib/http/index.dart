@@ -10,11 +10,12 @@ Future<dynamic> MyCasomGetHttpReauest({required String urls}) async {
   try {
     var response =
         await http.get(apiUrl, headers: {'Accept': 'application/json'});
-        print(utf8.decode(response.bodyBytes));
+        // print(utf8.decode(response.bodyBytes));
     if (response.statusCode == 200) {
       // Specify the encoding when decoding JSON
       var responseBody = utf8.decode(response.bodyBytes);
-      return jsonDecode(responseBody);
+      List <Map<String,dynamic>> decode = jsonDecode(responseBody);
+      return decode;
     } else {
       // Return null if the response status code is not 200
       return null;

@@ -2,6 +2,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get/get.dart';
+import 'package:trener_app/getx/MyExercisesController.dart';
+import 'package:trener_app/http/exerciseUtills.dart';
 import 'package:trener_app/widgets/service/navbar.dart';
 import 'package:trener_app/widgets/service/navbar_scroll.dart';
 import 'package:trener_app/widgets/workout/modal_create_training.dart';
@@ -15,6 +18,8 @@ class TrenerTrainings extends StatefulWidget {
 
 class _TrenerTrainingsState extends State<TrenerTrainings> {
   bool typeFlag = false;
+  MyExercisesController myExercisesController =
+      Get.put(MyExercisesController());
   static List<Map<dynamic, dynamic>> array = [
     {
       "type": "На выносливость ",
@@ -82,6 +87,8 @@ class _TrenerTrainingsState extends State<TrenerTrainings> {
   @override
   void initState() {
     super.initState();
+    GetExercise();
+    GetGroups();
     _scrollController.addListener(_onScroll);
   }
 
@@ -115,14 +122,19 @@ class _TrenerTrainingsState extends State<TrenerTrainings> {
           icon: const Icon(Icons
               .arrow_back_ios_new_rounded), // Устанавливаем иконку "домой" вместо стрелки "назад"
           onPressed: () {
-            Navigator.pushReplacementNamed(context,'/faq');
+            Navigator.pushReplacementNamed(context, '/faq');
           },
         ),
         actions: [
           Padding(
             padding: EdgeInsets.only(right: 2 * vw),
             child: IconButton(
-              onPressed: () {showModalBottomSheet(isScrollControlled: true,context: context, builder: (_)=>ModalCreateTraining());},
+              onPressed: () {
+                showModalBottomSheet(
+                    isScrollControlled: true,
+                    context: context,
+                    builder: (_) => ModalCreateTraining());
+              },
               icon: SvgPicture.asset(
                 'assets/img/blue_plus.svg',
                 width: 2.6 * vh,
@@ -184,47 +196,65 @@ class _TrenerTrainingsState extends State<TrenerTrainings> {
                     ),
                   ),
                 ),
-                    Column(
+                Column(
+                  children: [
+                    Obx(
+                      () => GroupCard(
+                          vw: vw,
+                          vh: vh,
+                          count: myExercisesController.exercises.length,
+                          name: 'Все упражнения',
+                          setType: (newType) => setState(() {
+                                Navigator.pushNamed(
+                                    context, '/trener_trainings_current_type',
+                                    arguments: {
+                                      "type": "Все упражнения",
+                                      "exercises": myExercisesController.exercises
+                                    });
+                              })),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.all(3 * vw),
+                      child: Row(
                         children: [
-                          GroupCard(
-                              vw: vw,
-                              vh: vh,
-                              count: count,
-                              name: 'Все упражнения',
-                              setType: (newType) => setState(() {
-                                Navigator.pushNamed(context, '/trener_trainings_current_type',arguments: {
-                                  "type":"Все упражнения",
-                                  "exercises":[
-                                    ...array.expand((e) => e['exercises'])
-                                  ]
-                                });
-                                  })),
-                          Padding(
-                            padding: EdgeInsets.all(3 * vw),
-                            child: Row(
-                              children: [
-                                Text(
-                                  'Типы',
-                                  style: TextStyle(
-                                      color: const Color.fromARGB(
-                                          132, 255, 255, 255),
-                                      fontSize: 3.5 * vw,
-                                      fontFamily: 'Manrope',
-                                      fontWeight: FontWeight.w500),
-                                ),
-                              ],
-                            ),
+                          Text(
+                            'Типы',
+                            style: TextStyle(
+                                color: const Color.fromARGB(132, 255, 255, 255),
+                                fontSize: 3.5 * vw,
+                                fontFamily: 'Manrope',
+                                fontWeight: FontWeight.w500),
                           ),
-                          ...array.map((e) => GroupCard(
-                                vw: vw,
-                                vh: vh,
-                                count: e['exercises'].length,
-                                name: e['type'],
-                                setType: (newType) => setState(() {Navigator.pushNamed(context, '/trener_trainings_current_type',arguments: e);
-                                }),
-                              ))
                         ],
-                      )
+                      ),
+                    ),
+                    Obx(() => Column(
+                          children: [
+                            ...myExercisesController.groups
+                                .map((e) => GroupCard(
+                                      vw: vw,
+                                      vh: vh,
+                                      count: myExercisesController.exercises
+                                          .where((element) =>
+                                              element['groupId'] == e['id'])
+                                          .length,
+                                      name: e['name'],
+                                      setType: (newType) => setState(() {
+                                        Navigator.pushNamed(context,
+                                            '/trener_trainings_current_type',
+                                            arguments: {
+                                              "type":e['name'],
+                                              'exercises':myExercisesController.exercises
+                                          .where((element) =>
+                                              element['groupId'] == e['id'])
+                                            });
+                                      }),
+                                    ))
+                          ],
+                        )),
+                        SizedBox(height: 10*vh,)
+                  ],
+                )
               ],
             ),
           ),

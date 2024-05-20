@@ -8,18 +8,30 @@ var URL = "${dotenv.env['API']}";
 class Session {
   var headers = {};
   
-  Future get(String url) async {
+
+
+  Future <Map<String,dynamic>> get(String url) async {
     final box = GetStorage();
     var apiUrl = Uri.parse('$URL/$url');
-    // print(apiUrl);
-    http.Response response =
-        await http.get(apiUrl, headers: {'session': box.read('session') ?? ''});
-    var responseBody = utf8.decode(response.bodyBytes);
-    // print(json.decode(responseBody));
-    return json.decode(responseBody);
+    
+    http.Response response = await http.get(apiUrl, headers: {'session': box.read('session') ?? ''});
+    if(response.statusCode<300){
+      var responseBody = utf8.decode(response.bodyBytes);
+      var decode = json.decode(responseBody);
+      return {
+        "status":response.statusCode,
+        'body':decode
+      };
+    }else{
+      return {
+        "status":response.statusCode,
+      };
+    }
+
   }
 
-  Future post(String url, dynamic data) async {
+
+  Future <Map<String,dynamic>> post(String url, dynamic data) async {
     final box = GetStorage();
     var apiUrl = Uri.parse('$URL/$url');
     http.Response response = await http.post(apiUrl,body: data, headers: {'session': box.read('session') ?? ''});

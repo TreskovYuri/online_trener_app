@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get/get.dart';
 import 'package:trener_app/widgets/service/navbar.dart';
 import 'package:trener_app/widgets/service/navbar_scroll.dart';
 
@@ -92,7 +93,7 @@ class _TrenerTrainingsCurrentsTypeState
         fit: StackFit.expand,
         children: [
           Container(
-            child: ListView(
+              child: ListView(
               controller: _scrollController,
               children: [
                 Padding(
@@ -125,7 +126,9 @@ class _TrenerTrainingsCurrentsTypeState
                       vh: vh,
                       vw: vw,
                     )),
-                    SizedBox(height: 12*vh,)
+                SizedBox(
+                  height: 12 * vh,
+                )
               ],
             ),
           ),
@@ -174,7 +177,7 @@ class ExersizeCard extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Text(
-                  map['name'],
+                  map['nameRu'],
                   style: TextStyle(
                       color: Colors.white,
                       fontSize: 4 * vw,
@@ -191,7 +194,7 @@ class ExersizeCard extends StatelessWidget {
               ],
             ),
             Text(
-              map['description'],
+              map['descriptionRu'],
               style: TextStyle(
                   color: const Color.fromARGB(181, 255, 255, 255),
                   fontSize: 3 * vw,
