@@ -15,18 +15,12 @@ class Session {
     var apiUrl = Uri.parse('$URL/$url');
     
     http.Response response = await http.get(apiUrl, headers: {'session': box.read('session') ?? ''});
-    if(response.statusCode<300){
       var responseBody = utf8.decode(response.bodyBytes);
       var decode = json.decode(responseBody);
       return {
         "status":response.statusCode,
         'body':decode
-      };
-    }else{
-      return {
-        "status":response.statusCode,
-      };
-    }
+      };  
 
   }
 

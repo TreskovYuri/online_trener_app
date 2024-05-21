@@ -16,9 +16,7 @@ class TrenerTrainings extends StatefulWidget {
 
 class _TrenerTrainingsState extends State<TrenerTrainings> {
   bool typeFlag = false;
-  MyExercisesController myExercisesController =
-      Get.put(MyExercisesController());
-
+  MyExercisesController myExercisesController = Get.put(MyExercisesController());
 
   ScrollController _scrollController = ScrollController();
   bool _isAtTop = true;
@@ -47,7 +45,6 @@ class _TrenerTrainingsState extends State<TrenerTrainings> {
   Widget build(BuildContext context) {
     final vw = MediaQuery.of(context).size.width / 100;
     final vh = MediaQuery.of(context).size.height / 100;
-
 
     return Scaffold(
       appBar: AppBar(
@@ -144,7 +141,8 @@ class _TrenerTrainingsState extends State<TrenerTrainings> {
                                     context, '/trener_trainings_current_type',
                                     arguments: {
                                       "type": "Все упражнения",
-                                      "exercises": myExercisesController.exercises
+                                      "exercises":
+                                          myExercisesController.exercises
                                     });
                               })),
                     ),
@@ -178,16 +176,20 @@ class _TrenerTrainingsState extends State<TrenerTrainings> {
                                         Navigator.pushNamed(context,
                                             '/trener_trainings_current_type',
                                             arguments: {
-                                              "type":e['name'],
-                                              'exercises':myExercisesController.exercises
-                                          .where((element) =>
-                                              element['groupId'] == e['id'])
+                                              "type": e['name'],
+                                              'exercises': myExercisesController
+                                                  .exercises
+                                                  .where((element) =>
+                                                      element['groupId'] ==
+                                                      e['id'])
                                             });
                                       }),
                                     ))
                           ],
                         )),
-                        SizedBox(height: 10*vh,)
+                    SizedBox(
+                      height: 10 * vh,
+                    )
                   ],
                 )
               ],

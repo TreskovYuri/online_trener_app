@@ -20,7 +20,7 @@
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
-                <data android:scheme="http" android:host="91.222.236.65" />
+                <data android:scheme="http" android:host="mobilecoach.ru" />
                 <data android:scheme="https" />
             </intent-filter>
             <!-- До сюда -->

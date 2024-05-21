@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:trener_app/getx/MyDateController.dart';
+import 'package:trener_app/getx/MyExercisesController.dart';
+import 'package:trener_app/getx/MyJournalConroller.dart';
 import 'package:trener_app/getx/MyUserConroller.dart';
+import 'package:trener_app/http/exerciseUtills.dart';
+import 'package:trener_app/http/sportpogrammUtills.dart';
 import 'package:trener_app/mobx/mobx.dart';
 import 'package:trener_app/widgets/service/navbar.dart';
 import 'package:provider/provider.dart';
@@ -20,10 +24,12 @@ class _JournalState extends State<Journal> {
   ScrollController _scrollController = ScrollController();
   bool _isAtTop = true;
   MyDateController myDateController = Get.put(MyDateController());
-
+  MyJournalConroller myJournalConroller = Get.put(MyJournalConroller());
   @override
   void initState() {
     super.initState();
+    GetJournal();
+    GetExercise();
     _scrollController.addListener(_onScroll);
   }
 
@@ -43,8 +49,6 @@ class _JournalState extends State<Journal> {
   Widget build(BuildContext context) {
     final vw = MediaQuery.of(context).size.width / 100;
     final vh = MediaQuery.of(context).size.height / 100;
-    final mobx = Provider.of<Mobx>(context);
-
 
     DateTime now = DateTime.now();
     int weekday = now.weekday;
@@ -58,44 +62,44 @@ class _JournalState extends State<Journal> {
     }
 
     return Scaffold(
-
-        // extendBody: true,
-        body: SafeArea(
-            child: Stack(
-          fit: StackFit.expand,
-          children: [
-            ListView(
-              controller: _scrollController,
-              children: [
-                Container(
-                  padding: EdgeInsets.fromLTRB(2 * vw, 3 * vh,2*vw,7*vh),
-                  width: 100 * vw,
-                  color: Color(0xff1B1C20),
-                  child: Column(
-                    children: [
-                      Header(),
-                      Cal(),
-                      Padding(
-                          padding: EdgeInsets.only(top: 3 * vh, bottom: 4 * vh),
-                          child: Column(
-                            children: mobx
-                                .trenerDataOnDay(mobx.currentDate)
-                                .map((e) => Container(
+      // extendBody: true,
+      body: SafeArea(
+          child: Stack(
+        fit: StackFit.expand,
+        children: [
+          ListView(
+            controller: _scrollController,
+            children: [
+              Container(
+                padding: EdgeInsets.fromLTRB(2 * vw, 3 * vh, 2 * vw, 7 * vh),
+                width: 100 * vw,
+                color: Color(0xff1B1C20),
+                child: Column(
+                  children: [
+                    Header(),
+                    Cal(),
+                    Padding(
+                        padding: EdgeInsets.only(top: 3 * vh, bottom: 4 * vh),
+                        child: Obx(
+                          () => Column(
+                            children:
+                                myJournalConroller.Journal.map((e) => Container(
+                                  margin: EdgeInsets.only(top: 10),
                                         child: UserCard(
                                       array: e,
-                                    )))
-                                .toList(),
-                          )),
-                    ],
-                  ),
+                                    ))).toList(),
+                          ),
+                        )),
+                  ],
                 ),
-              ],
-            ),
-            _isAtTop?Navbar():NavbarScroll()
-          ],
-        )),
-        // bottomNavigationBar: _isAtTop ? Navbar() : NavbarScroll()
-        );
+              ),
+            ],
+          ),
+          _isAtTop ? Navbar() : NavbarScroll()
+        ],
+      )),
+      // bottomNavigationBar: _isAtTop ? Navbar() : NavbarScroll()
+    );
   }
 }
 
@@ -132,16 +136,18 @@ class UserCard extends StatefulWidget {
 
 class _UserCardState extends State<UserCard> {
   bool modalFlag = false;
-
+  MyDateController myDateController = Get.put(MyDateController());
+  MyExercisesController myExercisesController = Get.put(MyExercisesController());
+  List<Map<String,dynamic>> exercisesOnDay = [];
   @override
   Widget build(BuildContext context) {
     final vw = MediaQuery.of(context).size.width / 100;
     final vh = MediaQuery.of(context).size.height / 100;
-    final mobx = Provider.of<Mobx>(context);
-    List<Map<String,dynamic>> sets = widget.array['state'];
-    
 
-    return Container(
+   return Obx((){
+          List exercises = widget.array['exercises'].where((e)=>e['date'] == myDateController.date).toList();
+
+      return Container(
       padding: EdgeInsets.all(1 * vw),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -151,13 +157,16 @@ class _UserCardState extends State<UserCard> {
             children: [
               Row(
                 children: [
-                  Text(
-                    widget.array['username'],
-                    style: TextStyle(
-                        color: const Color.fromARGB(223, 255, 255, 255),
-                        fontSize: 5 * vw,
-                        fontFamily: 'Manrope',
-                        fontWeight: FontWeight.w600),
+                  Container(
+                    width: 60 * vw,
+                    child: Text(
+                      widget.array['name'],
+                      style: TextStyle(
+                          color: const Color.fromARGB(223, 255, 255, 255),
+                          fontSize: 4 * vw,
+                          fontFamily: 'Manrope',
+                          fontWeight: FontWeight.w600),
+                    ),
                   ),
                   IconButton(
                       onPressed: () {},
@@ -189,25 +198,31 @@ class _UserCardState extends State<UserCard> {
                 height: 6 * vw,
                 alignment: Alignment.center,
                 decoration: BoxDecoration(
-                    gradient: const RadialGradient(
+                    gradient: exercises.length>0? const RadialGradient(
                       colors: [
                         Color(0xff4D8AEE),
                         Color(0xff2932FF)
                       ], // Цвета для радиального градиента
                       radius: 0.6, // Радиус градиента (от 0 до 1)
                       center: Alignment.center, // Центр радиального градиента
+                    ):const RadialGradient(
+                      colors: [
+                        Color.fromARGB(98, 127, 127, 127),
+                        Color.fromARGB(93, 128, 128, 128)
+                      ], // Цвета для радиального градиента
+                      radius: 0.6, // Радиус градиента (от 0 до 1)
+                      center: Alignment.center, // Центр радиального градиента
                     ),
                     borderRadius: BorderRadius.circular(100)),
-                // child: Obx(() => Text(
-                //       myGetxController.getx.userExercisesOnDay.length
-                //           .toString(),
-                //       style: TextStyle(
-                //           color: Colors.white,
-                //           fontFamily: 'Manrope',
-                //           fontWeight: FontWeight.w500,
-                //           decoration: TextDecoration.none,
-                //           fontSize: 3.5 * vw),
-                //     )),
+                child: Text(
+                      exercises.length.toString(),
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontFamily: 'Manrope',
+                          fontWeight: FontWeight.w500,
+                          decoration: TextDecoration.none,
+                          fontSize: 3.5 * vw),
+                    )
               ),
             ],
           ),
@@ -253,84 +268,87 @@ class _UserCardState extends State<UserCard> {
           modalFlag
               ? Container(
                   child: Column(
-                    children: sets.map((e) => GestureDetector(
-                              onTap: () {
-                                if(e['type']=='training'){
-                                Navigator.pushNamed(
-                                    context, '/training_details_trener',
-                                    arguments: e);
-                                }
-
-                              },
-                              child: Container(
-                                  margin: EdgeInsets.only(top: 1 * vh),
-                                  child: Slidable(
-                                    key: UniqueKey(),
-                                    endActionPane: ActionPane(
-                                        motion: const BehindMotion(),
+                    children: [
+                      ...exercises.map((e) => GestureDetector(
+                            onTap: () {
+                              if (e.containsKey('exerciseId')) {
+                                // Navigator.pushNamed(
+                                //     context, '/training_details_trener',
+                                //     arguments: e);
+                              }
+                            },
+                            child: Container(
+                                margin: EdgeInsets.only(top: 1 * vh),
+                                child: Slidable(
+                                  key: UniqueKey(),
+                                  endActionPane: ActionPane(
+                                      motion: const BehindMotion(),
+                                      key: UniqueKey(),
+                                      dismissible: DismissiblePane(
                                         key: UniqueKey(),
-                                        dismissible: DismissiblePane(
-                                          key: UniqueKey(),
-                                          onDismissed: () => print('delete'),
-                                        ),
-                                        children: [
-                                          SlidableAction(
-                                            onPressed: (context) {},
-                                            backgroundColor: Colors.red,
-
-                                            // icon: Icons.delete,
-                                            label: "Отменить",
-                                            borderRadius:
-                                                BorderRadius.circular(20),
-                                          )
-                                        ]),
-                                    child: Container(
-                                      padding: EdgeInsets.symmetric(
-                                          vertical: 2 * vw, horizontal: 4 * vw),
-                                      decoration: BoxDecoration(
-                                          color: Color(0xff23252B),
-                                          borderRadius:
-                                              BorderRadius.circular(5 * vw)),
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Container(
-                                            width: 60 * vw,
-                                            child: Text(
-                                              e['name'].toString(),
-                                              style: TextStyle(
-                                                  color: const Color.fromARGB(
-                                                      210, 255, 255, 255),
-                                                  fontFamily: 'Manrope',
-                                                  fontWeight: FontWeight.w600,
-                                                  decoration:
-                                                      TextDecoration.none,
-                                                  fontSize: 3 * vw),
-                                            ),
-                                          ),
-                                          IconButton(
-                                            onPressed: () {
-                                              setState(() {
-                                                debugPrint('dev');
-                                              });
-                                            },
-                                            icon: const Icon(Icons
-                                                .arrow_forward_ios_rounded), // Иконка
-                                            iconSize: 4 * vw,
-                                          ),
-                                        ],
+                                        onDismissed: () => print('delete'),
                                       ),
+                                      children: [
+                                        SlidableAction(
+                                          onPressed: (context) {},
+                                          backgroundColor: Colors.red,
+
+                                          // icon: Icons.delete,
+                                          label: "Отменить",
+                                          borderRadius:
+                                              BorderRadius.circular(20),
+                                        )
+                                      ]),
+                                  child: Container(
+                                    padding: EdgeInsets.symmetric(
+                                        vertical: 2 * vw, horizontal: 4 * vw),
+                                    decoration: BoxDecoration(
+                                        color: Color(0xff23252B),
+                                        borderRadius:
+                                            BorderRadius.circular(5 * vw)),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Container(
+                                          width: 60 * vw,
+                                          child: Text(
+                                            myExercisesController.exercises.firstWhere((element) => element['id'] == e['exerciseId'])['nameRu'],
+                                            style: TextStyle(
+                                                color: const Color.fromARGB(
+                                                    210, 255, 255, 255),
+                                                fontFamily: 'Manrope',
+                                                fontWeight: FontWeight.w600,
+                                                decoration: TextDecoration.none,
+                                                fontSize: 3 * vw),
+                                          ),
+                                        ),
+                                        IconButton(
+                                          onPressed: () {
+                                            setState(() {
+                                              debugPrint('dev');
+                                            });
+                                          },
+                                          icon: const Icon(Icons
+                                              .arrow_forward_ios_rounded), // Иконка
+                                          iconSize: 4 * vw,
+                                        ),
+                                      ],
                                     ),
-                                  )),
-                            ))
-                        .toList(),
+                                  ),
+                                )),
+                          ))
+                    ],
                   ),
                 )
               : Container()
         ],
       ),
     );
+    });
+    
+
+    
   }
 }
 
@@ -343,8 +361,7 @@ class Header extends StatefulWidget {
 }
 
 class _HeaderState extends State<Header> {
-      MyUserController myUserController =
-      Get.put(MyUserController());
+  MyUserController myUserController = Get.put(MyUserController());
   @override
   Widget build(BuildContext context) {
     final vw = MediaQuery.of(context).size.width / 100;
@@ -364,6 +381,15 @@ class _HeaderState extends State<Header> {
                 decoration: TextDecoration.none,
                 fontSize: 7 * vw),
           ),
+          // Text(
+          //   "Журнал ",
+          //   style: TextStyle(
+          //       color: const Color.fromARGB(234, 255, 255, 255),
+          //       fontFamily: 'Manrope',
+          //       fontWeight: FontWeight.w500,
+          //       decoration: TextDecoration.none,
+          //       fontSize: 7 * vw),
+          // ),
           IconButton(
             onPressed: () {
               Navigator.pushNamed(
@@ -442,41 +468,42 @@ class _CalState extends State<Cal> {
                     height: 1 * vh,
                   ),
                   Obx(() => Container(
-                        child:InkWell(
-                                onTap: () {
-                                  myDateController.setCurrentDate(
-                                      DateFormat('dd.MM.yyyy').format(date));
-                                  // Navigator.pushReplacementNamed(context,'/journal');
-                                },
-                                child: AnimatedContainer(
-                                  duration: Duration(milliseconds: 250),
-                                  width: 8 * vw,
-                                  height: 8 * vw,
-                                  alignment: Alignment.center,
-                                  // padding: EdgeInsets.all(1),
-                                  decoration: BoxDecoration(
-                                      gradient:RadialGradient(
-                                        colors: myDateController.date == DateFormat('dd.MM.yyyy').format(date) ? [
-                                          Color(0xff4D8AEE),
-                                          Color(0xff2932FF)
-                                        ] : [Color.fromARGB(0, 77, 139, 238),Color.fromARGB(0, 41, 52, 255)],
-                                        radius: 0.6,
-                                        center: Alignment.center,
-                                      ),
-                                      borderRadius: BorderRadius.circular(100)),
-                                  child: Text(
-                                    "${date.day}",
-                                    style: TextStyle(
-                                        color: Colors.white,
-                                        fontFamily: 'Manrope',
-                                        fontWeight: FontWeight.w500,
-                                        decoration: TextDecoration.none,
-                                        fontSize: 4 * vw),
-                                  ),
-                                ),
-                              )
-              
-                      ))
+                          child: InkWell(
+                        onTap: () {
+                          myDateController.setCurrentDate(
+                              DateFormat('dd.MM.yyyy').format(date));
+                          // Navigator.pushReplacementNamed(context,'/journal');
+                        },
+                        child: AnimatedContainer(
+                          duration: Duration(milliseconds: 250),
+                          width: 8 * vw,
+                          height: 8 * vw,
+                          alignment: Alignment.center,
+                          // padding: EdgeInsets.all(1),
+                          decoration: BoxDecoration(
+                              gradient: RadialGradient(
+                                colors: myDateController.date ==
+                                        DateFormat('dd.MM.yyyy').format(date)
+                                    ? [Color(0xff4D8AEE), Color(0xff2932FF)]
+                                    : [
+                                        Color.fromARGB(0, 77, 139, 238),
+                                        Color.fromARGB(0, 41, 52, 255)
+                                      ],
+                                radius: 0.6,
+                                center: Alignment.center,
+                              ),
+                              borderRadius: BorderRadius.circular(100)),
+                          child: Text(
+                            "${date.day}",
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontFamily: 'Manrope',
+                                fontWeight: FontWeight.w500,
+                                decoration: TextDecoration.none,
+                                fontSize: 4 * vw),
+                          ),
+                        ),
+                      )))
                 ],
               );
             }).toList(),
