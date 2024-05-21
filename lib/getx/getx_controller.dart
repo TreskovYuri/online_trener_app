@@ -1,10 +1,10 @@
 import 'package:get/get.dart';
-import 'package:trener_app/getx/getx.dart';
+import 'package:trener_app/getx/MyUserConroller.dart';
 import 'package:trener_app/models/user.dart';
 
 class MyGetxController extends GetxController {
   // Инициализация репозитория
-  var getx = MyController();
+  var getx = MyUserController();
 
   // Установка новой даты
 

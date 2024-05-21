@@ -1,15 +1,9 @@
-import 'package:flutter/cupertino.dart';
+
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:get/get.dart';
-import 'package:http/http.dart';
 import 'package:provider/provider.dart';
-import 'package:trener_app/getx/getx.dart';
-import 'package:trener_app/getx/getx_controller.dart';
+import 'package:trener_app/getx/MyUserConroller.dart';
 import 'package:trener_app/mobx/mobx.dart';
-import 'package:trener_app/models/user.dart';
 import 'package:trener_app/widgets/service/navbar.dart';
 import 'package:trener_app/widgets/service/navbar_scroll.dart';
 
@@ -22,6 +16,7 @@ class Profile extends StatefulWidget {
 }
 
 class _ProfileState extends State<Profile> {
+  MyUserController myUserController = Get.put(MyUserController());
    ScrollController _scrollController = ScrollController();
   bool _isAtTop = true;
 
@@ -44,12 +39,11 @@ class _ProfileState extends State<Profile> {
   }
   @override
   Widget build(BuildContext context) {
-    MyGetxController getx = MyGetxController();
+    
 
     final vw = MediaQuery.of(context).size.width / 100;
-    final mobx = Provider.of<Mobx>(context);
     return Scaffold(
-      body: Stack(
+      body: Obx(()=> Stack(
         fit: StackFit.expand,
         children: [
           Container(
@@ -60,8 +54,8 @@ class _ProfileState extends State<Profile> {
               children: [
                 Expanded(
                   flex: 2,
-                  child: mobx.user['img']!=null? Image.network(
-                    'https://mobilecoach.ru:5004/assets/${mobx.user['img']}',
+                  child: myUserController.user['img']!=null? Image.network(
+                    'https://mobilecoach.ru:5004/assets/${myUserController.user['img']}',
                     // width: 35 * vw,
                     height: 35 * vw,
                     fit: BoxFit
@@ -79,7 +73,7 @@ class _ProfileState extends State<Profile> {
                   child: Padding(
                     padding: EdgeInsets.only(top: 5 * vw),
                     child: Text(
-                      mobx.user['name'],
+                      myUserController.user['name'],
                       style: TextStyle(
                           color: Color.fromARGB(223, 236, 236, 236),
                           fontFamily: 'Manrope',
@@ -95,7 +89,7 @@ class _ProfileState extends State<Profile> {
                   child: Padding(
                     padding: EdgeInsets.only(top: 1 * vw),
                     child: Text(
-                      mobx.user['date'],
+                      myUserController.user['date'],
                       style: TextStyle(
                           color: Color.fromARGB(123, 236, 236, 236),
                           fontFamily: 'Manrope',
@@ -122,7 +116,7 @@ class _ProfileState extends State<Profile> {
                               borderRadius: BorderRadius.circular(20),
                               color: Color.fromARGB(255, 41, 41, 41)),
                           child: Text(
-                            mobx.user['post'],
+                            myUserController.user['post'],
                             style: TextStyle(
                                 color: Color.fromARGB(123, 236, 236, 236),
                                 fontFamily: 'Manrope',
@@ -144,7 +138,7 @@ class _ProfileState extends State<Profile> {
                               borderRadius: BorderRadius.circular(20),
                               color: Color.fromARGB(255, 41, 41, 41)),
                           child: Text(
-                            mobx.user['team'],
+                            myUserController.user['team'],
                             style: TextStyle(
                                 color: Color.fromARGB(123, 236, 236, 236),
                                 fontFamily: 'Manrope',
@@ -190,7 +184,7 @@ class _ProfileState extends State<Profile> {
                                         fontSize: 4 * vw),
                                   ),
                                   Text(
-                                    mobx.user['number'],
+                                    myUserController.user['number'],
                                     style: TextStyle(
                                         color: Color.fromARGB(255, 236, 236, 236),
                                         fontFamily: 'Manrope',
@@ -226,7 +220,7 @@ class _ProfileState extends State<Profile> {
                                         fontSize: 4 * vw),
                                   ),
                                   Text(
-                                    mobx.user['email'],
+                                    myUserController.user['email'],
                                     style: TextStyle(
                                         color: Color.fromARGB(255, 236, 236, 236),
                                         fontFamily: 'Manrope',
@@ -289,7 +283,7 @@ class _ProfileState extends State<Profile> {
           ),
           _isAtTop ? Navbar() : NavbarScroll(),
         ],
-      ),
+      ),),
 
     );
   }

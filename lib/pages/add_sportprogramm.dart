@@ -7,7 +7,7 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:trener_app/getx/MySportProgrammController.dart';
-import 'package:trener_app/getx/getx.dart';
+import 'package:trener_app/getx/MyUserConroller.dart';
 import 'package:trener_app/mobx/mobx.dart';
 
 class AddSportProgrammPage extends StatefulWidget {

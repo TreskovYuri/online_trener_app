@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:trener_app/getx/MyDateController.dart';
+import 'package:trener_app/getx/MyUserConroller.dart';
 import 'package:trener_app/mobx/mobx.dart';
 import 'package:trener_app/widgets/service/navbar.dart';
 import 'package:provider/provider.dart';
@@ -342,6 +343,8 @@ class Header extends StatefulWidget {
 }
 
 class _HeaderState extends State<Header> {
+      MyUserController myUserController =
+      Get.put(MyUserController());
   @override
   Widget build(BuildContext context) {
     final vw = MediaQuery.of(context).size.width / 100;

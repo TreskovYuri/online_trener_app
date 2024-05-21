@@ -6,7 +6,7 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart';
 import 'package:provider/provider.dart';
-import 'package:trener_app/getx/getx.dart';
+import 'package:trener_app/getx/MyUserConroller.dart';
 import 'package:trener_app/getx/getx_controller.dart';
 import 'package:trener_app/mobx/mobx.dart';
 import 'package:trener_app/models/user.dart';

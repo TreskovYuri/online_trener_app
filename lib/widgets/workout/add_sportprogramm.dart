@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:trener_app/getx/MySportProgrammController.dart';
-import 'package:trener_app/getx/getx.dart';
+import 'package:trener_app/getx/MyUserConroller.dart';
 
 class AddSportProgramm extends StatefulWidget {
   const AddSportProgramm({super.key});

@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get/get.dart';
 import 'package:provider/provider.dart';
+import 'package:trener_app/getx/MyUserConroller.dart';
 import 'package:trener_app/mobx/mobx.dart';
 import 'package:trener_app/pages/chats.dart';
 import 'package:trener_app/pages/journal.dart';
@@ -52,12 +54,16 @@ class Navbar extends StatefulWidget {
 }
 
 class _NavbarState extends State<Navbar> {
+  MyUserController myUserController = Get.put(MyUserController());
+
   @override
   Widget build(BuildContext context) {
     final vw = MediaQuery.of(context).size.width / 100;
     final vh = MediaQuery.of(context).size.height / 100;
     final mobx = Provider.of<Mobx>(context);
-    if (mobx.user['post'] == 'Тренер' || mobx.user['post'] == 'Супер тренер') {
+    return
+    Obx((){
+      if (myUserController.user['post'] == 'Тренер' || myUserController.user['post'] == 'Супер тренер') {
       return Positioned(
         bottom: 0,
         left: 0,
@@ -65,15 +71,14 @@ class _NavbarState extends State<Navbar> {
         child: Container(
           height: 12 * vh,
           padding: EdgeInsets.symmetric(horizontal: 2 * vw),
-          decoration: BoxDecoration(
+          decoration: const BoxDecoration(
             color: Color(0xff1B1C20),
           ),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Observer(builder: (context) {
-                return AnimatedOpacity(
+              AnimatedOpacity(
                   duration: const Duration(milliseconds: 10000),
                   opacity: mobx.pageName == 'План' ? 1 : .4,
                   child: Container(
@@ -83,20 +88,11 @@ class _NavbarState extends State<Navbar> {
                       children: [
                         IconButton(
                           onPressed: () async {
-                            if (mobx.user['post'] == 'Супер тренер' ||
-                                mobx.user['post'] == 'Тренер') {
-                              // Navigator.pushReplacementNamed(
-                              //   context,
-                              //   '/journal',
-                                
-                              // );
-                              Navigator.of(context).pushReplacement(_createRoute(Journal(), Offset(-1.0, 0.0),Offset(0.0, 0.0)));
-                            } else {
                               Navigator.pushReplacementNamed(
                                 context,
-                                '/planner',
+                                '/journal',
                               );
-                            }
+                          
                             mobx.setPageName('План');
                           },
                           icon: SvgPicture.asset(
@@ -116,12 +112,11 @@ class _NavbarState extends State<Navbar> {
                       ],
                     ),
                   ),
-                );
-              }),
+                ),
+         
               Row(
                 children: [
-                  Observer(builder: (context) {
-                    return Opacity(
+                  Opacity(
                       opacity: mobx.pageName == 'Спортсмены' ? 1 : .4,
                       child: Container(
                         width: 18 * vw,
@@ -135,7 +130,7 @@ class _NavbarState extends State<Navbar> {
                                 //   context,
                                 //   '/user_progress',
                                 // );
-                                Navigator.of(context).pushReplacement(_createRoute(Sportsmans(), Offset(-1.0, 0.0),Offset(0.0, 0.0)));
+                                Navigator.of(context).pushReplacement(_createRoute(const Sportsmans(), const Offset(-1.0, 0.0),const Offset(0.0, 0.0)));
                               },
                               icon: SvgPicture.asset(
                                 'assets/img/pleers_trener.svg',
@@ -155,8 +150,8 @@ class _NavbarState extends State<Navbar> {
                           ],
                         ),
                       ),
-                    );
-                  })
+                    ),
+                
                 ],
               ),
               Container(
@@ -177,8 +172,7 @@ class _NavbarState extends State<Navbar> {
                   ],
                 ),
               ),
-              Observer(builder: (context) {
-                return Opacity(
+              Opacity(
                   opacity: mobx.pageName == 'Чат' ? 1 : .4,
                   child: Container(
                     width: 18 * vw,
@@ -208,12 +202,11 @@ class _NavbarState extends State<Navbar> {
                       ],
                     ),
                   ),
-                );
-              }),
+                ),
+            
               Row(
                 children: [
-                  Observer(builder: (context) {
-                    return Opacity(
+                  Opacity(
                       opacity: mobx.pageName == 'Сервисы' ? 1 : .6,
                       child: Container(
                         width: 18*vw,
@@ -247,8 +240,8 @@ class _NavbarState extends State<Navbar> {
                           ],
                         ),
                       ),
-                    );
-                  })
+                    ),
+                  
                 ],
               ),
             ],
@@ -270,8 +263,7 @@ class _NavbarState extends State<Navbar> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Observer(builder: (context) {
-                return Opacity(
+              Opacity(
                   opacity: mobx.pageName == 'План' ? 1 : .4,
                   child: Container(
                     width: 18 * vw,
@@ -303,12 +295,11 @@ class _NavbarState extends State<Navbar> {
                       ],
                     ),
                   ),
-                );
-              }),
+                ),
+             
               Row(
                 children: [
-                  Observer(builder: (context) {
-                    return Opacity(
+                 Opacity(
                       opacity: mobx.pageName == 'Прогресс' ? 1 : .4,
                       child: Container(
                         width: 18 * vw,
@@ -341,8 +332,8 @@ class _NavbarState extends State<Navbar> {
                           ],
                         ),
                       ),
-                    );
-                  })
+                    ),
+          
                 ],
               ),
               Container(
@@ -363,8 +354,7 @@ class _NavbarState extends State<Navbar> {
                   ],
                 ),
               ),
-              Observer(builder: (context) {
-                return Opacity(
+              Opacity(
                   opacity: mobx.pageName == 'Чат' ? 1 : .4,
                   child: Container(
                     width: 18 * vw,
@@ -393,12 +383,11 @@ class _NavbarState extends State<Navbar> {
                       ],
                     ),
                   ),
-                );
-              }),
+                ),
+        
               Row(
                 children: [
-                  Observer(builder: (context) {
-                    return Opacity(
+                  Opacity(
                       opacity: mobx.pageName == 'Сервисы' ? 1 : .6,
                       child: Container(
                         width: 18*vw,
@@ -431,8 +420,8 @@ class _NavbarState extends State<Navbar> {
                           ],
                         ),
                       ),
-                    );
-                  })
+                    ),
+              
                 ],
               ),
             ],
@@ -440,5 +429,7 @@ class _NavbarState extends State<Navbar> {
         ),
       );
     }
+    });
+    
   }
 }

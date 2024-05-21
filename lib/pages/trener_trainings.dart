@@ -1,6 +1,4 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:trener_app/getx/MyExercisesController.dart';
@@ -20,66 +18,7 @@ class _TrenerTrainingsState extends State<TrenerTrainings> {
   bool typeFlag = false;
   MyExercisesController myExercisesController =
       Get.put(MyExercisesController());
-  static List<Map<dynamic, dynamic>> array = [
-    {
-      "type": "На выносливость ",
-      "exercises": [
-        {
-          "name": "Круги руками",
-          "description": "Развивает мышцы плеч, спины и груди, улучшает осанку",
-          "stage": ['Заминка', "Разминка"],
-          "equipment": []
-        },
-        {
-          "name": "Бег",
-          "description": "Развивает мышцы плеч, спины и груди, улучшает осанку",
-          "stage": ["Разминка"],
-          "equipment": []
-        },
-        {
-          "name": "Скручивания",
-          "description": "Развивает мышцы плеч, спины и груди, улучшает осанку",
-          "stage": ['Заминка'],
-          "equipment": []
-        },
-        {
-          "name": "Махи ногами",
-          "description": "Развивает мышцы плеч, спины и груди, улучшает осанку",
-          "stage": ['Заминка', "Разминка"],
-          "equipment": []
-        },
-      ]
-    },
-    {
-      "type": "Силовые",
-      "exercises": [
-        {
-          "name": "Жим лежа",
-          "description": "Развивает мышцы плеч, спины и груди, улучшает осанку",
-          "stage": ['Упражнение'],
-          "equipment": ['штанга']
-        },
-        {
-          "name": "Приседания со штангой",
-          "description": "Развивает мышцы плеч, спины и груди, улучшает осанку",
-          "stage": ['Упражнение'],
-          "equipment": ['штанга']
-        },
-        {
-          "name": "Подтягивания",
-          "description": "Развивает мышцы плеч, спины и груди, улучшает осанку",
-          "stage": ['Упражнение'],
-          "equipment": ['турник']
-        },
-        {
-          "name": "Армейский жим",
-          "description": "Развивает мышцы плеч, спины и груди, улучшает осанку",
-          "stage": ['Упражнение'],
-          "equipment": ['штанга']
-        },
-      ]
-    },
-  ];
+
 
   ScrollController _scrollController = ScrollController();
   bool _isAtTop = true;
@@ -109,10 +48,6 @@ class _TrenerTrainingsState extends State<TrenerTrainings> {
     final vw = MediaQuery.of(context).size.width / 100;
     final vh = MediaQuery.of(context).size.height / 100;
 
-    var count = 0;
-    array.forEach((el) {
-      el['exercises'].forEach((e) => count++);
-    });
 
     return Scaffold(
       appBar: AppBar(

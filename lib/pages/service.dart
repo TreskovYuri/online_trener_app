@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:provider/provider.dart';
+import 'package:trener_app/getx/MyUserConroller.dart';
 import 'package:trener_app/mobx/mobx.dart';
 import 'package:trener_app/widgets/service/card_service_player.dart';
 import 'package:trener_app/widgets/service/card_service_trener.dart';
@@ -15,6 +17,7 @@ class Service extends StatefulWidget {
 }
 
 class _ServiceState extends State<Service> {
+  MyUserController myUserController = Get.put(MyUserController());
     ScrollController _scrollController = ScrollController();
   bool _isAtTop = true;
 
@@ -41,6 +44,7 @@ class _ServiceState extends State<Service> {
     final screenHeight = MediaQuery.of(context).size.height;
     final vw = MediaQuery.of(context).size.width / 100;
     final mobx = Provider.of<Mobx  >(context);
+    
     return Scaffold(
       body: SafeArea(
         child: Stack(children: [
@@ -64,7 +68,7 @@ class _ServiceState extends State<Service> {
                 Expanded(
                   flex: 5,
                   child: serviseMotification
-                      ? (mobx.user['post'] == 'Тренер' || mobx.user['post'] == 'Супер тренер') ? CardServiceTrener(): CardServicePlayer()
+                      ? (myUserController.user['post'] == 'Тренер' || myUserController.user['post'] == 'Супер тренер') ? CardServiceTrener(): CardServicePlayer()
                       : Container(
                         width: 80*vw,
                           alignment: Alignment.topCenter,

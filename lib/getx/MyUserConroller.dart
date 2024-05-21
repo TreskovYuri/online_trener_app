@@ -2,16 +2,16 @@
 import 'package:get/get.dart';
 
 
-class MyController  extends GetxController{
+class MyUserController  extends GetxController{
   // Выбранная дата
 
 
   //Текущий пользователь
-  var user = RxMap({});
+  var _user = RxMap<String,dynamic>({});
   void setUser(newUser){
-    user.clear(); // Очищаем текущий RxMap
-    user.addAll(newUser);
+    this._user.assignAll(newUser);
     }
+  Map<String, dynamic> get user => _user;
 
 
   var userExercisesOnDay = RxList();

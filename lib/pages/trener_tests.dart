@@ -1,8 +1,8 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:trener_app/models/constants/images.dart';
+import 'package:get/get.dart';
+import 'package:trener_app/getx/MyTestsController.dart';
+import 'package:trener_app/http/testUtills.dart';
 import 'package:trener_app/widgets/service/navbar.dart';
 import 'package:trener_app/widgets/service/navbar_scroll.dart';
 import 'package:trener_app/widgets/tests/addTests.dart';
@@ -15,13 +15,16 @@ class TrenerTests extends StatefulWidget {
 }
 
 class _TrenerTestsState extends State<TrenerTests> {
+  MyTestsController myTestsController = Get.put(MyTestsController());
   ScrollController _scrollController = ScrollController();
   bool _isAtTop = true;
-  String type = 'Все';
+  int type = 0;
   @override
   void initState() {
     super.initState();
     _scrollController.addListener(_onScroll);
+    GetTests();
+    GetTestGroups();
   }
 
   @override
@@ -96,8 +99,7 @@ class _TrenerTestsState extends State<TrenerTests> {
           icon: const Icon(Icons
               .arrow_back_ios_new_rounded), // Устанавливаем иконку "домой" вместо стрелки "назад"
           onPressed: () {
-            Navigator.pushReplacementNamed(context,'/faq');
-
+            Navigator.pushReplacementNamed(context, '/faq');
           },
         ),
         surfaceTintColor: Colors.transparent,
@@ -107,8 +109,9 @@ class _TrenerTestsState extends State<TrenerTests> {
             child: IconButton(
               onPressed: () {
                 showModalBottomSheet(
-                  isScrollControlled: true,
-                  context: context, builder: (_)=>ModalAddTest());
+                    isScrollControlled: true,
+                    context: context,
+                    builder: (_) => ModalAddTest());
               },
               icon: SvgPicture.asset(
                 'assets/img/blue_plus.svg',
@@ -133,7 +136,6 @@ class _TrenerTestsState extends State<TrenerTests> {
         ),
         backgroundColor: Color(0xff1B1C20), // Устанавливаем прозрачный фон
       ),
-      
       body: Stack(
         fit: StackFit.expand,
         children: [
@@ -167,15 +169,16 @@ class _TrenerTestsState extends State<TrenerTests> {
               ),
               SingleChildScrollView(
                 scrollDirection: Axis.horizontal,
-                child: Row(
-                  children: [
-                    Padding(
+                child: Obx(
+                  () => Row(
+                    children: [
+                      Padding(
                         padding: EdgeInsets.symmetric(
                             vertical: 1 * vh, horizontal: 1 * vw),
                         child: ElevatedButton(
                           onPressed: () {
                             setState(() {
-                              type = 'Все';
+                              type = 0;
                             });
                           },
                           style: ElevatedButton.styleFrom(
@@ -205,54 +208,61 @@ class _TrenerTestsState extends State<TrenerTests> {
                           ),
                         ),
                       ),
-                    ...typeList.map(
-                      (e) => Padding(
-                        padding: EdgeInsets.symmetric(
-                            vertical: 1 * vh, horizontal: 1 * vw),
-                        child: ElevatedButton(
-                          onPressed: () {
-                            setState(() {
-                              type = e;
-                            });
-                          },
-                          style: ElevatedButton.styleFrom(
-                            foregroundColor: Color.fromARGB(255, 6, 36, 65),
-                            padding: EdgeInsets
-                                .zero, // Устанавливаем внутренний отступ нулевым
-                          ),
-                          child: Container(
-                            margin: EdgeInsets.zero,
-                            alignment: Alignment.center,
-                            padding: EdgeInsets.symmetric(
-                              horizontal: 3 * vw,
-                              // vertical: .1 * vh,
+                      ...myTestsController.groups.map(
+                        (e) => Padding(
+                          padding: EdgeInsets.symmetric(
+                              vertical: 1 * vh, horizontal: 1 * vw),
+                          child: ElevatedButton(
+                            onPressed: () {
+                              setState(() {
+                                type = e['id'];
+                              });
+                            },
+                            style: ElevatedButton.styleFrom(
+                              foregroundColor: Color.fromARGB(255, 6, 36, 65),
+                              padding: EdgeInsets
+                                  .zero, // Устанавливаем внутренний отступ нулевым
                             ),
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10 * vw),
-                            ),
-                            child: Text(
-                              e,
-                              style: TextStyle(
-                                color: Color.fromARGB(255, 0, 0, 0),
-                                fontFamily: "Manrope",
-                                fontSize: 3 * vw,
-                                fontWeight: FontWeight.w500,
+                            child: Container(
+                              margin: EdgeInsets.zero,
+                              alignment: Alignment.center,
+                              padding: EdgeInsets.symmetric(
+                                horizontal: 3 * vw,
+                                // vertical: .1 * vh,
+                              ),
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10 * vw),
+                              ),
+                              child: Text(
+                                e['name'],
+                                style: TextStyle(
+                                  color: Color.fromARGB(255, 0, 0, 0),
+                                  fontFamily: "Manrope",
+                                  fontSize: 3 * vw,
+                                  fontWeight: FontWeight.w500,
+                                ),
                               ),
                             ),
                           ),
                         ),
-                      ),
-                    )
+                      )
+                    ],
+                  ),
+                ),
+              ),
+              Obx(
+                () => Column(
+                  children: [
+                    ...myTestsController.tests
+                        .where((element) => element['groupId'] == type || type == 0)
+                        .map((e) => GroupCard(
+                              vh: vh,
+                              vw: vw,
+                              map: e,
+                            )),
                   ],
                 ),
               ),
-              ...array
-                  .where((element) => element['type'] == type || type == 'Все')
-                  .map((e) => GroupCard(
-                        vh: vh,
-                        vw: vw,
-                        map: e,
-                      )),
               SizedBox(
                 height: 12 * vh,
               )
@@ -264,7 +274,6 @@ class _TrenerTestsState extends State<TrenerTests> {
     );
   }
 }
-
 
 // Обрезатель строки
 String shortenString(String input) {
