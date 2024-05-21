@@ -14,6 +14,41 @@ class MyUserController  extends GetxController{
   Map<String, dynamic> get user => _user;
 
 
+
+
+
+
+  //Список спортсменов
+  var _sportsmans = RxList<Map<String,dynamic>>([]);
+
+  void setSportsmans(newSportsmans){
+    this._sportsmans.assignAll(newSportsmans);
+    }
+  List<Map<String, dynamic>> get sportsmans => _sportsmans;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   var userExercisesOnDay = RxList();
 
 

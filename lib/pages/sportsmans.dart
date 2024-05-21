@@ -1,6 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get/get.dart';
+import 'package:trener_app/getx/MyUserConroller.dart';
+import 'package:trener_app/http/userUtills.dart';
 import 'package:trener_app/widgets/service/navbar.dart';
 import 'package:trener_app/widgets/service/navbar_scroll.dart';
 
@@ -12,12 +15,14 @@ class Sportsmans extends StatefulWidget {
 }
 
 class _SportsmansState extends State<Sportsmans> {
+  MyUserController myUserController = Get.put(MyUserController());
   ScrollController _scrollController = ScrollController();
   bool _isAtTop = true;
 
   @override
   void initState() {
     super.initState();
+    GetSportsmans();
     _scrollController.addListener(_onScroll);
   }
 
@@ -38,57 +43,6 @@ class _SportsmansState extends State<Sportsmans> {
     final vw = MediaQuery.of(context).size.width / 100;
     final vh = MediaQuery.of(context).size.height / 100;
 
-    final List<Map<String, dynamic>> sportsmansList = [
-      {
-        "id": 1,
-        "name": "Карпов Яков Дамирович",
-        'age': "19",
-        'height': "184",
-        'weigth': "84",
-        "team": "СКА",
-        'post': "Центральный нападающий",
-        'date': "11.01.1996",
-        "number": "+7 (999) 999 99-99",
-        "email": "mail@mail.ru"
-      },
-      {
-        "id": 2,
-        "name": "Крюков Александр Миронович",
-        'age': "23",
-        'height': "179",
-        'weigth': "84",
-        "team": "Красная машина",
-        'post': "Защитник",
-        'date': "21.01.2001",
-        "number": "+7 (999) 999 99-92",
-        "email": "mail1@mail.ru"
-      },
-      {
-        "id": 3,
-        "name": "Миронов Максим Александрович",
-        'age': "21",
-        'height': "173",
-        'weigth': "73",
-        "team": "СКА",
-        'post': "Вратарь",
-        'date': "13.04.1999",
-        "number": "+7 (999) 999 99-93",
-        "email": "mail2@mail.ru"
-      },
-      {
-        "id": 4,
-        "name": "Никонов Иван Фёдорович",
-        'age': "21",
-        'height': "165",
-        'weigth': "74 ",
-        "team": "СКА",
-        'post': "Крайний нападающий",
-        'date': "30.10.2003",
-        "number": "+7 (999) 999 99-94",
-        "email": "mail5@mail.ru"
-      },
-    ];
-
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -100,6 +54,7 @@ class _SportsmansState extends State<Sportsmans> {
             Navigator.pushReplacementNamed(context, '/faq');
           },
         ),
+
         surfaceTintColor: Colors.transparent,
         actions: [
           Padding(
@@ -142,152 +97,172 @@ class _SportsmansState extends State<Sportsmans> {
       ),
       body: Stack(
         children: [
-          ListView(
-            controller: _scrollController,
-            children: [
-              Padding(
-                padding: EdgeInsets.all(3 * vw),
-                child: TextField(
-                  cursorColor: const Color.fromARGB(255, 112, 112, 112),
-                  style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 4 * vw,
-                      fontWeight: FontWeight.w400,
-                      fontFamily: 'Manrope'),
-                  decoration: InputDecoration(
-                    hintText: 'Найти...',
-                    filled: true, // Set to true to fill the background
-                    fillColor: const Color(0xff23252B), // Set background color
-                    hintStyle: const TextStyle(
-                        color: Colors.grey), // Customize hint text color
-                    contentPadding: EdgeInsets.symmetric(
-                        horizontal: 4 * vw, vertical: 1.5 * vh),
-                    border: OutlineInputBorder(
-                      borderSide: BorderSide.none, // Remove border
-                      borderRadius: BorderRadius.circular(4 * vw),
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderSide: BorderSide.none, // Remove border
-                      borderRadius: BorderRadius.circular(4 * vw),
+          Obx(
+            () => ListView(
+              controller: _scrollController,
+              children: [
+                Padding(
+                  padding: EdgeInsets.all(3 * vw),
+                  child: TextField(
+                    cursorColor: const Color.fromARGB(255, 112, 112, 112),
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 4 * vw,
+                        fontWeight: FontWeight.w400,
+                        fontFamily: 'Manrope'),
+                    decoration: InputDecoration(
+                      hintText: 'Найти...',
+                      filled: true, // Set to true to fill the background
+                      fillColor:
+                          const Color(0xff23252B), // Set background color
+                      hintStyle: const TextStyle(
+                          color: Colors.grey), // Customize hint text color
+                      contentPadding: EdgeInsets.symmetric(
+                          horizontal: 4 * vw, vertical: 1.5 * vh),
+                      border: OutlineInputBorder(
+                        borderSide: BorderSide.none, // Remove border
+                        borderRadius: BorderRadius.circular(4 * vw),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderSide: BorderSide.none, // Remove border
+                        borderRadius: BorderRadius.circular(4 * vw),
+                      ),
                     ),
                   ),
                 ),
-              ),
-              ...sportsmansList.map(
-                (e) => Padding(
-                  padding: EdgeInsets.all(3 * vw),
-                  child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      padding: EdgeInsets.zero,
-                      surfaceTintColor: Colors.transparent,
-                      foregroundColor: Color.fromARGB(255, 0, 71, 115),
-                      backgroundColor:
-                          Color(0xff23252B), // Чтобы сделать фон прозрачным
-                      // shadowColor: Color(0xff23252B),
-                    ).copyWith(
-                      // Радиальный градиент
-                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                        RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10),
+                ...myUserController.sportsmans.map(
+                  (e) => Padding(
+                    padding: EdgeInsets.all(3 * vw),
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        padding: EdgeInsets.zero,
+                        surfaceTintColor: Colors.transparent,
+                        foregroundColor: Color.fromARGB(255, 0, 71, 115),
+                        backgroundColor:
+                            Color(0xff23252B), // Чтобы сделать фон прозрачным
+                        // shadowColor: Color(0xff23252B),
+                      ).copyWith(
+                        // Радиальный градиент
+                        shape:
+                            MaterialStateProperty.all<RoundedRectangleBorder>(
+                          RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                        ),
+                      ),
+                      onPressed: () {
+                        Navigator.pushReplacementNamed(
+                            context, '/profile_one_user',
+                            arguments: e);
+                      },
+                      child: Container(
+                        margin: EdgeInsets.all(3 * vw),
+                        padding: EdgeInsets.all(3 * vw),
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(3 * vw)),
+                        child: Column(
+                          children: [
+                            Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Container(
+                                  width: 15 * vw,
+                                  height: 15 * vw,
+                                  child: ClipOval(
+                                    child: e['img'] != '' && e['img'] != null
+                                        ? Image.network(
+                                            'https://mobilecoach.ru:5004/assets/${e['img']}',
+                                            width: 15 * vw,
+                                            height: 15 * vw,
+                                            fit: BoxFit
+                                                .cover, // Ensures the image covers the circular area
+                                          )
+                                        : Image.asset(
+                                            'assets/img/user1.png',
+                                            width: 15 * vw,
+                                            height: 15 * vw,
+                                            fit: BoxFit
+                                                .cover, // Ensures the image covers the circular area
+                                          ),
+                                  ),
+                                ),
+                                SizedBox(
+                                  width: 3 * vw,
+                                ),
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Container(
+                                        width: 50 * vw,
+                                        child: Text(
+                                          e['name'],
+                                          style: TextStyle(
+                                              color: Colors.white,
+                                              fontSize: 4 * vw,
+                                              fontFamily: 'Manrope'),
+                                        )),
+                                    SizedBox(
+                                      height: 1 * vh,
+                                    ),
+                                    Text("${e['date']}г",
+                                        style: TextStyle(
+                                            color: const Color.fromARGB(
+                                                129, 255, 255, 255),
+                                            fontSize: 3 * vw,
+                                            fontFamily: 'Manrope'))
+                                  ],
+                                )
+                              ],
+                            ),
+                            SizedBox(
+                              height: 2 * vh,
+                            ),
+                            Row(
+                              children: [
+                                Container(
+                                  padding: EdgeInsets.symmetric(
+                                      horizontal: 3 * vw, vertical: .5 * vh),
+                                  decoration: BoxDecoration(
+                                      color: Color(0xffEBEEF),
+                                      borderRadius:
+                                          BorderRadius.circular(10 * vw)),
+                                  child: Text(e['post'],
+                                      style: TextStyle(
+                                          color: Color.fromARGB(
+                                              184, 255, 255, 255),
+                                          fontSize: 3 * vw,
+                                          fontFamily: 'Manrope')),
+                                ),
+                                SizedBox(
+                                  width: 2 * vw,
+                                ),
+                                Container(
+                                  padding: EdgeInsets.symmetric(
+                                      horizontal: 3 * vw, vertical: .5 * vh),
+                                  decoration: BoxDecoration(
+                                      color: Color(0xffEBEEF),
+                                      borderRadius:
+                                          BorderRadius.circular(10 * vw)),
+                                  child: Text(e['team'],
+                                      style: TextStyle(
+                                          color: Color.fromARGB(
+                                              184, 255, 255, 255),
+                                          fontSize: 3 * vw,
+                                          fontFamily: 'Manrope')),
+                                ),
+                              ],
+                            )
+                          ],
                         ),
                       ),
                     ),
-                    onPressed: () {
-                      Navigator.pushReplacementNamed(
-                          context, '/profile_one_user',
-                          arguments: e);
-                    },
-                    child: Container(
-                      margin: EdgeInsets.all(3 * vw),
-                      padding: EdgeInsets.all(3 * vw),
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(3 * vw)),
-                      child: Column(
-                        children: [
-                          Row(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Image.asset(
-                                'assets/img/user${e['id']}.png',
-                                width: 15 * vw,
-                              ),
-                              SizedBox(
-                                width: 3 * vw,
-                              ),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Container(
-                                      width: 50 * vw,
-                                      child: Text(
-                                        e['name'],
-                                        style: TextStyle(
-                                            color: Colors.white,
-                                            fontSize: 4 * vw,
-                                            fontFamily: 'Manrope'),
-                                      )),
-                                  SizedBox(
-                                    height: 1 * vh,
-                                  ),
-                                  Text(
-                                      "${e['age']}г • ${e['height']}см • ${e['weigth']}кг",
-                                      style: TextStyle(
-                                          color: const Color.fromARGB(
-                                              129, 255, 255, 255),
-                                          fontSize: 3 * vw,
-                                          fontFamily: 'Manrope'))
-                                ],
-                              )
-                            ],
-                          ),
-                          SizedBox(
-                            height: 2 * vh,
-                          ),
-                          Row(
-                            children: [
-                              Container(
-                                padding: EdgeInsets.symmetric(
-                                    horizontal: 3 * vw, vertical: .5 * vh),
-                                decoration: BoxDecoration(
-                                    color: Color(0xffEBEEF),
-                                    borderRadius:
-                                        BorderRadius.circular(10 * vw)),
-                                child: Text(e['post'],
-                                    style: TextStyle(
-                                        color:
-                                            Color.fromARGB(184, 255, 255, 255),
-                                        fontSize: 3 * vw,
-                                        fontFamily: 'Manrope')),
-                              ),
-                              SizedBox(
-                                width: 2 * vw,
-                              ),
-                              Container(
-                                padding: EdgeInsets.symmetric(
-                                    horizontal: 3 * vw, vertical: .5 * vh),
-                                decoration: BoxDecoration(
-                                    color: Color(0xffEBEEF),
-                                    borderRadius:
-                                        BorderRadius.circular(10 * vw)),
-                                child: Text(e['team'],
-                                    style: TextStyle(
-                                        color:
-                                            Color.fromARGB(184, 255, 255, 255),
-                                        fontSize: 3 * vw,
-                                        fontFamily: 'Manrope')),
-                              ),
-                            ],
-                          )
-                        ],
-                      ),
-                    ),
                   ),
                 ),
-              ),
-              SizedBox(
-                height: 12 * vh,
-              )
-            ],
+                SizedBox(
+                  height: 12 * vh,
+                )
+              ],
+            ),
           ),
           _isAtTop ? const Navbar() : const NavbarScroll(),
         ],

@@ -1,9 +1,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:provider/provider.dart';
 import 'package:trener_app/getx/MyUserConroller.dart';
-import 'package:trener_app/mobx/mobx.dart';
 import 'package:trener_app/widgets/service/navbar.dart';
 import 'package:trener_app/widgets/service/navbar_scroll.dart';
 

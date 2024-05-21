@@ -49,10 +49,13 @@ class _ProfileOneUserState extends State<ProfileOneUser> {
         ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>;
 
     final vw = MediaQuery.of(context).size.width / 100;
+    final vh = MediaQuery.of(context).size.height / 100;
     final mobx = Provider.of<Mobx>(context);
     return Scaffold(
       appBar: AppBar(
-        iconTheme: const IconThemeData(color: Color.fromARGB(255, 255, 255, 255)),
+        toolbarHeight: 20 * vh,
+        iconTheme:
+            const IconThemeData(color: Color.fromARGB(255, 255, 255, 255)),
         leading: IconButton(
           icon: const Icon(Icons
               .arrow_back_ios_new_rounded), // Устанавливаем иконку "домой" вместо стрелки "назад"
@@ -72,22 +75,32 @@ class _ProfileOneUserState extends State<ProfileOneUser> {
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 Expanded(
-                    flex: 2,
-                    child: arguments['img'] != null
-                        ? Image.network(
-                            'https://mobilecoach.ru:5004/assets/${arguments['img']}',
-                            // width: 35 * vw,
-                            height: 35 * vw,
-                            fit: BoxFit
-                                .cover, // Обрезать изображение в соответствии с размерами контейнера
-                          )
-                        : Image(
-                            image: AssetImage('assets/img/user${arguments['id']}.png'),
-                            // width: 35 * vw,
-                            height: 35 * vw,
-                            fit: BoxFit
-                                .cover, // Обрезать изображение в соответствии с размерами контейнера
-                          )),
+                  flex: 2,
+                  child: Container(
+                    child: Container(
+                      width: 35 * vw,
+                      height: 35 * vw,
+                      child: ClipOval(
+                        
+                        child: arguments['img'] != null && arguments['img'] != ''
+                            ? Image.network(
+                                'https://mobilecoach.ru:5004/assets/${arguments['img']}',
+                                width: 35 * vw,
+                                height: 35 *vw,
+                                fit: BoxFit
+                                    .cover, // Ensures the image covers the circular area
+                              )
+                            : Image.asset(
+                                'assets/img/user1.png',
+                                width: 35 * vw,
+                                height: 35 * vw,
+                                fit: BoxFit
+                                    .cover, // Ensures the image covers the circular area
+                              ),
+                      ),
+                    ),
+                  ),
+                ),
                 Expanded(
                   flex: 1,
                   child: Padding(
@@ -108,7 +121,7 @@ class _ProfileOneUserState extends State<ProfileOneUser> {
                   child: Padding(
                     padding: EdgeInsets.only(top: 1 * vw),
                     child: Text(
-                      arguments['date']+'г',
+                      arguments['date'] + 'г',
                       style: TextStyle(
                           color: const Color.fromARGB(123, 236, 236, 236),
                           fontFamily: 'Manrope',
@@ -272,7 +285,6 @@ class _ProfileOneUserState extends State<ProfileOneUser> {
                             ],
                           ),
                         ),
-                       
                       ],
                     )),
               ],
