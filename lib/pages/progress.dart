@@ -4,7 +4,9 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
+import 'package:trener_app/getx/MyTestsController.dart';
 import 'package:trener_app/getx/MyUserConroller.dart';
+import 'package:trener_app/http/testUtills.dart';
 import 'package:trener_app/mobx/mobx.dart';
 import 'package:trener_app/pages/ResultFix.dart';
 import 'package:trener_app/widgets/service/navbar.dart';
@@ -25,6 +27,7 @@ class _UserProgressState extends State<UserProgress> {
   @override
   void initState() {
     super.initState();
+    GetTests();
     _scrollController.addListener(_onScroll);
   }
 
@@ -423,12 +426,14 @@ class Body extends StatelessWidget {
 // Тесты
 class FullTests extends StatefulWidget {
   FullTests({super.key});
+  
 
   @override
   State<FullTests> createState() => _FullTestsState();
 }
 
 class _FullTestsState extends State<FullTests> {
+  MyTestsController myTestsController = Get.put(MyTestsController());
   @override
   Widget build(BuildContext context) {
     const List array = [
@@ -487,7 +492,7 @@ class _FullTestsState extends State<FullTests> {
               ),
             ],
           ),
-          ...array.map(
+          ...myTestsController.tests.map(
             (e) => Container(
               margin: EdgeInsets.only(top: 2 * vh),
               child: ElevatedButton(

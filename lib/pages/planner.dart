@@ -2,11 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:trener_app/getx/MyDateController.dart';
+import 'package:trener_app/getx/MyExercisesController.dart';
+import 'package:trener_app/getx/MyNutritionsController.dart';
 import 'package:trener_app/getx/MyPlannerConroller.dart';
+import 'package:trener_app/getx/MyTestsController.dart';
 import 'package:trener_app/getx/getx_controller.dart';
+import 'package:trener_app/http/exerciseUtills.dart';
+import 'package:trener_app/http/nutritionUtills.dart';
 import 'package:trener_app/http/sportpogrammUtills.dart';
+import 'package:trener_app/http/testUtills.dart';
 import 'package:trener_app/mobx/mobx.dart';
 import 'package:trener_app/pages/ResultFix.dart';
+import 'package:trener_app/pages/nutrition.dart';
 import 'package:trener_app/widgets/service/navbar.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:provider/provider.dart';
@@ -29,6 +36,9 @@ class _PlannerState extends State<Planner> {
   void initState() {
     super.initState();
     GetPlanner();
+    GetExercise();
+    GetTests();
+    GetNutritions();
     _scrollController.addListener(_onScroll);
   }
 
@@ -274,21 +284,19 @@ class TrainingCard extends StatefulWidget {
 
 class _TrainingCardState extends State<TrainingCard> {
   MyPlannerConroller myPlannerConroller = MyPlannerConroller();
+  MyDateController myDateController = MyDateController();
+  List<Map<String, dynamic>> dayExercises = [];
   bool trainingOnOff = false;
+  List exercises = [];
+
   @override
   Widget build(BuildContext context) {
-    final mobx = Provider.of<Mobx>(context);
     final vw = MediaQuery.of(context).size.width / 100;
     final vh = MediaQuery.of(context).size.height / 100;
-    MyGetxController myGetxController = Get.put(MyGetxController());
+    MyExercisesController myExercisesController =
+        Get.put(MyExercisesController());
     MyPlannerConroller myPlannerConroller = Get.put(MyPlannerConroller());
     MyDateController myDateController = Get.put(MyDateController());
-    if (myPlannerConroller.Planner.isNotEmpty &&
-        myPlannerConroller.Planner['exercises'].length > 0) {
-      // print(myPlannerConroller.Planner['exercises']);
-    }
-
-    // print(exercises);
 
     return GestureDetector(
       onTap: () => setState(() {
@@ -297,56 +305,63 @@ class _TrainingCardState extends State<TrainingCard> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Center(
-            child: Container(
-              width: 90 * vw,
-              margin: EdgeInsets.only(top: 0 * vh),
-              child: Column(
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Container(
-                        width: 60 * vw,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Text(
-                              "Тренировки",
-                              style: TextStyle(
-                                  color:
-                                      const Color.fromARGB(220, 255, 255, 255),
-                                  fontSize: 5 * vw),
-                            ),
-                            !trainingOnOff
-                                ? IconButton(
-                                    onPressed: () {
-                                      setState(() {
-                                        trainingOnOff = !trainingOnOff;
-                                      });
-                                    },
-                                    icon: const Icon(Icons
-                                        .arrow_forward_ios_rounded), // Иконка
-                                    iconSize: 4 * vw,
-                                  )
-                                : IconButton(
-                                    onPressed: () {
-                                      setState(() {
+          Obx(
+            () => Center(
+              child: Container(
+                width: 90 * vw,
+                margin: EdgeInsets.only(top: 0 * vh),
+                child: Column(
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Container(
+                          width: 60 * vw,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Text(
+                                "Тренировки",
+                                style: TextStyle(
+                                    color: const Color.fromARGB(
+                                        220, 255, 255, 255),
+                                    fontSize: 5 * vw),
+                              ),
+                              !trainingOnOff
+                                  ? IconButton(
+                                      onPressed: () {
                                         setState(() {
                                           trainingOnOff = !trainingOnOff;
                                         });
-                                      });
-                                    },
-                                    icon: const Icon(Icons
-                                        .keyboard_arrow_down_rounded), // Иконка
-                                    iconSize: 6 * vw,
-                                  ),
-                          ],
+                                      },
+                                      icon: const Icon(Icons
+                                          .arrow_forward_ios_rounded), // Иконка
+                                      iconSize: 4 * vw,
+                                    )
+                                  : IconButton(
+                                      onPressed: () {
+                                        setState(() {
+                                          setState(() {
+                                            trainingOnOff = !trainingOnOff;
+                                          });
+                                        });
+                                      },
+                                      icon: const Icon(Icons
+                                          .keyboard_arrow_down_rounded), // Иконка
+                                      iconSize: 6 * vw,
+                                    ),
+                            ],
+                          ),
                         ),
-                      ),
-                      Obx(
-                        () => myPlannerConroller.Planner.isEmpty
+                        myPlannerConroller.Planner['exercises'] != null &&
+                                myPlannerConroller.Planner['exercises'].length >
+                                    0 &&
+                                myPlannerConroller.Planner['exercises']
+                                        .where((el) =>
+                                            el['date'] == myDateController.date)
+                                        .length >
+                                    0
                             ? Container(
                                 width: 11 * vw,
                                 height: 6 * vw,
@@ -364,8 +379,10 @@ class _TrainingCardState extends State<TrainingCard> {
                                     ),
                                     borderRadius: BorderRadius.circular(100)),
                                 child: Text(
-                                  myGetxController
-                                      .getx.userExercisesOnDay.length
+                                  myPlannerConroller.Planner['exercises']
+                                      .where((el) =>
+                                          el['date'] == myDateController.date)
+                                      .length
                                       .toString(),
                                   style: TextStyle(
                                       color: Colors.white,
@@ -402,243 +419,41 @@ class _TrainingCardState extends State<TrainingCard> {
                                       fontSize: 3.5 * vw),
                                 ),
                               ),
-                      )
-                    ],
-                  ),
-                  trainingOnOff
-                      // ignore: dead_code
-                      ? Obx(() => Column(
-                            children: myGetxController.getx.userExercisesOnDay
-                                .map((e) {
-                              final uniqueKey = UniqueKey();
-                              return GestureDetector(
-                                onTap: () {
-                                  // Обработчик нажатия
-                                  Navigator.pushNamed(
-                                    context,
-                                    arguments: e,
-                                    '/workout', // Переход на login
-                                  );
-                                },
-                                child: Container(
-                                  margin: EdgeInsets.only(top: 1 * vh),
-                                  child: Slidable(
-                                    key: uniqueKey,
-                                    endActionPane: ActionPane(
-                                        motion: const BehindMotion(),
-                                        key: uniqueKey,
-                                        dismissible: DismissiblePane(
-                                          key: UniqueKey(),
-                                          onDismissed: () => print('delete'),
-                                        ),
-                                        children: [
-                                          SlidableAction(
-                                            onPressed: (context) {},
-                                            backgroundColor: Colors.red,
-
-                                            // icon: Icons.delete,
-                                            label: "Отменить",
-                                            borderRadius:
-                                                BorderRadius.circular(20),
-                                          )
-                                        ]),
-                                    child: Container(
-                                      padding: EdgeInsets.symmetric(
-                                          vertical: 1 * vw, horizontal: 3 * vw),
-                                      decoration: BoxDecoration(
-                                          color: Color(0xff23252B),
-                                          borderRadius:
-                                              BorderRadius.circular(5 * vw)),
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Text(
-                                            e['name'].toString(),
-                                            style: TextStyle(
-                                                color: const Color.fromARGB(
-                                                    210, 255, 255, 255),
-                                                fontFamily: 'Manrope',
-                                                fontWeight: FontWeight.w600,
-                                                decoration: TextDecoration.none,
-                                                fontSize: 3 * vw),
-                                          ),
-                                          IconButton(
-                                            onPressed: () {
-                                              setState(() {
-                                                trainingOnOff = !trainingOnOff;
-                                              });
-                                            },
-                                            icon: const Icon(Icons
-                                                .arrow_forward_ios_rounded), // Иконка
-                                            iconSize: 4 * vw,
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              );
-                            }).toList(), // Преобразуйте список объектов Text в список виджетов
-                          ))
-                      : Container(), // Вернуть пустой контейнер, если trainingOnOff равно false
-                ],
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-// <=============   Карточка Тестов ====================>
-class TestsCard extends StatefulWidget {
-  const TestsCard({super.key});
-
-  @override
-  State<TestsCard> createState() => _TestsCardState();
-}
-
-class _TestsCardState extends State<TestsCard> {
-  bool trainingOnOff = false;
-  @override
-  Widget build(BuildContext context) {
-    final mobx = Provider.of<Mobx>(context);
-    final vw = MediaQuery.of(context).size.width / 100;
-    final vh = MediaQuery.of(context).size.height / 100;
-    MyGetxController myGetxController = Get.put(MyGetxController());
-    return GestureDetector(
-      onTap: () {
-        setState(() {
-          trainingOnOff = !trainingOnOff;
-        });
-      },
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Center(
-            child: Container(
-              width: 90 * vw,
-              margin: EdgeInsets.only(top: 3 * vh),
-              child: Column(
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Container(
-                        width: 60 * vw,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Text(
-                              "Тесты",
-                              style: TextStyle(
-                                  color:
-                                      const Color.fromARGB(220, 255, 255, 255),
-                                  fontSize: 5 * vw),
-                            ),
-                            !trainingOnOff
-                                ? IconButton(
-                                    onPressed: () {
-                                      setState(() {
-                                        trainingOnOff = !trainingOnOff;
-                                      });
-                                    },
-                                    icon: const Icon(Icons
-                                        .arrow_forward_ios_rounded), // Иконка
-                                    iconSize: 4 * vw,
-                                  )
-                                : IconButton(
-                                    onPressed: () {
-                                      setState(() {
-                                        trainingOnOff = !trainingOnOff;
-                                      });
-                                    },
-                                    icon: const Icon(Icons
-                                        .keyboard_arrow_down_rounded), // Иконка
-                                    iconSize: 6 * vw,
-                                  ),
-                          ],
-                        ),
-                      ),
-                      myGetxController.getx.testsList.length > 0
-                          ? Container(
-                              width: 11 * vw,
-                              height: 6 * vw,
-                              alignment: Alignment.center,
-                              decoration: BoxDecoration(
-                                  gradient: const RadialGradient(
-                                    colors: [
-                                      Color(0xff4D8AEE),
-                                      Color(0xff2932FF)
-                                    ], // Цвета для радиального градиента
-                                    radius: 0.6, // Радиус градиента (от 0 до 1)
-                                    center: Alignment
-                                        .center, // Центр радиального градиента
-                                  ),
-                                  borderRadius: BorderRadius.circular(100)),
-                              child: Text(
-                                mobx
-                                    .userTestsOnDay(mobx.currentDate)
-                                    .length
-                                    .toString(),
-                                style: TextStyle(
-                                    color: Colors.white,
-                                    fontFamily: 'Manrope',
-                                    fontWeight: FontWeight.w500,
-                                    decoration: TextDecoration.none,
-                                    fontSize: 3.5 * vw),
-                              ),
-                            )
-                          : Container(
-                              width: 11 * vw,
-                              height: 6 * vw,
-                              alignment: Alignment.center,
-                              decoration: BoxDecoration(
-                                  gradient: const RadialGradient(
-                                    colors: [
-                                      Color.fromARGB(83, 235, 238, 247),
-                                      Color.fromARGB(69, 235, 238, 247)
-                                    ], // Цвета для радиального градиента
-                                    radius: 0.6, // Радиус градиента (от 0 до 1)
-                                    center: Alignment
-                                        .center, // Центр радиального градиента
-                                  ),
-                                  borderRadius: BorderRadius.circular(100)),
-                              child: Text(
-                                '0',
-                                style: TextStyle(
-                                    color: const Color.fromARGB(
-                                        115, 255, 255, 255),
-                                    fontFamily: 'Manrope',
-                                    fontWeight: FontWeight.w600,
-                                    decoration: TextDecoration.none,
-                                    fontSize: 3.5 * vw),
-                              ),
-                            ),
-                    ],
-                  ),
-                  trainingOnOff
-                      // ignore: dead_code
-                      ? Column(
-                          children: myGetxController.getx.testsList
-                              .map((e) => GestureDetector(
+                      ],
+                    ),
+                    trainingOnOff
+                        // ignore: dead_code
+                        ? Container(
+                            child: Column(
+                              children: [
+                                ...myPlannerConroller.Planner['exercises']
+                                    .where((el) =>
+                                        el['date'] == myDateController.date)
+                                    .map((e) {
+                                  final uniqueKey = UniqueKey();
+                                  return GestureDetector(
                                     onTap: () {
-                                      showModalBottomSheet(
-                                          isScrollControlled: true,
-                                          context: context,
-                                          builder: (context) => ResultFix(
-                                                map: e,
-                                              ));
+                                      // Обработчик нажатия
+                                      Navigator.pushNamed(
+                                        context,
+                                        arguments: {
+                                          "exercise": myExercisesController
+                                              .exercises
+                                              .firstWhere((element) =>
+                                                  element['id'] ==
+                                                  e['exerciseId']),
+                                          'belong': e
+                                        },
+                                        '/workout', // Переход на login
+                                      );
                                     },
                                     child: Container(
                                       margin: EdgeInsets.only(top: 1 * vh),
                                       child: Slidable(
-                                        key: UniqueKey(),
+                                        key: uniqueKey,
                                         endActionPane: ActionPane(
                                             motion: const BehindMotion(),
+                                            key: uniqueKey,
                                             dismissible: DismissiblePane(
                                               key: UniqueKey(),
                                               onDismissed: () =>
@@ -663,7 +478,258 @@ class _TestsCardState extends State<TestsCard> {
                                               color: Color(0xff23252B),
                                               borderRadius:
                                                   BorderRadius.circular(
-                                                      4 * vw)),
+                                                      5 * vw)),
+                                          child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              Text(
+                                                myExercisesController.exercises
+                                                        .firstWhere((element) =>
+                                                            element['id'] ==
+                                                            e['exerciseId'])[
+                                                    'nameRu'],
+                                                style: TextStyle(
+                                                    color: const Color.fromARGB(
+                                                        210, 255, 255, 255),
+                                                    fontFamily: 'Manrope',
+                                                    fontWeight: FontWeight.w600,
+                                                    decoration:
+                                                        TextDecoration.none,
+                                                    fontSize: 3 * vw),
+                                              ),
+                                              IconButton(
+                                                onPressed: () {
+                                                  setState(() {
+                                                    trainingOnOff =
+                                                        !trainingOnOff;
+                                                  });
+                                                },
+                                                icon: const Icon(Icons
+                                                    .arrow_forward_ios_rounded), // Иконка
+                                                iconSize: 4 * vw,
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  );
+                                })
+                              ], // Преобразуйте список объектов Text в список виджетов
+                            ),
+                          )
+                        : Container(),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+// <=============   Карточка Тестов ====================>
+class TestsCard extends StatefulWidget {
+  const TestsCard({super.key});
+
+  @override
+  State<TestsCard> createState() => _TestsCardState();
+}
+
+class _TestsCardState extends State<TestsCard> {
+  MyPlannerConroller myPlannerConroller = MyPlannerConroller();
+  MyDateController myDateController = MyDateController();
+  List<Map<String, dynamic>> dayExercises = [];
+  bool trainingOnOff = false;
+  List exercises = [];
+
+  @override
+  Widget build(BuildContext context) {
+    final vw = MediaQuery.of(context).size.width / 100;
+    final vh = MediaQuery.of(context).size.height / 100;
+    MyTestsController myTestsController = Get.put(MyTestsController());
+    MyPlannerConroller myPlannerConroller = Get.put(MyPlannerConroller());
+    MyDateController myDateController = Get.put(MyDateController());
+
+    return GestureDetector(
+      onTap: () => setState(() {
+        trainingOnOff = !trainingOnOff;
+      }),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Obx(
+            () => Center(
+              child: Container(
+                width: 90 * vw,
+                margin: EdgeInsets.only(top: 2 * vh),
+                child: Column(
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Container(
+                          width: 60 * vw,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Text(
+                                "Тесты",
+                                style: TextStyle(
+                                    color: const Color.fromARGB(
+                                        220, 255, 255, 255),
+                                    fontSize: 5 * vw),
+                              ),
+                              !trainingOnOff
+                                  ? IconButton(
+                                      onPressed: () {
+                                        setState(() {
+                                          trainingOnOff = !trainingOnOff;
+                                        });
+                                      },
+                                      icon: const Icon(Icons
+                                          .arrow_forward_ios_rounded), // Иконка
+                                      iconSize: 4 * vw,
+                                    )
+                                  : IconButton(
+                                      onPressed: () {
+                                        setState(() {
+                                          setState(() {
+                                            trainingOnOff = !trainingOnOff;
+                                          });
+                                        });
+                                      },
+                                      icon: const Icon(Icons
+                                          .keyboard_arrow_down_rounded), // Иконка
+                                      iconSize: 6 * vw,
+                                    ),
+                            ],
+                          ),
+                        ),
+                        myPlannerConroller.Planner['tests'] != null &&
+                                myPlannerConroller.Planner['tests'].length >
+                                    0 &&
+                                myPlannerConroller.Planner['tests']
+                                        .where((el) =>
+                                            el['date'] == myDateController.date)
+                                        .length >
+                                    0
+                            ? Container(
+                                width: 11 * vw,
+                                height: 6 * vw,
+                                alignment: Alignment.center,
+                                decoration: BoxDecoration(
+                                    gradient: const RadialGradient(
+                                      colors: [
+                                        Color(0xff4D8AEE),
+                                        Color(0xff2932FF)
+                                      ], // Цвета для радиального градиента
+                                      radius:
+                                          0.6, // Радиус градиента (от 0 до 1)
+                                      center: Alignment
+                                          .center, // Центр радиального градиента
+                                    ),
+                                    borderRadius: BorderRadius.circular(100)),
+                                child: Text(
+                                  myPlannerConroller.Planner['tests']
+                                      .where((el) =>
+                                          el['date'] == myDateController.date)
+                                      .length
+                                      .toString(),
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontFamily: 'Manrope',
+                                      fontWeight: FontWeight.w500,
+                                      decoration: TextDecoration.none,
+                                      fontSize: 3.5 * vw),
+                                ),
+                              )
+                            : Container(
+                                width: 11 * vw,
+                                height: 6 * vw,
+                                alignment: Alignment.center,
+                                decoration: BoxDecoration(
+                                    gradient: const RadialGradient(
+                                      colors: [
+                                        Color.fromARGB(83, 235, 238, 247),
+                                        Color.fromARGB(69, 235, 238, 247)
+                                      ], // Цвета для радиального градиента
+                                      radius:
+                                          0.6, // Радиус градиента (от 0 до 1)
+                                      center: Alignment
+                                          .center, // Центр радиального градиента
+                                    ),
+                                    borderRadius: BorderRadius.circular(100)),
+                                child: Text(
+                                  '0',
+                                  style: TextStyle(
+                                      color: const Color.fromARGB(
+                                          115, 255, 255, 255),
+                                      fontFamily: 'Manrope',
+                                      fontWeight: FontWeight.w600,
+                                      decoration: TextDecoration.none,
+                                      fontSize: 3.5 * vw),
+                                ),
+                              ),
+                      ],
+                    ),
+                    trainingOnOff
+                        // ignore: dead_code
+                        ? Container(
+                            child: Column(
+                              children: [
+                                ...myPlannerConroller.Planner['tests']
+                                    .where((el) =>
+                                        el['date'] == myDateController.date)
+                                    .map((e) {
+                                  final uniqueKey = UniqueKey();
+                                  return GestureDetector(
+                                    onTap: () {
+                                      // Обработчик нажатия
+                                      showModalBottomSheet(
+                                          context: context,
+                                          builder: (_) => ResultFix(
+                                              map: myTestsController.tests
+                                                  .firstWhere((element) =>
+                                                      element['id'] ==
+                                                      e['testId'])));
+                                    },
+                                    child: Container(
+                                      margin: EdgeInsets.only(top: 1 * vh),
+                                      child: Slidable(
+                                        key: uniqueKey,
+                                        endActionPane: ActionPane(
+                                            motion: const BehindMotion(),
+                                            key: uniqueKey,
+                                            dismissible: DismissiblePane(
+                                              key: UniqueKey(),
+                                              onDismissed: () =>
+                                                  print('delete'),
+                                            ),
+                                            children: [
+                                              SlidableAction(
+                                                onPressed: (context) {},
+                                                backgroundColor: Colors.red,
+
+                                                // icon: Icons.delete,
+                                                label: "Отменить",
+                                                borderRadius:
+                                                    BorderRadius.circular(20),
+                                              )
+                                            ]),
+                                        child: Container(
+                                          padding: EdgeInsets.symmetric(
+                                              vertical: 1 * vw,
+                                              horizontal: 3 * vw),
+                                          decoration: BoxDecoration(
+                                              color: Color(0xff23252B),
+                                              borderRadius:
+                                                  BorderRadius.circular(
+                                                      5 * vw)),
                                           child: Row(
                                             mainAxisAlignment:
                                                 MainAxisAlignment.spaceBetween,
@@ -671,7 +737,10 @@ class _TestsCardState extends State<TestsCard> {
                                               Container(
                                                 width: 70 * vw,
                                                 child: Text(
-                                                  e['name'].toString(),
+                                                  myTestsController.tests
+                                                      .firstWhere((element) =>
+                                                          element['id'] ==
+                                                          e['testId'])['name'],
                                                   style: TextStyle(
                                                       color: const Color
                                                           .fromARGB(
@@ -700,11 +769,14 @@ class _TestsCardState extends State<TestsCard> {
                                         ),
                                       ),
                                     ),
-                                  ))
-                              .toList(), // Преобразуйте список объектов Text в список виджетов
-                        )
-                      : Container(), // Вернуть пустой контейнер, если trainingOnOff равно false
-                ],
+                                  );
+                                })
+                              ], // Преобразуйте список объектов Text в список виджетов
+                            ),
+                          )
+                        : Container(),
+                  ],
+                ),
               ),
             ),
           ),
@@ -723,141 +795,164 @@ class NutritionsCard extends StatefulWidget {
 }
 
 class _NutritionsCardState extends State<NutritionsCard> {
+  MyPlannerConroller myPlannerConroller = Get.put(MyPlannerConroller());
+  MyDateController myDateController = Get.put(MyDateController());
+  MyNutritionsController myNutritionsController = Get.put(MyNutritionsController());
+  List<Map<String, dynamic>> dayExercises = [];
   bool trainingOnOff = false;
+  List exercises = [];
+
   @override
   Widget build(BuildContext context) {
-    final mobx = Provider.of<Mobx>(context);
     final vw = MediaQuery.of(context).size.width / 100;
     final vh = MediaQuery.of(context).size.height / 100;
-    DateTime currentDate = DateTime.now();
+    print(myPlannerConroller.Planner['nutritions']);
+
     return GestureDetector(
-      onTap: () {
-        setState(() {
-          trainingOnOff = !trainingOnOff;
-        });
-      },
+      onTap: () => setState(() {
+        trainingOnOff = !trainingOnOff;
+      }),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Center(
-            child: Container(
-              width: 90 * vw,
-              margin: EdgeInsets.only(top: 3 * vh),
-              child: Column(
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Container(
-                        width: 60 * vw,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Text(
-                              "Питание",
-                              style: TextStyle(
-                                  color:
-                                      const Color.fromARGB(220, 255, 255, 255),
-                                  fontSize: 5 * vw),
-                            ),
-                            !trainingOnOff
-                                ? IconButton(
-                                    onPressed: () {
-                                      setState(() {
-                                        trainingOnOff = !trainingOnOff;
-                                      });
-                                    },
-                                    icon: const Icon(Icons
-                                        .arrow_forward_ios_rounded), // Иконка
-                                    iconSize: 4 * vw,
-                                  )
-                                : IconButton(
-                                    onPressed: () {
-                                      setState(() {
-                                        trainingOnOff = !trainingOnOff;
-                                      });
-                                    },
-                                    icon: const Icon(Icons
-                                        .keyboard_arrow_down_rounded), // Иконка
-                                    iconSize: 6 * vw,
-                                  ),
-                          ],
-                        ),
-                      ),
-                      mobx.userNutritionsOnDay(mobx.currentDate).length > 0
-                          ? Container(
-                              width: 11 * vw,
-                              height: 6 * vw,
-                              alignment: Alignment.center,
-                              decoration: BoxDecoration(
-                                  gradient: const RadialGradient(
-                                    colors: [
-                                      Color(0xff4D8AEE),
-                                      Color(0xff2932FF)
-                                    ], // Цвета для радиального градиента
-                                    radius: 0.6, // Радиус градиента (от 0 до 1)
-                                    center: Alignment
-                                        .center, // Центр радиального градиента
-                                  ),
-                                  borderRadius: BorderRadius.circular(100)),
-                              child: Text(
-                                mobx
-                                    .userNutritionsOnDay(mobx.currentDate)
-                                    .length
-                                    .toString(),
-                                style: TextStyle(
-                                    color: Colors.white,
-                                    fontFamily: 'Manrope',
-                                    fontWeight: FontWeight.w500,
-                                    decoration: TextDecoration.none,
-                                    fontSize: 3.5 * vw),
-                              ),
-                            )
-                          : Container(
-                              width: 11 * vw,
-                              height: 6 * vw,
-                              alignment: Alignment.center,
-                              decoration: BoxDecoration(
-                                  gradient: const RadialGradient(
-                                    colors: [
-                                      Color.fromARGB(83, 235, 238, 247),
-                                      Color.fromARGB(69, 235, 238, 247)
-                                    ], // Цвета для радиального градиента
-                                    radius: 0.6, // Радиус градиента (от 0 до 1)
-                                    center: Alignment
-                                        .center, // Центр радиального градиента
-                                  ),
-                                  borderRadius: BorderRadius.circular(100)),
-                              child: Text(
-                                '0',
+          Obx(
+            () => Center(
+              child: Container(
+                width: 90 * vw,
+                margin: EdgeInsets.only(top: 2 * vh),
+                child: Column(
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Container(
+                          width: 60 * vw,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Text(
+                                "Питание",
                                 style: TextStyle(
                                     color: const Color.fromARGB(
-                                        115, 255, 255, 255),
-                                    fontFamily: 'Manrope',
-                                    fontWeight: FontWeight.w600,
-                                    decoration: TextDecoration.none,
-                                    fontSize: 3.5 * vw),
+                                        220, 255, 255, 255),
+                                    fontSize: 5 * vw),
                               ),
-                            ),
-                    ],
-                  ),
-                  trainingOnOff
-                      // ignore: dead_code
-                      ? Column(
-                          children: mobx
-                              .userNutritionsOnDay(mobx.currentDate)
-                              .map((e) => GestureDetector(
+                              !trainingOnOff
+                                  ? IconButton(
+                                      onPressed: () {
+                                        setState(() {
+                                          trainingOnOff = !trainingOnOff;
+                                        });
+                                      },
+                                      icon: const Icon(Icons
+                                          .arrow_forward_ios_rounded), // Иконка
+                                      iconSize: 4 * vw,
+                                    )
+                                  : IconButton(
+                                      onPressed: () {
+                                        setState(() {
+                                          setState(() {
+                                            trainingOnOff = !trainingOnOff;
+                                          });
+                                        });
+                                      },
+                                      icon: const Icon(Icons
+                                          .keyboard_arrow_down_rounded), // Иконка
+                                      iconSize: 6 * vw,
+                                    ),
+                            ],
+                          ),
+                        ),
+                        myPlannerConroller.Planner['nutritions'] != null &&
+                                myPlannerConroller.Planner['nutritions'].length >
+                                    0 &&
+                                myPlannerConroller.Planner['nutritions']
+                                        .where((el) =>
+                                            el['date'] == myDateController.date)
+                                        .length >
+                                    0
+                            ? Container(
+                                width: 11 * vw,
+                                height: 6 * vw,
+                                alignment: Alignment.center,
+                                decoration: BoxDecoration(
+                                    gradient: const RadialGradient(
+                                      colors: [
+                                        Color(0xff4D8AEE),
+                                        Color(0xff2932FF)
+                                      ], // Цвета для радиального градиента
+                                      radius:
+                                          0.6, // Радиус градиента (от 0 до 1)
+                                      center: Alignment
+                                          .center, // Центр радиального градиента
+                                    ),
+                                    borderRadius: BorderRadius.circular(100)),
+                                child: Text(
+                                  myPlannerConroller.Planner['nutritions']
+                                      .where((el) =>
+                                          el['date'] == myDateController.date)
+                                      .length
+                                      .toString(),
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontFamily: 'Manrope',
+                                      fontWeight: FontWeight.w500,
+                                      decoration: TextDecoration.none,
+                                      fontSize: 3.5 * vw),
+                                ),
+                              )
+                            : Container(
+                                width: 11 * vw,
+                                height: 6 * vw,
+                                alignment: Alignment.center,
+                                decoration: BoxDecoration(
+                                    gradient: const RadialGradient(
+                                      colors: [
+                                        Color.fromARGB(83, 235, 238, 247),
+                                        Color.fromARGB(69, 235, 238, 247)
+                                      ], // Цвета для радиального градиента
+                                      radius:
+                                          0.6, // Радиус градиента (от 0 до 1)
+                                      center: Alignment
+                                          .center, // Центр радиального градиента
+                                    ),
+                                    borderRadius: BorderRadius.circular(100)),
+                                child: Text(
+                                  '0',
+                                  style: TextStyle(
+                                      color: const Color.fromARGB(
+                                          115, 255, 255, 255),
+                                      fontFamily: 'Manrope',
+                                      fontWeight: FontWeight.w600,
+                                      decoration: TextDecoration.none,
+                                      fontSize: 3.5 * vw),
+                                ),
+                              ),
+                      ],
+                    ),
+                    trainingOnOff
+                        // ignore: dead_code
+                        ? Container(
+                            child: Column(
+                              children: [
+                                ...myPlannerConroller.Planner['nutritions']
+                                    .where((el) =>
+                                        el['date'] == myDateController.date)
+                                    .map((e) {
+                                  final uniqueKey = UniqueKey();
+                                  return GestureDetector(
                                     onTap: () {
-                                      Navigator.pushNamed(context, '/nutrition',
-                                          arguments: e);
+                                      // Обработчик нажатия
+                                      Get.to(Nutrition(nutrition: myNutritionsController.nutritions.firstWhere((element) => element['id'] == e['nutritionId'])));
                                     },
                                     child: Container(
                                       margin: EdgeInsets.only(top: 1 * vh),
                                       child: Slidable(
-                                        key: UniqueKey(),
+                                        key: uniqueKey,
                                         endActionPane: ActionPane(
                                             motion: const BehindMotion(),
+                                            key: uniqueKey,
                                             dismissible: DismissiblePane(
                                               key: UniqueKey(),
                                               onDismissed: () =>
@@ -882,21 +977,29 @@ class _NutritionsCardState extends State<NutritionsCard> {
                                               color: Color(0xff23252B),
                                               borderRadius:
                                                   BorderRadius.circular(
-                                                      4 * vw)),
+                                                      5 * vw)),
                                           child: Row(
                                             mainAxisAlignment:
                                                 MainAxisAlignment.spaceBetween,
                                             children: [
-                                              Text(
-                                                e['name'].toString(),
-                                                style: TextStyle(
-                                                    color: const Color.fromARGB(
-                                                        210, 255, 255, 255),
-                                                    fontFamily: 'Manrope',
-                                                    fontWeight: FontWeight.w600,
-                                                    decoration:
-                                                        TextDecoration.none,
-                                                    fontSize: 3 * vw),
+                                              Container(
+                                                width: 70 * vw,
+                                                child: Text(
+                                                  myNutritionsController.nutritions
+                                                      .firstWhere((element) =>
+                                                          element['id'] ==
+                                                          e['nutritionId'])['name'],
+                                                  style: TextStyle(
+                                                      color: const Color
+                                                          .fromARGB(
+                                                          210, 255, 255, 255),
+                                                      fontFamily: 'Manrope',
+                                                      fontWeight:
+                                                          FontWeight.w600,
+                                                      decoration:
+                                                          TextDecoration.none,
+                                                      fontSize: 3 * vw),
+                                                ),
                                               ),
                                               IconButton(
                                                 onPressed: () {
@@ -914,11 +1017,14 @@ class _NutritionsCardState extends State<NutritionsCard> {
                                         ),
                                       ),
                                     ),
-                                  ))
-                              .toList(), // Преобразуйте список объектов Text в список виджетов
-                        )
-                      : Container(), // Вернуть пустой контейнер, если trainingOnOff равно false
-                ],
+                                  );
+                                })
+                              ], // Преобразуйте список объектов Text в список виджетов
+                            ),
+                          )
+                        : Container(),
+                  ],
+                ),
               ),
             ),
           ),

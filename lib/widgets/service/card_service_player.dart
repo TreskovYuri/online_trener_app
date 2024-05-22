@@ -161,7 +161,7 @@ class CardServicePlayer extends StatelessWidget {
                   flex: 1,
                   child: GestureDetector(
                     onTap: () {
-                      Navigator.pushReplacementNamed(context, '/profile');
+                      
                     },
                     child: Container(
                       child: Row(

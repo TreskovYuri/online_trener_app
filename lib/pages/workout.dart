@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 import 'package:trener_app/mobx/mobx.dart';
 import 'package:trener_app/widgets/workout/workout_description.dart';
 import 'package:trener_app/widgets/workout/wourkout_nuskle_group.dart';
+import 'package:trener_app/widgets/youtube.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 class Workout extends StatefulWidget {
@@ -18,6 +19,7 @@ class Workout extends StatefulWidget {
 class _WorkoutState extends State<Workout> {
   bool descriptionModalFlag = false;
   bool muscleGroupModalFlag = false;
+
   @override
   Widget build(BuildContext context) {
     final screenHeight = MediaQuery.of(context).size.height;
@@ -26,8 +28,7 @@ class _WorkoutState extends State<Workout> {
     final topMargin = screenHeight * 0.38; // 40% от высоты экрана
     final arguments =
         ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>;
-    final List<String> list = arguments['stage'];
-    final mobx = Provider.of<Mobx>(context);
+    final List<String> list = [];
 
     return Container(
       color: Color(0xff1B1C20),
@@ -42,14 +43,27 @@ class _WorkoutState extends State<Workout> {
                   child: ClipRRect(
                     borderRadius: BorderRadius.only(
                       bottomLeft: Radius.circular(
-                          2*vw), // Радиус закругления нижнего левого угла
+                          2 * vw), // Радиус закругления нижнего левого угла
                       bottomRight: Radius.circular(
-                          2*vw), // Радиус закругления нижнего правого угла
+                          2 * vw), // Радиус закругления нижнего правого угла
                     ),
                     child: Image.network(
-                      arguments['img'],
+                      '${dotenv.env['STATIC_URL']}/${arguments['exercise']['img']}',
                       width: double.infinity,
                       fit: BoxFit.cover,
+                      errorBuilder: (BuildContext context, Object exception,
+                          StackTrace? stackTrace) {
+                        return Container(
+                          width: double.infinity,
+                          color: Colors
+                              .grey, // You can set any color or image as a placeholder
+                          child: const Icon(
+                            Icons.error,
+                            color: Colors.red,
+                            size: 50.0, // Adjust the size as needed
+                          ),
+                        );
+                      },
                     ),
                   ),
                 ),
@@ -80,7 +94,7 @@ class _WorkoutState extends State<Workout> {
                     padding: EdgeInsets.symmetric(
                         vertical: 8, horizontal: 16), // Отступы текста от краев
                     child: Text(
-                      arguments['name'],
+                      arguments['exercise']['nameRu'] ?? '',
                       style: TextStyle(
                         color: Colors.white,
                         decoration: TextDecoration.none,
@@ -134,93 +148,6 @@ class _WorkoutState extends State<Workout> {
             SizedBox(
               height: 2 * vh,
             ),
-            Column(
-              children: mobx
-                  .exercisesOnTrainingId(arguments['id'])
-                  .map(
-                    (e) => GestureDetector(
-                      onTap: () {
-                        showModalBottomSheet(
-                            isScrollControlled: true,
-                            context: context,
-                            builder: ((context) => ExerciseModal(map: e)));
-                      },
-                      child: Padding(
-                        padding: EdgeInsets.all(3 * vw),
-                        child: Container(
-                            decoration: BoxDecoration(
-                              color: const Color.fromARGB(
-                                  139, 40, 40, 40), // Цвет фона
-                              borderRadius: BorderRadius.circular(
-                                  10.0), // Скругление углов
-                            ),
-                            child: Padding(
-                              padding: EdgeInsets.all(3 * vw),
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  ClipRRect(
-                                    borderRadius: BorderRadius.circular(15.0),
-                                    child: Container(
-                                      width: 15 * vw,
-                                      height: 15 * vw,
-                                      decoration: BoxDecoration(
-                                        borderRadius:
-                                            BorderRadius.circular(20.0),
-                                      ),
-                                      child: Image.network(
-                                        '${dotenv.env['STATIC_URL']}/${e['img']}',
-                                        height: 15 * vw,
-                                        fit: BoxFit
-                                            .cover, // Обрезать изображение в соответствии с размерами контейнера
-                                      ),
-                                    ),
-                                  ),
-                                  Container(
-                                    width: 55 * vw,
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          e['nameRu'],
-                                          style: TextStyle(
-                                              color: const Color.fromARGB(
-                                                  202, 255, 255, 255),
-                                              fontFamily: 'Manrope',
-                                              fontWeight: FontWeight.w600,
-                                              decoration: TextDecoration.none,
-                                              fontSize: 4 * vw),
-                                        ),
-                                        const SizedBox(
-                                          height: 10,
-                                        ),
-                                        Text(
-                                          e['prevSets'],
-                                          style: TextStyle(
-                                              color: const Color.fromARGB(
-                                                  132, 255, 255, 255),
-                                              fontFamily: 'Manrope',
-                                              fontWeight: FontWeight.w600,
-                                              decoration: TextDecoration.none,
-                                              fontSize: 3 * vw),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                  Opacity(
-                                    opacity: 0.7,
-                                    child: Icon(Icons.arrow_forward_ios_rounded, color: Colors.white,size: 4*vw,)
-                                  )
-                                ],
-                              ),
-                            )),
-                      ),
-                    ),
-                  )
-                  .toList(),
-            ),
             GestureDetector(
               onTap: () {
                 setState(() {
@@ -271,7 +198,7 @@ class _WorkoutState extends State<Workout> {
                           ? Opacity(
                               opacity: 0.7,
                               child: Text(
-                                arguments['description'],
+                                arguments['exercise']['descriptionRu'],
                                 style: TextStyle(
                                     color: Color.fromARGB(202, 255, 255, 255),
                                     fontFamily: 'Manrope',
@@ -338,6 +265,12 @@ class _WorkoutState extends State<Workout> {
                       muscleGroupModalFlag
                           ? Image.asset('assets/img/workout_muskle_group.png')
                           : Container(),
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      arguments['exercise']['link'] != null
+                          ? Youtube(url: arguments['exercise']['link'])
+                          : const SizedBox.shrink(),
                       const SizedBox(
                         height: 10,
                       ),
