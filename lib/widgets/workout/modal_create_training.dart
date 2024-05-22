@@ -26,7 +26,7 @@ class _ModalCreateTrainingState extends State<ModalCreateTraining> {
   void setListEquipments(String equipment) {
     setState(() {
       if (listEquipments.contains(equipment)) {
-        print(equipment);
+        // print(equipment);
         listEquipments.remove(equipment);
       } else {
         listEquipments.add(equipment);

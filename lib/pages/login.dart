@@ -13,7 +13,7 @@ import 'package:provider/provider.dart';
 
 void getData() async {
   var data = await MyCasomGetHttpReauest(urls: 'user');
-  print(data);
+  // print(data);
 }
 
 final form_key = GlobalKey<FormState>();
@@ -98,8 +98,14 @@ void loadData() async {
         if (data != null) {
           switch (data['status']) {
             case 200:
-              cacheEmailPassword();
+              // print(data);
+              if(data['body']['post'] == 'Тренер' || data['body']['post'] == 'Супер тренер'){
                 Navigator.pushReplacementNamed(context,'/journal');
+              }else{
+                Navigator.pushReplacementNamed(context,'/planner');
+              }
+              cacheEmailPassword();
+                
               break;
             case 400:
               if (data['body']['message'] != null) {
@@ -125,7 +131,7 @@ void loadData() async {
                 emailError = true;
                 emailErrorText = 'Непредвиденная ошибка';
               });
-              print(data);
+              // print(data);
           }
         }else{
               setState(() {

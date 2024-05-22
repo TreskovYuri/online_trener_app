@@ -1,9 +1,9 @@
-import 'package:flutter/foundation.dart';
+
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 
 class Nutrition extends StatefulWidget {
-  const Nutrition({super.key});
+  const Nutrition({super.key, required this.nutrition});
+  final Map nutrition;
 
   @override
   State<Nutrition> createState() => _NutritionState();
@@ -12,11 +12,11 @@ class Nutrition extends StatefulWidget {
 class _NutritionState extends State<Nutrition> {
   @override
   Widget build(BuildContext context) {
-    final arguments =ModalRoute.of(context)?.settings.arguments as Map<dynamic, dynamic>;
-    List <Map<String, dynamic>> sets = arguments['sets'];
+    final arguments = widget.nutrition;
+    // print(arguments);
+    // List <Map<String, dynamic>> sets = arguments['sets'];
     final vw = MediaQuery.of(context).size.width / 100;
     final vh = MediaQuery.of(context).size.height / 100;
-    print(sets);
     return Scaffold(
       appBar: AppBar(
         iconTheme: IconThemeData(color: Colors.white),
@@ -44,7 +44,11 @@ class _NutritionState extends State<Nutrition> {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            ...sets.map((e) => NutritionCard(card: e))
+            arguments['name1'] !='' && arguments['name1']!=null ? NutritionCard(card: {'name':arguments['name1'],'description':arguments['description1']}):SizedBox.shrink(),
+            arguments['name2'] !='' && arguments['name2']!=null ? NutritionCard(card: {'name':arguments['name2'],'description':arguments['description2']}):SizedBox.shrink(),
+            arguments['name3'] !='' && arguments['name3']!=null ? NutritionCard(card: {'name':arguments['name3'],'description':arguments['description3']}):SizedBox.shrink(),
+            arguments['name4'] !='' && arguments['name4']!=null ? NutritionCard(card: {'name':arguments['name4'],'description':arguments['description4']}):SizedBox.shrink(),
+            arguments['name5'] !='' && arguments['name5']!=null ? NutritionCard(card: {'name':arguments['name5'],'description':arguments['description5']}):SizedBox.shrink(),
           ],
         ),
       ),

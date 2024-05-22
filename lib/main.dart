@@ -74,7 +74,7 @@ class MyApp extends StatelessWidget {
           '/profile_one_user': (context) => const ProfileOneUser(),
           '/chats': (context) => const Chats(),
           '/training_fix': (context) => const TrainingFix(),
-          '/nutrition': (context) => const Nutrition(),
+          // '/nutrition': (context) => Nutrition(),
           '/user_progress': (context) => const UserProgress(),
           '/faq': (context) => const Faq(),
           '/training_details_trener': (context) => const TrainingDetailsTrener(),

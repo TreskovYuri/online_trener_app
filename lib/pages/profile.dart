@@ -1,5 +1,6 @@
 
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get/get.dart';
 import 'package:trener_app/getx/MyUserConroller.dart';
 import 'package:trener_app/widgets/service/navbar.dart';
@@ -52,12 +53,19 @@ class _ProfileState extends State<Profile> {
               children: [
                 Expanded(
                   flex: 2,
-                  child: myUserController.user['img']!=null? Image.network(
-                    'https://mobilecoach.ru:5004/assets/${myUserController.user['img']}',
-                    // width: 35 * vw,
-                    height: 35 * vw,
-                    fit: BoxFit
-                        .cover, // Обрезать изображение в соответствии с размерами контейнера
+                  child: myUserController.user['img']!=null? ClipRRect(
+                    borderRadius: BorderRadius.circular(100),
+                    child: Container(
+                      height: 35*vw,
+                      width: 35*vw,
+                      child: Image.network(
+                        '${dotenv.env['STATIC_URL']}/${myUserController.user['img']}',
+                        // width: 35 * vw,
+                        height: 35 * vw,
+                        fit: BoxFit
+                            .cover, // Обрезать изображение в соответствии с размерами контейнера
+                      ),
+                    ),
                   ):Image(
                     image: const AssetImage('assets/img/user1.png'),
                     // width: 35 * vw,

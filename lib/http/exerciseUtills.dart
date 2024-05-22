@@ -12,7 +12,6 @@ Future GetExercise() async {
   try {
     // Assuming Session().get() returns Map<String, dynamic>
     Map<String, dynamic> data = await Session().get('exercises');
-    print(data['body'][0]);
     
     List<Map<String, dynamic>> list = [];
     

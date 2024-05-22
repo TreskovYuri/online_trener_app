@@ -1,11 +1,11 @@
 import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get/get.dart';
 import 'package:provider/provider.dart';
+import 'package:trener_app/getx/MyUserConroller.dart';
 import 'package:trener_app/mobx/mobx.dart';
-import 'package:trener_app/pages/profile.dart';
 
 class NavbarScroll extends StatefulWidget {
   const NavbarScroll({super.key});
@@ -15,31 +15,33 @@ class NavbarScroll extends StatefulWidget {
 }
 
 class _NavbarScrollState extends State<NavbarScroll> {
+  MyUserController myUserController = Get.put(MyUserController());
+
   @override
   Widget build(BuildContext context) {
     final vw = MediaQuery.of(context).size.width / 100;
     final vh = MediaQuery.of(context).size.height / 100;
     final mobx = Provider.of<Mobx>(context);
-    if (mobx.user['post'] == 'Тренер' || mobx.user['post'] == 'Супер тренер') {
+    if (myUserController.user['post'] == 'Тренер' ||
+        myUserController.user['post'] == 'Супер тренер') {
       return Positioned(
         bottom: 0,
         left: 0,
         right: 0,
         child: Container(
           height: 10 * vh,
-          width: 90*vw,
+          width: 90 * vw,
           clipBehavior: Clip.antiAlias,
           margin: EdgeInsets.all(2 * vw),
           padding: EdgeInsets.symmetric(horizontal: 2 * vw),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(5 * vw),
             color: Color.fromARGB(82, 42, 42, 42),
-                
-            
+
             // color: Color.fromARGB(24, 77, 77, 77),
           ),
           child: BackdropFilter(
-          filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
+            filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.center,
@@ -52,18 +54,10 @@ class _NavbarScrollState extends State<NavbarScroll> {
                       children: [
                         IconButton(
                           onPressed: () async {
-                            if (mobx.user['post'] == 'Супер тренер' ||
-                                mobx.user['post'] == 'Тренер') {
-                              Navigator.pushReplacementNamed(
-                                context,
-                                '/journal',
-                              );
-                            } else {
-                              Navigator.pushReplacementNamed(
-                                context,
-                                '/planner',
-                              );
-                            }
+                            Navigator.pushReplacementNamed(
+                              context,
+                              '/journal',
+                            );
                             mobx.setPageName('План');
                           },
                           icon: SvgPicture.asset(
@@ -181,19 +175,18 @@ class _NavbarScrollState extends State<NavbarScroll> {
         right: 0,
         child: Container(
           height: 10 * vh,
-          width: 90*vw,
+          width: 90 * vw,
           clipBehavior: Clip.antiAlias,
           margin: EdgeInsets.all(2 * vw),
           padding: EdgeInsets.symmetric(horizontal: 2 * vw),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(5 * vw),
             color: Color.fromARGB(82, 42, 42, 42),
-                
-            
+
             // color: Color.fromARGB(24, 77, 77, 77),
           ),
           child: BackdropFilter(
-          filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
+            filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.center,
@@ -206,11 +199,10 @@ class _NavbarScrollState extends State<NavbarScroll> {
                       children: [
                         IconButton(
                           onPressed: () async {
-
-                              Navigator.pushReplacementNamed(
-                                context,
-                                '/planner',
-                              );
+                            Navigator.pushReplacementNamed(
+                              context,
+                              '/planner',
+                            );
                             mobx.setPageName('План');
                           },
                           icon: SvgPicture.asset(

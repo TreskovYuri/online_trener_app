@@ -2,12 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:trener_app/getx/MyDateController.dart';
 import 'package:trener_app/getx/MyExercisesController.dart';
 import 'package:trener_app/getx/MyJournalConroller.dart';
+import 'package:trener_app/getx/MyNutritionsController.dart';
+import 'package:trener_app/getx/MyTestsController.dart';
 import 'package:trener_app/getx/MyUserConroller.dart';
 import 'package:trener_app/http/exerciseUtills.dart';
+import 'package:trener_app/http/nutritionUtills.dart';
 import 'package:trener_app/http/sportpogrammUtills.dart';
+import 'package:trener_app/http/testUtills.dart';
 import 'package:trener_app/mobx/mobx.dart';
+import 'package:trener_app/pages/nutrition.dart';
 import 'package:trener_app/widgets/service/navbar.dart';
-import 'package:provider/provider.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:get/get.dart';
@@ -30,6 +34,8 @@ class _JournalState extends State<Journal> {
     super.initState();
     GetJournal();
     GetExercise();
+    GetTests();
+    GetNutritions();
     _scrollController.addListener(_onScroll);
   }
 
@@ -138,6 +144,8 @@ class _UserCardState extends State<UserCard> {
   bool modalFlag = false;
   MyDateController myDateController = Get.put(MyDateController());
   MyExercisesController myExercisesController = Get.put(MyExercisesController());
+  MyTestsController myTestsController = Get.put(MyTestsController());
+  MyNutritionsController myNutritionsController = Get.put(MyNutritionsController());
   List<Map<String,dynamic>> exercisesOnDay = [];
   @override
   Widget build(BuildContext context) {
@@ -146,8 +154,11 @@ class _UserCardState extends State<UserCard> {
 
    return Obx((){
           List exercises = widget.array['exercises'].where((e)=>e['date'] == myDateController.date).toList();
+          List nutritions = widget.array['nutrition'].where((e)=>e['date'] == myDateController.date).toList();
+          List tests = widget.array['tests'].where((e)=>e['date'] == myDateController.date).toList();
 
-      return Container(
+      
+      return (exercises.length + tests.length+ nutritions.length)>0? Container(
       padding: EdgeInsets.all(1 * vw),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -198,7 +209,7 @@ class _UserCardState extends State<UserCard> {
                 height: 6 * vw,
                 alignment: Alignment.center,
                 decoration: BoxDecoration(
-                    gradient: exercises.length>0? const RadialGradient(
+                    gradient: (exercises.length + tests.length+ nutritions.length)>0? const RadialGradient(
                       colors: [
                         Color(0xff4D8AEE),
                         Color(0xff2932FF)
@@ -215,7 +226,7 @@ class _UserCardState extends State<UserCard> {
                     ),
                     borderRadius: BorderRadius.circular(100)),
                 child: Text(
-                      exercises.length.toString(),
+                      (exercises.length + tests.length+ nutritions.length).toString(),
                       style: TextStyle(
                           color: Colors.white,
                           fontFamily: 'Manrope',
@@ -271,11 +282,12 @@ class _UserCardState extends State<UserCard> {
                     children: [
                       ...exercises.map((e) => GestureDetector(
                             onTap: () {
-                              if (e.containsKey('exerciseId')) {
-                                // Navigator.pushNamed(
-                                //     context, '/training_details_trener',
-                                //     arguments: e);
-                              }
+                              Navigator.pushNamed(
+                                  context, '/training_details_trener',
+                                  arguments: {
+                                    'exercise':myExercisesController.exercises.firstWhere((el) => el['id']==e['exerciseId']),
+                                    "sets":e['sets']
+                                  });
                             },
                             child: Container(
                                 margin: EdgeInsets.only(top: 1 * vh),
@@ -337,6 +349,147 @@ class _UserCardState extends State<UserCard> {
                                     ),
                                   ),
                                 )),
+                          )),
+                      ...tests.map((e) => GestureDetector(
+                            onTap: () {
+                              // Navigator.pushNamed(
+                              //     context, '/training_details_trener',
+                              //     arguments: {
+                              //       'exercise':myTestsController.tests.firstWhere((el) => el['id']==e['testId']),
+                              //       "sets":e['sets']
+                              //     });
+                            },
+                            child: Container(
+                                margin: EdgeInsets.only(top: 1 * vh),
+                                child: Slidable(
+                                  key: UniqueKey(),
+                                  endActionPane: ActionPane(
+                                      motion: const BehindMotion(),
+                                      key: UniqueKey(),
+                                      dismissible: DismissiblePane(
+                                        key: UniqueKey(),
+                                        onDismissed: () => print('delete'),
+                                      ),
+                                      children: [
+                                        SlidableAction(
+                                          onPressed: (context) {},
+                                          backgroundColor: Colors.red,
+
+                                          // icon: Icons.delete,
+                                          label: "Отменить",
+                                          borderRadius:
+                                              BorderRadius.circular(20),
+                                        )
+                                      ]),
+                                  child: Container(
+                                    padding: EdgeInsets.symmetric(
+                                        vertical: 2 * vw, horizontal: 4 * vw),
+                                    decoration: BoxDecoration(
+                                        color: Color(0xff23252B),
+                                        borderRadius:
+                                            BorderRadius.circular(5 * vw)),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Container(
+                                          width: 60 * vw,
+                                          child: Text(
+                                            '${myTestsController.tests.firstWhere((el) => el['id'] == e['testId'])['name'] }',
+                                            style: TextStyle(
+                                                color: const Color.fromARGB(
+                                                    210, 255, 255, 255),
+                                                fontFamily: 'Manrope',
+                                                fontWeight: FontWeight.w600,
+                                                decoration: TextDecoration.none,
+                                                fontSize: 3 * vw),
+                                          ),
+                                        ),
+                                        IconButton(
+                                          onPressed: () {
+                                            setState(() {
+                                              debugPrint('dev');
+                                            });
+                                          },
+                                          icon: const Icon(Icons
+                                              .arrow_forward_ios_rounded), // Иконка
+                                          iconSize: 4 * vw,
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                )),
+                          )),
+                      ...nutritions.map((e) => GestureDetector(
+                            onTap: () {
+                              // Navigator.pushNamed(
+                              //     context, '/training_details_trener',
+                              //     arguments: {
+                              //       'exercise':myExercisesController.exercises.firstWhere((el) => el['id']==e['exerciseId']),
+                              //       "sets":e['sets']
+                              //     });
+                              Get.to(Nutrition(nutrition: myNutritionsController.nutritions.firstWhere((el)=>el['id'] == e['nutritionId']),));
+                            },
+                            child: Container(
+                                margin: EdgeInsets.only(top: 1 * vh),
+                                child: Slidable(
+                                  key: UniqueKey(),
+                                  endActionPane: ActionPane(
+                                      motion: const BehindMotion(),
+                                      key: UniqueKey(),
+                                      dismissible: DismissiblePane(
+                                        key: UniqueKey(),
+                                        onDismissed: () => print('delete'),
+                                      ),
+                                      children: [
+                                        SlidableAction(
+                                          onPressed: (context) {},
+                                          backgroundColor: Colors.red,
+
+                                          // icon: Icons.delete,
+                                          label: "Отменить",
+                                          borderRadius:
+                                              BorderRadius.circular(20),
+                                        )
+                                      ]),
+                                  child: Container(
+                                    padding: EdgeInsets.symmetric(
+                                        vertical: 2 * vw, horizontal: 4 * vw),
+                                    decoration: BoxDecoration(
+                                        color: Color(0xff23252B),
+                                        borderRadius:
+                                            BorderRadius.circular(5 * vw)),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Container(
+                                          width: 60 * vw,
+                                          child: Text(
+                                            myNutritionsController.nutritions.firstWhere((element) => element['id'] == e['nutritionId'])['name'],
+                                            style: TextStyle(
+                                                color: const Color.fromARGB(
+                                                    210, 255, 255, 255),
+                                                fontFamily: 'Manrope',
+                                                fontWeight: FontWeight.w600,
+                                                decoration: TextDecoration.none,
+                                                fontSize: 3 * vw),
+                                          ),
+                                        ),
+                                        IconButton(
+                                          onPressed: () {
+                                            setState(() {
+                                              debugPrint('dev');
+                                            });
+                                          },
+                                          icon: const Icon(Icons
+                                              .arrow_forward_ios_rounded), // Иконка
+                                          iconSize: 4 * vw,
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                )),
                           ))
                     ],
                   ),
@@ -344,7 +497,7 @@ class _UserCardState extends State<UserCard> {
               : Container()
         ],
       ),
-    );
+    ):Container();
     });
     
 
@@ -381,15 +534,6 @@ class _HeaderState extends State<Header> {
                 decoration: TextDecoration.none,
                 fontSize: 7 * vw),
           ),
-          // Text(
-          //   "Журнал ",
-          //   style: TextStyle(
-          //       color: const Color.fromARGB(234, 255, 255, 255),
-          //       fontFamily: 'Manrope',
-          //       fontWeight: FontWeight.w500,
-          //       decoration: TextDecoration.none,
-          //       fontSize: 7 * vw),
-          // ),
           IconButton(
             onPressed: () {
               Navigator.pushNamed(

@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get/get.dart';
 import 'package:provider/provider.dart';
+import 'package:trener_app/getx/MyUserConroller.dart';
 import 'package:trener_app/mobx/mobx.dart';
 import 'package:trener_app/pages/ResultFix.dart';
 import 'package:trener_app/widgets/service/navbar.dart';
@@ -17,6 +20,7 @@ class UserProgress extends StatefulWidget {
 class _UserProgressState extends State<UserProgress> {
   ScrollController _scrollController = ScrollController();
   bool _isAtTop = true;
+  MyUserController myUserController = Get.put(MyUserController());
 
   @override
   void initState() {
@@ -56,28 +60,32 @@ class _UserProgressState extends State<UserProgress> {
                     EdgeInsets.only(top: 7 * vh, left: 5 * vw, right: 5 * vw),
                 child: Row(
                   children: [
-                    ClipOval(
-                      child: Observer(
-                        builder: (_) => mobx.user['img'] != null
-                            ? Image.network(
-                                'https://mobilecoach.ru:5004/assets/${mobx.user['img']}',
-                                width: 13 * vw,
-                              )
+                    ClipRRect(
+                      borderRadius: BorderRadius.circular(100),
+                      child: myUserController.user['img'] != null
+                            ? Container(
+                              width: 13 * vw,
+                              height: 13 * vw,
+                              child: Image.network(
+                                  '${dotenv.env['STATIC_URL']}/${myUserController.user['img']}',
+                                  fit: BoxFit.cover,
+                                ),
+                            )
                             : Image.asset(
                                 'assets/img/user1.png',
                                 width: 13 * vw,
                               ),
-                      ),
+                 
                     ),
                     Padding(
                       padding: EdgeInsets.symmetric(horizontal: 6 * vw),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          mobx.user['name'] != null &&
-                                  mobx.user['name'].split(' ')[1] != null
+                          myUserController.user['name'] != null &&
+                                  myUserController.user['name'].split(' ')[1] != null
                               ? Text(
-                                  mobx.user['name'].split(' ')[1],
+                                  myUserController.user['name'].split(' ')[1],
                                   style: TextStyle(
                                       color: Color.fromARGB(227, 255, 255, 255),
                                       fontSize: 5 * vw,

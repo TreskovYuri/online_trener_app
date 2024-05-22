@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:trener_app/getx/MyDateController.dart';
+import 'package:trener_app/getx/MyPlannerConroller.dart';
 import 'package:trener_app/getx/getx_controller.dart';
+import 'package:trener_app/http/sportpogrammUtills.dart';
 import 'package:trener_app/mobx/mobx.dart';
 import 'package:trener_app/pages/ResultFix.dart';
 import 'package:trener_app/widgets/service/navbar.dart';
@@ -20,13 +22,13 @@ class Planner extends StatefulWidget {
 }
 
 class _PlannerState extends State<Planner> {
-
-    ScrollController _scrollController = ScrollController();
+  ScrollController _scrollController = ScrollController();
   bool _isAtTop = true;
 
   @override
   void initState() {
     super.initState();
+    GetPlanner();
     _scrollController.addListener(_onScroll);
   }
 
@@ -42,7 +44,6 @@ class _PlannerState extends State<Planner> {
     });
   }
 
-
   @override
   Widget build(BuildContext context) {
     final vw = MediaQuery.of(context).size.width / 100;
@@ -50,44 +51,46 @@ class _PlannerState extends State<Planner> {
 
     return Scaffold(
       body: SafeArea(
-        child: Stack(
-          fit: StackFit.expand,
-          children: [
+          child: Stack(
+        fit: StackFit.expand,
+        children: [
           Container(
-          padding: EdgeInsets.symmetric(horizontal: 2 * vw, vertical: 2 * vh),
-          width: 100 * vw,
-          color: Color(0xff1B1C20),
-          child: ListView(
-            controller: _scrollController,
-            children: [
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: 5 * vw),
-                child: Header(),
-              ),
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: 5 * vw),
-                child: Cal(),
-              ),
-              Padding(
-                padding: EdgeInsets.only(top: 3 * vh, bottom: 4 * vh),
-                child: const Column(
-                  children: [
-                    TrainingCard(),
-                    TestsCard(),
-                    NutritionsCard(),
-                    FixResiltsCard(),
-                    NutritiosPriemCard(),
-                    ConsultationsCard(),
-                  ],
+            padding: EdgeInsets.symmetric(horizontal: 1 * vw, vertical: 2 * vh),
+            width: 100 * vw,
+            color: Color(0xff1B1C20),
+            child: ListView(
+              controller: _scrollController,
+              children: [
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 5 * vw),
+                  child: Header(),
                 ),
-              ),
-              SizedBox(height: 7*vh,),
-            ],
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 5 * vw),
+                  child: Cal(),
+                ),
+                Padding(
+                  padding: EdgeInsets.only(top: 3 * vh, bottom: 4 * vh),
+                  child: const Column(
+                    children: [
+                      TrainingCard(),
+                      TestsCard(),
+                      NutritionsCard(),
+                      FixResiltsCard(),
+                      NutritiosPriemCard(),
+                      ConsultationsCard(),
+                    ],
+                  ),
+                ),
+                SizedBox(
+                  height: 7 * vh,
+                ),
+              ],
+            ),
           ),
-        ),
-         _isAtTop?Navbar():NavbarScroll()
-        ],)
-      ),
+          _isAtTop ? Navbar() : NavbarScroll()
+        ],
+      )),
     );
   }
 }
@@ -196,7 +199,6 @@ class _CalState extends State<Cal> {
       children: [
         Container(
           margin: EdgeInsets.only(top: 2 * vh),
-          padding: EdgeInsets.all(3 * vw),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: lastWeek.map((date) {
@@ -216,41 +218,42 @@ class _CalState extends State<Cal> {
                     height: 1 * vh,
                   ),
                   Obx(() => Container(
-                        child:InkWell(
-                                onTap: () {
-                                  myDateController.setCurrentDate(
-                                      DateFormat('dd.MM.yyyy').format(date));
-                                  // Navigator.pushReplacementNamed(context,'/journal');
-                                },
-                                child: AnimatedContainer(
-                                  duration: Duration(milliseconds: 250),
-                                  width: 8 * vw,
-                                  height: 8 * vw,
-                                  alignment: Alignment.center,
-                                  // padding: EdgeInsets.all(1),
-                                  decoration: BoxDecoration(
-                                      gradient:RadialGradient(
-                                        colors: myDateController.date == DateFormat('dd.MM.yyyy').format(date) ? [
-                                          Color(0xff4D8AEE),
-                                          Color(0xff2932FF)
-                                        ] : [Color.fromARGB(0, 77, 139, 238),Color.fromARGB(0, 41, 52, 255)],
-                                        radius: 0.6,
-                                        center: Alignment.center,
-                                      ),
-                                      borderRadius: BorderRadius.circular(100)),
-                                  child: Text(
-                                    "${date.day}",
-                                    style: TextStyle(
-                                        color: Colors.white,
-                                        fontFamily: 'Manrope',
-                                        fontWeight: FontWeight.w500,
-                                        decoration: TextDecoration.none,
-                                        fontSize: 4 * vw),
-                                  ),
-                                ),
-                              )
-              
-                      ))
+                          child: InkWell(
+                        onTap: () {
+                          myDateController.setCurrentDate(
+                              DateFormat('dd.MM.yyyy').format(date));
+                          // Navigator.pushReplacementNamed(context,'/journal');
+                        },
+                        child: AnimatedContainer(
+                          duration: Duration(milliseconds: 250),
+                          width: 8 * vw,
+                          height: 8 * vw,
+                          alignment: Alignment.center,
+                          // padding: EdgeInsets.all(1),
+                          decoration: BoxDecoration(
+                              gradient: RadialGradient(
+                                colors: myDateController.date ==
+                                        DateFormat('dd.MM.yyyy').format(date)
+                                    ? [Color(0xff4D8AEE), Color(0xff2932FF)]
+                                    : [
+                                        Color.fromARGB(0, 77, 139, 238),
+                                        Color.fromARGB(0, 41, 52, 255)
+                                      ],
+                                radius: 0.6,
+                                center: Alignment.center,
+                              ),
+                              borderRadius: BorderRadius.circular(100)),
+                          child: Text(
+                            "${date.day}",
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontFamily: 'Manrope',
+                                fontWeight: FontWeight.w500,
+                                decoration: TextDecoration.none,
+                                fontSize: 4 * vw),
+                          ),
+                        ),
+                      )))
                 ],
               );
             }).toList(),
@@ -270,6 +273,7 @@ class TrainingCard extends StatefulWidget {
 }
 
 class _TrainingCardState extends State<TrainingCard> {
+  MyPlannerConroller myPlannerConroller = MyPlannerConroller();
   bool trainingOnOff = false;
   @override
   Widget build(BuildContext context) {
@@ -277,6 +281,14 @@ class _TrainingCardState extends State<TrainingCard> {
     final vw = MediaQuery.of(context).size.width / 100;
     final vh = MediaQuery.of(context).size.height / 100;
     MyGetxController myGetxController = Get.put(MyGetxController());
+    MyPlannerConroller myPlannerConroller = Get.put(MyPlannerConroller());
+    MyDateController myDateController = Get.put(MyDateController());
+    if (myPlannerConroller.Planner.isNotEmpty &&
+        myPlannerConroller.Planner['exercises'].length > 0) {
+      // print(myPlannerConroller.Planner['exercises']);
+    }
+
+    // print(exercises);
 
     return GestureDetector(
       onTap: () => setState(() {
@@ -334,8 +346,7 @@ class _TrainingCardState extends State<TrainingCard> {
                         ),
                       ),
                       Obx(
-                        () => myGetxController
-                                .getx.userExercisesOnDay.isNotEmpty
+                        () => myPlannerConroller.Planner.isEmpty
                             ? Container(
                                 width: 11 * vw,
                                 height: 6 * vw,
@@ -397,8 +408,7 @@ class _TrainingCardState extends State<TrainingCard> {
                   trainingOnOff
                       // ignore: dead_code
                       ? Obx(() => Column(
-                            children: myGetxController
-                                .getx.userExercisesOnDay
+                            children: myGetxController.getx.userExercisesOnDay
                                 .map((e) {
                               final uniqueKey = UniqueKey();
                               return GestureDetector(
@@ -722,7 +732,9 @@ class _NutritionsCardState extends State<NutritionsCard> {
     DateTime currentDate = DateTime.now();
     return GestureDetector(
       onTap: () {
-        setState(() {trainingOnOff = !trainingOnOff;});
+        setState(() {
+          trainingOnOff = !trainingOnOff;
+        });
       },
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -837,11 +849,8 @@ class _NutritionsCardState extends State<NutritionsCard> {
                               .userNutritionsOnDay(mobx.currentDate)
                               .map((e) => GestureDetector(
                                     onTap: () {
-                                      Navigator.pushNamed(
-                                        context,
-                                        '/nutrition',
-                                        arguments: e
-                                      );
+                                      Navigator.pushNamed(context, '/nutrition',
+                                          arguments: e);
                                     },
                                     child: Container(
                                       margin: EdgeInsets.only(top: 1 * vh),

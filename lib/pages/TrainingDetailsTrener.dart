@@ -1,7 +1,9 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:intl/intl.dart';
+import 'package:get/get.dart';
+import 'package:trener_app/getx/MyDateController.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 class TrainingDetailsTrener extends StatefulWidget {
@@ -12,14 +14,15 @@ class TrainingDetailsTrener extends StatefulWidget {
 }
 
 class _TrainingDetailsTrenerState extends State<TrainingDetailsTrener> {
+  MyDateController myDateController = Get.put(MyDateController());
   @override
   Widget build(BuildContext context) {
     final arguments =
         ModalRoute.of(context)?.settings.arguments as Map<dynamic, dynamic>;
-    final now = DateTime.now();
     final vw = MediaQuery.of(context).size.width / 100;
     final vh = MediaQuery.of(context).size.height / 100;
-    List<Map<String, dynamic>> sets = arguments['sets'];
+    Map<String, dynamic> exercise = arguments['exercise'];
+    List sets = json.decode(arguments['sets']);
 
     return Scaffold(
       appBar: AppBar(
@@ -32,23 +35,23 @@ class _TrainingDetailsTrenerState extends State<TrainingDetailsTrener> {
           },
         ),
         actions: [
-           Padding(
-             padding: EdgeInsets.only(right: 2*vw),
-             child: IconButton(
-                      onPressed: () {},
-                      icon: SvgPicture.asset(
-                        'assets/img/read_icon.svg',
-                        width: 2.6 * vh,
-                      ),
-                    ),
-           ),
+          Padding(
+            padding: EdgeInsets.only(right: 2 * vw),
+            child: IconButton(
+              onPressed: () {},
+              icon: SvgPicture.asset(
+                'assets/img/read_icon.svg',
+                width: 2.6 * vh,
+              ),
+            ),
+          ),
         ],
         toolbarHeight: 13 * vh,
         title: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              '${arguments['name']}',
+              '${exercise['nameRu']}',
               style: TextStyle(
                   color: Colors.white,
                   fontFamily: 'Manrope',
@@ -56,7 +59,7 @@ class _TrainingDetailsTrenerState extends State<TrainingDetailsTrener> {
                   fontSize: 5 * vw),
             ),
             Text(
-              '${NumToRus(now.weekday)} • ${now.day} ${MonthToRus(now.month)}',
+              '${myDateController.date}',
               style: TextStyle(
                   color: Colors.white,
                   fontFamily: 'Manrope',
@@ -83,109 +86,104 @@ class _TrainingDetailsTrenerState extends State<TrainingDetailsTrener> {
         padding: EdgeInsets.only(top: 3 * vh),
         child: ListView(
           children: [
-            ...sets.map((e) => Container(
-                  padding: EdgeInsets.all(3 * vw),
-                  child: Column(
-                    children: [
-                      Row(
+            Container(
+              padding: EdgeInsets.symmetric(horizontal: 10),
+              child: Row(
+                children: [
+                  Expanded(
+                    flex: 1,
+                    child: Text(
+                      'cет',
+                      style: TextStyle(
+                        color: const Color.fromARGB(124, 255, 255, 255),
+                        fontSize: 3 * vw,
+                        fontFamily: 'Manrope',
+                      ),
+                    ),
+                  ),
+                  Expanded(
+                    flex: 1,
+                    child: Text(
+                      '${exercise['pocazatel1Name']}',
+                      style: TextStyle(
+                        color: const Color.fromARGB(124, 255, 255, 255),
+                        fontSize: 3 * vw,
+                        fontFamily: 'Manrope',
+                      ),
+                    ),
+                  ),
+                  // exercise['pokazatel2Name']!='' &&  exercise['pokazatel2Name']!= null?
+                  // Expanded(
+                  //   flex: 1,
+                  //   child: Text(
+                  //     '${exercise['pocazatel2Name']}',
+                  //     style: TextStyle(
+                  //       color: const Color.fromARGB(124, 255, 255, 255),
+                  //       fontSize: 3 * vw,
+                  //       fontFamily: 'Manrope',
+                  //     ),
+                  //   ),
+                  // ):Container(),
+                ],
+              ),
+            ),
+            ...sets.map(
+              (set) => Row(
+                children: [
+                  Expanded(
+                    flex: 1,
+                    child: Container(
+                      margin: EdgeInsets.all(2 * vw),
+                      padding: EdgeInsets.symmetric(
+                          vertical: 2 * vh, horizontal: 3 * vw),
+                      decoration: BoxDecoration(
+                          color: Color(0xff23252B),
+                          borderRadius: BorderRadius.circular(4 * vw)),
+                      child: Row(
                         children: [
                           Text(
-                            e['name'],
+                            '${set['set']}',
                             style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 5 * vw,
-                              fontFamily: 'Manrope',
-                            ),
+                                color: Colors.white,
+                                fontSize: 3 * vw,
+                                fontFamily: "Manrope",
+                                fontWeight: FontWeight.w500),
                           ),
                         ],
                       ),
-                      SizedBox(height: 2*vh,),
-                      Row(
-                        children: [
-                          Expanded(
-                            flex: 1,
-                            child: Text(
-                              'cет',
-                              style: TextStyle(
-                                color: const Color.fromARGB(
-                                    124, 255, 255, 255),
-                                fontSize: 3 * vw,
-                                fontFamily: 'Manrope',
-                              ),
-                            ),
-                          ),
-                          Expanded(
-                            flex: 1,
-                            child: Text(
-                              '${e['pocazatel1Name']}',
-                              style: TextStyle(
-                                color: const Color.fromARGB(
-                                    124, 255, 255, 255),
-                                fontSize: 3 * vw,
-                                fontFamily: 'Manrope',
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                      ...e['sets'].asMap().entries.map((entry) {
-                        int index = entry.key;
-                        var el = entry.value;
-                        return Row(
-                          children: [
-                            Expanded(
-                              flex: 1,
-                              child: Container(
-                                margin: EdgeInsets.all(2*vw),
-                                padding: EdgeInsets.symmetric(vertical: 2*vh,horizontal: 3*vw),
-                                decoration:BoxDecoration(
-                                  color: Color(0xff23252B),
-                                  borderRadius: BorderRadius.circular(4*vw)
-                                ),
-                                child: Row(
-                                  children: [
-                                    Text(
-                                      '${index+1}',
-                                      style: TextStyle(color: Colors.white,
-                                      fontSize: 3*vw,
-                                      fontFamily: "Manrope",
-                                      fontWeight: FontWeight.w500),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                            Expanded(
-                              flex: 1,
-                              child: Container(
-                                margin: EdgeInsets.all(2*vw),
-                                padding: EdgeInsets.symmetric(vertical: 2*vh,horizontal: 3*vw),
-                                decoration:BoxDecoration(
-                                  color: Color(0xff23252B),
-                                  borderRadius: BorderRadius.circular(4*vw)
-                                ),
-                                child: Row(
-                                  children: [
-                                    Text(
-                                      '${el['pokazatelOt']} - ${el['pokazatelDo']}',
-                                      style: TextStyle(color: Colors.white,
-                                      fontSize: 3*vw,
-                                      fontFamily: "Manrope",
-                                      fontWeight: FontWeight.w500),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                          ],
-                        );
-                      }).toList(),
-                      SizedBox(height: 1*vh,),
-                      e['link'].isNotEmpty?
-                      Youtube(url: e['link']):Container()
-                    ],
+                    ),
                   ),
-                ))
+                  Expanded(
+                    flex: 1,
+                    child: Container(
+                      margin: EdgeInsets.all(2 * vw),
+                      padding: EdgeInsets.symmetric(
+                          vertical: 2 * vh, horizontal: 3 * vw),
+                      decoration: BoxDecoration(
+                          color: Color(0xff23252B),
+                          borderRadius: BorderRadius.circular(4 * vw)),
+                      child: Row(
+                        children: [
+                          Text(
+                            '${set['diapazonOt']} - ${set['diapazonDo']}',
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 3 * vw,
+                                fontFamily: "Manrope",
+                                fontWeight: FontWeight.w500),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            exercise['link'].isNotEmpty
+                ? Container(
+                    padding:  const EdgeInsets.symmetric(horizontal: 10,vertical: 50),
+                    child: Youtube(url: exercise['link']))
+                : Container()
           ],
         ),
       ),
@@ -245,8 +243,6 @@ String MonthToRus(int num) {
   }
 }
 
-
-
 class Youtube extends StatefulWidget {
   Youtube({super.key, required this.url});
   String url;
@@ -256,33 +252,34 @@ class Youtube extends StatefulWidget {
 }
 
 class _YoutubeState extends State<Youtube> {
-late YoutubePlayerController _controller;
+  late YoutubePlayerController _controller;
 
-@override
+  @override
   void initState() {
     super.initState();
-      final VideoID = YoutubePlayer.convertUrlToId(widget.url);
+    final VideoID = YoutubePlayer.convertUrlToId(widget.url);
     _controller = YoutubePlayerController(
-      initialVideoId: VideoID!,
+      initialVideoId: VideoID??'',
       flags: const YoutubePlayerFlags(
         autoPlay: false,
         mute: false,
-
       ),
     );
   }
 
- @override
+  @override
   Widget build(BuildContext context) {
     return ClipRRect(
-      borderRadius: BorderRadius.circular(12.0), // Выберите желаемый радиус скругления
-      child: YoutubePlayer(controller: _controller,bottomActions: [
-                    CurrentPosition(),
-                    ProgressBar(
-                      isExpanded: true,
-                      colors: const ProgressBarColors(
-                          playedColor: Colors.red, handleColor: Colors.red),
-                    )]),
+      borderRadius:
+          BorderRadius.circular(12.0), // Выберите желаемый радиус скругления
+      child: YoutubePlayer(controller: _controller, bottomActions: [
+        CurrentPosition(),
+        ProgressBar(
+          isExpanded: true,
+          colors: const ProgressBarColors(
+              playedColor: Colors.red, handleColor: Colors.red),
+        )
+      ]),
     );
   }
 
@@ -291,5 +288,4 @@ late YoutubePlayerController _controller;
     _controller.dispose();
     super.dispose();
   }
-
 }
