@@ -31,7 +31,7 @@ class _WorkoutState extends State<Workout> {
     final List<String> list = [];
 
     return Container(
-      color: Color(0xff1B1C20),
+      color: const Color(0xff1B1C20),
       child: SingleChildScrollView(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,

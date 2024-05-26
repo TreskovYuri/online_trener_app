@@ -25,7 +25,7 @@ class _TrenerTrainingsState extends State<TrenerTrainings> {
   void initState() {
     super.initState();
     GetExercise();
-    GetGroups();
+    GetExerciseGroups();
     _scrollController.addListener(_onScroll);
   }
 

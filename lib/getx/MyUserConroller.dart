@@ -28,6 +28,16 @@ class MyUserController  extends GetxController{
 
 
 
+  //Список пользователей
+  var _Users = RxList<Map<String,dynamic>>([]);
+
+  void setUsers(newUsers){
+    this._Users.assignAll(newUsers);
+    }
+  List<Map<String, dynamic>> get Users => _Users;
+
+
+
 
 
 

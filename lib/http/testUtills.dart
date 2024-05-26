@@ -48,7 +48,7 @@ Future GetTestGroups() async {
 
   try {
     // Assuming Session().get() returns Map<String, dynamic>
-    Map<String, dynamic> data = await Session().get('exercises/groups');
+    Map<String, dynamic> data = await Session().get('tests/group');
     
     List<Map<String, dynamic>> list = [];
     
@@ -66,6 +66,41 @@ Future GetTestGroups() async {
 
     // Update the controller with the fetched exercises
     myTestsController.setGroups(list);
+    return data;
+  } catch (e) {
+    print(e);
+  }
+  
+  // Return null in case of failure
+  return null;
+}
+
+
+
+// ignore: non_constant_identifier_names
+Future AddTestGroup({formData}) async {
+  try {
+    // Assuming Session().get() returns Map<String, dynamic>
+    Map<String, dynamic> data = await Session().post('tests/group',formData);
+    if(data['status'] <300){GetTestGroups();}
+    return data;
+  } catch (e) {
+    print(e);
+  }
+  
+  // Return null in case of failure
+  return null;
+}
+
+
+// ignore: non_constant_identifier_names
+Future AddTest({formData}) async {
+  try {
+    print(formData);
+    Map<String, dynamic> data = await Session().post('tests',formData);
+    if(data['status'] <300){GetTestGroups();}
+    
+    print(data);
     return data;
   } catch (e) {
     print(e);

@@ -3,47 +3,25 @@ import 'package:get/get.dart';
 // Контроллер для работы с пользователями
 
 class MyExercisesController extends GetxController {
-  // Reactive list of exercises
+  // Упражнения
   var _exercises = <Map<String, dynamic>>[].obs;
-  
-  // Getter for exercises
   List<Map<String, dynamic>> get exercises => _exercises;
-  
-  // Setter for exercises
-  void setExercises(List<Map<String, dynamic>> newExercises) {
-    _exercises.assignAll(newExercises);
-  }
+  void setExercises(List<Map<String, dynamic>> newExercises) { _exercises.assignAll(newExercises);}
 
-
+  //Группы упражнений
   var _groups = <Map<String, dynamic>>[].obs;
-  
-  // Getter for exercises
   List<Map<String, dynamic>> get groups => _groups;
-  
-  // Setter for exercises
-  void setGroups(List<Map<String, dynamic>> newGroups) {
-    _groups.assignAll(newGroups);
-  }
+  void setGroups(List<Map<String, dynamic>> newGroups) {_groups.assignAll(newGroups);}
+
+  // Выбранная стадия при созджании упражнения
+  var currentStage = 'Разминка'.obs;
+  void setCurrentStage(String newCG) {currentStage.value = newCG;}
 
 
-  List<Map<String, dynamic>> GetExerciseOnGroupList() {
-    List<Map<String, dynamic>> list =[];
-    this._groups.forEach((element) {
-      List<Map<String, dynamic>> exercises = [];
-      this._exercises.forEach((el) {
-        if(el['groupId']==element['id'] ){
-          exercises.add(el);
-        }
+  // Выбранная группа при созджании упражнения
+  var currentGroup = 0.obs;
+  void setCurrentGroup(int newCG) {currentGroup.value = newCG;}
 
-      });
-      list.add({
-        'type':element['name'],
-        'exercises':exercises
-      });
-    });
-
-    return[];
-  }
 
 
 }

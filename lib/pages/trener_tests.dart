@@ -111,7 +111,7 @@ class _TrenerTestsState extends State<TrenerTests> {
                 showModalBottomSheet(
                     isScrollControlled: true,
                     context: context,
-                    builder: (_) => ModalAddTest());
+                    builder: (_) => const ModalAddTest());
               },
               icon: SvgPicture.asset(
                 'assets/img/blue_plus.svg',

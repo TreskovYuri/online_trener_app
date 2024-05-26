@@ -5,18 +5,15 @@ import 'package:trener_app/getx/MyExercisesController.dart';
 import 'package:trener_app/http/http.dart';
 import 'package:trener_app/mobx/mobx.dart';
 
-// ignore: non_constant_identifier_names
+// Получить список упражнений
 Future GetExercise() async {
   MyExercisesController myExercisesController = Get.put(MyExercisesController());
 
   try {
-    // Assuming Session().get() returns Map<String, dynamic>
     Map<String, dynamic> data = await Session().get('exercises');
-    
     List<Map<String, dynamic>> list = [];
     
     if (data['status'] < 300) {
-      // Safely handle the data assuming 'body' is a List<dynamic>
       for (var e in data['body']) {
         Map<String,dynamic> exercise = {
           'id': e['id'] ?? 0,
@@ -50,19 +47,17 @@ Future GetExercise() async {
       }
     }
 
-    // Update the controller with the fetched exercises
     myExercisesController.setExercises(list);
     return data;
   } catch (e) {
     print(e);
   }
   
-  // Return null in case of failure
   return null;
 }
 
-
-Future GetGroups() async {
+// Получить список групп
+Future GetExerciseGroups() async {
   MyExercisesController myExercisesController =
       Get.put(MyExercisesController());
 
@@ -88,14 +83,32 @@ Future GetGroups() async {
   return null;
 }
 
-Future GetExerciseBelongForSportsmans(Mobx mobx) async {
+
+
+
+// Добавление упражнения
+Future AddExercise(Map <String,dynamic> formData) async {
   try {
-    var data = await Session().get('sportprogramm/exersices/forusers');
-    // mobx.setUserExercises(data);
-    // print(mobx.userExercisesOnDay);
+    Map<String, dynamic> data = await Session().post('exercises',formData);
+    GetExercise();
     return data;
   } catch (e) {
     print(e);
-    return null;
   }
+  // Возвращаемое значение в случае неудачи
+  return null;
+}
+
+
+// Добавление группы
+Future AddExerciseGroup(Map <String,dynamic> formData) async {
+  try {
+    Map<String, dynamic> data = await Session().post('exercises/groups',formData);
+    GetExerciseGroups();
+    return data;
+  } catch (e) {
+    print(e);
+  }
+  // Возвращаемое значение в случае неудачи
+  return null;
 }

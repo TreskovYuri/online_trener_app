@@ -13,7 +13,7 @@ class Session {
   Future <Map<String,dynamic>> get(String url) async {
     final box = GetStorage();
     var apiUrl = Uri.parse('$URL/$url');
-    
+        // print(apiUrl);
     http.Response response = await http.get(apiUrl, headers: {'session': box.read('session') ?? ''});
       var responseBody = utf8.decode(response.bodyBytes);
       var decode = json.decode(responseBody);
@@ -25,9 +25,10 @@ class Session {
   }
 
 
-  Future <Map<String,dynamic>> post(String url, dynamic data) async {
+  Future <Map<String,dynamic>> post(String url, Map<String,dynamic> data) async {
     final box = GetStorage();
     var apiUrl = Uri.parse('$URL/$url');
+    // print(apiUrl);
     http.Response response = await http.post(apiUrl,body: data, headers: {'session': box.read('session') ?? ''});
     try {
       var responseBody = utf8.decode(response.bodyBytes);

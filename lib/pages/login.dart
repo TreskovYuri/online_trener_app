@@ -81,7 +81,6 @@ void loadData() async {
     DateTime now = DateTime.now();
     final mobx = Provider.of<Mobx>(context);
 
-    GetExerciseBelongForSportsmans(mobx);
     String formattedDate = DateFormat('dd.MM.yyyy').format(now);
     mobx.setCurrentDate(formattedDate);
 

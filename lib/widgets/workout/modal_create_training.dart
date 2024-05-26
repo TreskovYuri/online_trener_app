@@ -1,12 +1,13 @@
-import 'dart:ffi';
 import 'dart:io';
 
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:trener_app/getx/MyExercisesController.dart';
+import 'package:trener_app/getx/MyUserConroller.dart';
+import 'package:trener_app/http/exerciseUtills.dart';
+import 'package:file_picker/file_picker.dart';
+import 'dart:convert';
 // import 'package:file_picker/file_picker.dart';
 
 class ModalCreateTraining extends StatefulWidget {
@@ -20,8 +21,11 @@ class _ModalCreateTrainingState extends State<ModalCreateTraining> {
   int page = 1;
   List muscleGroups = [];
   List<String> listEquipments = [];
+  String stage = 'Разминка';
   final TextEditingController nameRuController = TextEditingController();
   final TextEditingController nameEngController = TextEditingController();
+  final TextEditingController linkController = TextEditingController();
+  MyExercisesController myExercisesController = Get.put(MyExercisesController());
 
   void setListEquipments(String equipment) {
     setState(() {
@@ -49,6 +53,7 @@ class _ModalCreateTrainingState extends State<ModalCreateTraining> {
     final vw = MediaQuery.of(context).size.width / 100;
     final vh = MediaQuery.of(context).size.height / 100;
 
+
     return Container(
       height: 90 * vh,
       width: double.infinity,
@@ -56,182 +61,288 @@ class _ModalCreateTrainingState extends State<ModalCreateTraining> {
           color: Color(0xff1B1C20),
           borderRadius: BorderRadius.only(
               topLeft: Radius.circular(10), topRight: Radius.circular(10))),
-      child: ListView(
+      child: Stack(
         children: [
-          Container(
-            padding: EdgeInsets.symmetric(horizontal: 40 * vw),
-            child: Container(
-              margin: EdgeInsets.only(top: 1 * vh),
-              width: 15 * vw,
-              height: 4,
-              decoration: BoxDecoration(
-                  color: const Color.fromARGB(59, 255, 255, 255),
-                  borderRadius: BorderRadius.circular(50 * vw)),
-            ),
-          ),
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.center,
+          Column(
             children: [
-              Expanded(
-                  flex: 1,
-                  child: GestureDetector(
-                    onTap: () {
-                      Navigator.pop(context);
-                    },
-                    child: Container(
-                        padding: EdgeInsets.only(top: 2 * vh),
-                        alignment: Alignment.center,
-                        child: SvgPicture.asset(
-                          'assets/img/x_white.svg',
-                        )),
-                  )),
-              Expanded(
-                  flex: 2,
-                  child: Container(
+              Container(
+                padding: EdgeInsets.symmetric(horizontal: 40 * vw),
+                child: Container(
+                  margin: EdgeInsets.only(top: 1 * vh),
+                  width: 15 * vw,
+                  height: 4,
+                  decoration: BoxDecoration(
+                      color: const Color.fromARGB(59, 255, 255, 255),
+                      borderRadius: BorderRadius.circular(50 * vw)),
+                ),
+              ),
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Expanded(
+                      flex: 1,
+                      child: GestureDetector(
+                        onTap: () {
+                          Navigator.pop(context);
+                        },
+                        child: Container(
+                            padding: EdgeInsets.only(top: 2 * vh),
+                            alignment: Alignment.center,
+                            child: SvgPicture.asset(
+                              'assets/img/x_white.svg',
+                            )),
+                      )),
+                  Expanded(
+                    flex: 2,
                     child: Column(
                       children: [
-                        SizedBox(
-                          height: 2 * vh,
+                        Container(
+                          child: Column(
+                            children: [
+                              SizedBox(
+                                height: 2 * vh,
+                              ),
+                              page == 1
+                                  ? Text(
+                                      'Добавить упражнение',
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontFamily: 'Manrope',
+                                        fontSize: 4 * vw,
+                                        fontWeight: FontWeight.w600,
+                                      ),
+                                    )
+                                  : SizedBox.shrink(),
+                              page == 2
+                                  ? Text(
+                                      'Выбор группы мышц',
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontFamily: 'Manrope',
+                                        fontSize: 4 * vw,
+                                        fontWeight: FontWeight.w600,
+                                      ),
+                                    )
+                                  : SizedBox.shrink(),
+                              page == 3
+                                  ? Text(
+                                      'Выбор оборудования',
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontFamily: 'Manrope',
+                                        fontSize: 4 * vw,
+                                        fontWeight: FontWeight.w600,
+                                      ),
+                                    )
+                                  : SizedBox.shrink(),
+                              page == 4
+                                  ? Text(
+                                      'Добавить упражнение',
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontFamily: 'Manrope',
+                                        fontSize: 4 * vw,
+                                        fontWeight: FontWeight.w600,
+                                      ),
+                                    )
+                                  : SizedBox.shrink(),
+                            ],
+                          ),
                         ),
-                        page == 1
-                            ? Text(
-                                'Добавить упражнение',
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontFamily: 'Manrope',
-                                  fontSize: 4 * vw,
-                                  fontWeight: FontWeight.w600,
-                                ),
-                              )
-                            : SizedBox.shrink(),
-                        page == 2
-                            ? Text(
-                                'Выбор группы мышц',
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontFamily: 'Manrope',
-                                  fontSize: 4 * vw,
-                                  fontWeight: FontWeight.w600,
-                                ),
-                              )
-                            : SizedBox.shrink(),
-                        page == 3
-                            ? Text(
-                                'Выбор оборудования',
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontFamily: 'Manrope',
-                                  fontSize: 4 * vw,
-                                  fontWeight: FontWeight.w600,
-                                ),
-                              )
-                            : SizedBox.shrink(),
-                        page == 4
-                            ? Text(
-                                'Добавить упражнение',
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontFamily: 'Manrope',
-                                  fontSize: 4 * vw,
-                                  fontWeight: FontWeight.w600,
-                                ),
-                              )
-                            : SizedBox.shrink(),
                       ],
                     ),
-                  )),
-              Expanded(
-                flex: 1,
-                child: page < 4
-                    ? GestureDetector(
-                        onTap: () {
-                          setState(() {
-                            if (nameRuController.text.length > 0) {
-                              page++;
-                            } else {
-                              Get.snackbar('Ошибка ввода!',
-                                  'Введите название упражнения...',
-                                  colorText:
-                                      Color.fromARGB(181, 255, 255, 255));
-                            }
-                          });
-                        },
-                        child: Container(
-                          padding: EdgeInsets.only(top: 2 * vh),
-                          alignment: Alignment.center,
-                          child: Text(
-                            'Далее',
-                            style: TextStyle(
-                              color: Color(0xff4D8AEE),
-                              fontSize: 3.3 * vw,
-                              fontWeight: FontWeight.w500,
-                              fontFamily: 'Manrope',
+                  ),
+                  Expanded(
+                    flex: 1,
+                    child: page < 4
+                        ? GestureDetector(
+                            onTap: () {
+                              setState(() {
+                                if (nameRuController.text.length > 0) {
+                                  page++;
+                                } else {
+                                  Get.snackbar('Ошибка ввода!',
+                                      'Введите название упражнения...',
+                                      colorText:
+                                          Color.fromARGB(181, 255, 255, 255));
+                                }
+                              });
+                            },
+                            child: Container(
+                              padding: EdgeInsets.only(top: 2 * vh),
+                              alignment: Alignment.center,
+                              child: Text(
+                                'Далее',
+                                style: TextStyle(
+                                  color: Color(0xff4D8AEE),
+                                  fontSize: 3.3 * vw,
+                                  fontWeight: FontWeight.w500,
+                                  fontFamily: 'Manrope',
+                                ),
+                              ),
+                            ),
+                          )
+                        : GestureDetector(
+                            onTap: () {
+                              setState(() {
+                                // page++;
+                              });
+                            },
+                            child: Container(
+                              padding: EdgeInsets.only(top: 2 * vh),
+                              alignment: Alignment.center,
+                              child: Text(
+                                '',
+                                style: TextStyle(
+                                  color: Color(0xff4D8AEE),
+                                  fontSize: 3.3 * vw,
+                                  fontWeight: FontWeight.w500,
+                                  fontFamily: 'Manrope',
+                                ),
+                              ),
                             ),
                           ),
-                        ),
-                      )
-                    : GestureDetector(
-                        onTap: () {
-                          setState(() {
-                            // page++;
-                          });
-                        },
-                        child: Container(
-                          padding: EdgeInsets.only(top: 2 * vh),
-                          alignment: Alignment.center,
-                          child: Text(
-                            '',
-                            style: TextStyle(
-                              color: Color(0xff4D8AEE),
-                              fontSize: 3.3 * vw,
-                              fontWeight: FontWeight.w500,
-                              fontFamily: 'Manrope',
-                            ),
-                          ),
-                        ),
+                  )
+                ],
+              ),
+              SizedBox(
+                height: 3 * vh,
+              ),
+              page == 1
+                  ? Page1(
+                      vw: vw,
+                      vh: vh,
+                      controllerEng: nameEngController,
+                      controllerRu: nameRuController,
+                    )
+                  : SizedBox.shrink(),
+              page == 2
+                  ? Container(
+                      height: 70 * vh,
+                      child: ListView(
+                        children: [
+                          Page2(
+                              vw: vw,
+                              vh: vh,
+                              muscleGroups: muscleGroups,
+                              setMuscleGroup: setMuscleGroups)
+                        ],
                       ),
-              )
+                    )
+                  : SizedBox.shrink(),
+              page == 3
+                  ? Page3(
+                      vw: vw,
+                      vh: vh,
+                      setListEquipments: setListEquipments,
+                      listEquipments: listEquipments,
+                    )
+                  : SizedBox.shrink(),
+              page == 4
+                  ? Container(
+                      height: 70 * vh,
+                      child: ListView(
+                        children: [
+                          Page4(
+                            vw: vw,
+                            vh: vh,
+                            setListEquipments: setListEquipments,
+                            listEquipments: listEquipments,
+                            nameEngController: nameEngController,
+                            nameRuController: nameRuController,
+                            linkController: linkController,
+                          ),
+                        ],
+                      ),
+                    )
+                  : SizedBox.shrink(),
             ],
           ),
-          SizedBox(
-            height: 3 * vh,
-          ),
-          page == 1
-              ? Page1(
-                  vw: vw,
-                  vh: vh,
-                  controllerEng: nameEngController,
-                  controllerRu: nameRuController,
-                )
-              : SizedBox.shrink(),
-          page == 2
-              ? Page2(
-                  vw: vw,
-                  vh: vh,
-                  muscleGroups: muscleGroups,
-                  setMuscleGroup: setMuscleGroups)
-              : SizedBox.shrink(),
-          page == 3
-              ? Page3(
-                  vw: vw,
-                  vh: vh,
-                  setListEquipments: setListEquipments,
-                  listEquipments: listEquipments,
-                )
-              : SizedBox.shrink(),
           page == 4
-              ? Page4(
-                  vw: vw,
-                  vh: vh,
-                  setListEquipments: setListEquipments,
-                  listEquipments: listEquipments,
+              ? Positioned(
+                  bottom: 40,
+                  left: 0,
+                  right: 0,
+                  child: ElevatedButton(
+                    child: Container(
+                      width: 90 * vw,
+                      alignment: Alignment.center,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10 * vw),
+                        gradient: const RadialGradient(
+                          colors: [
+                            Color(0xff4D8AEE),
+                            Color(0xff2932FF),
+                          ],
+                          radius: 5, // Радиус градиента
+                        ),
+                      ),
+                      padding: EdgeInsets.symmetric(vertical: 1 * vh),
+                      child: Text(
+                        'Добавить',
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 4 * vw,
+                            fontWeight: FontWeight.w500,
+                            fontFamily: 'Manrope'),
+                      ),
+                    ),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor:
+                          Colors.transparent, // Чтобы сделать фон прозрачным
+                      shadowColor: Colors.transparent, // Чтобы убрать тень
+                    ).copyWith(
+                      backgroundColor:
+                          MaterialStateProperty.all<Color>(Colors.transparent),
+                      elevation: MaterialStateProperty.all<double>(0),
+                      overlayColor:
+                          MaterialStateProperty.all<Color>(Colors.transparent),
+                      // Радиальный градиент
+                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                        RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10),
+                          side: BorderSide(color: Colors.transparent),
+                        ),
+                      ),
+                    ),
+                    onPressed: () {
+                      AddExercise({
+                        "nameRu": nameRuController.text,
+                        "descriptionRu": '',
+                        "nameEng": nameEngController.text,
+                        "descriptionEng": '',
+                        "equipments": jsonEncode(listEquipments),
+                        "stage": jsonEncode([myExercisesController.currentStage.toString(),]),
+                        "groupId": myExercisesController.currentGroup.toString(),
+                        "musclegroups": jsonEncode(muscleGroups),
+                        "pocazatel1Name": '',
+                        "pocazatel1Type": '',
+                        "pocazatel1SPFlag": '',
+                        "pocazatel2Name": '',
+                        "pocazatel2Type": '',
+                        "pocazatel2SPFlag": '',
+                        "pocazatel3Name": '',
+                        "pocazatel3Type": '',
+                        "pocazatel3SPFlag": '',
+                        "pocazatel4Name": '',
+                        "pocazatel4Type": '',
+                        "pocazatel4SPFlag": '',
+                        "pocazatel5Name": '',
+                        "pocazatel5Type": '',
+                        "pocazatel5SPFlag": '',
+                        "link": linkController.text,
+                        "img": '',
+                        "video": '',
+                      });
+                    },
+                  ),
                 )
-              : SizedBox.shrink(),
+              : const SizedBox.shrink(),
         ],
       ),
     );
@@ -458,12 +569,12 @@ class Page2 extends StatelessWidget {
                         : const RadialGradient(
                             colors: [Colors.transparent, Colors.transparent]),
                     borderRadius: BorderRadius.circular(3 * vw)),
-                padding: EdgeInsets.all(1),
+                padding: const EdgeInsets.all(1),
                 margin: EdgeInsets.only(left: 2 * vw, right: 1 * vw),
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                    foregroundColor: Color.fromARGB(112, 1, 110, 179),
-                    backgroundColor: Color(0xff23252B),
+                    foregroundColor: const Color.fromARGB(112, 1, 110, 179),
+                    backgroundColor: const Color(0xff23252B),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(
                           3 * vw), // Устанавливаем радиус круглых углов
@@ -1785,39 +1896,71 @@ class _ModalAddEqState extends State<ModalAddEq> {
 }
 
 class Page4 extends StatefulWidget {
-  Page4(
-      {super.key,
-      required this.vw,
-      required this.vh,
-      required this.setListEquipments,
-      required this.listEquipments});
+  Page4({
+    super.key,
+    required this.vw,
+    required this.vh,
+    required this.setListEquipments,
+    required this.listEquipments,
+    required this.nameRuController,
+    required this.nameEngController,
+    required this.linkController,
+  });
 
   final double vw;
   final double vh;
   final Function(String) setListEquipments;
   final List<String> listEquipments;
+  final TextEditingController nameRuController;
+  final TextEditingController nameEngController;
+  final TextEditingController linkController;
 
   @override
   State<Page4> createState() => _Page4State();
 }
 
 class _Page4State extends State<Page4> {
+  MyExercisesController myExercisesController = Get.put(MyExercisesController());
   String stage = 'Разминка';
   bool stageModalFlag = false;
-  // PlatformFile? file;
+  PlatformFile? file;
+    late List<Map<String, dynamic>> groupList;
+String localGroup = 'Мои группы';
+  @override
+  void initState() {
+    groupList = myExercisesController.groups;
+    super.initState();
+  }
+    void setLocalGroup(group) {
+    setState(() {
+      localGroup = group;
+    });
+  }
 
   void setStage(String newStage) {
+    myExercisesController.setCurrentStage(newStage);
     setState(() {
       stage = newStage;
     });
   }
 
-  Future selectFile() async {
-    // final fileUpload = await FilePicker.platform.pickFiles();
-    // if (fileUpload == null) return;
-    // setState(() {
-    //   file = fileUpload.files.first;
-    // });
+  void selectFile() async {
+    FilePickerResult? result = await FilePicker.platform.pickFiles();
+    if (result == null) return;
+    setState(() {
+      file = result.files.first;
+    });
+  }
+
+    void addGroup(newGroup) {
+    if (groupList.contains(newGroup)) {
+      Get.snackbar('Ошибка воода!', 'Такая группа уже существует!',
+          colorText: Colors.white);
+    } else {
+      setState(() {
+        groupList.add(newGroup);
+      });
+    }
   }
 
   @override
@@ -1845,6 +1988,7 @@ class _Page4State extends State<Page4> {
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 3 * vw),
             child: TextField(
+              controller: widget.nameRuController,
               cursorColor: Color.fromRGBO(112, 112, 112, 1),
               style: TextStyle(color: Colors.white, fontSize: 4 * vw),
               decoration: InputDecoration(
@@ -1887,6 +2031,7 @@ class _Page4State extends State<Page4> {
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 3 * vw),
             child: TextField(
+              controller: widget.nameEngController,
               cursorColor: Color.fromRGBO(112, 112, 112, 1),
               style: TextStyle(color: Colors.white, fontSize: 4 * vw),
               decoration: InputDecoration(
@@ -1985,31 +2130,31 @@ class _Page4State extends State<Page4> {
               ],
             ),
           ),
-          // file != null
-          //     ? GestureDetector(
-          //         onTap: selectFile,
-          //         child: Container(
-          //           margin: EdgeInsets.all(3 * vw),
-          //           width: double.infinity,
-          //           height: 25 * vh,
-          //           child: Image.file(
-          //             File(file!.path!),
-          //             fit: BoxFit.cover,
-          //           ),
-          //         ),
-          //       )
-          //     : GestureDetector(
-          //         onTap: selectFile,
-          //         child: Container(
-          //           margin: EdgeInsets.all(3 * vw),
-          //           width: double.infinity,
-          //           height: 25 * vh,
-          //           child: SvgPicture.asset(
-          //             'assets/img/upload_file.svg',
-          //             fit: BoxFit.cover,
-          //           ),
-          //         ),
-          //       ),
+          file != null
+              ? GestureDetector(
+                  onTap: selectFile,
+                  child: Container(
+                    margin: EdgeInsets.all(3 * vw),
+                    width: double.infinity,
+                    height: 25 * vh,
+                    child: Image.file(
+                      File(file!.path!),
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                )
+              : GestureDetector(
+                  onTap: selectFile,
+                  child: Container(
+                    margin: EdgeInsets.all(3 * vw),
+                    width: double.infinity,
+                    height: 25 * vh,
+                    child: SvgPicture.asset(
+                      'assets/img/upload_file.svg',
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                ),
           Padding(
             padding: EdgeInsets.fromLTRB(5 * vw, 0 * vw, 5 * vw, 3 * vw),
             child: Row(
@@ -2028,6 +2173,7 @@ class _Page4State extends State<Page4> {
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 3 * vw),
             child: TextField(
+              controller: widget.linkController,
               cursorColor: Color.fromRGBO(112, 112, 112, 1),
               style: TextStyle(color: Colors.white, fontSize: 4 * vw),
               decoration: InputDecoration(
@@ -2056,57 +2202,397 @@ class _Page4State extends State<Page4> {
           SizedBox(
             height: 3 * vh,
           ),
-          ElevatedButton(
-            child: Container(
-              width: 90 * vw,
-              alignment: Alignment.center,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10 * vw),
-                gradient: const RadialGradient(
-                  colors: [
-                    Color(0xff4D8AEE),
-                    Color(0xff2932FF),
-                  ],
-                  radius: 5, // Радиус градиента
-                ),
-              ),
-              padding: EdgeInsets.symmetric(vertical: 1 * vh),
-              child: Text(
-                'Добавить',
-                style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 4 * vw,
-                    fontWeight: FontWeight.w500,
-                    fontFamily: 'Manrope'),
-              ),
-            ),
-            style: ElevatedButton.styleFrom(
-              backgroundColor:
-                  Colors.transparent, // Чтобы сделать фон прозрачным
-              shadowColor: Colors.transparent, // Чтобы убрать тень
-            ).copyWith(
-              backgroundColor:
-                  MaterialStateProperty.all<Color>(Colors.transparent),
-              elevation: MaterialStateProperty.all<double>(0),
-              overlayColor:
-                  MaterialStateProperty.all<Color>(Colors.transparent),
-              // Радиальный градиент
-              shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10),
-                  side: BorderSide(color: Colors.transparent),
-                ),
-              ),
-            ),
+           Padding(
+          padding: const EdgeInsets.all(12),
+          child: ElevatedButton(
             onPressed: () {
-              // Вызываем функцию обратного вызова для установки группы мышц
+              showModalBottomSheet(
+                  context: context,
+                  builder: (_) => ModalGroup(
+                      localEdIzm: localGroup,
+                      serLocalEdIzm: setLocalGroup,
+                      groupList: myExercisesController.groups));
             },
+            style: ElevatedButton.styleFrom(
+              foregroundColor: const Color.fromARGB(112, 1, 110, 179),
+              backgroundColor: const Color(0xff23252B),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(
+                    3 * vw), // Устанавливаем радиус круглых углов
+              ),
+            ),
+            child: Container(
+              height: 50,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    localGroup,
+                    textAlign: TextAlign.start,
+                    style: TextStyle(
+                        color: const Color.fromARGB(115, 255, 255, 255),
+                        fontSize: 4 * vw,
+                        fontWeight: FontWeight.w400,
+                        fontFamily: 'Manrope'),
+                  ),
+                  const Icon(
+                    Icons.keyboard_arrow_down_rounded,
+                    color: Color.fromARGB(155, 255, 255, 255),
+                  )
+                ],
+              ),
+            ),
           ),
+        ),
+        GestureDetector(
+          onTap: () {
+            showModalBottomSheet(
+                context: context,
+                builder: (_) => ModalAddNewGroup(addGroup: addGroup));
+          },
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 15),
+            child: Row(
+              children: [
+                Text('Создать новую',
+                    textAlign: TextAlign.start,
+                    style: TextStyle(
+                        color: Color(0xff4D8AEE),
+                        fontSize: 3.3 * vw,
+                        fontWeight: FontWeight.w400,
+                        fontFamily: 'Manrope')),
+              ],
+            ),
+          ),
+        ),
         ],
       ),
     );
   }
 }
+
+class ModalGroup extends StatefulWidget {
+  ModalGroup(
+      {super.key,
+      required this.localEdIzm,
+      required this.serLocalEdIzm,
+      required this.groupList});
+  String localEdIzm;
+  Function serLocalEdIzm;
+  List<Map<String, dynamic>> groupList;
+  @override
+  State<ModalGroup> createState() => _ModalGroupState();
+}
+
+class _ModalGroupState extends State<ModalGroup> {
+  MyExercisesController myExercisesController = Get.put(MyExercisesController());
+  String widgetModalEdIzm = 'кг';
+  List<Map<String, dynamic>> typeList = [];
+
+  @override
+  void initState() {
+    setState(() {
+      widgetModalEdIzm = widget.localEdIzm;
+      typeList = widget.groupList;
+    });
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: 500,
+      width: double.infinity,
+      decoration: const BoxDecoration(
+          color: Color(0xff1B1C20),
+          borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(10), topRight: Radius.circular(10))),
+      child: Column(
+        children: [
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Expanded(
+                flex: 1,
+                child: GestureDetector(
+                  onTap: () {
+                    Navigator.pop(context);
+                  },
+                  child: Container(
+                    padding: EdgeInsets.only(top: 20),
+                    alignment: Alignment.center,
+                    child: const Text(
+                      'Закрыть',
+                      style: TextStyle(
+                        color: Color(0xff4D8AEE),
+                        fontSize: 16,
+                        fontWeight: FontWeight.w500,
+                        fontFamily: 'Manrope',
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+              Expanded(
+                  flex: 2,
+                  child: Container(
+                    child: const Column(
+                      children: [
+                        SizedBox(
+                          height: 20,
+                        ),
+                        Text(
+                          'Мои группы',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontFamily: 'Manrope',
+                            fontSize: 20,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        )
+                      ],
+                    ),
+                  )),
+              Expanded(
+                flex: 1,
+                child: GestureDetector(
+                  onTap: () {
+                    Navigator.pop(context);
+                  },
+                  child: Container(
+                    padding: EdgeInsets.only(top: 20),
+                    alignment: Alignment.center,
+                    child: const Text(
+                      'Сохранить',
+                      style: TextStyle(
+                        color: Color(0xff4D8AEE),
+                        fontSize: 15,
+                        fontWeight: FontWeight.w500,
+                        fontFamily: 'Manrope',
+                      ),
+                    ),
+                  ),
+                ),
+              )
+            ],
+          ),
+          const SizedBox(
+            height: 10,
+          ),
+          Container(
+            height: 300,
+            alignment: Alignment.center,
+            margin: const EdgeInsets.all(40),
+            padding: const EdgeInsets.all(10),
+            decoration: BoxDecoration(
+                color: Color(0xff23252B),
+                borderRadius: BorderRadius.circular(25)),
+            child: ListView(
+              shrinkWrap: true,
+              children: [
+                ...typeList.map(
+                  (e) => ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      shadowColor: Colors.transparent,
+                      surfaceTintColor: Colors.transparent,
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 20, horizontal: 20),
+                      foregroundColor: const Color.fromARGB(112, 1, 110, 179),
+                      backgroundColor: const Color(0xff23252B),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(
+                            7), // Устанавливаем радиус круглых углов
+                      ),
+                    ),
+                    onPressed: () {
+                      setState(() {
+                        widgetModalEdIzm = e['name'];
+                        myExercisesController.setCurrentGroup(e['id']);
+                      });
+                      widget.serLocalEdIzm(e['name']);
+                    },
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          e['name'],
+                          style: const TextStyle(
+                            color: Color.fromARGB(255, 255, 255, 255),
+                            fontSize: 16,
+                            fontWeight: FontWeight.w500,
+                            fontFamily: 'Manrope',
+                          ),
+                        ),
+                        widgetModalEdIzm == e['name']
+                            ? SvgPicture.asset(
+                                'assets/img/ok_white.svg',
+                                width: 15,
+                              )
+                            : SizedBox.shrink(),
+                      ],
+                    ),
+                  ),
+                )
+              ],
+            ),
+          )
+        ],
+      ),
+    );
+  }
+}
+
+
+class ModalAddNewGroup extends StatefulWidget {
+  ModalAddNewGroup({super.key, required this.addGroup});
+  Function addGroup;
+
+  @override
+  State<ModalAddNewGroup> createState() => _ModalAddNewGroupState();
+}
+
+class _ModalAddNewGroupState extends State<ModalAddNewGroup> {
+  final TextEditingController inputController = TextEditingController();
+  MyUserController myUserController = Get.put(MyUserController());
+  String inputText = '';
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: 400,
+      width: double.infinity,
+      decoration: const BoxDecoration(
+          color: Color(0xff1B1C20),
+          borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(20), topRight: Radius.circular(20))),
+      child: Column(
+        children: [
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Expanded(
+                flex: 1,
+                child: GestureDetector(
+                  onTap: () {
+                    Navigator.pop(context);
+                  },
+                  child: Container(
+                    padding: const EdgeInsets.only(top: 20),
+                    alignment: Alignment.center,
+                    child: const Text(
+                      'Закрыть',
+                      style: TextStyle(
+                        color: Color(0xff4D8AEE),
+                        fontSize: 16,
+                        fontWeight: FontWeight.w500,
+                        fontFamily: 'Manrope',
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+              Expanded(
+                  flex: 2,
+                  child: Container(
+                    child: const Column(
+                      children: [
+                        SizedBox(
+                          height: 20,
+                        ),
+                        Text(
+                          'Добавление группы',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontFamily: 'Manrope',
+                            fontSize: 17,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        )
+                      ],
+                    ),
+                  )),
+              Expanded(
+                flex: 1,
+                child: GestureDetector(
+                  onTap: () {
+                    if (inputController.text.length > 0) {
+                      AddExerciseGroup({
+                        "name":inputController.text
+                      });
+                      GetExerciseGroups();
+                      Navigator.pop(context);
+                    } else {
+                      Get.snackbar(
+                          'Ошибка ввода!', 'Поле ввода не может быть пустым...',
+                          colorText: Color.fromARGB(181, 255, 255, 255));
+                    }
+                  },
+                  child: Container(
+                    padding: const EdgeInsets.only(top: 20),
+                    alignment: Alignment.center,
+                    child: const Text(
+                      'Добавить',
+                      style: TextStyle(
+                        color: Color(0xff4D8AEE),
+                        fontSize: 15,
+                        fontWeight: FontWeight.w500,
+                        fontFamily: 'Manrope',
+                      ),
+                    ),
+                  ),
+                ),
+              )
+            ],
+          ),
+          const SizedBox(
+            height: 50,
+          ),
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 20),
+            child: TextField(
+              controller: inputController,
+              onChanged: (value) {
+                setState(() {
+                  inputText = value;
+                });
+              },
+              cursorColor: Color.fromRGBO(112, 112, 112, 1),
+              style: const TextStyle(color: Colors.white, fontSize: 16),
+              decoration: InputDecoration(
+                hintText: 'Название оборудования',
+                hintStyle: const TextStyle(
+                  color: Colors.grey, // Цвет текста плейсхолдера
+                  fontSize: 16, // Размер текста плейсхолдера
+                  fontWeight:
+                      FontWeight.normal, // Начертание текста плейсхолдера
+                ),
+                contentPadding:
+                    const EdgeInsets.symmetric(horizontal: 10, vertical: 1.5),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(4),
+                  borderSide: const BorderSide(
+                    color: Color.fromARGB(255, 112, 112, 112),
+                    width: 1.0,
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+    ;
+  }
+}
+
+
 
 class ModalStage extends StatefulWidget {
   ModalStage(

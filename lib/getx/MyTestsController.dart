@@ -3,28 +3,33 @@ import 'package:get/get.dart';
 // Контроллер для работы с пользователями
 
 class MyTestsController extends GetxController {
-  // Reactive list of exercises
+
+
+
   var _tests = <Map<String, dynamic>>[].obs;
-  
-  // Getter for exercises
   List<Map<String, dynamic>> get tests => _tests;
+  void setTests(List<Map<String, dynamic>> newTests) {_tests.assignAll(newTests);}
+
+
+
+  var _groups = <Map<String, dynamic>>[].obs;
+  List<Map<String, dynamic>> get groups => _groups;
+  void setGroups(List<Map<String, dynamic>> newGroups) {
+    _groups.assignAll(newGroups);
+  }
   
-  // Setter for exercises
-  void setTests(List<Map<String, dynamic>> newTests) {
-    _tests.assignAll(newTests);
+
+  // Выбранная группа при созджании теста
+  var currentGroup = 0.obs;
+  void setCurrentGroup(int newCG) {
+    currentGroup.value = newCG;
   }
 
 
-
-  // Reactive list of exercises
-  var _groups = <Map<String, dynamic>>[].obs;
-  
-  // Getter for exercises
-  List<Map<String, dynamic>> get groups => _groups;
-  
-  // Setter for exercises
-  void setGroups(List<Map<String, dynamic>> newGroups) {
-    _groups.assignAll(newGroups);
+  // Выбранная группа при созджании теста
+  var currentType = ''.obs;
+  void setCurrentType(String newCG) {
+    currentType.value = newCG;
   }
   
 
