@@ -2,33 +2,33 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:trener_app/mobx/mobx.dart';
-import 'package:trener_app/pages/TrainingDetailsTrener.dart';
-import 'package:trener_app/pages/TrainingFix.dart';
-import 'package:trener_app/pages/add_sportprogramm.dart';
+import 'package:trener_app/pages/trener/lournal/TrainingDetailsTrener.dart';
+import 'package:trener_app/pages/sportsman/planner/TrainingFix.dart';
+import 'package:trener_app/pages/trener/sevice/sportprogramm/add_sportprogramm.dart';
 import 'package:trener_app/pages/calendar.dart';
-import 'package:trener_app/pages/chats.dart';
-import 'package:trener_app/pages/faq.dart';
-import 'package:trener_app/pages/forgot.dart';
-import 'package:trener_app/pages/journal.dart';
-import 'package:trener_app/pages/loading.dart';
-import 'package:trener_app/pages/login.dart';
-import 'package:trener_app/pages/profile_one_user.dart';
-import 'package:trener_app/pages/progress.dart';
+import 'package:trener_app/pages/chat/chats.dart';
+import 'package:trener_app/pages/trener/sevice/faq/faq.dart';
+import 'package:trener_app/pages/login/forgot.dart';
+import 'package:trener_app/pages/trener/lournal/journal.dart';
+import 'package:trener_app/pages/login/loading.dart';
+import 'package:trener_app/pages/login/login.dart';
+import 'package:trener_app/pages/trener/sportsmans/profile_one_user.dart';
+import 'package:trener_app/pages/sportsman/progress.dart';
 import 'package:trener_app/pages/service.dart';
-import 'package:trener_app/pages/nutrition.dart';
-import 'package:trener_app/pages/planner.dart';
+import 'package:trener_app/pages/sportsman/planner/nutrition.dart';
+import 'package:trener_app/pages/sportsman/planner/planner.dart';
 import 'package:trener_app/pages/profile.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:provider/provider.dart';
-import 'package:trener_app/pages/sportsmans.dart';
-import 'package:trener_app/pages/trener_sportprogramm.dart';
-import 'package:trener_app/pages/trener_tests.dart';
-import 'package:trener_app/pages/trener_training_pattern.dart';
-import 'package:trener_app/pages/trener_trainings.dart';
-import 'package:trener_app/pages/trener_trainings_current_type.dart';
-import 'package:trener_app/pages/workout.dart';
-import 'package:trener_app/pages/workout_sheme.dart';
+import 'package:trener_app/pages/trener/sportsmans/sportsmans.dart';
+import 'package:trener_app/pages/trener/sevice/sportprogramm/trener_sportprogramm.dart';
+import 'package:trener_app/pages/trener/sevice/faq/tests/trener_tests.dart';
+import 'package:trener_app/pages/trener/sevice/faq/training/trener_training_pattern.dart';
+import 'package:trener_app/pages/trener/sevice/faq/training/trener_trainings.dart';
+import 'package:trener_app/pages/trener/sevice/faq/training/trener_trainings_current_type.dart';
+import 'package:trener_app/pages/sportsman/workout/workout.dart';
+import 'package:trener_app/pages/sportsman/workout/workout_sheme.dart';
 import 'dart:ui';
 import 'package:flutter/material.dart';
 
@@ -55,6 +55,10 @@ class MyApp extends StatelessWidget {
       // darkTheme: AppTheme.darkTheme,
       // themeMode: ThemeMode.system,
         theme: ThemeData(
+          appBarTheme: const AppBarTheme(
+            color: Color(0xff1B1C20),
+            centerTitle: false
+          ),
           scaffoldBackgroundColor: Color(0xff1B1C20),
           fontFamily: 'Manrope',
   

@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 import 'package:trener_app/getx/MyUserConroller.dart';
 import 'package:trener_app/http/chatUtills.dart';
 import 'package:trener_app/http/userUtills.dart';
-import 'package:trener_app/pages/oneChat.dart';
+import 'package:trener_app/pages/chat/oneChat.dart';
 
 class ChatUsers extends StatefulWidget {
   const ChatUsers({super.key});

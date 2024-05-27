@@ -8,7 +8,7 @@ import 'package:trener_app/getx/MyChatController.dart';
 import 'package:trener_app/getx/MyUserConroller.dart';
 import 'package:trener_app/http/chatUtills.dart';
 import 'package:trener_app/http/userUtills.dart';
-import 'package:trener_app/pages/oneChat.dart';
+import 'package:trener_app/pages/chat/oneChat.dart';
 import 'package:trener_app/widgets/chats/users.dart';
 import 'package:trener_app/widgets/service/navbar.dart';
 import 'package:trener_app/widgets/service/navbar_scroll.dart';

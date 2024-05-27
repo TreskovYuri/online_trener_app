@@ -5,12 +5,12 @@ import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 import 'package:trener_app/getx/MyUserConroller.dart';
 import 'package:trener_app/mobx/mobx.dart';
-import 'package:trener_app/pages/chats.dart';
-import 'package:trener_app/pages/journal.dart';
+import 'package:trener_app/pages/chat/chats.dart';
+import 'package:trener_app/pages/trener/lournal/journal.dart';
 import 'package:trener_app/pages/profile.dart';
-import 'package:trener_app/pages/progress.dart';
+import 'package:trener_app/pages/sportsman/progress.dart';
 import 'package:trener_app/pages/service.dart';
-import 'package:trener_app/pages/sportsmans.dart';
+import 'package:trener_app/pages/trener/sportsmans/sportsmans.dart';
 
 
 // Route _createRoute( Widget widget, ) {

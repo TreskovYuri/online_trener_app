@@ -3,6 +3,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:trener_app/getx/MyExercisesController.dart';
 import 'package:trener_app/http/exerciseUtills.dart';
+import 'package:trener_app/utills/sklonatel.dart';
 import 'package:trener_app/widgets/service/navbar.dart';
 import 'package:trener_app/widgets/service/navbar_scroll.dart';
 import 'package:trener_app/widgets/workout/modal_create_training.dart';
@@ -233,7 +234,7 @@ class GroupCard extends StatelessWidget {
         },
         style: ElevatedButton.styleFrom(
           shadowColor: Colors.transparent,
-          foregroundColor: Color.fromARGB(255, 8, 32, 42),
+          foregroundColor: const Color.fromARGB(255, 8, 32, 42),
           surfaceTintColor: Colors.transparent,
           padding: EdgeInsets.symmetric(vertical: 2 * vh, horizontal: 5 * vw),
           backgroundColor: const Color(0xff23252B),
@@ -283,7 +284,7 @@ class GroupCard extends StatelessWidget {
                     ),
                     borderRadius: BorderRadius.circular(100)),
                 child: Text(
-                  exerciseWord(count),
+                  Sklonatel(number: count, stage1: 'упражнение', stage2: 'упражнения', stage3: 'упражнений'),
                   style: TextStyle(
                       color: Colors.white,
                       fontFamily: 'Manrope',

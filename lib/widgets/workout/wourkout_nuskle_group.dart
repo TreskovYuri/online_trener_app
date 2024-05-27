@@ -1,7 +1,7 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:trener_app/pages/chats.dart';
+import 'package:trener_app/pages/chat/chats.dart';
 
 class WorkoutMuskleGroup extends StatelessWidget {
   const WorkoutMuskleGroup({super.key});

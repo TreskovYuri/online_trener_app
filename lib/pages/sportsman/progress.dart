@@ -8,7 +8,7 @@ import 'package:trener_app/getx/MyTestsController.dart';
 import 'package:trener_app/getx/MyUserConroller.dart';
 import 'package:trener_app/http/testUtills.dart';
 import 'package:trener_app/mobx/mobx.dart';
-import 'package:trener_app/pages/ResultFix.dart';
+import 'package:trener_app/pages/sportsman/planner/ResultFix.dart';
 import 'package:trener_app/widgets/service/navbar.dart';
 import 'package:trener_app/widgets/service/navbar_scroll.dart';
 

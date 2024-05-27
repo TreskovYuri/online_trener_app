@@ -1,14 +1,19 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:trener_app/getx/MySportProgrammController.dart';
-import 'package:trener_app/getx/MyUserConroller.dart';
 import 'package:trener_app/mobx/mobx.dart';
+import 'package:trener_app/pages/trener/sevice/sportprogramm/exercises_patterns.dart';
+import 'package:trener_app/pages/trener/sevice/sportprogramm/nutritions_patterns.dart';
+import 'package:trener_app/pages/trener/sevice/sportprogramm/tests_patterns.dart';
+import 'package:trener_app/pages/trener/sevice/sportprogramm/training_patterns.dart';
+import 'package:trener_app/widgets/text/title.dart';
 
 class AddSportProgrammPage extends StatefulWidget {
   const AddSportProgrammPage({super.key});
@@ -19,8 +24,8 @@ class AddSportProgrammPage extends StatefulWidget {
 
 class _AddSportProgrammPageState extends State<AddSportProgrammPage> {
   int page = 0;
-  final MySportProgrammController myGetx = Get.put(MySportProgrammController());
-
+  final MySportProgrammController mySportProgrammController =
+      Get.put(MySportProgrammController());
 
   void setPgae(newPage) {
     setState(() {
@@ -31,125 +36,142 @@ class _AddSportProgrammPageState extends State<AddSportProgrammPage> {
   @override
   Widget build(BuildContext context) {
     final vh = MediaQuery.of(context).size.height / 100;
-    final arguments =
-        ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>;
-    return SafeArea(
-      child: Scaffold(
-        appBar: AppBar(
-          toolbarHeight: 10*vh,
-          iconTheme: const IconThemeData(color: Colors.white),
-          leading: IconButton(
-            icon: const Icon(Icons
-                .arrow_back_ios_new_rounded), // Устанавливаем иконку "домой" вместо стрелки "назад"
-            onPressed: () {
-              switch (page) {
-                case 0:
-                  Navigator.pushReplacementNamed(context, '/service');
-                  break;
-                default:
+    return Scaffold(
+      appBar: AppBar(
+        toolbarHeight: 10 * vh,
+        iconTheme: const IconThemeData(color: Colors.white),
+        leading: IconButton(
+          icon: const Icon(Icons
+              .arrow_back_ios_new_rounded), // Устанавливаем иконку "домой" вместо стрелки "назад"
+          onPressed: () {
+            switch (page) {
+              case 0:
+                Navigator.pushReplacementNamed(
+                    context, '/trener_sportprogramm');
+                break;
+              case 1:
+                setState(() {
+                  page = 0;
+                });
+              default:
                 Navigator.pop(context);
                 setPgae(0);
-              }
-              
-            },
-          ),
-          title: Obx(()=>Text("${myGetx.nameRuAddSportProgramm.value}")),
-          titleTextStyle: const TextStyle(color: Colors.white, fontSize: 18),
-          backgroundColor: const Color(0xff1B1C20),
-          actions: [
-            page ==0 ?
-            Container(
-                padding: const EdgeInsets.only(right: 10),
-                alignment: Alignment.center,
-                child: IconButton(
-                  onPressed: () {
-                    setState(() {
-                      page = 0;
-                    });
-                    showCupertinoModalPopup(
-                        context: context,
-                        builder: (_) => ModalCurrentType(
-                              setPage: setPgae,
-                            ));
-                    // page++;
-                  },
-                  icon: SvgPicture.asset(
-                    'assets/img/blue_plus.svg',
-                  ),
-                )):SizedBox.shrink(),
-          ],
+            }
+          },
         ),
-        body: Stack(
-          children: [
-            Container(
-              height: 90 * vh,
-              width: double.infinity,
-              child: ListView(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.all(13),
-                    child: TextField(
-                      cursorColor: const Color.fromARGB(255, 112, 112, 112),
-                      style: const TextStyle(color: Colors.white, fontSize: 16),
-                      decoration: InputDecoration(
-                        hintText: 'Найти...',
-                        filled: true, // Set to true to fill the background
-                        fillColor: const Color(0xff23252B), // Set background color
-                        hintStyle: const TextStyle(
-                            color: Colors.grey), // Customize hint text color
-                        contentPadding:
-                            const EdgeInsets.symmetric(horizontal: 15, vertical: 1.5),
-                        border: OutlineInputBorder(
-                          borderSide: BorderSide.none, // Remove border
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderSide: BorderSide.none, // Remove border
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                      ),
+        title: Obx(
+            () => Text("${mySportProgrammController.nameRuAddSportProgramm}")),
+        titleTextStyle: const TextStyle(color: Colors.white, fontSize: 18),
+        backgroundColor: const Color(0xff1B1C20),
+        actions: [
+          page == 0
+              ? Container(
+                  padding: const EdgeInsets.only(right: 10),
+                  alignment: Alignment.center,
+                  child: IconButton(
+                    onPressed: () {
+                      setState(() {
+                        page = 0;
+                      });
+                      showCupertinoModalPopup(
+                          context: context,
+                          builder: (_) => ModalCurrentType(
+                                setPage: setPgae,
+                              ));
+                      // page++;
+                    },
+                    icon: SvgPicture.asset(
+                      'assets/img/blue_plus.svg',
                     ),
-                  ),
-                  page == 1 ? _Calendar() : SizedBox.shrink(),
-                  Container(
-                    alignment: Alignment.center,
-                    height: 70*vh,
-                    child: const Text(
-                      'Здесь пока ничего нет',
-                      style: TextStyle(color: Colors.white38),
-                    ),
-                  )
-                ],
-              ),
+                  ))
+              : const SizedBox.shrink(),
+        ],
+      ),
+      body: Stack(
+        fit: StackFit.expand,
+        children: [
+          Container(
+            height: 90 * vh,
+            child: ListView(
+              children: [
+                page == 0
+                    ? Padding(
+                        padding: const EdgeInsets.all(13),
+                        child: TextField(
+                          cursorColor: const Color.fromARGB(255, 112, 112, 112),
+                          style: const TextStyle(
+                              color: Colors.white, fontSize: 16),
+                          decoration: InputDecoration(
+                            hintText: 'Найти...',
+                            filled: true, // Set to true to fill the background
+                            fillColor:
+                                const Color(0xff23252B), // Set background color
+                            hintStyle: const TextStyle(
+                                color:
+                                    Colors.grey), // Customize hint text color
+                            contentPadding: const EdgeInsets.symmetric(
+                                horizontal: 15, vertical: 1.5),
+                            border: OutlineInputBorder(
+                              borderSide: BorderSide.none, // Remove border
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderSide: BorderSide.none, // Remove border
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                          ),
+                        ),
+                      )
+                    : const SizedBox.shrink(),
+                page == 1 ? const _Calendar() : const SizedBox.shrink(),
+                Obx(() {
+                  bool flag = mySportProgrammController.finalExercisesList.length == 0 &&mySportProgrammController.finalNTestsList.length ==0 &&mySportProgrammController.finalNutritionsList.length ==0;
+                  List<Map<String,dynamic>> list = [...mySportProgrammController.finalExercisesList ,...mySportProgrammController.finalNTestsList,...mySportProgrammController.finalNutritionsList];
+                  return flag ? Container(
+                          alignment: Alignment.center,
+                          height: 70 * vh,
+                          child: const Text(
+                            'Здесь пока ничего нет',
+                            style: TextStyle(color: Colors.white38),
+                          ),
+                        )
+                      : Column(
+                          children: [
+                            ...list.map((e) => MyTitleText(text: e['type']))
+                          ],
+                        );
+                })
+              ],
             ),
-            page ==0 ?
-            Positioned(
-                bottom: 20,
-                right: 15,
-                left: 15,
-                child: Container(
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(100),
-                      gradient: const RadialGradient(radius: 5, colors: [
-                        Color(0xFF4D8AEE),
-                        Color(0xFF2932FF),
-                      ])),
-                  child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                        padding: const EdgeInsets.symmetric(vertical: 13),
-                        backgroundColor: Colors.transparent),
-                    child: const Text(
-                      'Сохранить',
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 16,
-                          fontWeight: FontWeight.w400),
+          ),
+          page == 0
+              ? Positioned(
+                  bottom: 20,
+                  right: 15,
+                  left: 15,
+                  child: Container(
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(100),
+                        gradient: const RadialGradient(radius: 5, colors: [
+                          Color(0xFF4D8AEE),
+                          Color(0xFF2932FF),
+                        ])),
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                          padding: const EdgeInsets.symmetric(vertical: 13),
+                          backgroundColor: Colors.transparent),
+                      child: const Text(
+                        'Сохранить',
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 16,
+                            fontWeight: FontWeight.w400),
+                      ),
+                      onPressed: () {},
                     ),
-                    onPressed: () {},
-                  ),
-                )):SizedBox.shrink(),
-          ],
-        ),
+                  ))
+              : const SizedBox.shrink(),
+        ],
       ),
     );
   }
@@ -164,11 +186,14 @@ class _Calendar extends StatefulWidget {
 
 class __CalendarState extends State<_Calendar> {
   String currentDy = '';
-  MySportProgrammController mySportProgrammController = MySportProgrammController();
+  MySportProgrammController mySportProgrammController =
+      Get.put(MySportProgrammController());
   @override
   void initState() {
+    final date = DateFormat('dd.MM.yyyy').format(DateTime.now());
+    mySportProgrammController.setCurrentDate(date);
     setState(() {
-      currentDy = DateFormat('dd.MM.yyyy').format(DateTime.now());
+      currentDy = date;
     });
     super.initState();
   }
@@ -237,9 +262,9 @@ class __CalendarState extends State<_Calendar> {
     );
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 5 * vw, vertical: 0 * vh),
-      width: 100 * vw,
-      height: 77 * vh,
-      color: Color(0xff1B1C20),
+      width: double.infinity,
+      height: 84 * vh,
+      color: const Color(0xff1B1C20),
       child: Stack(
         children: [
           ListView(
@@ -270,7 +295,8 @@ class __CalendarState extends State<_Calendar> {
                                     MonthToRus(
                                         allDaysOfNextThreeMonths[i][7].month),
                                     style: TextStyle(
-                                      color: Color.fromARGB(235, 255, 255, 255),
+                                      color: const Color.fromARGB(
+                                          235, 255, 255, 255),
                                       fontFamily: 'Manrope',
                                       fontWeight: FontWeight.w600,
                                       decoration: TextDecoration.none,
@@ -280,7 +306,8 @@ class __CalendarState extends State<_Calendar> {
                                   Text(
                                     '${allDaysOfNextThreeMonths[i][7].year}',
                                     style: TextStyle(
-                                      color: Color.fromARGB(235, 255, 255, 255),
+                                      color: const Color.fromARGB(
+                                          235, 255, 255, 255),
                                       fontFamily: 'Manrope',
                                       fontWeight: FontWeight.w600,
                                       decoration: TextDecoration.none,
@@ -297,7 +324,7 @@ class __CalendarState extends State<_Calendar> {
                             alignment: WrapAlignment.start,
                             children: allDaysOfNextThreeMonths[i].map((date) {
                               return Container(
-                                margin: EdgeInsets.all(0),
+                                margin: const EdgeInsets.all(0),
                                 width: 12 * vw,
                                 height: 12 * vw,
                                 alignment: Alignment.center,
@@ -311,14 +338,17 @@ class __CalendarState extends State<_Calendar> {
                                                 // ignore: unrelated_type_equality_checks
                                                 child: InkWell(
                                                 onTap: () {
+                                                  final cDate =
+                                                      DateFormat('dd.MM.yyyy')
+                                                          .format(date);
+                                                  mySportProgrammController
+                                                      .setCurrentDate(cDate);
                                                   setState(() {
-                                                    currentDy =
-                                                        DateFormat('dd.MM.yyyy')
-                                                            .format(date);
+                                                    currentDy = cDate;
                                                   });
                                                 },
                                                 child: AnimatedContainer(
-                                                  duration: Duration(
+                                                  duration: const Duration(
                                                       milliseconds: 250),
                                                   decoration: BoxDecoration(
                                                     borderRadius:
@@ -409,7 +439,7 @@ class __CalendarState extends State<_Calendar> {
             ],
           ),
           Positioned(
-              bottom: 0,
+              bottom: 20,
               right: 0,
               left: 0,
               child: Container(
@@ -430,7 +460,24 @@ class __CalendarState extends State<_Calendar> {
                         fontSize: 15,
                         fontWeight: FontWeight.w400),
                   ),
-                  onPressed: () {mySportProgrammController.setCurrentDate(currentDy);},
+                  onPressed: () {
+                    switch (mySportProgrammController.currentType) {
+                      case 'Питание':
+                        Get.to(SportprogrammNutritionsPatterns());
+                        break;
+                      case 'Тренировки':
+                        Get.to(SportprogrammTrainingPatterns());
+                        break;
+                      case 'Тесты':
+                        Get.to(SportprogrammTestsPatterns());
+                        break;
+                      case 'Упражнения':
+                        Get.to(SportprogrammExercisesPatterns());
+                        break;
+                      default:
+                        break;
+                    }
+                  },
                 ),
               ))
         ],
@@ -619,13 +666,14 @@ class _WeelDaysState extends State<WeelDays> {
 class ModalCurrentType extends StatefulWidget {
   ModalCurrentType({super.key, required this.setPage});
   Function setPage;
-  MySportProgrammController mySportProgrammController = MySportProgrammController();
 
   @override
   State<ModalCurrentType> createState() => _ModalCurrentTypeState();
 }
 
 class _ModalCurrentTypeState extends State<ModalCurrentType> {
+  MySportProgrammController mySportProgrammController =
+      Get.put(MySportProgrammController());
   List<String> categoryList = [
     'Питание',
     "Тренировки",
@@ -640,27 +688,28 @@ class _ModalCurrentTypeState extends State<ModalCurrentType> {
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
           Container(
-            margin: EdgeInsets.all(13),
+            margin: const EdgeInsets.all(13),
             width: double.infinity,
             decoration: BoxDecoration(
-                color: Color(0xff24252B),
+                color: const Color(0xff24252B),
                 borderRadius: BorderRadius.circular(20)),
             child: Column(
               children: [
-                ...categoryList.map((e) => ElevatedButton(
+                ...categoryList.map(
+                  (e) => ElevatedButton(
                     style: ElevatedButton.styleFrom(
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(
                               20), // Устанавливаем радиус круглых углов
                         ),
                         backgroundColor: Colors.transparent,
-                        foregroundColor: Color.fromARGB(0, 0, 41, 74),
+                        foregroundColor: const Color.fromARGB(0, 0, 41, 74),
                         shadowColor: Colors.transparent,
                         surfaceTintColor: Colors.transparent,
-                        padding: EdgeInsets.symmetric(vertical: 20)),
+                        padding: const EdgeInsets.symmetric(vertical: 20)),
                     onPressed: () {
                       widget.setPage(1);
-                      widget.mySportProgrammController.setCurrentType(e);
+                      mySportProgrammController.setCurrentType(e);
                       Navigator.pop(context);
                     },
                     child: Container(
@@ -676,7 +725,9 @@ class _ModalCurrentTypeState extends State<ModalCurrentType> {
                           ),
                         ],
                       ),
-                    )))
+                    ),
+                  ),
+                )
               ],
             ),
           ),
@@ -689,8 +740,8 @@ class _ModalCurrentTypeState extends State<ModalCurrentType> {
                         10), // Устанавливаем радиус круглых углов
                   ),
                   padding: const EdgeInsets.symmetric(vertical: 17),
-                  backgroundColor: Color(0xff24252B),
-                  foregroundColor: Color.fromARGB(0, 0, 41, 74),
+                  backgroundColor: const Color(0xff24252B),
+                  foregroundColor: const Color.fromARGB(0, 0, 41, 74),
                   shadowColor: Colors.transparent,
                   surfaceTintColor: Colors.transparent,
                 ),

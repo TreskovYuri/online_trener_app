@@ -4,7 +4,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:trener_app/widgets/service/navbar.dart';
 import 'package:trener_app/widgets/service/navbar_scroll.dart';
-import 'package:trener_app/widgets/workout/add_sportprogramm.dart';
+import 'package:trener_app/widgets/sprortprogramm/add_sportprogramm.dart';
 import 'package:trener_app/widgets/workout/add_training_pattern.dart';
 
 class TrenerSportProgramm extends StatefulWidget {

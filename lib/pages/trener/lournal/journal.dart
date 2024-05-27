@@ -10,7 +10,7 @@ import 'package:trener_app/http/nutritionUtills.dart';
 import 'package:trener_app/http/sportpogrammUtills.dart';
 import 'package:trener_app/http/testUtills.dart';
 import 'package:trener_app/mobx/mobx.dart';
-import 'package:trener_app/pages/nutrition.dart';
+import 'package:trener_app/pages/sportsman/planner/nutrition.dart';
 import 'package:trener_app/widgets/service/navbar.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
