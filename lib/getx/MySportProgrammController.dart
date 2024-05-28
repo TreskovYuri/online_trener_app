@@ -6,6 +6,28 @@ import 'package:get/get.dart';
 // Контроллер для работы с пользователями
 
 class MySportProgrammController extends GetxController{
+    // Список спортивныйх программ
+  var _sportprogramms = <Map<String, dynamic>>[].obs;
+  List<Map<String, dynamic>> get sportprogramms => _sportprogramms;
+  void setSportProgrammList(List<Map<String, dynamic>> newSportProgrammList) { _sportprogramms.assignAll(newSportProgrammList);}
+
+
+    // Список связей упражнения со спортивной программой
+  var _sportprogrammsBelongExercise = <Map<String, dynamic>>[].obs;
+  List<Map<String, dynamic>> get sportprogrammsBelongExercise => _sportprogrammsBelongExercise;
+  void setSportProgrammBelongExerciseList(List<Map<String, dynamic>> newSportProgrammBelongExerciseList) { _sportprogrammsBelongExercise.assignAll(newSportProgrammBelongExerciseList);}
+
+    // Список связей питания со спортивной программой
+  var _sportprogrammsBelongNutrition = <Map<String, dynamic>>[].obs;
+  List<Map<String, dynamic>> get sportprogrammsBelongNutrition => _sportprogrammsBelongNutrition;
+  void setSportProgrammBelongNutritionList(List<Map<String, dynamic>> newSportProgrammBelongNutritionList) { _sportprogrammsBelongNutrition.assignAll(newSportProgrammBelongNutritionList);}
+
+    // Список связей питания со спортивной программой
+  var _sportprogrammsBelongTest = <Map<String, dynamic>>[].obs;
+  List<Map<String, dynamic>> get sportprogrammsBelongTest => _sportprogrammsBelongTest;
+  void setSportProgrammBelongTestList(List<Map<String, dynamic>> newSportProgrammBelongTestList) { _sportprogrammsBelongTest.assignAll(newSportProgrammBelongTestList);}
+
+
   // Выбранная дата
   final _currentDate = ''.obs;
   String get  currentDate => _currentDate.value;
@@ -42,7 +64,7 @@ class MySportProgrammController extends GetxController{
   // Финальный список упражнений
   var _finalExercisesList = <Map<String, dynamic>>[].obs;
   List<Map<String, dynamic>> get finalExercisesList => _finalExercisesList;
-  void setExercisesList(List<Map<String, dynamic>> newExercisesList) { _finalExercisesList.assignAll(newExercisesList);}
+  void setExercisesList(Map<String, dynamic> newExercisesList) { _finalExercisesList.add(newExercisesList);}
 
   // Финальный список шаблонов питания
   var _finalNutritionsList = <Map<String, dynamic>>[].obs;

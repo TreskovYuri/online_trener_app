@@ -39,7 +39,7 @@ class _SportprogrammExercisesPatternsState
     return SafeArea(
       child: Scaffold(
         appBar: AppBarTitleOneAction(
-          title: 'Выберите тест',
+          title: 'Выберите упражнение',
           callback: () {
             if (currentPattern != 0) {
               mySportProgrammController.setTestsList({

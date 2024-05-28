@@ -12,7 +12,9 @@ import 'package:trener_app/pages/trener/sevice/sportprogramm/exercises_patterns.
 import 'package:trener_app/pages/trener/sevice/sportprogramm/nutritions_patterns.dart';
 import 'package:trener_app/pages/trener/sevice/sportprogramm/tests_patterns.dart';
 import 'package:trener_app/pages/trener/sevice/sportprogramm/training_patterns.dart';
+import 'package:trener_app/widgets/buttons/gradient_button.dart';
 import 'package:trener_app/widgets/sprortprogramm/day_object_card.dart';
+import 'package:trener_app/widgets/sprortprogramm/modal_sportsmans.dart';
 
 class AddSportProgrammPage extends StatefulWidget {
   const AddSportProgrammPage({super.key});
@@ -124,7 +126,8 @@ class _AddSportProgrammPageState extends State<AddSportProgrammPage> {
                       )
                     : const SizedBox.shrink(),
                 page == 1 ? const _Calendar() : const SizedBox.shrink(),
-                Obx(() {
+
+                if(page == 0)Obx(() {
                   bool flag = mySportProgrammController
                               .finalExercisesList.length ==
                           0 &&
@@ -182,27 +185,9 @@ class _AddSportProgrammPageState extends State<AddSportProgrammPage> {
                   bottom: 20,
                   right: 15,
                   left: 15,
-                  child: Container(
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(100),
-                        gradient: const RadialGradient(radius: 5, colors: [
-                          Color(0xFF4D8AEE),
-                          Color(0xFF2932FF),
-                        ])),
-                    child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                          padding: const EdgeInsets.symmetric(vertical: 13),
-                          backgroundColor: Colors.transparent),
-                      child: const Text(
-                        'Сохранить',
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 16,
-                            fontWeight: FontWeight.w400),
-                      ),
-                      onPressed: () {},
-                    ),
-                  ))
+                  child: MyGradientButton(callback: (){
+                    showModalBottomSheet( isScrollControlled: true,context: context, builder: (_)=>SprotProgrammModalSportsmans());
+                  }, text: 'Назначить'))
               : const SizedBox.shrink(),
         ],
       ),

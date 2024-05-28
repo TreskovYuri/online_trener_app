@@ -57,10 +57,10 @@ class MyApp extends StatelessWidget {
       // themeMode: ThemeMode.system,
         theme: ThemeData(
           appBarTheme: const AppBarTheme(
-            color: AppColors.blackBacground,
+            color: AppColors.blackThemeBacground,
             centerTitle: false
           ),
-          scaffoldBackgroundColor: AppColors.blackBacground,
+          scaffoldBackgroundColor: AppColors.blackThemeBacground,
           fontFamily: 'Manrope',
   
 
