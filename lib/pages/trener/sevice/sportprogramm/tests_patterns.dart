@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:trener_app/getx/MySportProgrammController.dart';
 import 'package:trener_app/getx/MyTestsController.dart';
 import 'package:trener_app/http/testUtills.dart';
+import 'package:trener_app/pages/trener/sevice/sportprogramm/add_sportprogramm.dart';
 import 'package:trener_app/widgets/app_bar/app_bar_titile_one_action.dart';
 import 'package:trener_app/widgets/buttons/my_card_button.dart';
-import 'package:trener_app/widgets/text/counter.dart';
+import 'package:trener_app/widgets/shanckbar.dart';
 import 'package:trener_app/widgets/text/title.dart';
 
 class SportprogrammTestsPatterns extends StatefulWidget {
@@ -20,8 +21,9 @@ class SportprogrammTestsPatterns extends StatefulWidget {
 class _SportprogrammTestsPatternsState
     extends State<SportprogrammTestsPatterns> {
   int currentPattern = 0;
-  final MyTestsController myTestsController =
-      Get.put(MyTestsController());
+  final MyTestsController myTestsController = Get.put(MyTestsController());
+  final MySportProgrammController mySportProgrammController =
+      Get.put(MySportProgrammController());
 
   @override
   void initState() {
@@ -38,7 +40,17 @@ class _SportprogrammTestsPatternsState
         appBar: AppBarTitleOneAction(
           title: 'Выберите тест',
           callback: () {
-            Get.back();
+            if (currentPattern != 0) {
+              mySportProgrammController.setTestsList({
+                ...myTestsController.tests
+                    .firstWhere((element) => element['id'] == currentPattern),
+                'date': mySportProgrammController.currentDate,
+                'type': 'тест'
+              });
+              Get.to(const AddSportProgrammPage());
+            } else {
+              GetMySnackBar(description: 'Необходимо выбрать шаблон!');
+            }
           },
           height: 13 * vh,
         ),
@@ -77,9 +89,11 @@ class _Card extends StatelessWidget {
   Widget build(BuildContext context) {
     final vw = MediaQuery.of(context).size.width / 100;
 
-    return MyCardButton(callback: callback, widget: Container(
-      margin: const EdgeInsets.all(10),
-      child: Row(
+    return MyCardButton(
+        callback: callback,
+        widget: Container(
+          margin: const EdgeInsets.all(10),
+          child: Row(
             children: [
               Expanded(
                 flex: 7,
@@ -87,7 +101,6 @@ class _Card extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     MyTitleText(text: map['name'], size: 17),
-                   
                   ],
                 ),
               ),
@@ -101,6 +114,6 @@ class _Card extends StatelessWidget {
               )
             ],
           ),
-    ));
+        ));
   }
 }

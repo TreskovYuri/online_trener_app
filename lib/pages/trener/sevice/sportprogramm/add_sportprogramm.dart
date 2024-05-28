@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
@@ -13,7 +12,7 @@ import 'package:trener_app/pages/trener/sevice/sportprogramm/exercises_patterns.
 import 'package:trener_app/pages/trener/sevice/sportprogramm/nutritions_patterns.dart';
 import 'package:trener_app/pages/trener/sevice/sportprogramm/tests_patterns.dart';
 import 'package:trener_app/pages/trener/sevice/sportprogramm/training_patterns.dart';
-import 'package:trener_app/widgets/text/title.dart';
+import 'package:trener_app/widgets/sprortprogramm/day_object_card.dart';
 
 class AddSportProgrammPage extends StatefulWidget {
   const AddSportProgrammPage({super.key});
@@ -38,6 +37,7 @@ class _AddSportProgrammPageState extends State<AddSportProgrammPage> {
     final vh = MediaQuery.of(context).size.height / 100;
     return Scaffold(
       appBar: AppBar(
+        surfaceTintColor: Colors.transparent,
         toolbarHeight: 10 * vh,
         iconTheme: const IconThemeData(color: Colors.white),
         leading: IconButton(
@@ -125,9 +125,39 @@ class _AddSportProgrammPageState extends State<AddSportProgrammPage> {
                     : const SizedBox.shrink(),
                 page == 1 ? const _Calendar() : const SizedBox.shrink(),
                 Obx(() {
-                  bool flag = mySportProgrammController.finalExercisesList.length == 0 &&mySportProgrammController.finalNTestsList.length ==0 &&mySportProgrammController.finalNutritionsList.length ==0;
-                  List<Map<String,dynamic>> list = [...mySportProgrammController.finalExercisesList ,...mySportProgrammController.finalNTestsList,...mySportProgrammController.finalNutritionsList];
-                  return flag ? Container(
+                  bool flag = mySportProgrammController
+                              .finalExercisesList.length ==
+                          0 &&
+                      mySportProgrammController.finalNTestsList.length == 0 &&
+                      mySportProgrammController.finalNutritionsList.length == 0;
+                  List<Map<String, dynamic>> list = [
+                    ...mySportProgrammController.finalExercisesList,
+                    ...mySportProgrammController.finalNTestsList,
+                    ...mySportProgrammController.finalNutritionsList
+                  ];
+                  // Сортировка списка
+                  list.sort((a, b) {
+                    DateTime dateA =
+                        DateTime.parse(a['date'].split('.').reversed.join('-'));
+                    DateTime dateB =
+                        DateTime.parse(b['date'].split('.').reversed.join('-'));
+                    return dateA.compareTo(dateB);
+                  });
+                  final List<Map<String, dynamic>> finalList = [];
+                  for (var i = 0; i < list.length; i++) {
+                    if (finalList.length==0 || !finalList.any((e) => e['date'] == list[i]['date'])) {
+                      finalList.add({
+                        'date': list[i]['date'],
+                        'objects': [list[i]]
+                      });
+                    }else{
+                        var objects =  finalList.firstWhere((el) => el['date'] == list[i]['date'])['objects'];
+                        objects.add(list[i]);
+                    }
+                  }
+                  ;
+                  return flag
+                      ? Container(
                           alignment: Alignment.center,
                           height: 70 * vh,
                           child: const Text(
@@ -137,7 +167,10 @@ class _AddSportProgrammPageState extends State<AddSportProgrammPage> {
                         )
                       : Column(
                           children: [
-                            ...list.map((e) => MyTitleText(text: e['type']))
+                            ...finalList.map((e) => DayObjectCard(card: e)),
+                            const SizedBox(
+                              height: 100,
+                            )
                           ],
                         );
                 })

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:trener_app/mobx/mobx.dart';
+import 'package:trener_app/models/constants/colors.dart';
 import 'package:trener_app/pages/trener/lournal/TrainingDetailsTrener.dart';
 import 'package:trener_app/pages/sportsman/planner/TrainingFix.dart';
 import 'package:trener_app/pages/trener/sevice/sportprogramm/add_sportprogramm.dart';
@@ -56,10 +57,10 @@ class MyApp extends StatelessWidget {
       // themeMode: ThemeMode.system,
         theme: ThemeData(
           appBarTheme: const AppBarTheme(
-            color: Color(0xff1B1C20),
+            color: AppColors.blackBacground,
             centerTitle: false
           ),
-          scaffoldBackgroundColor: Color(0xff1B1C20),
+          scaffoldBackgroundColor: AppColors.blackBacground,
           fontFamily: 'Manrope',
   
 

@@ -6,7 +6,7 @@ import 'package:get/get.dart';
 import 'package:trener_app/getx/MyExercisesController.dart';
 import 'package:trener_app/getx/MyUserConroller.dart';
 import 'package:trener_app/http/exerciseUtills.dart';
-import 'package:file_picker/file_picker.dart';
+// import 'package:file_picker/file_picker.dart';
 import 'dart:convert';
 // import 'package:file_picker/file_picker.dart';
 
@@ -1923,7 +1923,7 @@ class _Page4State extends State<Page4> {
   MyExercisesController myExercisesController = Get.put(MyExercisesController());
   String stage = 'Разминка';
   bool stageModalFlag = false;
-  PlatformFile? file;
+  // PlatformFile? file;
     late List<Map<String, dynamic>> groupList;
 String localGroup = 'Мои группы';
   @override
@@ -1944,13 +1944,13 @@ String localGroup = 'Мои группы';
     });
   }
 
-  void selectFile() async {
-    FilePickerResult? result = await FilePicker.platform.pickFiles();
-    if (result == null) return;
-    setState(() {
-      file = result.files.first;
-    });
-  }
+  // void selectFile() async {
+  //   FilePickerResult? result = await FilePicker.platform.pickFiles();
+  //   if (result == null) return;
+  //   setState(() {
+  //     file = result.files.first;
+  //   });
+  // }
 
     void addGroup(newGroup) {
     if (groupList.contains(newGroup)) {
@@ -2130,31 +2130,31 @@ String localGroup = 'Мои группы';
               ],
             ),
           ),
-          file != null
-              ? GestureDetector(
-                  onTap: selectFile,
-                  child: Container(
-                    margin: EdgeInsets.all(3 * vw),
-                    width: double.infinity,
-                    height: 25 * vh,
-                    child: Image.file(
-                      File(file!.path!),
-                      fit: BoxFit.cover,
-                    ),
-                  ),
-                )
-              : GestureDetector(
-                  onTap: selectFile,
-                  child: Container(
-                    margin: EdgeInsets.all(3 * vw),
-                    width: double.infinity,
-                    height: 25 * vh,
-                    child: SvgPicture.asset(
-                      'assets/img/upload_file.svg',
-                      fit: BoxFit.cover,
-                    ),
-                  ),
-                ),
+          // file != null
+          //     ? GestureDetector(
+          //         onTap: selectFile,
+          //         child: Container(
+          //           margin: EdgeInsets.all(3 * vw),
+          //           width: double.infinity,
+          //           height: 25 * vh,
+          //           child: Image.file(
+          //             File(file!.path!),
+          //             fit: BoxFit.cover,
+          //           ),
+          //         ),
+          //       )
+          //     : GestureDetector(
+          //         onTap: selectFile,
+          //         child: Container(
+          //           margin: EdgeInsets.all(3 * vw),
+          //           width: double.infinity,
+          //           height: 25 * vh,
+          //           child: SvgPicture.asset(
+          //             'assets/img/upload_file.svg',
+          //             fit: BoxFit.cover,
+          //           ),
+          //         ),
+          //       ),
           Padding(
             padding: EdgeInsets.fromLTRB(5 * vw, 0 * vw, 5 * vw, 3 * vw),
             child: Row(
@@ -2174,7 +2174,7 @@ String localGroup = 'Мои группы';
             padding: EdgeInsets.symmetric(horizontal: 3 * vw),
             child: TextField(
               controller: widget.linkController,
-              cursorColor: Color.fromRGBO(112, 112, 112, 1),
+              cursorColor: const Color.fromRGBO(112, 112, 112, 1),
               style: TextStyle(color: Colors.white, fontSize: 4 * vw),
               decoration: InputDecoration(
                 hintText: 'Добавьте ссылку YouTube',

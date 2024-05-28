@@ -5,6 +5,7 @@ import 'package:trener_app/getx/MyPatternsController.dart';
 import 'package:trener_app/http/patternsUtills.dart';
 import 'package:trener_app/widgets/app_bar/app_bar_titile_one_action.dart';
 import 'package:trener_app/widgets/buttons/my_card_button.dart';
+import 'package:trener_app/widgets/sprortprogramm/modal_exercise.dart';
 import 'package:trener_app/widgets/text/counter.dart';
 import 'package:trener_app/widgets/text/title.dart';
 
@@ -37,7 +38,7 @@ class _SportprogrammTrainingPatternsState
         appBar: AppBarTitleOneAction(
           title: 'Выберите шаблон',
           callback: () {
-            Get.back();
+            showModalBottomSheet(isScrollControlled: true,context: context, builder: (_)=>AddSportprogrammModalExercise(patternId: currentPattern,));
           },
           height: 13 * vh,
         ),

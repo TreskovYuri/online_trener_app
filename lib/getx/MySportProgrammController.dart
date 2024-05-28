@@ -52,7 +52,7 @@ class MySportProgrammController extends GetxController{
   // Финальный список тестов
   var _finalTestsList = <Map<String, dynamic>>[].obs;
   List<Map<String, dynamic>> get finalNTestsList => _finalTestsList;
-  void setTestsList(List<Map<String, dynamic>> newTestsList) { _finalTestsList.assignAll(newTestsList);}
+  void setTestsList(Map<String, dynamic> newTestsList) { _finalTestsList.add(newTestsList);}
 
 
 }

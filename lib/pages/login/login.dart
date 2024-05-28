@@ -230,6 +230,7 @@ void loadData() async {
                             email = value;
                           });
                         },
+                        keyboardType: TextInputType.emailAddress,
                         cursorColor: Color.fromARGB(255, 112, 112, 112),
                         style: TextStyle(color: Colors.white, fontSize: 4 * vw),
                         decoration: InputDecoration(
@@ -275,6 +276,9 @@ void loadData() async {
                         height: 1 * vw,
                       ),
                       TextField(
+                        obscureText: true,
+                        autocorrect: false,
+                        
                         controller: passwordController,
                         onChanged: (value) {
                           setState(() {
