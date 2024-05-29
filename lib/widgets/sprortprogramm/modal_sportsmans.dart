@@ -2,9 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:trener_app/getx/MySportProgrammController.dart';
 import 'package:trener_app/getx/MyUserConroller.dart';
+import 'package:trener_app/http/sportpogrammUtills.dart';
 import 'package:trener_app/http/userUtills.dart';
+import 'package:trener_app/pages/trener/sevice/sportprogramm/trener_sportprogramm.dart';
 import 'package:trener_app/widgets/cards/sportsman_card.dart';
 import 'package:trener_app/widgets/modal_wind.dart';
+import 'dart:convert';
+
 
 class SprotProgrammModalSportsmans extends StatefulWidget {
   const SprotProgrammModalSportsmans({super.key});
@@ -38,6 +42,21 @@ class _SprotProgrammModalSportsmansState
     }
   }
 
+  void saveProgramm () {
+
+    final Map<String,dynamic> map = {
+      "name":mySportProgrammController.nameRuAddSportProgramm,
+      "description":mySportProgrammController.descriptionRuAddSportProgramm,
+      "nutritions": jsonEncode(mySportProgrammController.finalNutritionsList),
+      "tests": jsonEncode(mySportProgrammController.finalNTestsList),
+      "users": jsonEncode(finalUsers),
+      "exersices":jsonEncode(mySportProgrammController.finalExercisesList),
+    };
+    SetSportProgramm(map);
+    mySportProgrammController.clear();
+    Get.to(const TrenerSportProgramm());
+  }
+
   @override
   Widget build(BuildContext context) {
     return MyModalWind(
@@ -49,6 +68,7 @@ class _SprotProgrammModalSportsmansState
       ),
       title: 'Спортсмены',
       button: true,
+      ButtonCallback: saveProgramm,
       buttonText: 'Назначить',
     );
   }

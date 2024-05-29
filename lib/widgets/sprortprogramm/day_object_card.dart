@@ -38,7 +38,7 @@ class _Card extends StatelessWidget {
           ),
         ),
       ),
-      child: Row(children: [Expanded(child: MyDescriptionText(text: card['name']??card['nameRu'], weigth: FontWeight.w600,size: 15))],),
+      child: Row(children: [Expanded(child: MyDescriptionText(text: card['name'], weigth: FontWeight.w600,size: 15))],),
     );
   }
 }

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:trener_app/getx/MyExercisesController.dart';
 import 'package:trener_app/getx/MySportProgrammController.dart';
+import 'package:trener_app/getx/getx_controller.dart';
 import 'package:trener_app/http/exerciseUtills.dart';
 import 'package:trener_app/models/constants/colors.dart';
 import 'package:trener_app/pages/trener/sevice/sportprogramm/add_sportprogramm.dart';
@@ -42,10 +43,12 @@ class _AddSportprogrammModalExerciseState
               .where((element) => element['programmId'] == widget.patternId)
               .forEach((e) {
             mySportProgrammController.setExercisesList({
-              ...myExercisesController.exercises
-                  .firstWhere((element) => element['id'] == e['exerciseId']),
+              'exerciseId':e['exerciseId'],
+              'sets':e['sets'],
+              'time':e['time'],
               'date': mySportProgrammController.currentDate,
-              'type': 'упражнение'
+              'type': 'упражнение',
+              'name':myExercisesController.exercises.firstWhere((element) => element['id'] == e['exerciseId'])['nameRu']??"Без названия"
             });
           });
           Get.to(const AddSportProgrammPage());

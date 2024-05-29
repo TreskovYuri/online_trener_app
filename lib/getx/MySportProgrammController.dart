@@ -81,5 +81,18 @@ class MySportProgrammController extends GetxController{
   List<Map<String, dynamic>> get finallUsersList => _finalUsersList;
   void selUsersList(Map<String, dynamic> newTestsList) { _finalUsersList.add(newTestsList);}
 
+  void clear (){
+    _currentDate.value ='';
+    _currentType.value = '';
+    _nameRuAddSportProgramm.value = '';
+    _descriptionRuAddSportProgramm.value = '';
+    _nameEngAddSportProgramm.value = '';
+    _descriptionEngAddSportProgramm.value = '';
+     _finalExercisesList.clear();
+     _finalNutritionsList.clear();
+     _finalTestsList.clear();
+     _finalUsersList.clear();
+  }
+
 
 }

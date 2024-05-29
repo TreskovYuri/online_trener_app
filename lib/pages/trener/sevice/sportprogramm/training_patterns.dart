@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:trener_app/getx/MyPatternsController.dart';
+import 'package:trener_app/http/exerciseUtills.dart';
 import 'package:trener_app/http/patternsUtills.dart';
 import 'package:trener_app/widgets/app_bar/app_bar_titile_one_action.dart';
 import 'package:trener_app/widgets/buttons/my_card_button.dart';
@@ -26,6 +27,7 @@ class _SportprogrammTrainingPatternsState
   @override
   void initState() {
     GetPatterns();
+    // GetExerciseAllBelongPatterns();
     super.initState();
   }
 

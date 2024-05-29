@@ -18,6 +18,11 @@ class MyExercisesController extends GetxController {
   List<Map<String, dynamic>> get exercisesBelongPattern => _exercisesBelongPattern;
   void setExercisesBelongPattern(List<Map<String, dynamic>> newExercisesBelongPattern) { _exercisesBelongPattern.assignAll(newExercisesBelongPattern);}
 
+  // связи упражнений с совсеми шаблонами тренировок
+  var _exercisesAllBelongPattern = <Map<String, dynamic>>[].obs;
+  List<Map<String, dynamic>> get exercisesAllBelongPattern => _exercisesAllBelongPattern;
+  void setExercisesAllBelongPattern(List<Map<String, dynamic>> newExercisesAllBelongPattern) { _exercisesAllBelongPattern.assignAll(newExercisesAllBelongPattern);}
+
   //Группы упражнений
   var _groups = <Map<String, dynamic>>[].obs;
   List<Map<String, dynamic>> get groups => _groups;

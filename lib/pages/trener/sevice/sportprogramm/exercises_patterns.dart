@@ -41,17 +41,18 @@ class _SportprogrammExercisesPatternsState
         appBar: AppBarTitleOneAction(
           title: 'Выберите упражнение',
           callback: () {
-            if (currentPattern != 0) {
-              mySportProgrammController.setTestsList({
-                ...myExercisesController.exercises
-                    .firstWhere((element) => element['id'] == currentPattern),
-                'date': mySportProgrammController.currentDate,
-                'type': 'тест'
-              });
-              Get.to(const AddSportProgrammPage());
-            } else {
-              GetMySnackBar(description: 'Необходимо выбрать шаблон!');
-            }
+            // if (currentPattern != 0) {
+            //   mySportProgrammController.setTestsList({
+            //     ...myExercisesController.exercises
+            //         .firstWhere((element) => element['id'] == currentPattern),
+            //     'date': mySportProgrammController.currentDate,
+            //     'type': 'тест'
+            //   });
+            //   Get.to(const AddSportProgrammPage());
+            // } else {
+            //   GetMySnackBar(description: 'Необходимо выбрать шаблон!');
+            // }
+            Get.to(const AddSportProgrammPage());
           },
           height: 13 * vh,
         ),

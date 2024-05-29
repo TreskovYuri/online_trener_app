@@ -77,13 +77,12 @@ Future GetPlanner() async {
   return null;
 }
 
-
+// Получение списка спортивных программ
 Future GetSportProgramm() async {
   MySportProgrammController mySportProgrammController = Get.put(MySportProgrammController());
 
   try {
     Map<String, dynamic> data = await Session().get('sportprogramm');
-    print(data);
     List<Map<String, dynamic>> list = [];
     if (data['status'] < 300) {
       data['body'].forEach((e) {
@@ -97,6 +96,22 @@ Future GetSportProgramm() async {
       });
     }
     mySportProgrammController.setSportProgrammList(list);
+    return data;
+  } catch (e) {
+    print(e);
+  }
+  
+  // Return null in case of failure
+  return null;
+}
+
+// Создание спортивной программы
+Future SetSportProgramm(Map <String,dynamic>formData) async {
+
+  try {
+    Map<String, dynamic> data = await Session().post('sportprogramm',formData);
+    if(data['status']<300)GetSportProgramm();
+
     return data;
   } catch (e) {
     print(e);

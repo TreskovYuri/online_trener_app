@@ -94,12 +94,10 @@ Future GetExercisePatterns() async {
     if (data['status'] < 300) {
       data['body'].forEach((e) {
         Map<String, dynamic> pattern = {
-            'programmId': e['programmId'] ?? 0,
-            'exerciseId': e['exerciseId'] ?? 0,
             'userId': e['userId'] ?? 0,
-            'sets': e['sets'] ?? {},
-            'time': e['time'] ?? '',
-            'date': e['date'] ?? ''
+            'id': e['id'] ?? 0,
+            'count': e['count'] ?? 0,
+            'name': e['name'] ?? ''
         };
         list.add(pattern);
       });
@@ -135,6 +133,37 @@ Future GetExerciseBelongPatterns(int id) async {
       });
     }
     myExercisesController.setExercisesBelongPattern(list);
+    return data;
+  } catch (e) {
+    print(e);
+  }
+  // Возвращаемое значение в случае неудачи
+  return null;
+}
+
+// Получить список связей упражнений со всеми шаблонами тренировок
+Future GetExerciseAllBelongPatterns() async {
+  MyExercisesController myExercisesController =
+      Get.put(MyExercisesController());
+
+  try {
+    Map<String, dynamic> data = await Session().get('exercises/patterns/belongs');
+    print(data);
+    List<Map<String, dynamic>> list = [];
+    if (data['status'] < 300) {
+      data['body'].forEach((e) {
+        Map<String, dynamic> belong = {
+            'programmId': e['programmId'] ?? 0,
+            'exerciseId': e['exerciseId'] ?? 0,
+            'userId': e['userId'] ?? 0,
+            'sets': e['sets'] ?? {},
+            'time': e['time'] ?? '',
+            'date': e['date'] ?? ''
+        };
+        list.add(belong);
+      });
+    }
+    myExercisesController.setExercisesAllBelongPattern(list);
     return data;
   } catch (e) {
     print(e);
