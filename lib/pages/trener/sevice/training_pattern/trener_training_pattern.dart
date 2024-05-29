@@ -1,7 +1,10 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get/get.dart';
+import 'package:trener_app/getx/MyExercisesController.dart';
+import 'package:trener_app/http/exerciseUtills.dart';
+import 'package:trener_app/models/constants/colors.dart';
+import 'package:trener_app/widgets/cards/training_pattern_card.dart';
 import 'package:trener_app/widgets/service/navbar.dart';
 import 'package:trener_app/widgets/service/navbar_scroll.dart';
 import 'package:trener_app/widgets/workout/add_training_pattern.dart';
@@ -14,12 +17,14 @@ class TrenerTrainingPattern extends StatefulWidget {
 }
 
 class _TrenerTrainingPatternState extends State<TrenerTrainingPattern> {
+  MyExercisesController myExercisesController = Get.put(MyExercisesController());
   ScrollController _scrollController = ScrollController();
   bool _isAtTop = true;
 
   @override
   void initState() {
     super.initState();
+    GetExercisePatterns();
     _scrollController.addListener(_onScroll);
   }
 
@@ -44,7 +49,7 @@ class _TrenerTrainingPatternState extends State<TrenerTrainingPattern> {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        iconTheme: IconThemeData(color: Color(0xff4D8AEE)),
+        iconTheme: const IconThemeData(color: Color(0xff4D8AEE)),
         leading: IconButton(
           icon: const Icon(Icons
               .arrow_back_ios_new_rounded), // Устанавливаем иконку "домой" вместо стрелки "назад"
@@ -56,7 +61,7 @@ class _TrenerTrainingPatternState extends State<TrenerTrainingPattern> {
           Padding(
             padding: EdgeInsets.only(right: 2 * vw),
             child: IconButton(
-              onPressed: () {showModalBottomSheet(isScrollControlled: true, context: context, builder: (_)=>AddTrainingPattern());},
+              onPressed: () {showModalBottomSheet(isScrollControlled: true, context: context, builder: (_)=>const AddTrainingPattern());},
               icon: SvgPicture.asset(
                 'assets/img/blue_plus.svg',
                 width: 2.6 * vh,
@@ -69,7 +74,7 @@ class _TrenerTrainingPatternState extends State<TrenerTrainingPattern> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              'Шаблоны тренирововк',
+              'Шаблоны тренировок',
               style: TextStyle(
                   color: Colors.white,
                   fontFamily: 'Manrope',
@@ -78,7 +83,7 @@ class _TrenerTrainingPatternState extends State<TrenerTrainingPattern> {
             ),
           ],
         ),
-        backgroundColor: Color(0xff1B1C20), // Устанавливаем прозрачный фон
+        backgroundColor: AppColors.blackThemeBacground, // Устанавливаем прозрачный фон
       ),
       body: Stack(
         fit: StackFit.expand,
@@ -88,7 +93,7 @@ class _TrenerTrainingPatternState extends State<TrenerTrainingPattern> {
               Padding(
                       padding: EdgeInsets.symmetric(horizontal:3 * vw),
                       child: TextField(
-                        cursorColor: Color.fromARGB(255, 112, 112, 112),
+                        cursorColor: const Color.fromARGB(255, 112, 112, 112),
                         style: TextStyle(color: Colors.white, fontSize: 4 * vw),
                         decoration: InputDecoration(
                           hintText: 'Найти...',
@@ -110,9 +115,15 @@ class _TrenerTrainingPatternState extends State<TrenerTrainingPattern> {
                         ),
                       ),
                     ),
+                    const SizedBox(height: 30,),
+                    Obx(()=>Column(
+                      children: [
+                        ...myExercisesController.exercisePattern.map((e)=>MyTrainingPatternCard(card: e))
+                      ],
+                    ))
             ],
           ),
-          _isAtTop ? Navbar() : NavbarScroll(),
+          _isAtTop ? const Navbar() : const NavbarScroll(),
         ],
       ),
     );
@@ -137,7 +148,7 @@ class NavType extends StatelessWidget {
       padding: EdgeInsets.all(1*vw),
       margin: EdgeInsets.all(3 * vw),
       decoration: BoxDecoration(
-        color: Color(0xff23252B),
+        color: const Color(0xff23252B),
         borderRadius: BorderRadius.circular(10 * vw),
       ),
       child: Row(
@@ -149,7 +160,7 @@ class NavType extends StatelessWidget {
             decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(10 * vw),
                 color: typeFlag
-                    ? Color.fromARGB(34, 235, 238, 247)
+                    ? const Color.fromARGB(34, 235, 238, 247)
                     : Colors.transparent),
             child: Text(
               'Мои упражнения',
@@ -167,7 +178,7 @@ class NavType extends StatelessWidget {
             decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(10 * vw),
                 color: !typeFlag
-                    ? Color.fromARGB(34, 235, 238, 247)
+                    ? const Color.fromARGB(34, 235, 238, 247)
                     : Colors.transparent),
             child: Text(
               'Общая база',

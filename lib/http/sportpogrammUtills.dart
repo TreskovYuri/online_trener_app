@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:get/get.dart';
 import 'package:trener_app/getx/MyJournalConroller.dart';
 import 'package:trener_app/getx/MyPlannerConroller.dart';
+import 'package:trener_app/getx/MySportProgrammController.dart';
 import 'package:trener_app/getx/getx_controller.dart';
 import 'package:trener_app/http/http.dart';
 // import 'package:fluttertoast/fluttertoast.dart';
@@ -67,6 +68,35 @@ Future GetPlanner() async {
 
     // Update the controller with the fetched exercises
     myPlannerConroller.setPlanner(list);
+    return data;
+  } catch (e) {
+    print(e);
+  }
+  
+  // Return null in case of failure
+  return null;
+}
+
+
+Future GetSportProgramm() async {
+  MySportProgrammController mySportProgrammController = Get.put(MySportProgrammController());
+
+  try {
+    Map<String, dynamic> data = await Session().get('sportprogramm');
+    print(data);
+    List<Map<String, dynamic>> list = [];
+    if (data['status'] < 300) {
+      data['body'].forEach((e) {
+        Map<String, dynamic> group = {
+            'id': e['id'] ?? 0,
+            'userId': e['userId'] ?? 0,
+            'name': e['name'] ?? '',
+            'description': e['description'] ?? '',
+        };
+        list.add(group);
+      });
+    }
+    mySportProgrammController.setSportProgrammList(list);
     return data;
   } catch (e) {
     print(e);

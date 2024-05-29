@@ -2,9 +2,14 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get/get.dart';
+import 'package:trener_app/getx/MySportProgrammController.dart';
+import 'package:trener_app/http/sportpogrammUtills.dart';
+import 'package:trener_app/widgets/cards/sportprogramm_card.dart';
 import 'package:trener_app/widgets/service/navbar.dart';
 import 'package:trener_app/widgets/service/navbar_scroll.dart';
 import 'package:trener_app/widgets/sprortprogramm/add_sportprogramm.dart';
+import 'package:trener_app/widgets/text/title.dart';
 import 'package:trener_app/widgets/workout/add_training_pattern.dart';
 
 class TrenerSportProgramm extends StatefulWidget {
@@ -16,11 +21,14 @@ class TrenerSportProgramm extends StatefulWidget {
 
 class _TrenerSportProgrammState extends State<TrenerSportProgramm> {
   ScrollController _scrollController = ScrollController();
+  MySportProgrammController mySportProgrammController = Get.put(MySportProgrammController());
+
   bool _isAtTop = true;
 
   @override
   void initState() {
     super.initState();
+    GetSportProgramm();
     _scrollController.addListener(_onScroll);
   }
 
@@ -42,6 +50,7 @@ class _TrenerSportProgrammState extends State<TrenerSportProgramm> {
 
     return Scaffold(
       appBar: AppBar(
+        surfaceTintColor: Colors.transparent,
         centerTitle: true,
         iconTheme: IconThemeData(color: Color(0xff4D8AEE)),
         leading: IconButton(
@@ -83,6 +92,7 @@ class _TrenerSportProgrammState extends State<TrenerSportProgramm> {
         fit: StackFit.expand,
         children: [
           ListView(
+            controller: _scrollController,
             children: [
               Padding(
                       padding: EdgeInsets.all(3 * vw),
@@ -109,9 +119,15 @@ class _TrenerSportProgrammState extends State<TrenerSportProgramm> {
                         ),
                       ),
                     ),
+                    Obx(()=>Column(
+                      children: [
+                        ...mySportProgrammController.sportprogramms.map((el) => MySprotProgrammCard(programm: el,)),
+                        const SizedBox(height: 100,)
+                      ],
+                    ))
             ],
           ),
-          _isAtTop ? Navbar() : NavbarScroll(),
+          _isAtTop ? const Navbar() : const NavbarScroll(),
         ],
       ),
     );

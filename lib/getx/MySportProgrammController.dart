@@ -76,5 +76,10 @@ class MySportProgrammController extends GetxController{
   List<Map<String, dynamic>> get finalNTestsList => _finalTestsList;
   void setTestsList(Map<String, dynamic> newTestsList) { _finalTestsList.add(newTestsList);}
 
+  // Финальный список тестов
+  var _finalUsersList = <Map<String, dynamic>>[].obs;
+  List<Map<String, dynamic>> get finallUsersList => _finalUsersList;
+  void selUsersList(Map<String, dynamic> newTestsList) { _finalUsersList.add(newTestsList);}
+
 
 }

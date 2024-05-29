@@ -1,15 +1,5 @@
-import 'package:flutter/cupertino.dart';
+
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:get/get.dart';
-import 'package:http/http.dart';
-import 'package:provider/provider.dart';
-import 'package:trener_app/getx/MyUserConroller.dart';
-import 'package:trener_app/getx/getx_controller.dart';
-import 'package:trener_app/mobx/mobx.dart';
-import 'package:trener_app/models/user.dart';
 import 'package:trener_app/widgets/service/navbar.dart';
 import 'package:trener_app/widgets/service/navbar_scroll.dart';
 
@@ -44,16 +34,14 @@ class _ProfileOneUserState extends State<ProfileOneUser> {
 
   @override
   Widget build(BuildContext context) {
-    MyGetxController getx = MyGetxController();
     final arguments =
         ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>;
 
     final vw = MediaQuery.of(context).size.width / 100;
     final vh = MediaQuery.of(context).size.height / 100;
-    final mobx = Provider.of<Mobx>(context);
     return Scaffold(
       appBar: AppBar(
-        toolbarHeight: 20 * vh,
+        toolbarHeight: 10 * vh,
         iconTheme:
             const IconThemeData(color: Color.fromARGB(255, 255, 255, 255)),
         leading: IconButton(
@@ -74,31 +62,24 @@ class _ProfileOneUserState extends State<ProfileOneUser> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                Expanded(
-                  flex: 2,
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(100),
                   child: Container(
-                    child: Container(
-                      width: 35 * vw,
-                      height: 35 * vw,
-                      child: ClipOval(
-                        
-                        child: arguments['img'] != null && arguments['img'] != ''
-                            ? Image.network(
-                                'https://mobilecoach.ru:5004/assets/${arguments['img']}',
-                                width: 35 * vw,
-                                height: 35 *vw,
-                                fit: BoxFit
-                                    .cover, // Ensures the image covers the circular area
-                              )
-                            : Image.asset(
-                                'assets/img/user1.png',
-                                width: 35 * vw,
-                                height: 35 * vw,
-                                fit: BoxFit
-                                    .cover, // Ensures the image covers the circular area
-                              ),
-                      ),
-                    ),
+                    width: 35 * vw,
+                    height: 35 * vw,
+                    child: arguments['img'] != null && arguments['img'] != ''
+                        ? Image.network(
+                            'https://mobilecoach.ru:5004/assets/${arguments['img']}',
+                            fit: BoxFit
+                                .cover, // Ensures the image covers the circular area
+                          )
+                        : Image.asset(
+                            'assets/img/user1.png',
+                            width: 35 * vw,
+                            height: 35 * vw,
+                            fit: BoxFit
+                                .cover, // Ensures the image covers the circular area
+                          ),
                   ),
                 ),
                 Expanded(

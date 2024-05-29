@@ -14,12 +14,14 @@ class AddSportProgramm extends StatefulWidget {
 class _AddSportProgrammState extends State<AddSportProgramm> {
   int page = 1;
   List<Map<String, dynamic>> exercisesList = [];
-  final MySportProgrammController mySportProgrammController = Get.put(MySportProgrammController());
+  final MySportProgrammController mySportProgrammController =
+      Get.put(MySportProgrammController());
 
   final TextEditingController nameRuController = TextEditingController();
   final TextEditingController nameEngController = TextEditingController();
   final TextEditingController descriptionRuController = TextEditingController();
-  final TextEditingController descriptionEngController = TextEditingController();
+  final TextEditingController descriptionEngController =
+      TextEditingController();
 
   void setMuscleGroups(Map<String, dynamic> map) {
     setState(() {
@@ -44,7 +46,7 @@ class _AddSportProgrammState extends State<AddSportProgramm> {
           color: Color(0xff1B1C20),
           borderRadius: BorderRadius.only(
               topLeft: Radius.circular(10), topRight: Radius.circular(10))),
-      child: ListView(
+      child: Column(
         children: [
           Container(
             padding: EdgeInsets.symmetric(horizontal: 40 * vw),
@@ -101,30 +103,33 @@ class _AddSportProgrammState extends State<AddSportProgramm> {
                 flex: 1,
                 child: page == 1
                     ? GestureDetector(
-                          onTap: () {
-                            setState(() {
-                              if (nameRuController.text.length > 0) {
-                                Navigator.pushReplacementNamed(
-                                    context, '/add_sportprogramm_page',
-                                    );
-                              } else {
-                                        GetMySnackBar(description: 'Введите название упражнения...');
-                              }
-                            });
-                          },
-                          child: Container(
-                              padding: EdgeInsets.only(top: 2 * vh),
-                              alignment: Alignment.center,
-                              child: Text(
-                                'Далее',
-                                style: TextStyle(
-                                  color: Color(0xff4D8AEE),
-                                  fontSize: 3.3 * vw,
-                                  fontWeight: FontWeight.w500,
-                                  fontFamily: 'Manrope',
-                                ),
-                              )),
-                        )
+                        onTap: () {
+                          setState(() {
+                            if (nameRuController.text.length > 0) {
+                              Navigator.pushReplacementNamed(
+                                context,
+                                '/add_sportprogramm_page',
+                              );
+                            } else {
+                              GetMySnackBar(
+                                  description:
+                                      'Введите название упражнения...');
+                            }
+                          });
+                        },
+                        child: Container(
+                            padding: EdgeInsets.only(top: 2 * vh),
+                            alignment: Alignment.center,
+                            child: Text(
+                              'Далее',
+                              style: TextStyle(
+                                color: Color(0xff4D8AEE),
+                                fontSize: 3.3 * vw,
+                                fontWeight: FontWeight.w500,
+                                fontFamily: 'Manrope',
+                              ),
+                            )),
+                      )
                     : GestureDetector(
                         onTap: () {},
                         child: Container(
@@ -140,182 +145,195 @@ class _AddSportProgrammState extends State<AddSportProgramm> {
           SizedBox(
             height: 3 * vh,
           ),
-          Column(
-            children: [
-              Padding(
-                padding: EdgeInsets.fromLTRB(5 * vw, 7 * vw, 5 * vw, 2 * vw),
-                child: Row(
+          Expanded(
+            child: ListView(
+              children: [
+                Column(
                   children: [
-                    Text('Введите название',
-                        textAlign: TextAlign.start,
-                        style: TextStyle(
-                            color: Color.fromARGB(115, 255, 255, 255),
-                            fontSize: 3.3 * vw,
-                            fontWeight: FontWeight.w500,
-                            fontFamily: 'Manrope'))
-                  ],
-                ),
-              ),
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: 5 * vw),
-                child: TextField(
-                  controller: nameRuController,
-                  onChanged: (value) => mySportProgrammController.setNameRuAddSportProgramm(value),
-                  cursorColor: const Color.fromRGBO(112, 112, 112, 1),
-                  style: TextStyle(color: Colors.white, fontSize: 4 * vw),
-                  decoration: InputDecoration(
-                    hintText: 'Название программы',
-                    hintStyle: const TextStyle(
-                      color: Colors.grey, // Цвет текста плейсхолдера
-                      fontSize: 16, // Размер текста плейсхолдера
-                      fontWeight:
-                          FontWeight.normal, // Начертание текста плейсхолдера
-                    ),
-                    contentPadding: EdgeInsets.symmetric(
-                        horizontal: 4 * vw, vertical: 1.5 * vh),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(4 * vw),
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(4 * vw),
-                      borderSide: const BorderSide(
-                        color: Color.fromARGB(255, 112, 112, 112),
-                        width: 2.0,
+                    Padding(
+                      padding:
+                          EdgeInsets.fromLTRB(5 * vw, 7 * vw, 5 * vw, 2 * vw),
+                      child: Row(
+                        children: [
+                          Text('Введите название',
+                              textAlign: TextAlign.start,
+                              style: TextStyle(
+                                  color: Color.fromARGB(115, 255, 255, 255),
+                                  fontSize: 3.3 * vw,
+                                  fontWeight: FontWeight.w500,
+                                  fontFamily: 'Manrope'))
+                        ],
                       ),
                     ),
-                  ),
-                ),
-              ),
-              Padding(
-                padding: EdgeInsets.fromLTRB(5 * vw, 7 * vw, 5 * vw, 2 * vw),
-                child: Row(
-                  children: [
-                    Text('Введите название на английском',
-                        textAlign: TextAlign.start,
-                        style: TextStyle(
-                            color: Color.fromARGB(115, 255, 255, 255),
-                            fontSize: 3.3 * vw,
-                            fontWeight: FontWeight.w500,
-                            fontFamily: 'Manrope')),
-                  ],
-                ),
-              ),
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: 5 * vw),
-                child: TextField(
-                  onChanged: (value) => mySportProgrammController.setNameEngAddSportProgramm(value),
-                  cursorColor: const Color.fromRGBO(112, 112, 112, 1),
-                  style: TextStyle(color: Colors.white, fontSize: 4 * vw),
-                  decoration: InputDecoration(
-                    hintText: 'English',
-                    hintStyle: const TextStyle(
-                      color: Colors.grey, // Цвет текста плейсхолдера
-                      fontSize: 16, // Размер текста плейсхолдера
-                      fontWeight:
-                          FontWeight.normal, // Начертание текста плейсхолдера
-                    ),
-                    contentPadding: EdgeInsets.symmetric(
-                        horizontal: 4 * vw, vertical: 1.5 * vh),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(4 * vw),
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(4 * vw),
-                      borderSide: const BorderSide(
-                        color: Color.fromARGB(255, 112, 112, 112),
-                        width: 2.0,
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 5 * vw),
+                      child: TextField(
+                        controller: nameRuController,
+                        onChanged: (value) => mySportProgrammController.setNameRuAddSportProgramm(value),
+                        cursorColor: const Color.fromRGBO(112, 112, 112, 1),
+                        style: TextStyle(color: Colors.white, fontSize: 4 * vw),
+                        decoration: InputDecoration(
+                          hintText: 'Название программы',
+                          hintStyle: const TextStyle(
+                            color: Colors.grey, // Цвет текста плейсхолдера
+                            fontSize: 16, // Размер текста плейсхолдера
+                            fontWeight: FontWeight
+                                .normal, // Начертание текста плейсхолдера
+                          ),
+                          contentPadding: EdgeInsets.symmetric(
+                              horizontal: 4 * vw, vertical: 1.5 * vh),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(4 * vw),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(4 * vw),
+                            borderSide: const BorderSide(
+                              color: Color.fromARGB(255, 112, 112, 112),
+                              width: 2.0,
+                            ),
+                          ),
+                        ),
                       ),
                     ),
-                  ),
-                ),
-              ),
-              Padding(
-                padding: EdgeInsets.fromLTRB(5 * vw, 7 * vw, 5 * vw, 2 * vw),
-                child: Row(
-                  children: [
-                    Text('Описание (опционально)',
-                        textAlign: TextAlign.start,
-                        style: TextStyle(
-                            color: Color.fromARGB(115, 255, 255, 255),
-                            fontSize: 3.3 * vw,
-                            fontWeight: FontWeight.w500,
-                            fontFamily: 'Manrope')),
-                  ],
-                ),
-              ),
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: 5 * vw),
-                child: TextField(
-                  onChanged: (value) => mySportProgrammController.setDescriptionRuAddSportProgramm(value),
-                  cursorColor: Color.fromRGBO(112, 112, 112, 1),
-                  style: TextStyle(color: Colors.white, fontSize: 4 * vw),
-                  decoration: InputDecoration(
-                    hintText: 'Описание',
-                    hintStyle: const TextStyle(
-                      color: Colors.grey, // Цвет текста плейсхолдера
-                      fontSize: 16, // Размер текста плейсхолдера
-                      fontWeight:
-                          FontWeight.normal, // Начертание текста плейсхолдера
-                    ),
-                    contentPadding: EdgeInsets.symmetric(
-                        horizontal: 4 * vw, vertical: 1.5 * vh),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(4 * vw),
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(4 * vw),
-                      borderSide: const BorderSide(
-                        color: Color.fromARGB(255, 112, 112, 112),
-                        width: 2.0,
+                    Padding(
+                      padding:
+                          EdgeInsets.fromLTRB(5 * vw, 7 * vw, 5 * vw, 2 * vw),
+                      child: Row(
+                        children: [
+                          Text('Введите название на английском',
+                              textAlign: TextAlign.start,
+                              style: TextStyle(
+                                  color: Color.fromARGB(115, 255, 255, 255),
+                                  fontSize: 3.3 * vw,
+                                  fontWeight: FontWeight.w500,
+                                  fontFamily: 'Manrope')),
+                        ],
                       ),
                     ),
-                  ),
-                ),
-              ),
-              Padding(
-                padding: EdgeInsets.fromLTRB(5 * vw, 7 * vw, 5 * vw, 2 * vw),
-                child: Row(
-                  children: [
-                    Text('Введите описание на английском',
-                        textAlign: TextAlign.start,
-                        style: TextStyle(
-                            color: Color.fromARGB(115, 255, 255, 255),
-                            fontSize: 3.3 * vw,
-                            fontWeight: FontWeight.w500,
-                            fontFamily: 'Manrope')),
-                  ],
-                ),
-              ),
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: 5 * vw),
-                child: TextField(
-                  onChanged: (value) => mySportProgrammController.setDescriptionEngAddSportProgramm(value),
-                  cursorColor: Color.fromRGBO(112, 112, 112, 1),
-                  style: TextStyle(color: Colors.white, fontSize: 4 * vw),
-                  decoration: InputDecoration(
-                    hintText: 'Description',
-                    hintStyle: const TextStyle(
-                      color: Colors.grey, // Цвет текста плейсхолдера
-                      fontSize: 16, // Размер текста плейсхолдера
-                      fontWeight:
-                          FontWeight.normal, // Начертание текста плейсхолдера
-                    ),
-                    contentPadding: EdgeInsets.symmetric(
-                        horizontal: 4 * vw, vertical: 1.5 * vh),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(4 * vw),
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(4 * vw),
-                      borderSide: const BorderSide(
-                        color: Color.fromARGB(255, 112, 112, 112),
-                        width: 2.0,
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 5 * vw),
+                      child: TextField(
+                        onChanged: (value) => mySportProgrammController
+                            .setNameEngAddSportProgramm(value),
+                        cursorColor: const Color.fromRGBO(112, 112, 112, 1),
+                        style: TextStyle(color: Colors.white, fontSize: 4 * vw),
+                        decoration: InputDecoration(
+                          hintText: 'English',
+                          hintStyle: const TextStyle(
+                            color: Colors.grey, // Цвет текста плейсхолдера
+                            fontSize: 16, // Размер текста плейсхолдера
+                            fontWeight: FontWeight
+                                .normal, // Начертание текста плейсхолдера
+                          ),
+                          contentPadding: EdgeInsets.symmetric(
+                              horizontal: 4 * vw, vertical: 1.5 * vh),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(4 * vw),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(4 * vw),
+                            borderSide: const BorderSide(
+                              color: Color.fromARGB(255, 112, 112, 112),
+                              width: 2.0,
+                            ),
+                          ),
+                        ),
                       ),
                     ),
-                  ),
+                    Padding(
+                      padding:
+                          EdgeInsets.fromLTRB(5 * vw, 7 * vw, 5 * vw, 2 * vw),
+                      child: Row(
+                        children: [
+                          Text('Описание (опционально)',
+                              textAlign: TextAlign.start,
+                              style: TextStyle(
+                                  color: Color.fromARGB(115, 255, 255, 255),
+                                  fontSize: 3.3 * vw,
+                                  fontWeight: FontWeight.w500,
+                                  fontFamily: 'Manrope')),
+                        ],
+                      ),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 5 * vw),
+                      child: TextField(
+                        onChanged: (value) => mySportProgrammController
+                            .setDescriptionRuAddSportProgramm(value),
+                        cursorColor: Color.fromRGBO(112, 112, 112, 1),
+                        style: TextStyle(color: Colors.white, fontSize: 4 * vw),
+                        decoration: InputDecoration(
+                          hintText: 'Описание',
+                          hintStyle: const TextStyle(
+                            color: Colors.grey, // Цвет текста плейсхолдера
+                            fontSize: 16, // Размер текста плейсхолдера
+                            fontWeight: FontWeight
+                                .normal, // Начертание текста плейсхолдера
+                          ),
+                          contentPadding: EdgeInsets.symmetric(
+                              horizontal: 4 * vw, vertical: 1.5 * vh),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(4 * vw),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(4 * vw),
+                            borderSide: const BorderSide(
+                              color: Color.fromARGB(255, 112, 112, 112),
+                              width: 2.0,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding:
+                          EdgeInsets.fromLTRB(5 * vw, 7 * vw, 5 * vw, 2 * vw),
+                      child: Row(
+                        children: [
+                          Text('Введите описание на английском',
+                              textAlign: TextAlign.start,
+                              style: TextStyle(
+                                  color: Color.fromARGB(115, 255, 255, 255),
+                                  fontSize: 3.3 * vw,
+                                  fontWeight: FontWeight.w500,
+                                  fontFamily: 'Manrope')),
+                        ],
+                      ),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 5 * vw),
+                      child: TextField(
+                        onChanged: (value) => mySportProgrammController
+                            .setDescriptionEngAddSportProgramm(value),
+                        cursorColor: Color.fromRGBO(112, 112, 112, 1),
+                        style: TextStyle(color: Colors.white, fontSize: 4 * vw),
+                        decoration: InputDecoration(
+                          hintText: 'Description',
+                          hintStyle: const TextStyle(
+                            color: Colors.grey, // Цвет текста плейсхолдера
+                            fontSize: 16, // Размер текста плейсхолдера
+                            fontWeight: FontWeight
+                                .normal, // Начертание текста плейсхолдера
+                          ),
+                          contentPadding: EdgeInsets.symmetric(
+                              horizontal: 4 * vw, vertical: 1.5 * vh),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(4 * vw),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(4 * vw),
+                            borderSide: const BorderSide(
+                              color: Color.fromARGB(255, 112, 112, 112),
+                              width: 2.0,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ],
       ),

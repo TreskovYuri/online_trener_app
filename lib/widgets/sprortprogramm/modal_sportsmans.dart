@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:trener_app/getx/MySportProgrammController.dart';
 import 'package:trener_app/getx/MyUserConroller.dart';
 import 'package:trener_app/http/userUtills.dart';
-import 'package:trener_app/widgets/buttons/my_card_button.dart';
+import 'package:trener_app/widgets/cards/sportsman_card.dart';
 import 'package:trener_app/widgets/modal_wind.dart';
-import 'package:trener_app/widgets/text/description.dart';
-import 'package:trener_app/widgets/text/title.dart';
 
 class SprotProgrammModalSportsmans extends StatefulWidget {
   const SprotProgrammModalSportsmans({super.key});
@@ -18,11 +17,25 @@ class SprotProgrammModalSportsmans extends StatefulWidget {
 class _SprotProgrammModalSportsmansState
     extends State<SprotProgrammModalSportsmans> {
   MyUserController myUserController = Get.put(MyUserController());
+  MySportProgrammController mySportProgrammController = Get.put(MySportProgrammController());
+  List<Map<String,dynamic>> finalUsers = [];
+  
 
   @override
   void initState() {
     GetSportsmans();
     super.initState();
+  }
+  void onTapUserCard (Map<String,dynamic> user){
+    if(finalUsers.length>0 &&  finalUsers.any((el) => el['id'] == user['id'])){
+      setState(() {
+        finalUsers.removeWhere((el) => el['id']==user['id']);
+      });
+    }else{
+      setState(() {
+        finalUsers.add(user);
+      });
+    }
   }
 
   @override
@@ -31,7 +44,7 @@ class _SprotProgrammModalSportsmansState
       height: 90,
       widget: Obx(
         () => Column(
-          children: [...myUserController.sportsmans.map((e) => _Card(card: e))],
+          children: [...myUserController.sportsmans.map((e) => MyUserCard(user: e,callback:()=>onTapUserCard(e),select:finalUsers.length>0 && finalUsers.any((el)=>el['id']==e['id'])?true:false))],
         ),
       ),
       title: 'Спортсмены',
@@ -41,16 +54,3 @@ class _SprotProgrammModalSportsmansState
   }
 }
 
-class _Card extends StatelessWidget {
-  _Card({super.key, required this.card});
-  Map<String, dynamic> card;
-
-  @override
-  Widget build(BuildContext context) {
-    return MyCardButton(
-        callback: () {},
-        widget: Row(
-          children: [Expanded(child: MyDescriptionText(text: card['name']))],
-        ));
-  }
-}

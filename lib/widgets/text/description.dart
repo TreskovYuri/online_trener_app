@@ -5,14 +5,18 @@ Widget MyDescriptionText(
       required String text, 
       Color color = Colors.white, 
       double size = 16,
-      FontWeight weigth = FontWeight.w400
+      FontWeight weigth = FontWeight.w400,
+      double opacity = 1
       }) {
-  return Text(
-    text,
-    style: TextStyle(
-      color: color,
-      fontSize: size,
-      fontWeight: weigth
+  return Opacity(
+    opacity: opacity,
+    child: Text(
+      text,
+      style: TextStyle(
+        color: color,
+        fontSize: size,
+        fontWeight: weigth
+      ),
     ),
   );
 }

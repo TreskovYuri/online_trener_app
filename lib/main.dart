@@ -25,7 +25,7 @@ import 'package:provider/provider.dart';
 import 'package:trener_app/pages/trener/sportsmans/sportsmans.dart';
 import 'package:trener_app/pages/trener/sevice/sportprogramm/trener_sportprogramm.dart';
 import 'package:trener_app/pages/trener/sevice/faq/tests/trener_tests.dart';
-import 'package:trener_app/pages/trener/sevice/faq/training/trener_training_pattern.dart';
+import 'package:trener_app/pages/trener/sevice/training_pattern/trener_training_pattern.dart';
 import 'package:trener_app/pages/trener/sevice/faq/training/trener_trainings.dart';
 import 'package:trener_app/pages/trener/sevice/faq/training/trener_trainings_current_type.dart';
 import 'package:trener_app/pages/sportsman/workout/workout.dart';
