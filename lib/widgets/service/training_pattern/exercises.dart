@@ -4,9 +4,9 @@ import 'package:get/get.dart';
 import 'package:trener_app/getx/MyExercisesController.dart';
 import 'package:trener_app/models/constants/colors.dart';
 import 'package:trener_app/widgets/cards/exercise_card.dart';
-import 'package:trener_app/widgets/checkbox.dart';
 import 'package:trener_app/widgets/inputs/search.dart';
 import 'package:trener_app/widgets/modal_wind.dart';
+import 'package:trener_app/widgets/service/training_pattern/add_sets.dart';
 
 class AddTrainingPatternsExercises extends StatefulWidget {
   AddTrainingPatternsExercises({super.key});
@@ -27,6 +27,10 @@ class _AddTrainingPatternsExercisesState extends State<AddTrainingPatternsExerci
   Widget build(BuildContext context) {
     return MyModalWind(
       headerType: 3,
+      nextActionCallback: ()=>showModalBottomSheet(
+        isScrollControlled: true,
+        context: context,
+        builder: (_)=>TrainingPatternAddSets()),
       prevActionCallback:()=> Get.back(),
       nextActionColor: AppColors.blueText,
       nextActionText: 'Добавить',
@@ -38,7 +42,9 @@ class _AddTrainingPatternsExercisesState extends State<AddTrainingPatternsExerci
             MySearchInput(controller: serachController,),
             const SizedBox(height: 30,),
             ...myExercisesController.exercises.map((e)=> MyExerciseCard(
-              callback:()=>setState(() {currentExercise = e;}),
+              callback:()=>setState(() {
+                myExercisesController.setCurrentExercise(e);
+                currentExercise = e;}),
               card: e, 
               isChecked: currentExercise['id'] == e['id'],)),
            

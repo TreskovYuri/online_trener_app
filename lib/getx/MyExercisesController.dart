@@ -40,7 +40,7 @@ class MyExercisesController extends GetxController {
 
   // Переменные для создания шаблона тренировок
   // Название шаблона тренировок
-  var _patternName = 'Разминка'.obs;
+  var _patternName = ''.obs;
   String get patternName => _patternName.value;
   void setPatternName(String newCG) {_patternName.value = newCG;}
 
@@ -49,4 +49,8 @@ class MyExercisesController extends GetxController {
   List<Map<String, dynamic>> get finalExercisesOnPattern => _finalExercisesOnPattern;
   void setFinalExercisesOnPattern(List<Map<String, dynamic>> newFinalExercisesOnPattern) {_finalExercisesOnPattern.assignAll(newFinalExercisesOnPattern);}
 
+  // Выбранная тренировка для добавдения сетов
+  var _CurrentExercise = <String, dynamic>{}.obs;
+  Map<String,dynamic> get CurrentExercise => _CurrentExercise.value;
+  void setCurrentExercise(Map<String,dynamic> newCE) {_CurrentExercise.value = newCE;}
 }
