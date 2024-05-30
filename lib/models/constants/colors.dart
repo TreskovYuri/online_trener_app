@@ -5,4 +5,10 @@ class AppColors {
   static const blackThemeModalBacground = Color(0xff1B1C20);
   static const blackThemeTextOpacity = Color.fromARGB(47, 255, 255, 255);
   static const blackThemeWhiteArrow = Color.fromARGB(131, 255, 255, 255);
+
+
+
+  static const blueText = Color(0xff4D8AEE);
+
+  
 }

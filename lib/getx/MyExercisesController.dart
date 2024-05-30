@@ -38,5 +38,15 @@ class MyExercisesController extends GetxController {
   void setCurrentGroup(int newCG) {currentGroup.value = newCG;}
 
 
+  // Переменные для создания шаблона тренировок
+  // Название шаблона тренировок
+  var _patternName = 'Разминка'.obs;
+  String get patternName => _patternName.value;
+  void setPatternName(String newCG) {_patternName.value = newCG;}
+
+    //Список готовых упражнений для программы
+  var _finalExercisesOnPattern = <Map<String, dynamic>>[].obs;
+  List<Map<String, dynamic>> get finalExercisesOnPattern => _finalExercisesOnPattern;
+  void setFinalExercisesOnPattern(List<Map<String, dynamic>> newFinalExercisesOnPattern) {_finalExercisesOnPattern.assignAll(newFinalExercisesOnPattern);}
 
 }

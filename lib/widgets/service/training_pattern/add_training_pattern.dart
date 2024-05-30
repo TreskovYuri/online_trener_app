@@ -22,8 +22,8 @@ class _AddTrainingPatternState extends State<AddTrainingPattern> {
       if (exercisesList.where((element) => element['id'] == map['id']).length >
           0) {
         Get.snackbar('Ошибка ввода!', 'Это упражнение уже есть в списке...',
-            margin: EdgeInsets.only(top: 50),
-            colorText: Color.fromARGB(181, 255, 255, 255));
+            margin: const EdgeInsets.only(top: 50),
+            colorText: const Color.fromARGB(181, 255, 255, 255));
       } else {
         exercisesList.add(map);
       }
@@ -42,7 +42,7 @@ class _AddTrainingPatternState extends State<AddTrainingPattern> {
           color: Color(0xff1B1C20),
           borderRadius: BorderRadius.only(
               topLeft: Radius.circular(10), topRight: Radius.circular(10))),
-      child: ListView(
+      child: Column(
         children: [
           Container(
             padding: EdgeInsets.symmetric(horizontal: 40 * vw),
@@ -93,7 +93,7 @@ class _AddTrainingPatternState extends State<AddTrainingPattern> {
                                     fontWeight: FontWeight.w600,
                                   ),
                                 )
-                              : SizedBox.shrink(),
+                              : const SizedBox.shrink(),
                           page == 2
                               ? Text(
                                   'Упражнения',
@@ -105,7 +105,7 @@ class _AddTrainingPatternState extends State<AddTrainingPattern> {
                                     fontWeight: FontWeight.w600,
                                   ),
                                 )
-                              : SizedBox.shrink(),
+                              : const SizedBox.shrink(),
                           page == 3
                               ? Text(
                                   'Выбор оборудования',
@@ -182,15 +182,22 @@ class _AddTrainingPatternState extends State<AddTrainingPattern> {
           SizedBox(
             height: 3 * vh,
           ),
-          page == 1
-              ? Page1(
-                  vw: vw,
-                  vh: vh,
-                  controllerEng: nameEngController,
-                  controllerRu: nameRuController,
-                )
-              : SizedBox.shrink(),
-          page == 2 ? Page2() : SizedBox.shrink(),
+          SingleChildScrollView(
+            child: Column(
+              children: [
+                page == 1
+                    ? Page1(
+                        vw: vw,
+                        vh: vh,
+                        controllerEng: nameEngController,
+                        controllerRu: nameRuController,
+                      )
+                    : SizedBox.shrink(),
+                page == 2 ? Page2() : SizedBox.shrink(),
+              ],
+            ),
+          )
+
           // page == 3
           //     ? Page3(
           //         vw: vw,
@@ -368,10 +375,10 @@ class _ModalCurrentTypeState extends State<ModalCurrentType> {
                               20), // Устанавливаем радиус круглых углов
                         ),
                         backgroundColor: Colors.transparent,
-                        foregroundColor: Color.fromARGB(0, 0, 41, 74),
+                        foregroundColor: const Color.fromARGB(0, 0, 41, 74),
                         shadowColor: Colors.transparent,
                         surfaceTintColor: Colors.transparent,
-                        padding: EdgeInsets.symmetric(vertical: 20)),
+                        padding: const EdgeInsets.symmetric(vertical: 20)),
                     onPressed: () {
                       Navigator.pop(context);
                       showModalBottomSheet(
@@ -814,7 +821,7 @@ class __AddSetsState extends State<_AddSets> {
       children: [
         Positioned(
             child: Container(
-          height: 90*vh,
+          height: 90 * vh,
           width: double.infinity,
           decoration: const BoxDecoration(
               color: Color(0xff1B1C20),
@@ -902,8 +909,8 @@ class __AddSetsState extends State<_AddSets> {
                           children: [
                             Text(
                               'Сет',
-                              style:
-                                  TextStyle(color: Colors.white38, fontSize: 13),
+                              style: TextStyle(
+                                  color: Colors.white38, fontSize: 13),
                             )
                           ],
                         ),

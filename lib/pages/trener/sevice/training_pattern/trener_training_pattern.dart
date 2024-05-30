@@ -9,7 +9,7 @@ import 'package:trener_app/models/constants/colors.dart';
 import 'package:trener_app/widgets/cards/training_pattern_card.dart';
 import 'package:trener_app/widgets/service/navbar.dart';
 import 'package:trener_app/widgets/service/navbar_scroll.dart';
-import 'package:trener_app/widgets/workout/add_training_pattern.dart';
+import 'package:trener_app/widgets/service/training_pattern/add_name.dart';
 
 class TrenerTrainingPattern extends StatefulWidget {
   const TrenerTrainingPattern({super.key});
@@ -70,7 +70,7 @@ class _TrenerTrainingPatternState extends State<TrenerTrainingPattern> {
                 showModalBottomSheet(
                     isScrollControlled: true,
                     context: context,
-                    builder: (_) => const AddTrainingPattern());
+                    builder: (_) => TrainingPatternAddName());
               },
               icon: SvgPicture.asset(
                 'assets/img/blue_plus.svg',

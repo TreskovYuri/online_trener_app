@@ -1,10 +1,11 @@
-import 'dart:ui';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:trener_app/models/constants/colors.dart';
 import 'package:trener_app/widgets/buttons/gradient_button.dart';
-import 'package:trener_app/widgets/text/title.dart';
+import 'package:trener_app/widgets/buttons/disable_button.dart';
+import 'package:trener_app/widgets/headers/header_type1.dart';
+import 'package:trener_app/widgets/headers/header_type2.dart';
+import 'package:trener_app/widgets/headers/header_type3.dart';
 
 
 
@@ -17,8 +18,15 @@ class MyModalWind extends StatelessWidget {
       required this.title,
       this.button=false,
       this.ButtonCallback = _defaultButtonCallback,
-      this.buttonText ='Далее'
+      this.buttonText ='Далее',
+      this.nextActionText = '',
+      this.prevButtonColor = Colors.white,
+      this.nextActionColor = Colors.white,
+      this.prevActionCallback = _defaultButtonCallback,
+      this.nextActionCallback = _defaultButtonCallback,
+      this.buttonEnabled = true,
       });
+
   int height;
   Widget widget;
   int headerType;
@@ -26,6 +34,12 @@ class MyModalWind extends StatelessWidget {
   bool button;
   final VoidCallback ButtonCallback;
   String buttonText;
+  String nextActionText;
+  Color prevButtonColor;
+  Color nextActionColor;
+  VoidCallback prevActionCallback;
+  VoidCallback nextActionCallback;
+  final bool buttonEnabled;
 
   static void _defaultButtonCallback() {}
 
@@ -65,9 +79,14 @@ class MyModalWind extends StatelessWidget {
             left: 0,
             right: 0,
             child: _Header(
+              prevActionCallback: prevActionCallback,
               title: title,
               type: headerType,
               vh: vh,
+              nextActionText: nextActionText,
+              prevButtonColor: prevButtonColor,
+              nextActionColor: nextActionColor,
+              nextActionCallback: nextActionCallback,
             ),
           ),
           Positioned(
@@ -86,7 +105,8 @@ class MyModalWind extends StatelessWidget {
             bottom: 20,
             left: 10,
             right: 10,
-            child: MyGradientButton(callback: ButtonCallback, text: buttonText))
+            child: buttonEnabled? MyGradientButton(callback: ButtonCallback, text: buttonText): MyDisableButton(callback: ButtonCallback, text: buttonText)
+            )
         ],
       ),
     );
@@ -95,31 +115,44 @@ class MyModalWind extends StatelessWidget {
 
 class _Header extends StatelessWidget {
   _Header(
-      {super.key, required this.title, required this.type, required this.vh});
+      {super.key, 
+      required this.title, 
+      required this.type, 
+      required this.vh,
+      required this.nextActionText,
+      required this.prevButtonColor,
+      required this.nextActionColor,
+      required this.prevActionCallback,
+      required this.nextActionCallback,
+      });
   final String title;
   final int type;
   final double vh;
+  final String nextActionText;
+  final Color prevButtonColor;
+  final Color nextActionColor;
+  final VoidCallback prevActionCallback;
+  final VoidCallback nextActionCallback;
 
   @override
   Widget build(BuildContext context) {
     switch (type) {
       case 1:
-        return Container(
-          decoration: const BoxDecoration(
-            color: Color.fromARGB(228, 27, 28, 32),
-          ),
-          clipBehavior: Clip.antiAlias,
-          padding: const EdgeInsets.only(top: 10),
-          height: 9 * vh,
-          width: double.infinity,
-          alignment: Alignment.center,
-          child: BackdropFilter(
-            filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
-            child: MyTitleText(text: title, size: 22),
-          ),
-        );
+        return MyHeaderType1(title: title,vh: vh,);
+      case 2:
+        return MyHeaderType2(title: title,vh: vh,);
+      case 3:
+        return MyHeaderType3(
+          prevActionCallback: prevActionCallback,
+          title: title,
+          vh: vh,
+          nextActionText: nextActionText,
+          closeActionColor: prevButtonColor,
+          nextActionColor: nextActionColor,
+          nextActionCallback: nextActionCallback,
+          );
       default:
-        return MyTitleText(text: title, size: 22);
+        return MyHeaderType1(title: title,vh: vh,);
     }
   }
 }

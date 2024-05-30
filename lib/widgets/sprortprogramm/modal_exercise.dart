@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:trener_app/getx/MyExercisesController.dart';
 import 'package:trener_app/getx/MySportProgrammController.dart';
-import 'package:trener_app/getx/getx_controller.dart';
 import 'package:trener_app/http/exerciseUtills.dart';
 import 'package:trener_app/models/constants/colors.dart';
 import 'package:trener_app/pages/trener/sevice/sportprogramm/add_sportprogramm.dart';

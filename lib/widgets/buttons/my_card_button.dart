@@ -3,14 +3,23 @@ import 'package:flutter/material.dart';
 // Конока карточки упражнений,тестов и шаблонов
 
 class MyCardButton extends StatelessWidget {
-  MyCardButton({super.key, required this.callback, required this.widget});
+  MyCardButton({
+    super.key, 
+    required this.callback, 
+    required this.widget,
+    this.margingH = 0,
+    this.margingV = 10,
+
+    });
   Function callback;
   Widget widget;
+  double margingH;
+  double margingV;
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
+      padding: EdgeInsets.symmetric(vertical: margingV, horizontal: margingH),
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
           shadowColor: Colors.transparent,
