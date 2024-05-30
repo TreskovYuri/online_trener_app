@@ -36,9 +36,9 @@ class MyHeaderType3 extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: const BoxDecoration(
-        color: Color.fromARGB(228, 27, 28, 32),
-      ),
+      decoration: BoxDecoration(
+          color: Color.fromARGB(228, 27, 28, 32),
+          borderRadius: BorderRadius.circular(20)),
       clipBehavior: Clip.antiAlias,
       padding: const EdgeInsets.only(top: 10),
       height: 9 * vh,
@@ -54,7 +54,7 @@ class MyHeaderType3 extends StatelessWidget {
               child: IconButton(
                   onPressed: prevActionCallback,
                   icon: Icon(
-                    prevActionAcon !=1? Icons.arrow_back_ios : Icons.close,
+                    prevActionAcon != 1 ? Icons.arrow_back_ios : Icons.close,
                     color: closeActionColor,
                     size: prevActionIconSize,
                   )),
@@ -68,9 +68,7 @@ class MyHeaderType3 extends StatelessWidget {
               flex: 1,
               child: nextActionText != ''
                   ? TextButton(
-                    style: TextButton.styleFrom(
-                      padding: EdgeInsets.all(0)
-                    ),
+                      style: TextButton.styleFrom(padding: EdgeInsets.all(0)),
                       onPressed: nextActionCallback,
                       child: MyDescriptionText(
                           text: nextActionText,

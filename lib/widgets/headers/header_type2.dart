@@ -6,22 +6,21 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:trener_app/widgets/text/title.dart';
 
 class MyHeaderType2 extends StatelessWidget {
-  MyHeaderType2({
-    super.key, 
-    required this.title, 
-    required this.vh,
-    this.closeActionColor = Colors.white});
+  MyHeaderType2(
+      {super.key,
+      required this.title,
+      required this.vh,
+      this.closeActionColor = Colors.white});
   final String title;
   final double vh;
   Color closeActionColor;
 
   @override
   Widget build(BuildContext context) {
-    
     return Container(
-      decoration: const BoxDecoration(
-        color: Color.fromARGB(228, 27, 28, 32),
-      ),
+      decoration: BoxDecoration(
+          color: Color.fromARGB(228, 27, 28, 32),
+          borderRadius: BorderRadius.circular(20)),
       clipBehavior: Clip.antiAlias,
       padding: const EdgeInsets.only(top: 10),
       height: 9 * vh,
@@ -31,12 +30,9 @@ class MyHeaderType2 extends StatelessWidget {
         filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
         child: Row(
           children: [
-            IconButton(
-              onPressed: () {
-              },
-              icon: Icon(Icons.arrow_back_ios)
-            ),
-            MyTitleText(text: title, size: 22)],
+            IconButton(onPressed: () {}, icon: Icon(Icons.arrow_back_ios)),
+            MyTitleText(text: title, size: 22)
+          ],
         ),
       ),
     );

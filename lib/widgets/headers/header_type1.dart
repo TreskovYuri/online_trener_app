@@ -4,16 +4,16 @@ import 'package:flutter/cupertino.dart';
 import 'package:trener_app/widgets/text/title.dart';
 
 class MyHeaderType1 extends StatelessWidget {
-  MyHeaderType1(
-      {super.key, required this.title, required this.vh});
-  final String title;  final double vh;
+  MyHeaderType1({super.key, required this.title, required this.vh});
+  final String title;
+  final double vh;
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: const BoxDecoration(
-        color: Color.fromARGB(228, 27, 28, 32),
-      ),
+      decoration: BoxDecoration(
+          color: Color.fromARGB(228, 27, 28, 32),
+          borderRadius: BorderRadius.circular(20)),
       clipBehavior: Clip.antiAlias,
       padding: const EdgeInsets.only(top: 10),
       height: 9 * vh,

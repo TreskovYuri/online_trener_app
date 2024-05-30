@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:trener_app/models/constants/colors.dart';
 import 'package:trener_app/widgets/buttons/gradient_button.dart';
@@ -7,25 +6,23 @@ import 'package:trener_app/widgets/headers/header_type1.dart';
 import 'package:trener_app/widgets/headers/header_type2.dart';
 import 'package:trener_app/widgets/headers/header_type3.dart';
 
-
-
 class MyModalWind extends StatelessWidget {
-  MyModalWind(
-      {super.key,
-      required this.height,
-      required this.widget,
-      this.headerType = 1,
-      required this.title,
-      this.button=false,
-      this.ButtonCallback = _defaultButtonCallback,
-      this.buttonText ='Далее',
-      this.nextActionText = '',
-      this.prevButtonColor = Colors.white,
-      this.nextActionColor = Colors.white,
-      this.prevActionCallback = _defaultButtonCallback,
-      this.nextActionCallback = _defaultButtonCallback,
-      this.buttonEnabled = true,
-      });
+  MyModalWind({
+    super.key,
+    required this.height,
+    required this.widget,
+    this.headerType = 1,
+    required this.title,
+    this.button = false,
+    this.ButtonCallback = _defaultButtonCallback,
+    this.buttonText = 'Далее',
+    this.nextActionText = '',
+    this.prevButtonColor = Colors.white,
+    this.nextActionColor = Colors.white,
+    this.prevActionCallback = _defaultButtonCallback,
+    this.nextActionCallback = _defaultButtonCallback,
+    this.buttonEnabled = true,
+  });
 
   int height;
   Widget widget;
@@ -53,7 +50,7 @@ class MyModalWind extends StatelessWidget {
       decoration: const BoxDecoration(
           color: AppColors.blackThemeModalBacground,
           borderRadius: BorderRadiusDirectional.only(
-              topStart: Radius.circular(10), topEnd: Radius.circular(10))),
+              topStart: Radius.circular(20), topEnd: Radius.circular(20))),
       child: Stack(
         fit: StackFit.expand,
         children: [
@@ -66,10 +63,13 @@ class MyModalWind extends StatelessWidget {
               child: ListView(
                 children: [
                   SizedBox(
-                    height: height*.15 * vh,
+                    height: height * .15 * vh,
                   ),
                   widget,
-                  if(button)const SizedBox(height: 100,)
+                  if (button)
+                    const SizedBox(
+                      height: 100,
+                    )
                 ],
               ),
             ),
@@ -98,15 +98,19 @@ class MyModalWind extends StatelessWidget {
               height: .5 * vh,
               decoration: BoxDecoration(
                   color: AppColors.blackThemeTextOpacity,
-                  borderRadius: BorderRadius.circular(100)),
+                  borderRadius: BorderRadius.circular(20)),
             ),
           ),
-          if(button)Positioned(
-            bottom: 20,
-            left: 10,
-            right: 10,
-            child: buttonEnabled? MyGradientButton(callback: ButtonCallback, text: buttonText): MyDisableButton(callback: ButtonCallback, text: buttonText)
-            )
+          if (button)
+            Positioned(
+                bottom: 50,
+                left: 10,
+                right: 10,
+                child: buttonEnabled
+                    ? MyGradientButton(
+                        callback: ButtonCallback, text: buttonText)
+                    : MyDisableButton(
+                        callback: ButtonCallback, text: buttonText))
         ],
       ),
     );
@@ -114,17 +118,17 @@ class MyModalWind extends StatelessWidget {
 }
 
 class _Header extends StatelessWidget {
-  _Header(
-      {super.key, 
-      required this.title, 
-      required this.type, 
-      required this.vh,
-      required this.nextActionText,
-      required this.prevButtonColor,
-      required this.nextActionColor,
-      required this.prevActionCallback,
-      required this.nextActionCallback,
-      });
+  _Header({
+    super.key,
+    required this.title,
+    required this.type,
+    required this.vh,
+    required this.nextActionText,
+    required this.prevButtonColor,
+    required this.nextActionColor,
+    required this.prevActionCallback,
+    required this.nextActionCallback,
+  });
   final String title;
   final int type;
   final double vh;
@@ -138,9 +142,15 @@ class _Header extends StatelessWidget {
   Widget build(BuildContext context) {
     switch (type) {
       case 1:
-        return MyHeaderType1(title: title,vh: vh,);
+        return MyHeaderType1(
+          title: title,
+          vh: vh,
+        );
       case 2:
-        return MyHeaderType2(title: title,vh: vh,);
+        return MyHeaderType2(
+          title: title,
+          vh: vh,
+        );
       case 3:
         return MyHeaderType3(
           prevActionCallback: prevActionCallback,
@@ -150,9 +160,12 @@ class _Header extends StatelessWidget {
           closeActionColor: prevButtonColor,
           nextActionColor: nextActionColor,
           nextActionCallback: nextActionCallback,
-          );
+        );
       default:
-        return MyHeaderType1(title: title,vh: vh,);
+        return MyHeaderType1(
+          title: title,
+          vh: vh,
+        );
     }
   }
 }
