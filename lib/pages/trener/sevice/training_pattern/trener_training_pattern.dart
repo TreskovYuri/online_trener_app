@@ -1,6 +1,4 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:trener_app/getx/MyExercisesController.dart';
@@ -29,6 +27,7 @@ class _TrenerTrainingPatternState extends State<TrenerTrainingPattern> {
     super.initState();
     GetExercisePatterns();
     GetExerciseAllBelongPatterns();
+    GetExercise();
 
     _scrollController.addListener(_onScroll);
   }
@@ -101,31 +100,6 @@ class _TrenerTrainingPatternState extends State<TrenerTrainingPattern> {
         children: [
           Column(
             children: [
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: 3 * vw),
-                child: TextField(
-                  cursorColor: const Color.fromARGB(255, 112, 112, 112),
-                  style: TextStyle(color: Colors.white, fontSize: 4 * vw),
-                  decoration: InputDecoration(
-                    hintText: 'Найти...',
-                    filled: true, // Set to true to fill the background
-                    fillColor: Color(0xff23252B), // Set background color
-                    hintStyle: const TextStyle(
-                        fontWeight: FontWeight.w400,
-                        color: Colors.grey), // Customize hint text color
-                    contentPadding: EdgeInsets.symmetric(
-                        horizontal: 4 * vw, vertical: 1.5 * vh),
-                    border: OutlineInputBorder(
-                      borderSide: BorderSide.none, // Remove border
-                      borderRadius: BorderRadius.circular(4 * vw),
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderSide: BorderSide.none, // Remove border
-                      borderRadius: BorderRadius.circular(4 * vw),
-                    ),
-                  ),
-                ),
-              ),
               const SizedBox(height: 20,),
               SizedBox(
                 height: 74*vh,

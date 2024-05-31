@@ -11,6 +11,9 @@ Widget MyDescriptionText(
   return Opacity(
     opacity: opacity,
     child: Text(
+      maxLines: 1,
+      overflow: TextOverflow.ellipsis,
+      softWrap: false,
       text,
       style: TextStyle(
         color: color,

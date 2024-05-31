@@ -47,10 +47,28 @@ class MyExercisesController extends GetxController {
     //Список готовых упражнений для программы
   var _finalExercisesOnPattern = <Map<String, dynamic>>[].obs;
   List<Map<String, dynamic>> get finalExercisesOnPattern => _finalExercisesOnPattern;
-  void setFinalExercisesOnPattern(List<Map<String, dynamic>> newFinalExercisesOnPattern) {_finalExercisesOnPattern.assignAll(newFinalExercisesOnPattern);}
+  void setFinalExercisesOnPattern(Map<String, dynamic> newFinalExercisesOnPattern) {_finalExercisesOnPattern.add(newFinalExercisesOnPattern);}
 
   // Выбранная тренировка для добавдения сетов
   var _CurrentExercise = <String, dynamic>{}.obs;
   Map<String,dynamic> get CurrentExercise => _CurrentExercise.value;
   void setCurrentExercise(Map<String,dynamic> newCE) {_CurrentExercise.value = newCE;}
+
+  // Выбранная тренировка для добавдения сетов
+  var _CurrentExerciseSets = <Map<String, dynamic>>[].obs;
+  List<Map<String, dynamic>> get CurrentExerciseSets => _CurrentExerciseSets.value;
+  void setCurrentExerciseSets(List<Map<String, dynamic>> newCE) {_CurrentExerciseSets.value = newCE;}
+
+  void clearSets(){
+  _CurrentExerciseSets.clear();
 }
+
+
+  void clearAll(){
+  _CurrentExerciseSets.clear();
+  _CurrentExercise.value = {};
+  _finalExercisesOnPattern.clear();
+  _patternName.value = '';
+}
+}
+

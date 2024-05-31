@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:trener_app/models/constants/colors.dart';
 
 class MySearchInput extends StatelessWidget {
   MySearchInput({
@@ -33,7 +34,7 @@ class MySearchInput extends StatelessWidget {
                       hintText: 'Найти...',
                       filled: true, // Set to true to fill the background
                       fillColor:
-                          const Color(0xff23252B), // Set background color
+                          AppColors.blackThemeInputInlineBacground, // Set background color
                       hintStyle: const TextStyle(
                           color: Colors.grey), // Customize hint text color
                       contentPadding: EdgeInsets.symmetric(

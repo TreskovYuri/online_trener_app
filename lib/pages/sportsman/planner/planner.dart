@@ -1,21 +1,20 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:trener_app/getx/MyDateController.dart';
 import 'package:trener_app/getx/MyExercisesController.dart';
 import 'package:trener_app/getx/MyNutritionsController.dart';
 import 'package:trener_app/getx/MyPlannerConroller.dart';
 import 'package:trener_app/getx/MyTestsController.dart';
-import 'package:trener_app/getx/getx_controller.dart';
 import 'package:trener_app/http/exerciseUtills.dart';
+import 'package:trener_app/http/fixUtills.dart';
 import 'package:trener_app/http/nutritionUtills.dart';
 import 'package:trener_app/http/sportpogrammUtills.dart';
 import 'package:trener_app/http/testUtills.dart';
 import 'package:trener_app/mobx/mobx.dart';
 import 'package:trener_app/pages/sportsman/planner/ResultFix.dart';
+import 'package:trener_app/pages/sportsman/planner/fix/test.dart';
 import 'package:trener_app/pages/sportsman/planner/nutrition.dart';
 import 'package:trener_app/widgets/service/navbar.dart';
-import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:provider/provider.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
@@ -39,6 +38,7 @@ class _PlannerState extends State<Planner> {
     GetExercise();
     GetTests();
     GetNutritions();
+    GetTestFixForSportsman();
     _scrollController.addListener(_onScroll);
   }
 
@@ -94,11 +94,11 @@ class _PlannerState extends State<Planner> {
                 ),
                 SizedBox(
                   height: 7 * vh,
-                ),
+                ), 
               ],
             ),
           ),
-          _isAtTop ? Navbar() : NavbarScroll()
+          _isAtTop ? const Navbar() : const NavbarScroll()
         ],
       )),
     );
@@ -235,7 +235,7 @@ class _CalState extends State<Cal> {
                           // Navigator.pushReplacementNamed(context,'/journal');
                         },
                         child: AnimatedContainer(
-                          duration: Duration(milliseconds: 250),
+                          duration: const Duration(milliseconds: 250),
                           width: 8 * vw,
                           height: 8 * vw,
                           alignment: Alignment.center,
@@ -244,10 +244,10 @@ class _CalState extends State<Cal> {
                               gradient: RadialGradient(
                                 colors: myDateController.date ==
                                         DateFormat('dd.MM.yyyy').format(date)
-                                    ? [Color(0xff4D8AEE), Color(0xff2932FF)]
+                                    ? [const Color(0xff4D8AEE), const Color(0xff2932FF)]
                                     : [
-                                        Color.fromARGB(0, 77, 139, 238),
-                                        Color.fromARGB(0, 41, 52, 255)
+                                        const Color.fromARGB(0, 77, 139, 238),
+                                        const Color.fromARGB(0, 41, 52, 255)
                                       ],
                                 radius: 0.6,
                                 center: Alignment.center,
@@ -692,11 +692,13 @@ class _TestsCardState extends State<TestsCard> {
                                       // Обработчик нажатия
                                       showModalBottomSheet(
                                           context: context,
-                                          builder: (_) => ResultFix(
-                                              map: myTestsController.tests
+                                          builder: (_) => FixTestModalWind(
+                                            belong: e,
+                                              test: myTestsController.tests
                                                   .firstWhere((element) =>
                                                       element['id'] ==
-                                                      e['testId'])));
+                                                      e['testId'])),
+                                                      );
                                     },
                                     child: Container(
                                       margin: EdgeInsets.only(top: 1 * vh),

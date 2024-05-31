@@ -201,3 +201,19 @@ Future AddExerciseGroup(Map <String,dynamic> formData) async {
   // Возвращаемое значение в случае неудачи
   return null;
 }
+
+
+// Добавление группы
+Future AddExercisePattern(Map <String,dynamic> formData) async {
+  print(formData);
+  try {
+    Map<String, dynamic> data = await Session().post('exercises/patterns',formData);
+    print(data);
+    GetExercisePatterns();
+    return data;
+  } catch (e) {
+    print(e);
+  }
+  // Возвращаемое значение в случае неудачи
+  return null;
+}

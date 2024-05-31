@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart';
 
 class ResultFix extends StatefulWidget {
@@ -34,7 +33,7 @@ class _ResultFixState extends State<ResultFix> {
     return Container(
       height: 80 * vh,
       width: double.infinity,
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
           color: Color(0xff1B1C20),
           borderRadius: BorderRadius.only(
               topLeft: Radius.circular(10), topRight: Radius.circular(10))),

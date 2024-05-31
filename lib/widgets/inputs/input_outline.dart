@@ -1,4 +1,4 @@
-import 'package:flutter/cupertino.dart';
+
 import 'package:flutter/material.dart';
 
 class MyInputOutline extends StatelessWidget {
@@ -14,6 +14,7 @@ class MyInputOutline extends StatelessWidget {
     this.paddingGH = 10,
     this.paddingGV = 10,
     this.radius=10,
+    this.keyBoardType = TextInputType.text
     });
   String label;
   String hintText;
@@ -25,6 +26,7 @@ class MyInputOutline extends StatelessWidget {
   double paddingGV;
   double paddingGH;
   double radius;
+  TextInputType keyBoardType;
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -44,6 +46,7 @@ class MyInputOutline extends StatelessWidget {
          ),
          const SizedBox(height: 10,),
           TextField(
+            keyboardType:keyBoardType ,
             controller: controller,
             cursorColor: const Color.fromRGBO(112, 112, 112, 1),
             style: TextStyle(color: Colors.white, fontSize: textSize),

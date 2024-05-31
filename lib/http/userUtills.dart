@@ -1,9 +1,7 @@
 import 'package:get/get.dart';
 import 'package:trener_app/getx/MyUserConroller.dart';
-import 'package:trener_app/getx/getx_controller.dart';
 import 'package:trener_app/http/http.dart';
 import 'package:trener_app/mobx/mobx.dart';
-import 'package:trener_app/models/user.dart';
 // import 'package:fluttertoast/fluttertoast.dart';
 
 Future<dynamic> SignIn({required String email, required String password,required Mobx mobx}) async {
@@ -11,6 +9,7 @@ Future<dynamic> SignIn({required String email, required String password,required
   try {
     var data = await Session().post('user/login', {'email':email, 'password':password});
     if(data['status']<300){
+      // print(data['body']['session']);
       myUserController.setUser( data['body']);
     }
       return data;
