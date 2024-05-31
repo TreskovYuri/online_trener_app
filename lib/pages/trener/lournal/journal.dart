@@ -6,11 +6,13 @@ import 'package:trener_app/getx/MyNutritionsController.dart';
 import 'package:trener_app/getx/MyTestsController.dart';
 import 'package:trener_app/getx/MyUserConroller.dart';
 import 'package:trener_app/http/exerciseUtills.dart';
+import 'package:trener_app/http/fixUtills.dart';
 import 'package:trener_app/http/nutritionUtills.dart';
 import 'package:trener_app/http/sportpogrammUtills.dart';
 import 'package:trener_app/http/testUtills.dart';
 import 'package:trener_app/mobx/mobx.dart';
 import 'package:trener_app/pages/sportsman/planner/nutrition.dart';
+import 'package:trener_app/pages/trener/lournal/fix/test.dart';
 import 'package:trener_app/widgets/service/navbar.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
@@ -36,6 +38,7 @@ class _JournalState extends State<Journal> {
     GetExercise();
     GetTests();
     GetNutritions();
+    GetTestFixForTrenr();
     _scrollController.addListener(_onScroll);
   }
 
@@ -90,8 +93,8 @@ class _JournalState extends State<Journal> {
                           () => Column(
                             children:
                                 myJournalConroller.Journal.map((e) => Container(
-                                  margin: EdgeInsets.only(top: 10),
-                                        child: UserCard(
+                                    margin: EdgeInsets.only(top: 10),
+                                    child: UserCard(
                                       array: e,
                                     ))).toList(),
                           ),
@@ -143,365 +146,427 @@ class UserCard extends StatefulWidget {
 class _UserCardState extends State<UserCard> {
   bool modalFlag = false;
   MyDateController myDateController = Get.put(MyDateController());
-  MyExercisesController myExercisesController = Get.put(MyExercisesController());
+  MyExercisesController myExercisesController =
+      Get.put(MyExercisesController());
   MyTestsController myTestsController = Get.put(MyTestsController());
-  MyNutritionsController myNutritionsController = Get.put(MyNutritionsController());
-  List<Map<String,dynamic>> exercisesOnDay = [];
+  MyNutritionsController myNutritionsController =
+      Get.put(MyNutritionsController());
+  List<Map<String, dynamic>> exercisesOnDay = [];
   @override
   Widget build(BuildContext context) {
     final vw = MediaQuery.of(context).size.width / 100;
     final vh = MediaQuery.of(context).size.height / 100;
 
-   return Obx((){
-          List exercises = widget.array['exercises'].where((e)=>e['date'] == myDateController.date).toList();
-          List nutritions = widget.array['nutrition'].where((e)=>e['date'] == myDateController.date).toList();
-          List tests = widget.array['tests'].where((e)=>e['date'] == myDateController.date).toList();
+    return Obx(() {
+      List exercises = widget.array['exercises']
+          .where((e) => e['date'] == myDateController.date)
+          .toList();
+      List nutritions = widget.array['nutrition']
+          .where((e) => e['date'] == myDateController.date)
+          .toList();
+      List tests = widget.array['tests']
+          .where((e) => e['date'] == myDateController.date)
+          .toList();
 
-      
-      return (exercises.length + tests.length+ nutritions.length)>0? Container(
-      padding: EdgeInsets.all(1 * vw),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Row(
+      return (exercises.length + tests.length + nutritions.length) > 0
+          ? Container(
+              padding: EdgeInsets.all(1 * vw),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Container(
-                    width: 60 * vw,
-                    child: Text(
-                      widget.array['name'],
-                      style: TextStyle(
-                          color: const Color.fromARGB(223, 255, 255, 255),
-                          fontSize: 4 * vw,
-                          fontFamily: 'Manrope',
-                          fontWeight: FontWeight.w600),
-                    ),
-                  ),
-                  IconButton(
-                      onPressed: () {},
-                      icon: modalFlag
-                          ? IconButton(
-                              onPressed: () {
-                                setState(() {
-                                  modalFlag = !modalFlag;
-                                });
-                              },
-                              icon: const Icon(
-                                  Icons.keyboard_arrow_down_rounded), // Иконка
-                              iconSize: 6 * vw,
-                            )
-                          : IconButton(
-                              onPressed: () {
-                                setState(() {
-                                  modalFlag = !modalFlag;
-                                });
-                              },
-                              icon: const Icon(
-                                  Icons.arrow_forward_ios_rounded), // Иконка
-                              iconSize: 4 * vw,
-                            ))
-                ],
-              ),
-              Container(
-                width: 11 * vw,
-                height: 6 * vw,
-                alignment: Alignment.center,
-                decoration: BoxDecoration(
-                    gradient: (exercises.length + tests.length+ nutritions.length)>0? const RadialGradient(
-                      colors: [
-                        Color(0xff4D8AEE),
-                        Color(0xff2932FF)
-                      ], // Цвета для радиального градиента
-                      radius: 0.6, // Радиус градиента (от 0 до 1)
-                      center: Alignment.center, // Центр радиального градиента
-                    ):const RadialGradient(
-                      colors: [
-                        Color.fromARGB(98, 127, 127, 127),
-                        Color.fromARGB(93, 128, 128, 128)
-                      ], // Цвета для радиального градиента
-                      radius: 0.6, // Радиус градиента (от 0 до 1)
-                      center: Alignment.center, // Центр радиального градиента
-                    ),
-                    borderRadius: BorderRadius.circular(100)),
-                child: Text(
-                      (exercises.length + tests.length+ nutritions.length).toString(),
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontFamily: 'Manrope',
-                          fontWeight: FontWeight.w500,
-                          decoration: TextDecoration.none,
-                          fontSize: 3.5 * vw),
-                    )
-              ),
-            ],
-          ),
-          Row(
-            children: [
-              Container(
-                padding:
-                    EdgeInsets.symmetric(vertical: 2 * vw, horizontal: 5 * vw),
-                decoration: BoxDecoration(
-                    color: Color.fromARGB(23, 152, 154, 161),
-                    borderRadius: BorderRadius.circular(10 * vw)),
-                child: Text(
-                  widget.array['post'],
-                  style: TextStyle(
-                      color: const Color.fromARGB(189, 255, 255, 255),
-                      fontFamily: 'Manrope',
-                      fontWeight: FontWeight.w500,
-                      decoration: TextDecoration.none,
-                      fontSize: 3 * vw),
-                ),
-              ),
-              SizedBox(
-                width: 1 * vw,
-              ),
-              Container(
-                padding:
-                    EdgeInsets.symmetric(vertical: 2 * vw, horizontal: 5 * vw),
-                decoration: BoxDecoration(
-                    color: Color.fromARGB(23, 152, 154, 161),
-                    borderRadius: BorderRadius.circular(10 * vw)),
-                child: Text(
-                  widget.array['team'],
-                  style: TextStyle(
-                      color: const Color.fromARGB(189, 255, 255, 255),
-                      fontFamily: 'Manrope',
-                      fontWeight: FontWeight.w500,
-                      decoration: TextDecoration.none,
-                      fontSize: 3 * vw),
-                ),
-              ),
-            ],
-          ),
-          modalFlag
-              ? Container(
-                  child: Column(
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      ...exercises.map((e) => GestureDetector(
-                            onTap: () {
-                              Navigator.pushNamed(
-                                  context, '/training_details_trener',
-                                  arguments: {
-                                    'exercise':myExercisesController.exercises.firstWhere((el) => el['id']==e['exerciseId']),
-                                    "sets":e['sets']
-                                  });
-                            },
-                            child: Container(
-                                margin: EdgeInsets.only(top: 1 * vh),
-                                child: Slidable(
-                                  key: UniqueKey(),
-                                  endActionPane: ActionPane(
-                                      motion: const BehindMotion(),
-                                      key: UniqueKey(),
-                                      dismissible: DismissiblePane(
-                                        key: UniqueKey(),
-                                        onDismissed: () => print('delete'),
-                                      ),
-                                      children: [
-                                        SlidableAction(
-                                          onPressed: (context) {},
-                                          backgroundColor: Colors.red,
-
-                                          // icon: Icons.delete,
-                                          label: "Отменить",
-                                          borderRadius:
-                                              BorderRadius.circular(20),
-                                        )
-                                      ]),
-                                  child: Container(
-                                    padding: EdgeInsets.symmetric(
-                                        vertical: 2 * vw, horizontal: 4 * vw),
-                                    decoration: BoxDecoration(
-                                        color: Color(0xff23252B),
-                                        borderRadius:
-                                            BorderRadius.circular(5 * vw)),
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Container(
-                                          width: 60 * vw,
-                                          child: Text(
-                                            myExercisesController.exercises.firstWhere((element) => element['id'] == e['exerciseId'])['nameRu'],
-                                            style: TextStyle(
-                                                color: const Color.fromARGB(
-                                                    210, 255, 255, 255),
-                                                fontFamily: 'Manrope',
-                                                fontWeight: FontWeight.w600,
-                                                decoration: TextDecoration.none,
-                                                fontSize: 3 * vw),
-                                          ),
-                                        ),
-                                        IconButton(
-                                          onPressed: () {
-                                            setState(() {
-                                              debugPrint('dev');
-                                            });
-                                          },
-                                          icon: const Icon(Icons
-                                              .arrow_forward_ios_rounded), // Иконка
-                                          iconSize: 4 * vw,
-                                        ),
-                                      ],
+                      Row(
+                        children: [
+                          Container(
+                            width: 60 * vw,
+                            child: Text(
+                              widget.array['name'],
+                              style: TextStyle(
+                                  color:
+                                      const Color.fromARGB(223, 255, 255, 255),
+                                  fontSize: 4 * vw,
+                                  fontFamily: 'Manrope',
+                                  fontWeight: FontWeight.w600),
+                            ),
+                          ),
+                          IconButton(
+                              onPressed: () {},
+                              icon: modalFlag
+                                  ? IconButton(
+                                      onPressed: () {
+                                        setState(() {
+                                          modalFlag = !modalFlag;
+                                        });
+                                      },
+                                      icon: const Icon(Icons
+                                          .keyboard_arrow_down_rounded), // Иконка
+                                      iconSize: 6 * vw,
+                                    )
+                                  : IconButton(
+                                      onPressed: () {
+                                        setState(() {
+                                          modalFlag = !modalFlag;
+                                        });
+                                      },
+                                      icon: const Icon(Icons
+                                          .arrow_forward_ios_rounded), // Иконка
+                                      iconSize: 4 * vw,
+                                    ))
+                        ],
+                      ),
+                      Container(
+                          width: 11 * vw,
+                          height: 6 * vw,
+                          alignment: Alignment.center,
+                          decoration: BoxDecoration(
+                              gradient: (exercises.length +
+                                          tests.length +
+                                          nutritions.length) >
+                                      0
+                                  ? const RadialGradient(
+                                      colors: [
+                                        Color(0xff4D8AEE),
+                                        Color(0xff2932FF)
+                                      ], // Цвета для радиального градиента
+                                      radius:
+                                          0.6, // Радиус градиента (от 0 до 1)
+                                      center: Alignment
+                                          .center, // Центр радиального градиента
+                                    )
+                                  : const RadialGradient(
+                                      colors: [
+                                        Color.fromARGB(98, 127, 127, 127),
+                                        Color.fromARGB(93, 128, 128, 128)
+                                      ], // Цвета для радиального градиента
+                                      radius:
+                                          0.6, // Радиус градиента (от 0 до 1)
+                                      center: Alignment
+                                          .center, // Центр радиального градиента
                                     ),
-                                  ),
-                                )),
+                              borderRadius: BorderRadius.circular(100)),
+                          child: Text(
+                            (exercises.length +
+                                    tests.length +
+                                    nutritions.length)
+                                .toString(),
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontFamily: 'Manrope',
+                                fontWeight: FontWeight.w500,
+                                decoration: TextDecoration.none,
+                                fontSize: 3.5 * vw),
                           )),
-                      ...tests.map((e) => GestureDetector(
-                            onTap: () {
-                              // Navigator.pushNamed(
-                              //     context, '/training_details_trener',
-                              //     arguments: {
-                              //       'exercise':myTestsController.tests.firstWhere((el) => el['id']==e['testId']),
-                              //       "sets":e['sets']
-                              //     });
-                            },
-                            child: Container(
-                                margin: EdgeInsets.only(top: 1 * vh),
-                                child: Slidable(
-                                  key: UniqueKey(),
-                                  endActionPane: ActionPane(
-                                      motion: const BehindMotion(),
-                                      key: UniqueKey(),
-                                      dismissible: DismissiblePane(
-                                        key: UniqueKey(),
-                                        onDismissed: () => print('delete'),
-                                      ),
-                                      children: [
-                                        SlidableAction(
-                                          onPressed: (context) {},
-                                          backgroundColor: Colors.red,
-
-                                          // icon: Icons.delete,
-                                          label: "Отменить",
-                                          borderRadius:
-                                              BorderRadius.circular(20),
-                                        )
-                                      ]),
-                                  child: Container(
-                                    padding: EdgeInsets.symmetric(
-                                        vertical: 2 * vw, horizontal: 4 * vw),
-                                    decoration: BoxDecoration(
-                                        color: Color(0xff23252B),
-                                        borderRadius:
-                                            BorderRadius.circular(5 * vw)),
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Container(
-                                          width: 60 * vw,
-                                          child: Text(
-                                            '${myTestsController.tests.firstWhere((el) => el['id'] == e['testId'])['name'] }',
-                                            style: TextStyle(
-                                                color: const Color.fromARGB(
-                                                    210, 255, 255, 255),
-                                                fontFamily: 'Manrope',
-                                                fontWeight: FontWeight.w600,
-                                                decoration: TextDecoration.none,
-                                                fontSize: 3 * vw),
-                                          ),
-                                        ),
-                                        IconButton(
-                                          onPressed: () {
-                                            setState(() {
-                                              debugPrint('dev');
-                                            });
-                                          },
-                                          icon: const Icon(Icons
-                                              .arrow_forward_ios_rounded), // Иконка
-                                          iconSize: 4 * vw,
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                )),
-                          )),
-                      ...nutritions.map((e) => GestureDetector(
-                            onTap: () {
-                              // Navigator.pushNamed(
-                              //     context, '/training_details_trener',
-                              //     arguments: {
-                              //       'exercise':myExercisesController.exercises.firstWhere((el) => el['id']==e['exerciseId']),
-                              //       "sets":e['sets']
-                              //     });
-                              Get.to(Nutrition(nutrition: myNutritionsController.nutritions.firstWhere((el)=>el['id'] == e['nutritionId']),));
-                            },
-                            child: Container(
-                                margin: EdgeInsets.only(top: 1 * vh),
-                                child: Slidable(
-                                  key: UniqueKey(),
-                                  endActionPane: ActionPane(
-                                      motion: const BehindMotion(),
-                                      key: UniqueKey(),
-                                      dismissible: DismissiblePane(
-                                        key: UniqueKey(),
-                                        onDismissed: () => print('delete'),
-                                      ),
-                                      children: [
-                                        SlidableAction(
-                                          onPressed: (context) {},
-                                          backgroundColor: Colors.red,
-
-                                          // icon: Icons.delete,
-                                          label: "Отменить",
-                                          borderRadius:
-                                              BorderRadius.circular(20),
-                                        )
-                                      ]),
-                                  child: Container(
-                                    padding: EdgeInsets.symmetric(
-                                        vertical: 2 * vw, horizontal: 4 * vw),
-                                    decoration: BoxDecoration(
-                                        color: Color(0xff23252B),
-                                        borderRadius:
-                                            BorderRadius.circular(5 * vw)),
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Container(
-                                          width: 60 * vw,
-                                          child: Text(
-                                            myNutritionsController.nutritions.firstWhere((element) => element['id'] == e['nutritionId'])['name'],
-                                            style: TextStyle(
-                                                color: const Color.fromARGB(
-                                                    210, 255, 255, 255),
-                                                fontFamily: 'Manrope',
-                                                fontWeight: FontWeight.w600,
-                                                decoration: TextDecoration.none,
-                                                fontSize: 3 * vw),
-                                          ),
-                                        ),
-                                        IconButton(
-                                          onPressed: () {
-                                            setState(() {
-                                              debugPrint('dev');
-                                            });
-                                          },
-                                          icon: const Icon(Icons
-                                              .arrow_forward_ios_rounded), // Иконка
-                                          iconSize: 4 * vw,
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                )),
-                          ))
                     ],
                   ),
-                )
-              : Container()
-        ],
-      ),
-    ):Container();
-    });
-    
+                  Row(
+                    children: [
+                      Container(
+                        padding: EdgeInsets.symmetric(
+                            vertical: 2 * vw, horizontal: 5 * vw),
+                        decoration: BoxDecoration(
+                            color: Color.fromARGB(23, 152, 154, 161),
+                            borderRadius: BorderRadius.circular(10 * vw)),
+                        child: Text(
+                          widget.array['post'],
+                          style: TextStyle(
+                              color: const Color.fromARGB(189, 255, 255, 255),
+                              fontFamily: 'Manrope',
+                              fontWeight: FontWeight.w500,
+                              decoration: TextDecoration.none,
+                              fontSize: 3 * vw),
+                        ),
+                      ),
+                      SizedBox(
+                        width: 1 * vw,
+                      ),
+                      Container(
+                        padding: EdgeInsets.symmetric(
+                            vertical: 2 * vw, horizontal: 5 * vw),
+                        decoration: BoxDecoration(
+                            color: Color.fromARGB(23, 152, 154, 161),
+                            borderRadius: BorderRadius.circular(10 * vw)),
+                        child: Text(
+                          widget.array['team'],
+                          style: TextStyle(
+                              color: const Color.fromARGB(189, 255, 255, 255),
+                              fontFamily: 'Manrope',
+                              fontWeight: FontWeight.w500,
+                              decoration: TextDecoration.none,
+                              fontSize: 3 * vw),
+                        ),
+                      ),
+                    ],
+                  ),
+                  modalFlag
+                      ? Container(
+                          child: Column(
+                            children: [
+                              ...exercises.map((e) => GestureDetector(
+                                    onTap: () {
+                                      Navigator.pushNamed(
+                                          context, '/training_details_trener',
+                                          arguments: {
+                                            'exercise': myExercisesController
+                                                .exercises
+                                                .firstWhere((el) =>
+                                                    el['id'] ==
+                                                    e['exerciseId']),
+                                            "sets": e['sets']
+                                          });
+                                    },
+                                    child: Container(
+                                        margin: EdgeInsets.only(top: 1 * vh),
+                                        child: Slidable(
+                                          key: UniqueKey(),
+                                          endActionPane: ActionPane(
+                                              motion: const BehindMotion(),
+                                              key: UniqueKey(),
+                                              dismissible: DismissiblePane(
+                                                key: UniqueKey(),
+                                                onDismissed: () =>
+                                                    print('delete'),
+                                              ),
+                                              children: [
+                                                SlidableAction(
+                                                  onPressed: (context) {},
+                                                  backgroundColor: Colors.red,
 
-    
+                                                  // icon: Icons.delete,
+                                                  label: "Отменить",
+                                                  borderRadius:
+                                                      BorderRadius.circular(20),
+                                                )
+                                              ]),
+                                          child: Container(
+                                            padding: EdgeInsets.symmetric(
+                                                vertical: 2 * vw,
+                                                horizontal: 4 * vw),
+                                            decoration: BoxDecoration(
+                                                color: Color(0xff23252B),
+                                                borderRadius:
+                                                    BorderRadius.circular(
+                                                        5 * vw)),
+                                            child: Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              children: [
+                                                Container(
+                                                  width: 60 * vw,
+                                                  child: Text(
+                                                    myExercisesController
+                                                            .exercises
+                                                            .firstWhere((element) =>
+                                                                element['id'] ==
+                                                                e['exerciseId'])[
+                                                        'nameRu'],
+                                                    style: TextStyle(
+                                                        color: const Color
+                                                            .fromARGB(
+                                                            210, 255, 255, 255),
+                                                        fontFamily: 'Manrope',
+                                                        fontWeight:
+                                                            FontWeight.w600,
+                                                        decoration:
+                                                            TextDecoration.none,
+                                                        fontSize: 3 * vw),
+                                                  ),
+                                                ),
+                                                IconButton(
+                                                  onPressed: () {
+                                                    setState(() {
+                                                      debugPrint('dev');
+                                                    });
+                                                  },
+                                                  icon: const Icon(Icons
+                                                      .arrow_forward_ios_rounded), // Иконка
+                                                  iconSize: 4 * vw,
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        )),
+                                  )),
+                              ...tests.map((e) => GestureDetector(
+                                    onTap: () {
+                                      showModalBottomSheet(
+                                          context: context,
+                                          builder: (_) =>
+                                              FixTestModalWindTrener(
+                                                  sportsmanId:
+                                                      widget.array['id'],
+                                                  test: myTestsController.tests
+                                                      .firstWhere((el) =>
+                                                          el['id'] ==
+                                                          e['testId']),
+                                                  belong: e));
+                                    },
+                                    child: Container(
+                                        margin: EdgeInsets.only(top: 1 * vh),
+                                        child: Slidable(
+                                          key: UniqueKey(),
+                                          endActionPane: ActionPane(
+                                              motion: const BehindMotion(),
+                                              key: UniqueKey(),
+                                              dismissible: DismissiblePane(
+                                                key: UniqueKey(),
+                                                onDismissed: () =>
+                                                    print('delete'),
+                                              ),
+                                              children: [
+                                                SlidableAction(
+                                                  onPressed: (context) {},
+                                                  backgroundColor: Colors.red,
+
+                                                  // icon: Icons.delete,
+                                                  label: "Отменить",
+                                                  borderRadius:
+                                                      BorderRadius.circular(20),
+                                                )
+                                              ]),
+                                          child: Container(
+                                            padding: EdgeInsets.symmetric(
+                                                vertical: 2 * vw,
+                                                horizontal: 4 * vw),
+                                            decoration: BoxDecoration(
+                                                color: Color(0xff23252B),
+                                                borderRadius:
+                                                    BorderRadius.circular(
+                                                        5 * vw)),
+                                            child: Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              children: [
+                                                Container(
+                                                  width: 60 * vw,
+                                                  child: Text(
+                                                    '${myTestsController.tests.firstWhere((el) => el['id'] == e['testId'])['name']}',
+                                                    style: TextStyle(
+                                                        color: const Color
+                                                            .fromARGB(
+                                                            210, 255, 255, 255),
+                                                        fontFamily: 'Manrope',
+                                                        fontWeight:
+                                                            FontWeight.w600,
+                                                        decoration:
+                                                            TextDecoration.none,
+                                                        fontSize: 3 * vw),
+                                                  ),
+                                                ),
+                                                IconButton(
+                                                  onPressed: () {
+                                                    setState(() {
+                                                      debugPrint('dev');
+                                                    });
+                                                  },
+                                                  icon: const Icon(Icons
+                                                      .arrow_forward_ios_rounded), // Иконка
+                                                  iconSize: 4 * vw,
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        )),
+                                  )),
+                              ...nutritions.map((e) => GestureDetector(
+                                    onTap: () {
+                                      // Navigator.pushNamed(
+                                      //     context, '/training_details_trener',
+                                      //     arguments: {
+                                      //       'exercise':myExercisesController.exercises.firstWhere((el) => el['id']==e['exerciseId']),
+                                      //       "sets":e['sets']
+                                      //     });
+                                      Get.to(Nutrition(
+                                        nutrition: myNutritionsController
+                                            .nutritions
+                                            .firstWhere((el) =>
+                                                el['id'] == e['nutritionId']),
+                                      ));
+                                    },
+                                    child: Container(
+                                        margin: EdgeInsets.only(top: 1 * vh),
+                                        child: Slidable(
+                                          key: UniqueKey(),
+                                          endActionPane: ActionPane(
+                                              motion: const BehindMotion(),
+                                              key: UniqueKey(),
+                                              dismissible: DismissiblePane(
+                                                key: UniqueKey(),
+                                                onDismissed: () =>
+                                                    print('delete'),
+                                              ),
+                                              children: [
+                                                SlidableAction(
+                                                  onPressed: (context) {},
+                                                  backgroundColor: Colors.red,
+
+                                                  // icon: Icons.delete,
+                                                  label: "Отменить",
+                                                  borderRadius:
+                                                      BorderRadius.circular(20),
+                                                )
+                                              ]),
+                                          child: Container(
+                                            padding: EdgeInsets.symmetric(
+                                                vertical: 2 * vw,
+                                                horizontal: 4 * vw),
+                                            decoration: BoxDecoration(
+                                                color: Color(0xff23252B),
+                                                borderRadius:
+                                                    BorderRadius.circular(
+                                                        5 * vw)),
+                                            child: Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              children: [
+                                                Container(
+                                                  width: 60 * vw,
+                                                  child: Text(
+                                                    myNutritionsController
+                                                        .nutritions
+                                                        .firstWhere((element) =>
+                                                            element['id'] ==
+                                                            e['nutritionId'])['name'],
+                                                    style: TextStyle(
+                                                        color: const Color
+                                                            .fromARGB(
+                                                            210, 255, 255, 255),
+                                                        fontFamily: 'Manrope',
+                                                        fontWeight:
+                                                            FontWeight.w600,
+                                                        decoration:
+                                                            TextDecoration.none,
+                                                        fontSize: 3 * vw),
+                                                  ),
+                                                ),
+                                                IconButton(
+                                                  onPressed: () {
+                                                    setState(() {
+                                                      debugPrint('dev');
+                                                    });
+                                                  },
+                                                  icon: const Icon(Icons
+                                                      .arrow_forward_ios_rounded), // Иконка
+                                                  iconSize: 4 * vw,
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        )),
+                                  ))
+                            ],
+                          ),
+                        )
+                      : Container()
+                ],
+              ),
+            )
+          : Container();
+    });
   }
 }
 

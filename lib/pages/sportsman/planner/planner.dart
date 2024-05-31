@@ -86,15 +86,15 @@ class _PlannerState extends State<Planner> {
                       TrainingCard(),
                       TestsCard(),
                       NutritionsCard(),
-                      FixResiltsCard(),
-                      NutritiosPriemCard(),
-                      ConsultationsCard(),
+                      // FixResiltsCard(),
+                      // NutritiosPriemCard(),
+                      // ConsultationsCard(),
                     ],
                   ),
                 ),
                 SizedBox(
                   height: 7 * vh,
-                ), 
+                ),
               ],
             ),
           ),
@@ -244,7 +244,10 @@ class _CalState extends State<Cal> {
                               gradient: RadialGradient(
                                 colors: myDateController.date ==
                                         DateFormat('dd.MM.yyyy').format(date)
-                                    ? [const Color(0xff4D8AEE), const Color(0xff2932FF)]
+                                    ? [
+                                        const Color(0xff4D8AEE),
+                                        const Color(0xff2932FF)
+                                      ]
                                     : [
                                         const Color.fromARGB(0, 77, 139, 238),
                                         const Color.fromARGB(0, 41, 52, 255)
@@ -691,14 +694,14 @@ class _TestsCardState extends State<TestsCard> {
                                     onTap: () {
                                       // Обработчик нажатия
                                       showModalBottomSheet(
-                                          context: context,
-                                          builder: (_) => FixTestModalWind(
+                                        context: context,
+                                        builder: (_) => FixTestModalWind(
                                             belong: e,
-                                              test: myTestsController.tests
-                                                  .firstWhere((element) =>
-                                                      element['id'] ==
-                                                      e['testId'])),
-                                                      );
+                                            test: myTestsController.tests
+                                                .firstWhere((element) =>
+                                                    element['id'] ==
+                                                    e['testId'])),
+                                      );
                                     },
                                     child: Container(
                                       margin: EdgeInsets.only(top: 1 * vh),
@@ -799,7 +802,8 @@ class NutritionsCard extends StatefulWidget {
 class _NutritionsCardState extends State<NutritionsCard> {
   MyPlannerConroller myPlannerConroller = Get.put(MyPlannerConroller());
   MyDateController myDateController = Get.put(MyDateController());
-  MyNutritionsController myNutritionsController = Get.put(MyNutritionsController());
+  MyNutritionsController myNutritionsController =
+      Get.put(MyNutritionsController());
   List<Map<String, dynamic>> dayExercises = [];
   bool trainingOnOff = false;
   List exercises = [];
@@ -867,7 +871,8 @@ class _NutritionsCardState extends State<NutritionsCard> {
                           ),
                         ),
                         myPlannerConroller.Planner['nutritions'] != null &&
-                                myPlannerConroller.Planner['nutritions'].length >
+                                myPlannerConroller
+                                        .Planner['nutritions'].length >
                                     0 &&
                                 myPlannerConroller.Planner['nutritions']
                                         .where((el) =>
@@ -946,7 +951,12 @@ class _NutritionsCardState extends State<NutritionsCard> {
                                   return GestureDetector(
                                     onTap: () {
                                       // Обработчик нажатия
-                                      Get.to(Nutrition(nutrition: myNutritionsController.nutritions.firstWhere((element) => element['id'] == e['nutritionId'])));
+                                      Get.to(Nutrition(
+                                          nutrition: myNutritionsController
+                                              .nutritions
+                                              .firstWhere((element) =>
+                                                  element['id'] ==
+                                                  e['nutritionId'])));
                                     },
                                     child: Container(
                                       margin: EdgeInsets.only(top: 1 * vh),
@@ -987,10 +997,12 @@ class _NutritionsCardState extends State<NutritionsCard> {
                                               Container(
                                                 width: 70 * vw,
                                                 child: Text(
-                                                  myNutritionsController.nutritions
-                                                      .firstWhere((element) =>
-                                                          element['id'] ==
-                                                          e['nutritionId'])['name'],
+                                                  myNutritionsController
+                                                          .nutritions
+                                                          .firstWhere((element) =>
+                                                              element['id'] ==
+                                                              e['nutritionId'])[
+                                                      'name'],
                                                   style: TextStyle(
                                                       color: const Color
                                                           .fromARGB(

@@ -6,9 +6,8 @@ import 'package:get/get.dart';
 import 'package:trener_app/getx/MyExercisesController.dart';
 import 'package:trener_app/getx/MyUserConroller.dart';
 import 'package:trener_app/http/exerciseUtills.dart';
-// import 'package:file_picker/file_picker.dart';
+import 'package:file_picker/file_picker.dart';
 import 'dart:convert';
-// import 'package:file_picker/file_picker.dart';
 
 class ModalCreateTraining extends StatefulWidget {
   const ModalCreateTraining({super.key});
@@ -25,7 +24,8 @@ class _ModalCreateTrainingState extends State<ModalCreateTraining> {
   final TextEditingController nameRuController = TextEditingController();
   final TextEditingController nameEngController = TextEditingController();
   final TextEditingController linkController = TextEditingController();
-  MyExercisesController myExercisesController = Get.put(MyExercisesController());
+  MyExercisesController myExercisesController =
+      Get.put(MyExercisesController());
 
   void setListEquipments(String equipment) {
     setState(() {
@@ -52,7 +52,6 @@ class _ModalCreateTrainingState extends State<ModalCreateTraining> {
   Widget build(BuildContext context) {
     final vw = MediaQuery.of(context).size.width / 100;
     final vh = MediaQuery.of(context).size.height / 100;
-
 
     return Container(
       height: 90 * vh,
@@ -317,8 +316,11 @@ class _ModalCreateTrainingState extends State<ModalCreateTraining> {
                         "nameEng": nameEngController.text,
                         "descriptionEng": '',
                         "equipments": jsonEncode(listEquipments),
-                        "stage": jsonEncode([myExercisesController.currentStage.toString(),]),
-                        "groupId": myExercisesController.currentGroup.toString(),
+                        "stage": jsonEncode([
+                          myExercisesController.currentStage.toString(),
+                        ]),
+                        "groupId":
+                            myExercisesController.currentGroup.toString(),
                         "musclegroups": jsonEncode(muscleGroups),
                         "pocazatel1Name": '',
                         "pocazatel1Type": '',
@@ -1920,18 +1922,20 @@ class Page4 extends StatefulWidget {
 }
 
 class _Page4State extends State<Page4> {
-  MyExercisesController myExercisesController = Get.put(MyExercisesController());
+  MyExercisesController myExercisesController =
+      Get.put(MyExercisesController());
   String stage = 'Разминка';
   bool stageModalFlag = false;
-  // PlatformFile? file;
-    late List<Map<String, dynamic>> groupList;
-String localGroup = 'Мои группы';
+  PlatformFile? file;
+  late List<Map<String, dynamic>> groupList;
+  String localGroup = 'Мои группы';
   @override
   void initState() {
     groupList = myExercisesController.groups;
     super.initState();
   }
-    void setLocalGroup(group) {
+
+  void setLocalGroup(group) {
     setState(() {
       localGroup = group;
     });
@@ -1944,15 +1948,15 @@ String localGroup = 'Мои группы';
     });
   }
 
-  // void selectFile() async {
-  //   FilePickerResult? result = await FilePicker.platform.pickFiles();
-  //   if (result == null) return;
-  //   setState(() {
-  //     file = result.files.first;
-  //   });
-  // }
+  void selectFile() async {
+    FilePickerResult? result = await FilePicker.platform.pickFiles();
+    if (result == null) return;
+    setState(() {
+      file = result.files.first;
+    });
+  }
 
-    void addGroup(newGroup) {
+  void addGroup(newGroup) {
     if (groupList.contains(newGroup)) {
       Get.snackbar('Ошибка воода!', 'Такая группа уже существует!',
           colorText: Colors.white);
@@ -2130,31 +2134,31 @@ String localGroup = 'Мои группы';
               ],
             ),
           ),
-          // file != null
-          //     ? GestureDetector(
-          //         onTap: selectFile,
-          //         child: Container(
-          //           margin: EdgeInsets.all(3 * vw),
-          //           width: double.infinity,
-          //           height: 25 * vh,
-          //           child: Image.file(
-          //             File(file!.path!),
-          //             fit: BoxFit.cover,
-          //           ),
-          //         ),
-          //       )
-          //     : GestureDetector(
-          //         onTap: selectFile,
-          //         child: Container(
-          //           margin: EdgeInsets.all(3 * vw),
-          //           width: double.infinity,
-          //           height: 25 * vh,
-          //           child: SvgPicture.asset(
-          //             'assets/img/upload_file.svg',
-          //             fit: BoxFit.cover,
-          //           ),
-          //         ),
-          //       ),
+          file != null
+              ? GestureDetector(
+                  onTap: selectFile,
+                  child: Container(
+                    margin: EdgeInsets.all(3 * vw),
+                    width: double.infinity,
+                    height: 25 * vh,
+                    child: Image.file(
+                      File(file!.path!),
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                )
+              : GestureDetector(
+                  onTap: selectFile,
+                  child: Container(
+                    margin: EdgeInsets.all(3 * vw),
+                    width: double.infinity,
+                    height: 25 * vh,
+                    child: SvgPicture.asset(
+                      'assets/img/upload_file.svg',
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                ),
           Padding(
             padding: EdgeInsets.fromLTRB(5 * vw, 0 * vw, 5 * vw, 3 * vw),
             child: Row(
@@ -2202,69 +2206,69 @@ String localGroup = 'Мои группы';
           SizedBox(
             height: 3 * vh,
           ),
-           Padding(
-          padding: const EdgeInsets.all(12),
-          child: ElevatedButton(
-            onPressed: () {
-              showModalBottomSheet(
-                  context: context,
-                  builder: (_) => ModalGroup(
-                      localEdIzm: localGroup,
-                      serLocalEdIzm: setLocalGroup,
-                      groupList: myExercisesController.groups));
-            },
-            style: ElevatedButton.styleFrom(
-              foregroundColor: const Color.fromARGB(112, 1, 110, 179),
-              backgroundColor: const Color(0xff23252B),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(
-                    3 * vw), // Устанавливаем радиус круглых углов
+          Padding(
+            padding: const EdgeInsets.all(12),
+            child: ElevatedButton(
+              onPressed: () {
+                showModalBottomSheet(
+                    context: context,
+                    builder: (_) => ModalGroup(
+                        localEdIzm: localGroup,
+                        serLocalEdIzm: setLocalGroup,
+                        groupList: myExercisesController.groups));
+              },
+              style: ElevatedButton.styleFrom(
+                foregroundColor: const Color.fromARGB(112, 1, 110, 179),
+                backgroundColor: const Color(0xff23252B),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(
+                      3 * vw), // Устанавливаем радиус круглых углов
+                ),
+              ),
+              child: Container(
+                height: 50,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      localGroup,
+                      textAlign: TextAlign.start,
+                      style: TextStyle(
+                          color: const Color.fromARGB(115, 255, 255, 255),
+                          fontSize: 4 * vw,
+                          fontWeight: FontWeight.w400,
+                          fontFamily: 'Manrope'),
+                    ),
+                    const Icon(
+                      Icons.keyboard_arrow_down_rounded,
+                      color: Color.fromARGB(155, 255, 255, 255),
+                    )
+                  ],
+                ),
               ),
             ),
-            child: Container(
-              height: 50,
+          ),
+          GestureDetector(
+            onTap: () {
+              showModalBottomSheet(
+                  context: context,
+                  builder: (_) => ModalAddNewGroup(addGroup: addGroup));
+            },
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 15),
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(
-                    localGroup,
-                    textAlign: TextAlign.start,
-                    style: TextStyle(
-                        color: const Color.fromARGB(115, 255, 255, 255),
-                        fontSize: 4 * vw,
-                        fontWeight: FontWeight.w400,
-                        fontFamily: 'Manrope'),
-                  ),
-                  const Icon(
-                    Icons.keyboard_arrow_down_rounded,
-                    color: Color.fromARGB(155, 255, 255, 255),
-                  )
+                  Text('Создать новую',
+                      textAlign: TextAlign.start,
+                      style: TextStyle(
+                          color: Color(0xff4D8AEE),
+                          fontSize: 3.3 * vw,
+                          fontWeight: FontWeight.w400,
+                          fontFamily: 'Manrope')),
                 ],
               ),
             ),
           ),
-        ),
-        GestureDetector(
-          onTap: () {
-            showModalBottomSheet(
-                context: context,
-                builder: (_) => ModalAddNewGroup(addGroup: addGroup));
-          },
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 15),
-            child: Row(
-              children: [
-                Text('Создать новую',
-                    textAlign: TextAlign.start,
-                    style: TextStyle(
-                        color: Color(0xff4D8AEE),
-                        fontSize: 3.3 * vw,
-                        fontWeight: FontWeight.w400,
-                        fontFamily: 'Manrope')),
-              ],
-            ),
-          ),
-        ),
         ],
       ),
     );
@@ -2285,7 +2289,8 @@ class ModalGroup extends StatefulWidget {
 }
 
 class _ModalGroupState extends State<ModalGroup> {
-  MyExercisesController myExercisesController = Get.put(MyExercisesController());
+  MyExercisesController myExercisesController =
+      Get.put(MyExercisesController());
   String widgetModalEdIzm = 'кг';
   List<Map<String, dynamic>> typeList = [];
 
@@ -2444,7 +2449,6 @@ class _ModalGroupState extends State<ModalGroup> {
   }
 }
 
-
 class ModalAddNewGroup extends StatefulWidget {
   ModalAddNewGroup({super.key, required this.addGroup});
   Function addGroup;
@@ -2520,9 +2524,7 @@ class _ModalAddNewGroupState extends State<ModalAddNewGroup> {
                 child: GestureDetector(
                   onTap: () {
                     if (inputController.text.length > 0) {
-                      AddExerciseGroup({
-                        "name":inputController.text
-                      });
+                      AddExerciseGroup({"name": inputController.text});
                       GetExerciseGroups();
                       Navigator.pop(context);
                     } else {
@@ -2591,8 +2593,6 @@ class _ModalAddNewGroupState extends State<ModalAddNewGroup> {
     ;
   }
 }
-
-
 
 class ModalStage extends StatefulWidget {
   ModalStage(

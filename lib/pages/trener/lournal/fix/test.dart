@@ -8,27 +8,35 @@ import 'package:trener_app/utills/IntMonthToStringRus.dart';
 import 'package:trener_app/widgets/inputs/input_inline_fill.dart';
 import 'package:trener_app/widgets/modal_wind.dart';
 
-class FixTestModalWind extends StatelessWidget {
-  FixTestModalWind({super.key, required this.test, required this.belong});
+class FixTestModalWindTrener extends StatelessWidget {
+  FixTestModalWindTrener(
+      {super.key,
+      required this.test,
+      required this.belong,
+      required this.sportsmanId});
   Map<String, dynamic> test;
   TextEditingController dateController = TextEditingController();
   TextEditingController resultController = TextEditingController();
   MyFixController myFixController = Get.put(MyFixController());
+  int sportsmanId;
 
   Map<String, dynamic> belong;
 
   @override
   Widget build(BuildContext context) {
+    print(myFixController.sportsmanTestsFix);
     final bool fix = myFixController.sportsmanTestsFix.any((el) =>
         el['date'] == belong['date'] &&
-        el['programmId'] == belong['programmId']);
+        el['programmId'] == belong['programmId'] &&
+        el['sportsmanId'] == sportsmanId);
     final currentDate = DateTime.now();
     final formattedDate =
         DateFormat.Hm(Localizations.localeOf(context).languageCode)
             .format(currentDate);
-    dateController.text = DateFormat(
-            'd ${IntMonthToStringRus(DateTime.now().month)} ${DateTime.now().year}г. ${formattedDate}')
-        .format(DateTime.now());
+    if (fix)
+      dateController.text = DateFormat(
+              'd ${IntMonthToStringRus(DateTime.now().month)} ${DateTime.now().year}г. ${formattedDate}')
+          .format(DateTime.now());
 
     return MyModalWind(
         prevActionCallback: () => Get.back(),
@@ -40,8 +48,7 @@ class FixTestModalWind extends StatelessWidget {
               'testId': test['id'].toString(),
               'programmId': belong['programmId'].toString(),
               'result': resultController.text,
-              'date': belong['date'],
-              'trenerId': belong['userId'].toString()
+              'date': belong['date']
             });
           }
           Get.back();
@@ -51,7 +58,8 @@ class FixTestModalWind extends StatelessWidget {
         widget: Obx(() {
           final bool fixed = myFixController.sportsmanTestsFix.any((el) =>
               el['date'] == belong['date'] &&
-              el['programmId'] == belong['programmId']);
+              el['programmId'] == belong['programmId'] &&
+              el['sportsmanId'] == sportsmanId);
           if (fixed) {
             resultController.text = myFixController.sportsmanTestsFix
                 .firstWhere((el) =>
@@ -75,7 +83,7 @@ class FixTestModalWind extends StatelessWidget {
               ),
               MyInlineFillInput(
                 fixed: fixed,
-                enabled: !fixed,
+                enabled: false,
                 labelText: '${test['name']} / ${test['type']}',
                 controller: resultController,
                 hintText: test['item'],
