@@ -11,6 +11,7 @@ class MyInlineFillInput extends StatelessWidget {
     required this.controller,
     this.fontSize = 14,
     this.paddingH = 15,
+    this.marginH = 10,
     this.paddingV = 10,
     this.radius = 7,
     this.hintText = '',
@@ -18,10 +19,13 @@ class MyInlineFillInput extends StatelessWidget {
     this.labelText = '',
     this.enabled = true,
     this.fixed = false,
+    this.keyWoardType = TextInputType.number,
+    this.inputFormatters = 'digits',
   });
   TextEditingController controller;
   double fontSize;
   double paddingH;
+  double marginH;
   double paddingV;
   double radius;
   String hintText;
@@ -29,13 +33,15 @@ class MyInlineFillInput extends StatelessWidget {
   String labelText;
   bool enabled;
   final bool fixed;
+  TextInputType keyWoardType;
+  String inputFormatters;
 
   static finaldefaultCallback() {}
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 10),
+        padding:  EdgeInsets.symmetric(horizontal: marginH),
         child: Column(
           children: [
             if (labelText != '') ...[
@@ -55,8 +61,7 @@ class MyInlineFillInput extends StatelessWidget {
               enabled: enabled,
               onChanged: (value) => callback(),
               cursorColor: Colors.white,
-              keyboardType: TextInputType.number,
-              inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+              keyboardType: keyWoardType,
               style: TextStyle(
                   color: Colors.white,
                   fontSize: fontSize,

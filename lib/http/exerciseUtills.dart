@@ -3,7 +3,6 @@ import 'dart:convert';
 import 'package:get/get.dart';
 import 'package:trener_app/getx/MyExercisesController.dart';
 import 'package:trener_app/http/http.dart';
-import 'package:trener_app/mobx/mobx.dart';
 
 // Получить список упражнений
 Future GetExercise() async {
@@ -148,7 +147,6 @@ Future GetExerciseAllBelongPatterns() async {
 
   try {
     Map<String, dynamic> data = await Session().get('exercises/patterns/belongs');
-    print(data);
     List<Map<String, dynamic>> list = [];
     if (data['status'] < 300) {
       data['body'].forEach((e) {
@@ -205,11 +203,54 @@ Future AddExerciseGroup(Map <String,dynamic> formData) async {
 
 // Добавление группы
 Future AddExercisePattern(Map <String,dynamic> formData) async {
-  print(formData);
   try {
     Map<String, dynamic> data = await Session().post('exercises/patterns',formData);
-    print(data);
     GetExercisePatterns();
+    return data;
+  } catch (e) {
+    print(e);
+  }
+  // Возвращаемое значение в случае неудачи
+  return null;
+}
+
+
+// Добавление группы
+Future GetAllExerciseComents() async {
+  try {
+    MyExercisesController myExercisesController =
+      Get.put(MyExercisesController());
+
+    Map<String, dynamic> data = await Session().get('sportprogramm/comment');
+    print(data);
+        List<Map<String, dynamic>> list = [];
+    if (data['status'] < 300) {
+      data['body'].forEach((e) {
+        Map<String, dynamic> data = {
+            'commentatorId': e['commentatorId'] ?? 0,
+            'trenerId': e['trenerId'] ?? 0,
+            'exerciseBelongId': e['exerciseBelongId'] ?? 0,
+            'message': e['message'] ?? '',
+        };
+        list.add(data);
+      });
+    }
+    myExercisesController.setComments(list);
+    GetExercisePatterns();
+    return data;
+  } catch (e) {
+    print(e);
+  }
+  // Возвращаемое значение в случае неудачи
+  return null;
+}
+
+
+// Добавление группы
+Future AddComment(Map <String,dynamic> formData) async {
+  try {
+    Map<String, dynamic> data = await Session().post('sportprogramm/comment',formData);
+    GetAllExerciseComents();
     return data;
   } catch (e) {
     print(e);

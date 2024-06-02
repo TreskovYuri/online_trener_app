@@ -10,6 +10,7 @@ import 'package:trener_app/http/chatUtills.dart';
 import 'package:trener_app/http/userUtills.dart';
 import 'package:trener_app/pages/chat/oneChat.dart';
 import 'package:trener_app/widgets/chats/users.dart';
+import 'package:trener_app/widgets/inputs/search.dart';
 import 'package:trener_app/widgets/service/navbar.dart';
 import 'package:trener_app/widgets/service/navbar_scroll.dart';
 
@@ -23,6 +24,7 @@ class Chats extends StatefulWidget {
 class _ChatsState extends State<Chats> {
   ScrollController _scrollController = ScrollController();
   MyChatController myChatController = Get.put(MyChatController());
+  TextEditingController searchController = TextEditingController();
   bool _isAtTop = true;
 
   @override
@@ -120,28 +122,7 @@ class _ChatsState extends State<Chats> {
                 ),
                 Padding(
                   padding: EdgeInsets.all(0 * vw),
-                  child: TextField(
-                    cursorColor: const Color.fromARGB(255, 112, 112, 112),
-                    style: TextStyle(color: Colors.white, fontSize: 4 * vw),
-                    decoration: InputDecoration(
-                      hintText: 'Найти...',
-                      filled: true, // Set to true to fill the background
-                      fillColor:
-                          const Color(0xff23252B), // Set background color
-                      hintStyle: const TextStyle(
-                          color: Colors.grey), // Customize hint text color
-                      contentPadding: EdgeInsets.symmetric(
-                          horizontal: 4 * vw, vertical: 1.5 * vh),
-                      border: OutlineInputBorder(
-                        borderSide: BorderSide.none, // Remove border
-                        borderRadius: BorderRadius.circular(4 * vw),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderSide: BorderSide.none, // Remove border
-                        borderRadius: BorderRadius.circular(4 * vw),
-                      ),
-                    ),
-                  ),
+                  child: MySearchInput(controller: searchController)
                 ),
                 SizedBox(
                   height: 5 * vh,

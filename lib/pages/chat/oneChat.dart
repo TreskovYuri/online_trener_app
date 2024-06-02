@@ -54,7 +54,7 @@ class _OneChatState extends State<OneChat> {
 
   @override
   Widget build(BuildContext context) {
-    print(myChatController.Messages);
+
     final vw = MediaQuery.of(context).size.width / 100;
     if (argument['user1Id'] == myUserController.user['id']) {
       setState(() {
@@ -76,8 +76,8 @@ class _OneChatState extends State<OneChat> {
           icon: const Icon(Icons
               .arrow_back_ios_new_rounded), // Устанавливаем иконку "домой" вместо стрелки "назад"
           onPressed: () {
-            Navigator.pushReplacementNamed(context, '/chats');
-            myChatController.setMessages([]);
+            Get.back();
+            myChatController.clearOneChat();
           },
         ),
         actions: [

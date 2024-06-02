@@ -38,19 +38,19 @@ class MyJournalConroller  extends GetxController{
 
 
 
-  var userExercisesOnDay = RxList();
+  // var userExercisesOnDay = RxList();
 
 
-  // Список всех упражнений
-  var exercisesList = RxList();
+  // // Список всех упражнений
+  // var exercisesList = RxList();
   
-  var testsList = RxList();
+  // var testsList = RxList();
 
 
-  void setUserExercisesOnDay(newList){
-    userExercisesOnDay.value = newList; // Use .value to assign the value
-  }
-  void setTestsOnDay(newTests){
-    testsList.value = newTests; // Use .value to assign the value
-  }
+  // void setUserExercisesOnDay(newList){
+  //   userExercisesOnDay.value = newList; // Use .value to assign the value
+  // }
+  // void setTestsOnDay(newTests){
+  //   testsList.value = newTests; // Use .value to assign the value
+  // }
 }

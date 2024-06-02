@@ -1,10 +1,8 @@
-import 'dart:convert';
 
 import 'package:get/get.dart';
 import 'package:trener_app/getx/MyJournalConroller.dart';
 import 'package:trener_app/getx/MyPlannerConroller.dart';
 import 'package:trener_app/getx/MySportProgrammController.dart';
-import 'package:trener_app/getx/getx_controller.dart';
 import 'package:trener_app/http/http.dart';
 // import 'package:fluttertoast/fluttertoast.dart';
 

@@ -70,5 +70,12 @@ class MyExercisesController extends GetxController {
   _finalExercisesOnPattern.clear();
   _patternName.value = '';
 }
+
+
+
+  // Список комментариев к выполненным упражнениям
+  var _comments = <Map<String, dynamic>>[].obs;
+  List<Map<String, dynamic>> get comments => _comments.value;
+  void setComments(List<Map<String, dynamic>> newData) {_comments.value = newData;}
 }
 

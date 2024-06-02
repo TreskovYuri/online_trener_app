@@ -4,6 +4,7 @@ import 'package:trener_app/getx/MyDateController.dart';
 import 'package:trener_app/getx/MyExercisesController.dart';
 import 'package:trener_app/getx/MyNutritionsController.dart';
 import 'package:trener_app/getx/MyPlannerConroller.dart';
+import 'package:trener_app/getx/MySportProgrammController.dart';
 import 'package:trener_app/getx/MyTestsController.dart';
 import 'package:trener_app/http/exerciseUtills.dart';
 import 'package:trener_app/http/fixUtills.dart';
@@ -14,6 +15,7 @@ import 'package:trener_app/mobx/mobx.dart';
 import 'package:trener_app/pages/sportsman/planner/ResultFix.dart';
 import 'package:trener_app/pages/sportsman/planner/fix/test.dart';
 import 'package:trener_app/pages/sportsman/planner/nutrition.dart';
+import 'package:trener_app/pages/sportsman/workout/training_details.dart';
 import 'package:trener_app/widgets/service/navbar.dart';
 import 'package:provider/provider.dart';
 import 'package:intl/intl.dart';
@@ -39,6 +41,7 @@ class _PlannerState extends State<Planner> {
     GetTests();
     GetNutritions();
     GetTestFixForSportsman();
+    GetSportProgramm();
     _scrollController.addListener(_onScroll);
   }
 
@@ -300,6 +303,9 @@ class _TrainingCardState extends State<TrainingCard> {
         Get.put(MyExercisesController());
     MyPlannerConroller myPlannerConroller = Get.put(MyPlannerConroller());
     MyDateController myDateController = Get.put(MyDateController());
+    MySportProgrammController mySportProgrammController =
+      Get.put(MySportProgrammController());
+
 
     return GestureDetector(
       onTap: () => setState(() {
@@ -308,8 +314,11 @@ class _TrainingCardState extends State<TrainingCard> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Obx(
-            () => Center(
+          Obx(        
+            (){
+              List training = myPlannerConroller.Planner['exercises']??[];
+              if(training.length>0) training = myPlannerConroller.Planner['exercises'].where((el) => el['date'] == myDateController.date).toList();
+              return Center(
               child: Container(
                 width: 90 * vw,
                 margin: EdgeInsets.only(top: 0 * vh),
@@ -357,10 +366,7 @@ class _TrainingCardState extends State<TrainingCard> {
                             ],
                           ),
                         ),
-                        myPlannerConroller.Planner['exercises'] != null &&
-                                myPlannerConroller.Planner['exercises'].length >
-                                    0 &&
-                                myPlannerConroller.Planner['exercises']
+                        training.length >0 &&training
                                         .where((el) =>
                                             el['date'] == myDateController.date)
                                         .length >
@@ -429,34 +435,17 @@ class _TrainingCardState extends State<TrainingCard> {
                         ? Container(
                             child: Column(
                               children: [
-                                ...myPlannerConroller.Planner['exercises']
-                                    .where((el) =>
-                                        el['date'] == myDateController.date)
-                                    .map((e) {
-                                  final uniqueKey = UniqueKey();
-                                  return GestureDetector(
+                                  GestureDetector(
                                     onTap: () {
-                                      // Обработчик нажатия
-                                      Navigator.pushNamed(
-                                        context,
-                                        arguments: {
-                                          "exercise": myExercisesController
-                                              .exercises
-                                              .firstWhere((element) =>
-                                                  element['id'] ==
-                                                  e['exerciseId']),
-                                          'belong': e
-                                        },
-                                        '/workout', // Переход на login
-                                      );
+                                      Get.to(SportsmanTrainingDetails(traininData: training,));
                                     },
                                     child: Container(
                                       margin: EdgeInsets.only(top: 1 * vh),
                                       child: Slidable(
-                                        key: uniqueKey,
+                                        key: UniqueKey(),
                                         endActionPane: ActionPane(
                                             motion: const BehindMotion(),
-                                            key: uniqueKey,
+                                            key: UniqueKey(),
                                             dismissible: DismissiblePane(
                                               key: UniqueKey(),
                                               onDismissed: () =>
@@ -470,7 +459,7 @@ class _TrainingCardState extends State<TrainingCard> {
                                                 // icon: Icons.delete,
                                                 label: "Отменить",
                                                 borderRadius:
-                                                    BorderRadius.circular(20),
+                                                    BorderRadius.circular(10),
                                               )
                                             ]),
                                         child: Container(
@@ -478,7 +467,7 @@ class _TrainingCardState extends State<TrainingCard> {
                                               vertical: 1 * vw,
                                               horizontal: 3 * vw),
                                           decoration: BoxDecoration(
-                                              color: Color(0xff23252B),
+                                              color: const Color(0xff23252B),
                                               borderRadius:
                                                   BorderRadius.circular(
                                                       5 * vw)),
@@ -487,11 +476,7 @@ class _TrainingCardState extends State<TrainingCard> {
                                                 MainAxisAlignment.spaceBetween,
                                             children: [
                                               Text(
-                                                myExercisesController.exercises
-                                                        .firstWhere((element) =>
-                                                            element['id'] ==
-                                                            e['exerciseId'])[
-                                                    'nameRu'],
+                                               'Программа тренировок',
                                                 style: TextStyle(
                                                     color: const Color.fromARGB(
                                                         210, 255, 255, 255),
@@ -517,8 +502,8 @@ class _TrainingCardState extends State<TrainingCard> {
                                         ),
                                       ),
                                     ),
-                                  );
-                                })
+                                  )
+                                
                               ], // Преобразуйте список объектов Text в список виджетов
                             ),
                           )
@@ -526,7 +511,8 @@ class _TrainingCardState extends State<TrainingCard> {
                   ],
                 ),
               ),
-            ),
+            );
+            }
           ),
         ],
       ),
@@ -694,6 +680,7 @@ class _TestsCardState extends State<TestsCard> {
                                     onTap: () {
                                       // Обработчик нажатия
                                       showModalBottomSheet(
+                                        isScrollControlled: true,
                                         context: context,
                                         builder: (_) => FixTestModalWind(
                                             belong: e,

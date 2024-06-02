@@ -35,7 +35,7 @@ class FixTestModalWindTrener extends StatelessWidget {
             .format(currentDate);
     if (fix)
       dateController.text = DateFormat(
-              'd ${IntMonthToStringRus(DateTime.now().month)} ${DateTime.now().year}г. ${formattedDate}')
+              'd ${IntMonthToStringRus(num: DateTime.now().month )} ${DateTime.now().year}г. ${formattedDate}')
           .format(DateTime.now());
 
     return MyModalWind(

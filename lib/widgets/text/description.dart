@@ -6,12 +6,13 @@ Widget MyDescriptionText(
       Color color = Colors.white, 
       double size = 16,
       FontWeight weigth = FontWeight.w400,
-      double opacity = 1
+      double opacity = 1,
+      int maxLines = 1,
       }) {
   return Opacity(
     opacity: opacity,
     child: Text(
-      maxLines: 1,
+      maxLines: maxLines,
       overflow: TextOverflow.ellipsis,
       softWrap: false,
       text,

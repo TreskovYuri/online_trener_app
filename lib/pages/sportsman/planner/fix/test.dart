@@ -8,26 +8,33 @@ import 'package:trener_app/utills/IntMonthToStringRus.dart';
 import 'package:trener_app/widgets/inputs/input_inline_fill.dart';
 import 'package:trener_app/widgets/modal_wind.dart';
 
-class FixTestModalWind extends StatelessWidget {
+class FixTestModalWind extends StatefulWidget {
   FixTestModalWind({super.key, required this.test, required this.belong});
   Map<String, dynamic> test;
-  TextEditingController dateController = TextEditingController();
-  TextEditingController resultController = TextEditingController();
-  MyFixController myFixController = Get.put(MyFixController());
-
   Map<String, dynamic> belong;
+
+  @override
+  State<FixTestModalWind> createState() => _FixTestModalWindState();
+}
+
+class _FixTestModalWindState extends State<FixTestModalWind> {
+  TextEditingController dateController = TextEditingController();
+
+  TextEditingController resultController = TextEditingController();
+
+  MyFixController myFixController = Get.put(MyFixController());
 
   @override
   Widget build(BuildContext context) {
     final bool fix = myFixController.sportsmanTestsFix.any((el) =>
-        el['date'] == belong['date'] &&
-        el['programmId'] == belong['programmId']);
+        el['date'] == widget.belong['date'] &&
+        el['programmId'] == widget.belong['programmId']);
     final currentDate = DateTime.now();
     final formattedDate =
         DateFormat.Hm(Localizations.localeOf(context).languageCode)
             .format(currentDate);
     dateController.text = DateFormat(
-            'd ${IntMonthToStringRus(DateTime.now().month)} ${DateTime.now().year}г. ${formattedDate}')
+            'd ${IntMonthToStringRus(num: DateTime.now().month)} ${DateTime.now().year}г. ${formattedDate}')
         .format(DateTime.now());
 
     return MyModalWind(
@@ -37,52 +44,54 @@ class FixTestModalWind extends StatelessWidget {
         nextActionCallback: () {
           if (!fix) {
             SetTestFixForSportsman({
-              'testId': test['id'].toString(),
-              'programmId': belong['programmId'].toString(),
+              'testId': widget.test['id'].toString(),
+              'programmId': widget.belong['programmId'].toString(),
               'result': resultController.text,
-              'date': belong['date'],
-              'trenerId': belong['userId'].toString()
+              'date': widget.belong['date'],
+              'trenerId': widget.belong['userId'].toString()
             });
           }
           Get.back();
         },
         headerType: 3,
-        height: 50,
+        height: 70,
         widget: Obx(() {
           final bool fixed = myFixController.sportsmanTestsFix.any((el) =>
-              el['date'] == belong['date'] &&
-              el['programmId'] == belong['programmId']);
+              el['date'] == widget.belong['date'] &&
+              el['programmId'] == widget.belong['programmId']);
           if (fixed) {
             resultController.text = myFixController.sportsmanTestsFix
                 .firstWhere((el) =>
-                    el['date'] == belong['date'] &&
-                    el['programmId'] == belong['programmId'])['result']
+                    el['date'] == widget.belong['date'] &&
+                    el['programmId'] == widget.belong['programmId'])['result']
                 .toString();
           }
-          return Column(
-            children: [
-              const SizedBox(
-                height: 20,
-              ),
-              MyInlineFillInput(
-                fixed: false,
-                enabled: false,
-                labelText: 'Дата',
-                controller: dateController,
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-              MyInlineFillInput(
-                fixed: fixed,
-                enabled: !fixed,
-                labelText: '${test['name']} / ${test['type']}',
-                controller: resultController,
-                hintText: test['item'],
-              ),
-            ],
+          return SingleChildScrollView(
+            child: Column(
+              children: [
+                const SizedBox(
+                  height: 20,
+                ),
+                MyInlineFillInput(
+                  fixed: false,
+                  enabled: false,
+                  labelText: 'Дата',
+                  controller: dateController,
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
+                MyInlineFillInput(
+                  fixed: fixed,
+                  enabled: !fixed,
+                  labelText: '${widget.test['name']} / ${widget.test['type']}',
+                  controller: resultController,
+                  hintText: widget.test['item'],
+                ),
+              ],
+            ),
           );
         }),
-        title: test['name']);
+        title: widget.test['name']);
   }
 }

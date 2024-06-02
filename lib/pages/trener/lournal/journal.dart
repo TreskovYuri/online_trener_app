@@ -3,6 +3,7 @@ import 'package:trener_app/getx/MyDateController.dart';
 import 'package:trener_app/getx/MyExercisesController.dart';
 import 'package:trener_app/getx/MyJournalConroller.dart';
 import 'package:trener_app/getx/MyNutritionsController.dart';
+import 'package:trener_app/getx/MySportProgrammController.dart';
 import 'package:trener_app/getx/MyTestsController.dart';
 import 'package:trener_app/getx/MyUserConroller.dart';
 import 'package:trener_app/http/exerciseUtills.dart';
@@ -39,6 +40,7 @@ class _JournalState extends State<Journal> {
     GetTests();
     GetNutritions();
     GetTestFixForTrenr();
+    GetSportProgramm();
     _scrollController.addListener(_onScroll);
   }
 
@@ -93,7 +95,7 @@ class _JournalState extends State<Journal> {
                           () => Column(
                             children:
                                 myJournalConroller.Journal.map((e) => Container(
-                                    margin: EdgeInsets.only(top: 10),
+                                    margin: const EdgeInsets.only(top: 10),
                                     child: UserCard(
                                       array: e,
                                     ))).toList(),
@@ -151,20 +153,23 @@ class _UserCardState extends State<UserCard> {
   MyTestsController myTestsController = Get.put(MyTestsController());
   MyNutritionsController myNutritionsController =
       Get.put(MyNutritionsController());
+  MySportProgrammController mySportProgrammController =
+      Get.put(MySportProgrammController());
   List<Map<String, dynamic>> exercisesOnDay = [];
   @override
   Widget build(BuildContext context) {
     final vw = MediaQuery.of(context).size.width / 100;
     final vh = MediaQuery.of(context).size.height / 100;
-
     return Obx(() {
-      List exercises = widget.array['exercises']
+      List<dynamic> exercises = widget.array['exercises']
+          .where((e) => e['date'] == myDateController.date)
+          .map((e) => e)
+          .toList();
+      ;
+      List<dynamic> nutritions = widget.array['nutrition']
           .where((e) => e['date'] == myDateController.date)
           .toList();
-      List nutritions = widget.array['nutrition']
-          .where((e) => e['date'] == myDateController.date)
-          .toList();
-      List tests = widget.array['tests']
+      List<dynamic> tests = widget.array['tests']
           .where((e) => e['date'] == myDateController.date)
           .toList();
 
@@ -303,92 +308,90 @@ class _UserCardState extends State<UserCard> {
                       ? Container(
                           child: Column(
                             children: [
-                              ...exercises.map((e) => GestureDetector(
-                                    onTap: () {
-                                      Navigator.pushNamed(
-                                          context, '/training_details_trener',
-                                          arguments: {
-                                            'exercise': myExercisesController
-                                                .exercises
-                                                .firstWhere((el) =>
-                                                    el['id'] ==
-                                                    e['exerciseId']),
-                                            "sets": e['sets']
-                                          });
-                                    },
-                                    child: Container(
-                                        margin: EdgeInsets.only(top: 1 * vh),
-                                        child: Slidable(
+                              GestureDetector(
+                                onTap: () {
+                                  Navigator.pushNamed(
+                                      context, '/training_details_trener',
+                                      arguments: {
+                                        'exercises':exercises,
+                                        'user':widget.array
+                                      });
+                                },
+                                child: Container(
+                                    margin: EdgeInsets.only(top: 1 * vh),
+                                    child: Slidable(
+                                      key: UniqueKey(),
+                                      endActionPane: ActionPane(
+                                          motion: const BehindMotion(),
                                           key: UniqueKey(),
-                                          endActionPane: ActionPane(
-                                              motion: const BehindMotion(),
-                                              key: UniqueKey(),
-                                              dismissible: DismissiblePane(
-                                                key: UniqueKey(),
-                                                onDismissed: () =>
-                                                    print('delete'),
-                                              ),
-                                              children: [
-                                                SlidableAction(
-                                                  onPressed: (context) {},
-                                                  backgroundColor: Colors.red,
-
-                                                  // icon: Icons.delete,
-                                                  label: "Отменить",
-                                                  borderRadius:
-                                                      BorderRadius.circular(20),
-                                                )
-                                              ]),
-                                          child: Container(
-                                            padding: EdgeInsets.symmetric(
-                                                vertical: 2 * vw,
-                                                horizontal: 4 * vw),
-                                            decoration: BoxDecoration(
-                                                color: Color(0xff23252B),
-                                                borderRadius:
-                                                    BorderRadius.circular(
-                                                        5 * vw)),
-                                            child: Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment
-                                                      .spaceBetween,
-                                              children: [
-                                                Container(
-                                                  width: 60 * vw,
-                                                  child: Text(
-                                                    myExercisesController
-                                                            .exercises
-                                                            .firstWhere((element) =>
-                                                                element['id'] ==
-                                                                e['exerciseId'])[
-                                                        'nameRu'],
-                                                    style: TextStyle(
-                                                        color: const Color
-                                                            .fromARGB(
-                                                            210, 255, 255, 255),
-                                                        fontFamily: 'Manrope',
-                                                        fontWeight:
-                                                            FontWeight.w600,
-                                                        decoration:
-                                                            TextDecoration.none,
-                                                        fontSize: 3 * vw),
-                                                  ),
-                                                ),
-                                                IconButton(
-                                                  onPressed: () {
-                                                    setState(() {
-                                                      debugPrint('dev');
-                                                    });
-                                                  },
-                                                  icon: const Icon(Icons
-                                                      .arrow_forward_ios_rounded), // Иконка
-                                                  iconSize: 4 * vw,
-                                                ),
-                                              ],
-                                            ),
+                                          dismissible: DismissiblePane(
+                                            key: UniqueKey(),
+                                            onDismissed: () => print('delete'),
                                           ),
-                                        )),
-                                  )),
+                                          children: [
+                                            SlidableAction(
+                                              onPressed: (context) {},
+                                              backgroundColor: Colors.red,
+
+                                              // icon: Icons.delete,
+                                              label: "Отменить",
+                                              borderRadius:
+                                                  BorderRadius.circular(20),
+                                            )
+                                          ]),
+                                      child: Container(
+                                        padding: EdgeInsets.symmetric(
+                                            vertical: 2 * vw,
+                                            horizontal: 4 * vw),
+                                        decoration: BoxDecoration(
+                                            color: Color(0xff23252B),
+                                            borderRadius:
+                                                BorderRadius.circular(5 * vw)),
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Container(
+                                              width: 60 * vw,
+                                              child: Text(
+                                                mySportProgrammController
+                                                        .sportprogramms
+                                                        .any((element) =>
+                                                            element['id'] ==
+                                                            exercises[0]
+                                                                ['programmId'])
+                                                    ? mySportProgrammController
+                                                        .sportprogramms
+                                                        .firstWhere((element) =>
+                                                            element['id'] ==
+                                                            exercises[0][
+                                                                'programmId'])['name']
+                                                    : '',
+                                                style: TextStyle(
+                                                    color: const Color.fromARGB(
+                                                        210, 255, 255, 255),
+                                                    fontFamily: 'Manrope',
+                                                    fontWeight: FontWeight.w600,
+                                                    decoration:
+                                                        TextDecoration.none,
+                                                    fontSize: 3 * vw),
+                                              ),
+                                            ),
+                                            IconButton(
+                                              onPressed: () {
+                                                setState(() {
+                                                  debugPrint('dev');
+                                                });
+                                              },
+                                              icon: const Icon(Icons
+                                                  .arrow_forward_ios_rounded), // Иконка
+                                              iconSize: 4 * vw,
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    )),
+                              ),
                               ...tests.map((e) => GestureDetector(
                                     onTap: () {
                                       showModalBottomSheet(
@@ -526,11 +529,7 @@ class _UserCardState extends State<UserCard> {
                                                 Container(
                                                   width: 60 * vw,
                                                   child: Text(
-                                                    myNutritionsController
-                                                        .nutritions
-                                                        .firstWhere((element) =>
-                                                            element['id'] ==
-                                                            e['nutritionId'])['name'],
+                                                    'Еда на день',
                                                     style: TextStyle(
                                                         color: const Color
                                                             .fromARGB(

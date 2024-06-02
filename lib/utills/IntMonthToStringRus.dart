@@ -1,30 +1,31 @@
 
-String IntMonthToStringRus(int num) {
+String IntMonthToStringRus({num, all = false}) {
+
   switch (num) {
     case 1:
-      return 'Янв.';
+      return all?'января':'Янв.';
     case 2:
-      return 'Фев.';
+      return all?'февраля':'Фев.';
     case 3:
-      return 'Мар.';
+      return all?'марта':'Мар.';
     case 4:
-      return 'Апр.';
+      return all?'апреля':'Апр.';
     case 5:
-      return 'Мая';
+      return all?'мая':'Мая';
     case 6:
-      return 'Июня';
+      return all?'июня':'Июня';
     case 7:
-      return 'Июля';
+      return all?'июля':'Июля';
     case 8:
-      return 'Авг.';
+      return all?'августа':'Авг.';
     case 9:
-      return 'Сент.';
+      return all?'сентября':'Сент.';
     case 10:
-      return 'Окт.';
+      return all?'октября':'Окт.';
     case 11:
-      return 'Нояб.';
+      return all?'ноября':'Нояб.';
     case 12:
-      return 'Декаб.';
+      return all?'декабря':'Декаб.';
     default:
       return ''; // Обработка неправильного ввода
   }

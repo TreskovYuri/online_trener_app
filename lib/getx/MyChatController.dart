@@ -15,6 +15,11 @@ class MyChatController extends GetxController {
   var _OneChat = <Map<String, dynamic>>[].obs;
   List<Map<String, dynamic>> get OneChat => _OneChat;
   void setOneChat(List<Map<String, dynamic>> newOneChat) {_OneChat.assignAll(newOneChat);}
+  void clearOneChat (){
+    _OneChat.clear();
+    _Messages.clear();
+    _chats.clear();
+    }
 
     // Список всех чатов пользователя
   var _Messages = <Map<String, dynamic>>[].obs;
