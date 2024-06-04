@@ -430,7 +430,11 @@ class _TrainingCardState extends State<TrainingCard> {
                               ),
                       ],
                     ),
-                    trainingOnOff
+                    trainingOnOff && training
+                                        .where((el) =>
+                                            el['date'] == myDateController.date)
+                                        .length >
+                                    0
                         // ignore: dead_code
                         ? Container(
                             child: Column(

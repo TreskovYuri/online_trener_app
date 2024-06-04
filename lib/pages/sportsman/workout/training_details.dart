@@ -32,10 +32,15 @@ class SportsmanTrainingDetails extends StatelessWidget {
         .firstWhere((el) => el['id'] == traininData[0]['exerciseId']);
     List<String> stage = [];
     List<String> muscleGroups = [];
-    List<Map<String, dynamic>> execisesList = traininData
+
+    List<Map<String, dynamic>> execisesList = [];
+
+    if(myExercisesController.exercises.length>0){
+      execisesList = traininData
         .map((el) => myExercisesController.exercises
-            .firstWhere((element) => element['id'] == el['exerciseId']))
-        .toList();
+            .firstWhere((element) => element['id'] == el['exerciseId'])).toList();
+    }
+        ;
     final vh = MediaQuery.of(context).size.height / 100;
     execisesList.forEach((el) {
       el['equipment'].forEach((e) => {
