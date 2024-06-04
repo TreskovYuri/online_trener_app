@@ -6,12 +6,14 @@ import 'package:get/get.dart';
 import 'package:trener_app/getx/MyExercisesController.dart';
 import 'package:trener_app/getx/MySportProgrammController.dart';
 import 'package:trener_app/models/constants/colors.dart';
+import 'package:trener_app/pages/sportsman/planner/fix/programm.dart';
 import 'package:trener_app/widgets/buttons/gradient_button.dart';
 import 'package:trener_app/widgets/buttons/my_card_button.dart';
 import 'package:trener_app/widgets/cards/burger_modal_wind.dart';
 import 'package:trener_app/widgets/circle_default_user_icon.dart';
 import 'package:trener_app/widgets/circle_network_Img.dart';
 import 'package:trener_app/widgets/muscle_groups_image.dart';
+import 'package:trener_app/widgets/placeholder_image.dart';
 import 'package:trener_app/widgets/sprortprogramm/details_one_exercise_on_pattern.dart';
 import 'package:trener_app/widgets/text/description.dart';
 
@@ -65,12 +67,15 @@ class SportsmanTrainingDetails extends StatelessWidget {
             )),
         MyBurgerModalWind(
           title: 'Описние',
-          body: MyDescriptionText(text: sportprogramm['description']),
+          body: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: MyDescriptionText(text: sportprogramm['description'],maxLines: 150,color: AppColors.blackThemeTextOpacity3),
+          ),
         ),
         MyBurgerModalWind(
           title: 'Группы мышц',
           body: Padding(
-            padding: EdgeInsets.symmetric(
+            padding: const EdgeInsets.symmetric(
               vertical: 20,
             ),
             child: MyscleGroupsImage(vh: vh, muscleGroups: muscleGroups),
@@ -79,7 +84,11 @@ class SportsmanTrainingDetails extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 30),
           child: MyGradientButton(
-            callback: () {},
+            callback: () =>Get.to(SportsmanSportprogrammFixResult(
+              trainingData: traininData,
+              execisesList: execisesList,
+              sportprogramm: sportprogramm,
+            )),
             text: 'Заполнить',
           ),
         )
@@ -112,7 +121,7 @@ class _ImageBlock extends StatelessWidget {
               bottomRight:
                   Radius.circular(6), // Радиус закругления нижнего правого угла
             ),
-            child: Image.network(
+            child:exercise['img']!=''? Image.network(
               '${dotenv.env['STATIC_URL']}/${exercise['img']}',
               width: double.infinity,
               fit: BoxFit.cover,
@@ -129,7 +138,7 @@ class _ImageBlock extends StatelessWidget {
                   ),
                 );
               },
-            ),
+            ):const MyPlaceHolderImage(),
           ),
         ),
         Positioned(
@@ -219,37 +228,40 @@ class _ExeciseCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MyCardButton(
-        callback: () =>showModalBottomSheet(isScrollControlled: true, context: context, builder: (_)=>DetailsOneExerciseOnPattern(exercise: exercise,)),
-        widget: Row(
-          children: [
-            exercise['img'] != ''
-                ? MyCircleNetworkImg(
-                    width: 40, height: 40, url: exercise['img'])
-                : MyCircleDefaulUserIcon(name: exercise['nameRu']),
-            const SizedBox(
-              width: 10,
-            ),
-            Expanded(
-                child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                MyDescriptionText(text: exercise['nameRu']),
-                MyDescriptionText(
-                    size: 13,
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 8),
+      child: MyCardButton(
+          callback: () =>showModalBottomSheet(isScrollControlled: true, context: context, builder: (_)=>DetailsOneExerciseOnPattern(exercise: exercise,)),
+          widget: Row(
+            children: [
+              exercise['img'] != ''
+                  ? MyCircleNetworkImg(
+                      width: 40, height: 40, url: exercise['img'])
+                  : MyCircleDefaulUserIcon(name: exercise['nameRu']),
+              const SizedBox(
+                width: 10,
+              ),
+              Expanded(
+                  child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  MyDescriptionText(text: exercise['nameRu']),
+                  MyDescriptionText(
+                      size: 13,
+                      color: AppColors.blackThemeTextOpacity3,
+                      text:
+                          '${sets.length}x${sets[0]['pokazatel2'] ?? 15} • ${sets[0]['diapazonOt']}-${sets[0]['diapazonDo']} ${exercise['pocazatel1Type']}')
+                ],
+              )),
+              IconButton(
+                  onPressed: () {},
+                  icon: const Icon(
+                    Icons.arrow_forward_ios_rounded,
                     color: AppColors.blackThemeTextOpacity3,
-                    text:
-                        '${sets.length}x${sets[0]['pokazatel2'] ?? 15} • ${sets[0]['diapazonOt']}-${sets[0]['diapazonDo']} ${exercise['pocazatel1Type']}')
-              ],
-            )),
-            IconButton(
-                onPressed: () {},
-                icon: const Icon(
-                  Icons.arrow_forward_ios_rounded,
-                  color: AppColors.blackThemeTextOpacity3,
-                  size: 18,
-                ))
-          ],
-        ));
+                    size: 18,
+                  ))
+            ],
+          )),
+    );
   }
 }

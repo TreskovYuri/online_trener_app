@@ -16,7 +16,6 @@ import 'package:trener_app/pages/login/login.dart';
 import 'package:trener_app/pages/trener/sportsmans/profile_one_user.dart';
 import 'package:trener_app/pages/sportsman/progress.dart';
 import 'package:trener_app/pages/service.dart';
-import 'package:trener_app/pages/sportsman/planner/nutrition.dart';
 import 'package:trener_app/pages/sportsman/planner/planner.dart';
 import 'package:trener_app/pages/profile.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -30,8 +29,6 @@ import 'package:trener_app/pages/trener/sevice/faq/training/trener_trainings.dar
 import 'package:trener_app/pages/trener/sevice/faq/training/trener_trainings_current_type.dart';
 import 'package:trener_app/pages/sportsman/workout/workout.dart';
 import 'package:trener_app/pages/sportsman/workout/workout_sheme.dart';
-import 'dart:ui';
-import 'package:flutter/material.dart';
 
 
 
@@ -78,8 +75,6 @@ class MyApp extends StatelessWidget {
           '/profile': (context) => const Profile(),
           '/profile_one_user': (context) => const ProfileOneUser(),
           '/chats': (context) => const Chats(),
-          '/training_fix': (context) => const TrainingFix(),
-          // '/nutrition': (context) => Nutrition(),
           '/user_progress': (context) => const UserProgress(),
           '/faq': (context) => const Faq(),
           '/training_details_trener': (context) => const TrainingDetailsTrener(),

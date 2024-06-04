@@ -95,4 +95,9 @@ class MySportProgrammController extends GetxController{
   }
 
 
+    // Финальный список зафиксированных сетов
+  var _finalFixSetsList = <Map<String, dynamic>>[].obs;
+  List<Map<String, dynamic>> get finalFixSetsList => _finalFixSetsList;
+  void setFinalFixSetsList(List<Map<String, dynamic>> newDataList) { _finalFixSetsList.assignAll(newDataList);}
+
 }

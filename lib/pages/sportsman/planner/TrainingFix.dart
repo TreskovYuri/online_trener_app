@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class TrainingFix extends StatefulWidget {
-  const TrainingFix({super.key});
-
+  TrainingFix({super.key, required this.arguments});
+ Map<dynamic, dynamic> arguments;
   @override
   State<TrainingFix> createState() => _TrainingFixState();
 }

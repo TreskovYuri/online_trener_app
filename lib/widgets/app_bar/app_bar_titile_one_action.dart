@@ -7,6 +7,7 @@ class AppBarTitleOneAction extends StatelessWidget implements PreferredSizeWidge
   final VoidCallback callback;
   final double height;
   final String actionTitle;
+  
 
   AppBarTitleOneAction({
     super.key,
@@ -18,6 +19,7 @@ class AppBarTitleOneAction extends StatelessWidget implements PreferredSizeWidge
 
   @override
   Widget build(BuildContext context) {
+    
     return AppBar(
       surfaceTintColor: Colors.transparent,
       toolbarHeight: height,
