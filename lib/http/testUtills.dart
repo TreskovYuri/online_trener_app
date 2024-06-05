@@ -96,11 +96,9 @@ Future AddTestGroup({formData}) async {
 // ignore: non_constant_identifier_names
 Future AddTest({formData}) async {
   try {
-    print(formData);
     Map<String, dynamic> data = await Session().post('tests',formData);
     if(data['status'] <300){GetTestGroups();}
     
-    print(data);
     return data;
   } catch (e) {
     print(e);

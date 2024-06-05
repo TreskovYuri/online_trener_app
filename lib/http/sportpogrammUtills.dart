@@ -1,4 +1,6 @@
 
+import 'dart:convert';
+
 import 'package:get/get.dart';
 import 'package:trener_app/getx/MyJournalConroller.dart';
 import 'package:trener_app/getx/MyPlannerConroller.dart';
@@ -110,6 +112,51 @@ Future SetSportProgramm(Map <String,dynamic>formData) async {
     Map<String, dynamic> data = await Session().post('sportprogramm',formData);
     if(data['status']<300)GetSportProgramm();
 
+    return data;
+  } catch (e) {
+    print(e);
+  }
+  
+  // Return null in case of failure
+  return null;
+}
+
+
+// Фиксация спортивной программы
+Future SetFixSportProgramm(Map <String,dynamic>formData) async {
+  try {
+    Map<String, dynamic> data = await Session().post('sportprogramm/fix',formData);
+    return data;
+  } catch (e) {
+    print(e);
+  }
+  
+  // Return null in case of failure
+  return null;
+}
+
+// Получение списка спортивных программ
+Future GetFixSportProgramm(id) async {
+  MySportProgrammController mySportProgrammController = Get.put(MySportProgrammController());
+
+  try {
+    Map<String, dynamic> data = await Session().get('sportprogramm/fix/$id');
+    List<Map<String, dynamic>> list = [];
+    if (data['status'] < 300) {
+      data['body'].forEach((e) {
+        Map<String, dynamic> group = {
+            'id': e['id'] ?? 0,
+            'exerciseId': e['exerciseId'] ?? 0,
+            'programmId': e['programmId'] ?? 0,
+            'userId': e['userId'] ?? 0,
+            'setId': e['setId'] ?? 0,
+            'date': e['date'] ?? '',
+            'sets': jsonDecode(e['sets']) ?? [],
+        };
+        list.add(group);
+      });
+    }
+    mySportProgrammController.setFixList(list);
     return data;
   } catch (e) {
     print(e);

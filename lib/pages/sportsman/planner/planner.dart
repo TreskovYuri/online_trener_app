@@ -803,7 +803,6 @@ class _NutritionsCardState extends State<NutritionsCard> {
   Widget build(BuildContext context) {
     final vw = MediaQuery.of(context).size.width / 100;
     final vh = MediaQuery.of(context).size.height / 100;
-    print(myPlannerConroller.Planner['nutritions']);
 
     return GestureDetector(
       onTap: () => setState(() {

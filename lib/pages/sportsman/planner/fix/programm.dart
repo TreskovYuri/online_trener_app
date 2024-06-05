@@ -3,7 +3,9 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:trener_app/getx/MyDateController.dart';
 import 'package:trener_app/getx/MySportProgrammController.dart';
+import 'package:trener_app/http/sportpogrammUtills.dart';
 import 'package:trener_app/models/constants/colors.dart';
 import 'package:trener_app/models/constants/images.dart';
 import 'package:trener_app/widgets/app_bar/gradient_appbar.dart';
@@ -63,10 +65,12 @@ class _SportsmanSportprogrammFixResultState
         finalSets.add(set);
       });
       finalList.add({
+        'setId': element['id'],
         'programmId': element['programmId'],
         'exerciseId': element['exerciseId'],
         'userId': element['userId'],
-        'sets': finalSets
+        'sets': finalSets,
+        'date':element['date']
       });
     });
     mySportProgrammController.setFinalFixSetsList(finalList);
@@ -75,7 +79,6 @@ class _SportsmanSportprogrammFixResultState
 
   @override
   Widget build(BuildContext context) {
-    List<Map<String,dynamic>> fff = mySportProgrammController.finalFixSetsList;
     final vh = MediaQuery.of(context).size.height / 100;
     return Scaffold(
       appBar: MyGradientAppBar(
@@ -96,27 +99,19 @@ class _SportsmanSportprogrammFixResultState
             ),
             Padding(
               padding: const EdgeInsets.all(16),
-              child: Container(
-      decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(100),
-          gradient: const RadialGradient(radius: 5, colors: [
-            Color(0xFF4D8AEE),
-            Color(0xFF2932FF),
-          ])),
-      child: ElevatedButton(
-          style: ElevatedButton.styleFrom(
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(
-                    20), // Устанавливаем радиус круглых углов
-              ),
-              backgroundColor: Colors.transparent,
-              foregroundColor: const Color.fromARGB(0, 0, 41, 74),
-              shadowColor: Colors.transparent,
-              surfaceTintColor: Colors.transparent,
-              padding: EdgeInsets.symmetric(vertical: 10,horizontal: 50)),
-          onPressed: (){setState(() {}) ;print(fff);},
-          child: Text('data')),
-    ),
+              child: MyGradientButton(
+                  callback: () {
+                    mySportProgrammController.finalFixSetsList.forEach((e) => SetFixSportProgramm({
+                          'setId': e['setId'].toString(),
+                          'programmId': e['programmId'].toString(),
+                          'exerciseId': e['exerciseId'].toString(),
+                          'userId': e['userId'].toString(),
+                          'sets': jsonEncode(e['sets']),
+                          'date':e['date']
+                        }));
+                    Get.back();
+                  },
+                  text: 'Зафиксировать'),
             ),
             const SizedBox(
               height: 20,
@@ -208,7 +203,7 @@ class _SetHeader extends StatelessWidget {
                 size: 12,
                 color: AppColors.blackThemeTextOpacity1)),
         Expanded(
-            flex: 2,
+            flex: 1,
             child: MyDescriptionText(
                 text: exercise['pocazatel1Name'],
                 size: 12,
@@ -302,23 +297,31 @@ class _InputsRow extends StatefulWidget {
 class __InputsRowState extends State<_InputsRow> {
   final mySportProgrammController = Get.put(MySportProgrammController());
   final setController = TextEditingController();
-  final diapazonOtController = TextEditingController();
-  final diapazonDoController = TextEditingController();
+  final diapazonController = TextEditingController();
   final pokazatel2Controller = TextEditingController();
   final pokazatel3Controller = TextEditingController();
   final pokazatel4Controller = TextEditingController();
   final pokazatel5Controller = TextEditingController();
+  late Map<String, dynamic> ss = {};
+  MyDateController myDateController = Get.put(MyDateController());
+
+  @override
+  void initState() {
+    ss = widget.set;
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
     Function onCHangeHandler = (int id) {
       final Map<String, dynamic> s = mySportProgrammController.finalFixSetsList
           .firstWhere((element) => element['exerciseId'] == widget.exervciseId);
-      List<Map<String, dynamic>> sets = s['sets'].where((e) => e['set'] != id).toList();
+
+      List<Map<String, dynamic>> sets =
+          s['sets'].where((e) => e['set'] != id).toList();
       sets.add({
         "set": id,
-        'diapazonOt': diapazonOtController.text,
-        'diapazonDo': diapazonDoController.text,
+        'diapazon': diapazonController.text,
         if (sets[0]['pokazatel2'] != null)
           'pokazatel2': pokazatel2Controller.text,
         if (sets[0]['pokazatel3'] != null)
@@ -330,12 +333,15 @@ class __InputsRowState extends State<_InputsRow> {
       });
       sets.sort((a, b) => a['set'].compareTo(b['set']));
       mySportProgrammController.setFinalFixSetsList([
-        ...mySportProgrammController.finalFixSetsList.where((element) => element['exerciseId'] != widget.exervciseId),
+        ...mySportProgrammController.finalFixSetsList
+            .where((element) => element['exerciseId'] != widget.exervciseId),
         {
-          'exerciseId':widget.exervciseId,
-          'sets':sets,
+          'exerciseId': widget.exervciseId,
+          'sets': sets,
           'programmId': s['programmId'],
           'userId': s['userId'],
+          'setId': s['setId'],
+          'date':myDateController.date
         }
       ]);
     };
@@ -344,31 +350,22 @@ class __InputsRowState extends State<_InputsRow> {
         Expanded(
           flex: 1,
           child: MyInlineFillInput(
+            enabled: false,
             controller: setController,
             marginH: 3,
-            hintText: widget.set['set'].toString(),
+            hintText: ss['set'].toString(),
           ),
         ),
         Expanded(
-          flex: 2,
+          flex: 1,
           child: Row(
             children: [
               Expanded(
                 flex: 1,
                 child: MyInlineFillInput(
                   callback: () => onCHangeHandler(widget.set['set']),
-                  controller: diapazonOtController,
-                  hintText: widget.set['diapazonOt'].toString(),
-                  marginH: 3,
-                ),
-              ),
-              MyDescriptionText(text: '-'),
-              Expanded(
-                flex: 1,
-                child: MyInlineFillInput(
-                  callback: () => onCHangeHandler(widget.set['set']),
-                  controller: diapazonDoController,
-                  hintText: widget.set['diapazonDo'].toString(),
+                  controller: diapazonController,
+                  hintText: '${ss['diapazonOt']}-${ss['diapazonDo']} ',
                   marginH: 3,
                 ),
               ),
@@ -380,7 +377,7 @@ class __InputsRowState extends State<_InputsRow> {
             flex: 1,
             child: MyInlineFillInput(
               callback: () => onCHangeHandler(widget.set['set']),
-              hintText: widget.set['pokazatel2'].toString(),
+              hintText: ss['pokazatel2'].toString(),
               controller: pokazatel2Controller,
               marginH: 3,
             ),
@@ -390,7 +387,7 @@ class __InputsRowState extends State<_InputsRow> {
             flex: 1,
             child: MyInlineFillInput(
               callback: () => onCHangeHandler(widget.set['set']),
-              hintText: widget.set['pokazatel3'].toString(),
+              hintText: ss['pokazatel3'].toString(),
               controller: pokazatel3Controller,
               marginH: 3,
             ),
@@ -400,7 +397,7 @@ class __InputsRowState extends State<_InputsRow> {
             flex: 1,
             child: MyInlineFillInput(
               callback: () => onCHangeHandler(widget.set['set']),
-              hintText: widget.set['pokazatel4'].toString(),
+              hintText: ss['pokazatel4'].toString(),
               controller: pokazatel4Controller,
               marginH: 3,
             ),
@@ -410,7 +407,7 @@ class __InputsRowState extends State<_InputsRow> {
             flex: 1,
             child: MyInlineFillInput(
               callback: () => onCHangeHandler(widget.set['set']),
-              hintText: widget.set['pokazatel5'].toString(),
+              hintText: ss['pokazatel5'].toString(),
               controller: pokazatel5Controller,
               marginH: 3,
             ),

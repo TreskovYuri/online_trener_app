@@ -43,7 +43,6 @@ class _TrenerTrainingsCurrentsTypeState
     final vh = MediaQuery.of(context).size.height / 100;
     final arguments =
         ModalRoute.of(context)?.settings.arguments as Map<dynamic, dynamic>;
-    print(arguments['exercises'].length);
 
     return Scaffold(
       appBar: AppBar(

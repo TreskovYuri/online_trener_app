@@ -39,7 +39,6 @@ class _TrainingPatternAddSetsState extends State<TrainingPatternAddSets> {
     return Obx(()=>MyModalWind(
         button: true,
         ButtonCallback: (){
-          print(myExercisesController.CurrentExerciseSets);
           myExercisesController.setFinalExercisesOnPattern({
           'sets':myExercisesController.CurrentExerciseSets,
           'time':timeController.text,

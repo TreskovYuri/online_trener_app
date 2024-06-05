@@ -222,7 +222,6 @@ Future GetAllExerciseComents() async {
       Get.put(MyExercisesController());
 
     Map<String, dynamic> data = await Session().get('sportprogramm/comment');
-    print(data);
         List<Map<String, dynamic>> list = [];
     if (data['status'] < 300) {
       data['body'].forEach((e) {

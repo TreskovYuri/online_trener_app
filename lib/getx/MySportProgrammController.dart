@@ -99,5 +99,11 @@ class MySportProgrammController extends GetxController{
   var _finalFixSetsList = <Map<String, dynamic>>[].obs;
   List<Map<String, dynamic>> get finalFixSetsList => _finalFixSetsList;
   void setFinalFixSetsList(List<Map<String, dynamic>> newDataList) { _finalFixSetsList.assignAll(newDataList);}
+    
+    
+    // Список зафиксированных спортивных программ
+  var _fixList = <Map<String, dynamic>>[].obs;
+  List<Map<String, dynamic>> get fixList => _fixList;
+  void setFixList(List<Map<String, dynamic>> newDataList) { _fixList.assignAll(newDataList);}
 
 }

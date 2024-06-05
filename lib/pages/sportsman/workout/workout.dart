@@ -494,7 +494,6 @@ class _ExerciseModalState extends State<ExerciseModal> {
                   controller: _controller,
                   showVideoProgressIndicator: true,
                   onReady: () {
-                    debugPrint('Готово');
                   },
                   bottomActions: [
                     CurrentPosition(),

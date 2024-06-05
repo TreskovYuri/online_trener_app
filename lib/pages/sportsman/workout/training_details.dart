@@ -3,8 +3,10 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get/get.dart';
+import 'package:trener_app/getx/MyDateController.dart';
 import 'package:trener_app/getx/MyExercisesController.dart';
 import 'package:trener_app/getx/MySportProgrammController.dart';
+import 'package:trener_app/http/sportpogrammUtills.dart';
 import 'package:trener_app/models/constants/colors.dart';
 import 'package:trener_app/pages/sportsman/planner/fix/programm.dart';
 import 'package:trener_app/widgets/buttons/gradient_button.dart';
@@ -17,28 +19,43 @@ import 'package:trener_app/widgets/placeholder_image.dart';
 import 'package:trener_app/widgets/sprortprogramm/details_one_exercise_on_pattern.dart';
 import 'package:trener_app/widgets/text/description.dart';
 
-class SportsmanTrainingDetails extends StatelessWidget {
+class SportsmanTrainingDetails extends StatefulWidget {
   SportsmanTrainingDetails({super.key, required this.traininData});
   List traininData;
+
+  @override
+  State<SportsmanTrainingDetails> createState() => _SportsmanTrainingDetailsState();
+}
+
+class _SportsmanTrainingDetailsState extends State<SportsmanTrainingDetails> {
   MySportProgrammController mySportProgrammController =
       Get.put(MySportProgrammController());
+
   MyExercisesController myExercisesController =
       Get.put(MyExercisesController());
+  MyDateController myDateController =
+      Get.put(MyDateController());
+      @override
+  void initState() {
+    GetFixSportProgramm(widget.traininData[0]['programmId']);
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
+    bool fixed = mySportProgrammController.fixList.any((el) => el['date'] == myDateController.date);
     Map<String, dynamic> sportprogramm = mySportProgrammController
         .sportprogramms
-        .firstWhere((el) => el['id'] == traininData[0]['programmId']);
+        .firstWhere((el) => el['id'] == widget.traininData[0]['programmId']);
     Map<String, dynamic> exercise = myExercisesController.exercises
-        .firstWhere((el) => el['id'] == traininData[0]['exerciseId']);
+        .firstWhere((el) => el['id'] == widget.traininData[0]['exerciseId']);
     List<String> stage = [];
     List<String> muscleGroups = [];
 
     List<Map<String, dynamic>> execisesList = [];
 
     if(myExercisesController.exercises.length>0){
-      execisesList = traininData
+      execisesList = widget.traininData
         .map((el) => myExercisesController.exercises
             .firstWhere((element) => element['id'] == el['exerciseId'])).toList();
     }
@@ -62,7 +79,7 @@ class SportsmanTrainingDetails extends StatelessWidget {
             vh: vh),
         ...execisesList.map((e) => _ExeciseCard(
               exercise: e,
-              sets: jsonDecode(traininData.firstWhere(
+              sets: jsonDecode(widget.traininData.firstWhere(
                   (element) => element['exerciseId'] == e['id'])?['sets']),
             )),
         MyBurgerModalWind(
@@ -81,11 +98,12 @@ class SportsmanTrainingDetails extends StatelessWidget {
             child: MyscleGroupsImage(vh: vh, muscleGroups: muscleGroups),
           ),
         ),
+        if(!fixed)
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 30),
           child: MyGradientButton(
             callback: () =>Get.to(SportsmanSportprogrammFixResult(
-              trainingData: traininData,
+              trainingData: widget.traininData,
               execisesList: execisesList,
               sportprogramm: sportprogramm,
             )),

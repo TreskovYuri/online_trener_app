@@ -24,7 +24,6 @@ class FixTestModalWindTrener extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print(myFixController.sportsmanTestsFix);
     final bool fix = myFixController.sportsmanTestsFix.any((el) =>
         el['date'] == belong['date'] &&
         el['programmId'] == belong['programmId'] &&

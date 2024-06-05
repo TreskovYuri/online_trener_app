@@ -10,7 +10,6 @@ Future GetPatterns() async {
   try {
     Map<String, dynamic> data = await Session().get('exercises/patterns');
     List<Map<String, dynamic>> list = [];
-    print(data);
     if (data['status'] < 300) {
       for (var e in data['body']) {
         Map<String,dynamic> pattern = {
