@@ -9,6 +9,7 @@ import 'package:trener_app/getx/MySportProgrammController.dart';
 import 'package:trener_app/getx/MyUserConroller.dart';
 import 'package:trener_app/http/chatUtills.dart';
 import 'package:trener_app/http/exerciseUtills.dart';
+import 'package:trener_app/http/sportpogrammUtills.dart';
 import 'package:trener_app/http/userUtills.dart';
 import 'package:trener_app/models/constants/colors.dart';
 import 'package:trener_app/models/constants/images.dart';
@@ -35,6 +36,7 @@ class _TrainingDetailsTrenerState extends State<TrainingDetailsTrener> {
     GetUsers();
     GetChats();
     GetAllExerciseComents();
+
     super.initState();
   }
 
@@ -57,6 +59,7 @@ class _TrainingDetailsTrenerState extends State<TrainingDetailsTrener> {
     final vh = MediaQuery.of(context).size.height / 100;
     List<dynamic> exercise = arguments['exercises'];
     Map user = arguments['user'];
+    GetFixSportProgramm(exercise[0]['programmId']);
     // List sets = json.decode(arguments['sets']);
 
     return Scaffold(
@@ -137,6 +140,10 @@ class _ExercisesCard extends StatelessWidget {
   Map exercise;
   MyExercisesController myExercisesController =
       Get.put(MyExercisesController());
+  MySportProgrammController mySportProgrammController =
+      Get.put(MySportProgrammController());
+  MyDateController myDateController =
+      Get.put(MyDateController());
 
   @override
   Widget build(BuildContext context) {
@@ -144,6 +151,7 @@ class _ExercisesCard extends StatelessWidget {
     return Obx(() {
       Map<String, dynamic> exerciseData = myExercisesController.exercises
           .firstWhere((element) => element['id'] == exercise['exerciseId']);
+      List<dynamic> fixSets = mySportProgrammController.fixList.any((el)=>el['date'] == myDateController.date )?jsonDecode(mySportProgrammController.fixList.firstWhere((el)=>el['date'] == myDateController.date )['sets']):[];
       return Padding(
         padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 5),
         child: Column(
@@ -164,7 +172,7 @@ class _ExercisesCard extends StatelessWidget {
               height: 20,
             ),
             _SetHeader(exercise: exerciseData),
-            ...sets.map((e) => _SetBodyRow(exercise: e)),
+            ...sets.map((e) => _SetBodyRow(exercise: e,fixSet:fixSets.firstWhere((element) => element['set'] == e['set'],orElse: () => {}),)),
             _ExerciseComments(
               belongID: exercise['id'],
               sportsmanID: sportsman['id'],
@@ -193,7 +201,7 @@ class _SetHeader extends StatelessWidget {
                   size: 12,
                   color: AppColors.blackThemeTextOpacity1)),
           Expanded(
-              flex: 2,
+              flex: 1,
               child: MyDescriptionText(
                   text: exercise['pocazatel1Name'],
                   size: 12,
@@ -245,39 +253,48 @@ class _SetHeader extends StatelessWidget {
 }
 
 class _SetBodyRow extends StatelessWidget {
-  _SetBodyRow({super.key, required this.exercise});
+  _SetBodyRow({super.key, required this.exercise, required this.fixSet});
+  MySportProgrammController mySportProgrammController = Get.put(MySportProgrammController());
   Map exercise;
+  Map fixSet;
 
   @override
   Widget build(BuildContext context) {
+    bool flag = fixSet['diapazon'] != null;
     return Row(
       children: [
         Expanded(
             child:
                 MyTextContainerBacgroundFill(text: exercise['set'].toString())),
         Expanded(
-            child: MyTextContainerBacgroundFill(
-                text: exercise['diapazonOt'].toString())),
-        MyDescriptionText(text: '-'),
-        Expanded(
-            child: MyTextContainerBacgroundFill(
-                text: exercise['diapazonDo'].toString())),
+            child: flag && fixSet['diapazon'].toString()!=''?MyTextContainerBacgroundFill(
+              flag: true,
+                text: '${fixSet['diapazon']}',):MyTextContainerBacgroundFill(
+                text: '${exercise['diapazonOt']}-${exercise['diapazonDo']}',textColor: AppColors.blackThemeTextOpacity3,)),
         if (exercise['pokazatel2'] != null)
           Expanded(
-              child: MyTextContainerBacgroundFill(
-                  text: exercise['pokazatel2'].toString())),
+              child:flag && fixSet['pokazatel2'].toString()!=''? MyTextContainerBacgroundFill(
+                flag: true,
+                  text: fixSet['pokazatel2'].toString()): MyTextContainerBacgroundFill(
+                  text: exercise['pokazatel2'].toString(),textColor: AppColors.blackThemeTextOpacity3,)),
         if (exercise['pokazatel3'] != null)
           Expanded(
-              child: MyTextContainerBacgroundFill(
-                  text: exercise['pokazatel3'].toString())),
+              child: flag && fixSet['pokazatel3'].toString()!=''?MyTextContainerBacgroundFill(
+                flag: true,
+                  text: fixSet['pokazatel3'].toString()):MyTextContainerBacgroundFill(
+                  text: exercise['pokazatel3'].toString(),textColor: AppColors.blackThemeTextOpacity3,)),
         if (exercise['pokazatel4'] != null)
           Expanded(
-              child: MyTextContainerBacgroundFill(
-                  text: exercise['pokazatel4'].toString())),
+              child: flag && fixSet['pokazatel4'].toString()!=''?MyTextContainerBacgroundFill(
+                flag: true,
+                  text: fixSet['pokazatel4'].toString()):MyTextContainerBacgroundFill(
+                  text: exercise['pokazatel4'].toString(),textColor: AppColors.blackThemeTextOpacity3,)),
         if (exercise['pokazatel5'] != null)
           Expanded(
-              child: MyTextContainerBacgroundFill(
-                  text: exercise['pokazatel5'].toString())),
+              child: flag && fixSet['pokazatel5'].toString()!=''?MyTextContainerBacgroundFill(
+                flag: true,
+                  text: fixSet['pokazatel5'].toString()):MyTextContainerBacgroundFill(
+                  text: exercise['pokazatel5'].toString(),textColor: AppColors.blackThemeTextOpacity3,)),
       ],
     );
   }

@@ -263,10 +263,6 @@ class _SetBody extends StatefulWidget {
 
 class _SetBodyState extends State<_SetBody> {
   final mySportProgrammController = Get.put(MySportProgrammController());
-  @override
-  void initState() {
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {

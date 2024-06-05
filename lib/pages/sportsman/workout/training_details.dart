@@ -43,7 +43,7 @@ class _SportsmanTrainingDetailsState extends State<SportsmanTrainingDetails> {
 
   @override
   Widget build(BuildContext context) {
-    bool fixed = mySportProgrammController.fixList.any((el) => el['date'] == myDateController.date);
+    
     Map<String, dynamic> sportprogramm = mySportProgrammController
         .sportprogramms
         .firstWhere((el) => el['id'] == widget.traininData[0]['programmId']);
@@ -98,17 +98,20 @@ class _SportsmanTrainingDetailsState extends State<SportsmanTrainingDetails> {
             child: MyscleGroupsImage(vh: vh, muscleGroups: muscleGroups),
           ),
         ),
-        if(!fixed)
+
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 30),
-          child: MyGradientButton(
+          child:Obx((){
+            bool fixed = mySportProgrammController.fixList.any((el) => el['date'] == myDateController.date);
+            return !fixed? MyGradientButton(
             callback: () =>Get.to(SportsmanSportprogrammFixResult(
               trainingData: widget.traininData,
               execisesList: execisesList,
               sportprogramm: sportprogramm,
             )),
             text: 'Заполнить',
-          ),
+          ):const SizedBox.shrink();
+          })
         )
       ],
     ));

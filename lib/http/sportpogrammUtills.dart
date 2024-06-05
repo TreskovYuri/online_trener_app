@@ -141,6 +141,7 @@ Future GetFixSportProgramm(id) async {
 
   try {
     Map<String, dynamic> data = await Session().get('sportprogramm/fix/$id');
+    print(data);
     List<Map<String, dynamic>> list = [];
     if (data['status'] < 300) {
       data['body'].forEach((e) {
