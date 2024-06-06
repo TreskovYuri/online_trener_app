@@ -9,6 +9,8 @@ import 'package:trener_app/http/exerciseUtills.dart';
 import 'package:file_picker/file_picker.dart';
 import 'dart:convert';
 
+import 'package:trener_app/widgets/shanckbar.dart';
+
 class ModalCreateTraining extends StatefulWidget {
   const ModalCreateTraining({super.key});
 
@@ -20,7 +22,7 @@ class _ModalCreateTrainingState extends State<ModalCreateTraining> {
   int page = 1;
   List muscleGroups = [];
   List<String> listEquipments = [];
-  String stage = 'Разминка';
+  List<String> stage = [];
   final TextEditingController nameRuController = TextEditingController();
   final TextEditingController nameEngController = TextEditingController();
   final TextEditingController linkController = TextEditingController();
@@ -163,6 +165,10 @@ class _ModalCreateTrainingState extends State<ModalCreateTraining> {
                             onTap: () {
                               setState(() {
                                 if (nameRuController.text.length > 0) {
+                                  if(page == 2 && muscleGroups.length ==0){
+                                    GetMySnackBar(description: 'Выберите группу мышц');
+                                    return;
+                                  }
                                   page++;
                                 } else {
                                   Get.snackbar('Ошибка ввода!',
@@ -244,7 +250,7 @@ class _ModalCreateTrainingState extends State<ModalCreateTraining> {
                   : SizedBox.shrink(),
               page == 4
                   ? Container(
-                      height: 70 * vh,
+                      height: 80 * vh,
                       child: ListView(
                         children: [
                           Page4(
@@ -259,7 +265,7 @@ class _ModalCreateTrainingState extends State<ModalCreateTraining> {
                         ],
                       ),
                     )
-                  : SizedBox.shrink(),
+                  : const SizedBox.shrink(),
             ],
           ),
           page == 4
@@ -305,20 +311,24 @@ class _ModalCreateTrainingState extends State<ModalCreateTraining> {
                       shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                         RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10),
-                          side: BorderSide(color: Colors.transparent),
+                          side: const BorderSide(color: Colors.transparent),
                         ),
                       ),
                     ),
                     onPressed: () {
+                      if(myExercisesController.currentStage.length == 0){
+                        GetMySnackBar(description: 'Выберите этап тренировки');
+                        return;
+                      }
                       AddExercise({
                         "nameRu": nameRuController.text,
                         "descriptionRu": '',
                         "nameEng": nameEngController.text,
                         "descriptionEng": '',
                         "equipments": jsonEncode(listEquipments),
-                        "stage": jsonEncode([
-                          myExercisesController.currentStage.toString(),
-                        ]),
+                        "stage": jsonEncode(
+                          myExercisesController.currentStage
+                        ),
                         "groupId":
                             myExercisesController.currentGroup.toString(),
                         "musclegroups": jsonEncode(muscleGroups),
@@ -341,6 +351,7 @@ class _ModalCreateTrainingState extends State<ModalCreateTraining> {
                         "img": '',
                         "video": '',
                       });
+                      Get.back();
                     },
                   ),
                 )
@@ -487,72 +498,72 @@ class Page2 extends StatelessWidget {
                   ? SvgPicture.asset(
                       'assets/img/frame_press.svg',
                     )
-                  : SizedBox.shrink(),
+                  : const SizedBox.shrink(),
               muscleGroups.contains('Шея')
                   ? SvgPicture.asset(
                       'assets/img/frame_shea.svg',
                     )
-                  : SizedBox.shrink(),
+                  : const SizedBox.shrink(),
               muscleGroups.contains('Ноги')
                   ? SvgPicture.asset(
                       'assets/img/frame_nogi.svg',
                     )
-                  : SizedBox.shrink(),
+                  : const SizedBox.shrink(),
               muscleGroups.contains('Икры')
                   ? SvgPicture.asset(
                       'assets/img/frame_ikri.svg',
                     )
-                  : SizedBox.shrink(),
+                  : const SizedBox.shrink(),
               muscleGroups.contains('Руки')
                   ? SvgPicture.asset(
                       'assets/img/frame_ruki.svg',
                     )
-                  : SizedBox.shrink(),
+                  : const SizedBox.shrink(),
               muscleGroups.contains('Плечи')
                   ? SvgPicture.asset(
                       'assets/img/frame_plechi.svg',
                     )
-                  : SizedBox.shrink(),
+                  : const SizedBox.shrink(),
               muscleGroups.contains('Грудь')
                   ? SvgPicture.asset(
                       'assets/img/frame_grud.svg',
                     )
-                  : SizedBox.shrink(),
+                  : const SizedBox.shrink(),
               muscleGroups.contains('Бицепс')
                   ? SvgPicture.asset(
                       'assets/img/frame_biceps.svg',
                     )
-                  : SizedBox.shrink(),
+                  : const SizedBox.shrink(),
               muscleGroups.contains('Трицепс')
                   ? SvgPicture.asset(
                       'assets/img/frame_tricebs.svg',
                     )
-                  : SizedBox.shrink(),
+                  : const SizedBox.shrink(),
               muscleGroups.contains('Спина')
                   ? SvgPicture.asset(
                       'assets/img/frame_spina.svg',
                     )
-                  : SizedBox.shrink(),
+                  : const SizedBox.shrink(),
               muscleGroups.contains('Бедра')
                   ? SvgPicture.asset(
                       'assets/img/frame_bedra.svg',
                     )
-                  : SizedBox.shrink(),
+                  : const SizedBox.shrink(),
               muscleGroups.contains('Голень')
                   ? SvgPicture.asset(
                       'assets/img/frame_golen.svg',
                     )
-                  : SizedBox.shrink(),
+                  : const SizedBox.shrink(),
               muscleGroups.contains('Предплечье')
                   ? SvgPicture.asset(
                       'assets/img/frame_plechi.svg',
                     )
-                  : SizedBox.shrink(),
+                  : const SizedBox.shrink(),
               muscleGroups.contains('Кисти')
                   ? SvgPicture.asset(
                       'assets/img/frame_kisti.svg',
                     )
-                  : SizedBox.shrink(),
+                  : const SizedBox.shrink(),
             ],
           ),
         ),
@@ -1924,11 +1935,11 @@ class Page4 extends StatefulWidget {
 class _Page4State extends State<Page4> {
   MyExercisesController myExercisesController =
       Get.put(MyExercisesController());
-  String stage = 'Разминка';
+  List<String> stage = [];
   bool stageModalFlag = false;
   PlatformFile? file;
   late List<Map<String, dynamic>> groupList;
-  String localGroup = 'Мои группы';
+  String localGroup = '';
   @override
   void initState() {
     groupList = myExercisesController.groups;
@@ -1941,12 +1952,17 @@ class _Page4State extends State<Page4> {
     });
   }
 
-  void setStage(String newStage) {
-    myExercisesController.setCurrentStage(newStage);
+  void setStage(String group) {
     setState(() {
-      stage = newStage;
+      if (stage.any((element) => element == group)) {
+        stage.removeWhere((element) => element == group);
+      } else {
+        stage.add(group);
+      }
     });
+    myExercisesController.setCurrentStage(stage);
   }
+
 
   void selectFile() async {
     FilePickerResult? result = await FilePicker.platform.pickFiles();
@@ -1997,7 +2013,7 @@ class _Page4State extends State<Page4> {
               padding: EdgeInsets.symmetric(horizontal: 3 * vw),
               child: TextField(
                 controller: widget.nameRuController,
-                cursorColor: Color.fromRGBO(112, 112, 112, 1),
+                cursorColor: const Color.fromRGBO(112, 112, 112, 1),
                 style: TextStyle(color: Colors.white, fontSize: 4 * vw),
                 decoration: InputDecoration(
                   hintText: 'Описание упражнения',
@@ -2107,7 +2123,7 @@ class _Page4State extends State<Page4> {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       Text(
-                        stage,
+                        '${stage.length>0?stage[0]:''} ${stage.length>1?',${stage[1]}':''} ${stage.length>2?',${stage[2]}':''}',
                         style: TextStyle(
                             color: Colors.white,
                             fontFamily: 'Manrope',
@@ -2181,6 +2197,7 @@ class _Page4State extends State<Page4> {
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 3 * vw),
               child: TextField(
+                keyboardAppearance: Brightness.dark,
                 controller: widget.linkController,
                 cursorColor: const Color.fromRGBO(112, 112, 112, 1),
                 style: TextStyle(color: Colors.white, fontSize: 4 * vw),
@@ -2609,7 +2626,7 @@ class ModalStage extends StatefulWidget {
       required this.setStage});
   final double vw;
   final double vh;
-  final String stage;
+  final List<String> stage;
   final Function setStage;
 
   @override
@@ -2617,17 +2634,20 @@ class ModalStage extends StatefulWidget {
 }
 
 class _ModalStageState extends State<ModalStage> {
-  String stage = '';
-  @override
-  void initState() {
-    setState(() {
-      stage = widget.stage;
-    });
-    super.initState();
+  List<String> localStage = [];
+
+  void localSetStage (String st){
+    if(localStage.any((element) => element==st)){
+      localStage.removeWhere((element) => element == st);
+    }else{
+      localStage.add(st);
+    }
+    setState(() { });
   }
 
   @override
   Widget build(BuildContext context) {
+      List<String> stage = widget.stage;
     return Container(
       height: 50 * widget.vh,
       width: double.infinity,
@@ -2653,7 +2673,7 @@ class _ModalStageState extends State<ModalStage> {
                     child: Text(
                       'Закрыть',
                       style: TextStyle(
-                        color: Color(0xff4D8AEE),
+                        color: const Color(0xff4D8AEE),
                         fontSize: 3.3 * widget.vw,
                         fontWeight: FontWeight.w500,
                         fontFamily: 'Manrope',
@@ -2712,7 +2732,7 @@ class _ModalStageState extends State<ModalStage> {
           Container(
             padding: EdgeInsets.all(3 * widget.vw),
             decoration: BoxDecoration(
-                color: Color(0XFF23252B),
+                color: const Color(0XFF23252B),
                 borderRadius: BorderRadius.circular(3 * widget.vw)),
             margin: EdgeInsets.all(3 * widget.vw),
             child: Column(
@@ -2737,9 +2757,7 @@ class _ModalStageState extends State<ModalStage> {
                         )),
                     onPressed: () {
                       widget.setStage('Разминка');
-                      setState(() {
-                        stage = 'Разминка';
-                      });
+                      localSetStage('Разминка');
                     },
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -2752,12 +2770,12 @@ class _ModalStageState extends State<ModalStage> {
                               fontFamily: 'Manrope',
                               fontWeight: FontWeight.w400),
                         ),
-                        stage == 'Разминка'
+                        localStage.any((element) => element == 'Разминка')
                             ? SvgPicture.asset(
                                 'assets/img/ok_white.svg',
                                 width: 4 * widget.vw,
                               )
-                            : SizedBox.shrink()
+                            : const SizedBox.shrink()
                       ],
                     ),
                   ),
@@ -2782,9 +2800,7 @@ class _ModalStageState extends State<ModalStage> {
                         )),
                     onPressed: () {
                       widget.setStage('Заминка');
-                      setState(() {
-                        stage = 'Заминка';
-                      });
+                      localSetStage('Заминка');
                     },
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -2797,7 +2813,7 @@ class _ModalStageState extends State<ModalStage> {
                               fontFamily: 'Manrope',
                               fontWeight: FontWeight.w400),
                         ),
-                        stage == 'Заминка'
+                        localStage.any((element) => element == 'Заминка') 
                             ? SvgPicture.asset(
                                 'assets/img/ok_white.svg',
                                 width: 4 * widget.vw,
@@ -2821,9 +2837,7 @@ class _ModalStageState extends State<ModalStage> {
                         )),
                     onPressed: () {
                       widget.setStage('Упражнение');
-                      setState(() {
-                        stage = 'Упражнение';
-                      });
+                      localSetStage('Упражнение');
                     },
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -2836,7 +2850,7 @@ class _ModalStageState extends State<ModalStage> {
                               fontFamily: 'Manrope',
                               fontWeight: FontWeight.w400),
                         ),
-                        stage == 'Упражнение'
+                        localStage.any((element) => element == 'Упражнение')
                             ? SvgPicture.asset(
                                 'assets/img/ok_white.svg',
                                 width: 4 * widget.vw,

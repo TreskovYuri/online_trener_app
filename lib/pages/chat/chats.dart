@@ -133,12 +133,12 @@ class _ChatsState extends State<Chats> {
                       controller: _scrollController,
                       children: [
                         ...myChatController.chats.map((e) => Container(
-                          margin: EdgeInsets.only(top: 10),
+                          margin: const EdgeInsets.only(top: 10),
                               child: ElevatedButton(
                                 style: ElevatedButton.styleFrom(
                                   shadowColor: Colors.transparent,
                                   foregroundColor:
-                                      Color.fromARGB(255, 8, 32, 42),
+                                      const Color.fromARGB(255, 8, 32, 42),
                                   surfaceTintColor: Colors.transparent,
                                   padding: EdgeInsets.symmetric(
                                       vertical: 2 * vh, horizontal: 10),
@@ -158,284 +158,11 @@ class _ChatsState extends State<Chats> {
                                 ),
                               ),
                             ),),
-                            SizedBox(height: 100,)
+                            const SizedBox(height: 100,)
                       ],
                     )
                   ),
                 ),
-                // Column(
-                //   children: [
-                //     Container(
-                //       alignment: Alignment.centerLeft,
-                //       margin: EdgeInsets.only(top: 10 * vw),
-                //       child: Row(
-                //         crossAxisAlignment: CrossAxisAlignment.start,
-                //         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                //         children: [
-                //           Image(
-                //             image: const AssetImage('assets/img/user1.png'),
-                //             width: 12 * vw,
-                //             height: 12 * vw,
-                //             fit: BoxFit
-                //                 .cover, // Обрезать изображение в соответствии с размерами контейнера
-                //           ),
-                //           SizedBox(
-                //             width: 5 * vw,
-                //           ),
-                //           Container(
-                //             width: 60 * vw,
-                //             child: Column(
-                //               crossAxisAlignment: CrossAxisAlignment.start,
-                //               mainAxisAlignment: MainAxisAlignment.center,
-                //               children: [
-                //                 Text(
-                //                   "Михаил Вирановский",
-                //                   style: TextStyle(
-                //                       color: Color.fromARGB(255, 236, 236, 236),
-                //                       fontFamily: 'Manrope',
-                //                       fontWeight: FontWeight.w600,
-                //                       decoration: TextDecoration.none,
-                //                       fontSize: 4 * vw),
-                //                 ),
-                //                 Text(
-                //                   "Молодец",
-                //                   style: TextStyle(
-                //                       color: Color.fromARGB(131, 236, 236, 236),
-                //                       fontFamily: 'Manrope',
-                //                       fontWeight: FontWeight.w400,
-                //                       decoration: TextDecoration.none,
-                //                       fontSize: 4 * vw),
-                //                 ),
-                //               ],
-                //             ),
-                //           ),
-                //           Column(
-                //             children: [
-                //               Text(
-                //                 "10:00",
-                //                 style: TextStyle(
-                //                     color: Color.fromARGB(131, 236, 236, 236),
-                //                     fontFamily: 'Manrope',
-                //                     fontWeight: FontWeight.w400,
-                //                     decoration: TextDecoration.none,
-                //                     fontSize: 4 * vw),
-                //               ),
-                //               SizedBox(height: 2 * vw),
-                //               Container(
-                //                 width: 7 * vw,
-                //                 height: 7 * vw,
-                //                 decoration: BoxDecoration(
-                //                   borderRadius: BorderRadius.circular(50),
-                //                   gradient: LinearGradient(
-                //                     colors: [
-                //                       Color(0xFF4D8AEE),
-                //                       Color(0xFF2932FF),
-                //                     ],
-                //                   ),
-                //                 ),
-                //                 child: Center(
-                //                   child: Text(
-                //                     "2",
-                //                     style: TextStyle(
-                //                         color:
-                //                             Color.fromARGB(131, 236, 236, 236),
-                //                         fontFamily: 'Manrope',
-                //                         fontWeight: FontWeight.w800,
-                //                         decoration: TextDecoration.none,
-                //                         fontSize: 4 * vw),
-                //                   ),
-                //                 ),
-                //               ),
-                //             ],
-                //           )
-                //         ],
-                //       ),
-                //     ),
-                //     Container(
-                //       alignment: Alignment.centerLeft,
-                //       margin: EdgeInsets.only(top: 10 * vw),
-                //       child: Row(
-                //         crossAxisAlignment: CrossAxisAlignment.start,
-                //         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                //         children: [
-                //           Image(
-                //             image: const AssetImage('assets/img/user2.png'),
-                //             width: 12 * vw,
-                //             height: 12 * vw,
-                //             fit: BoxFit
-                //                 .cover, // Обрезать изображение в соответствии с размерами контейнера
-                //           ),
-                //           SizedBox(
-                //             width: 5 * vw,
-                //           ),
-                //           Container(
-                //             width: 65 * vw,
-                //             child: Column(
-                //               crossAxisAlignment: CrossAxisAlignment.start,
-                //               mainAxisAlignment: MainAxisAlignment.center,
-                //               children: [
-                //                 Text(
-                //                   "Лев Кобяков",
-                //                   style: TextStyle(
-                //                       color: Color.fromARGB(255, 236, 236, 236),
-                //                       fontFamily: 'Manrope',
-                //                       fontWeight: FontWeight.w600,
-                //                       decoration: TextDecoration.none,
-                //                       fontSize: 4 * vw),
-                //                 ),
-                //                 Text(
-                //                   "Сегодня тренировки не будет. Переносим на первые числа апреля. О датах сообщу позже",
-                //                   style: TextStyle(
-                //                       color: Color.fromARGB(131, 236, 236, 236),
-                //                       fontFamily: 'Manrope',
-                //                       fontWeight: FontWeight.w400,
-                //                       decoration: TextDecoration.none,
-                //                       fontSize: 4 * vw),
-                //                 ),
-                //               ],
-                //             ),
-                //           ),
-                //           Column(
-                //             children: [
-                //               Text(
-                //                 "ВС",
-                //                 style: TextStyle(
-                //                     color: Color.fromARGB(131, 236, 236, 236),
-                //                     fontFamily: 'Manrope',
-                //                     fontWeight: FontWeight.w400,
-                //                     decoration: TextDecoration.none,
-                //                     fontSize: 4 * vw),
-                //               ),
-                //               SizedBox(height: 2 * vw),
-                //             ],
-                //           )
-                //         ],
-                //       ),
-                //     ),
-                //     Container(
-                //       alignment: Alignment.centerLeft,
-                //       margin: EdgeInsets.only(top: 10 * vw),
-                //       child: Row(
-                //         crossAxisAlignment: CrossAxisAlignment.start,
-                //         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                //         children: [
-                //           Image(
-                //             image: const AssetImage('assets/img/user3.png'),
-                //             width: 12 * vw,
-                //             height: 12 * vw,
-                //             fit: BoxFit
-                //                 .cover, // Обрезать изображение в соответствии с размерами контейнера
-                //           ),
-                //           SizedBox(
-                //             width: 5 * vw,
-                //           ),
-                //           Container(
-                //             width: 65 * vw,
-                //             child: Column(
-                //               crossAxisAlignment: CrossAxisAlignment.start,
-                //               mainAxisAlignment: MainAxisAlignment.center,
-                //               children: [
-                //                 Text(
-                //                   "Филипп Лачков",
-                //                   style: TextStyle(
-                //                       color: Color.fromARGB(255, 236, 236, 236),
-                //                       fontFamily: 'Manrope',
-                //                       fontWeight: FontWeight.w600,
-                //                       decoration: TextDecoration.none,
-                //                       fontSize: 4 * vw),
-                //                 ),
-                //                 Text(
-                //                   "Спасибо!",
-                //                   style: TextStyle(
-                //                       color: Color.fromARGB(131, 236, 236, 236),
-                //                       fontFamily: 'Manrope',
-                //                       fontWeight: FontWeight.w400,
-                //                       decoration: TextDecoration.none,
-                //                       fontSize: 4 * vw),
-                //                 ),
-                //               ],
-                //             ),
-                //           ),
-                //           Column(
-                //             children: [
-                //               Text(
-                //                 "ВТ",
-                //                 style: TextStyle(
-                //                     color: Color.fromARGB(131, 236, 236, 236),
-                //                     fontFamily: 'Manrope',
-                //                     fontWeight: FontWeight.w400,
-                //                     decoration: TextDecoration.none,
-                //                     fontSize: 4 * vw),
-                //               ),
-                //               SizedBox(height: 2 * vw),
-                //             ],
-                //           )
-                //         ],
-                //       ),
-                //     ),
-                //     Container(
-                //       alignment: Alignment.centerLeft,
-                //       margin: EdgeInsets.only(top: 10 * vw),
-                //       child: Row(
-                //         crossAxisAlignment: CrossAxisAlignment.start,
-                //         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                //         children: [
-                //           Image(
-                //             image: const AssetImage('assets/img/user4.png'),
-                //             width: 12 * vw,
-                //             height: 12 * vw,
-                //             fit: BoxFit
-                //                 .cover, // Обрезать изображение в соответствии с размерами контейнера
-                //           ),
-                //           SizedBox(
-                //             width: 5 * vw,
-                //           ),
-                //           Container(
-                //             width: 60 * vw,
-                //             child: Column(
-                //               crossAxisAlignment: CrossAxisAlignment.start,
-                //               mainAxisAlignment: MainAxisAlignment.center,
-                //               children: [
-                //                 Text(
-                //                   "Валерий Елизаров",
-                //                   style: TextStyle(
-                //                       color: Color.fromARGB(255, 236, 236, 236),
-                //                       fontFamily: 'Manrope',
-                //                       fontWeight: FontWeight.w600,
-                //                       decoration: TextDecoration.none,
-                //                       fontSize: 4 * vw),
-                //                 ),
-                //                 Text(
-                //                   "Да, супер!",
-                //                   style: TextStyle(
-                //                       color: Color.fromARGB(131, 236, 236, 236),
-                //                       fontFamily: 'Manrope',
-                //                       fontWeight: FontWeight.w400,
-                //                       decoration: TextDecoration.none,
-                //                       fontSize: 4 * vw),
-                //                 ),
-                //               ],
-                //             ),
-                //           ),
-                //           Column(
-                //             children: [
-                //               Text(
-                //                 "ВТ",
-                //                 style: TextStyle(
-                //                     color: Color.fromARGB(131, 236, 236, 236),
-                //                     fontFamily: 'Manrope',
-                //                     fontWeight: FontWeight.w400,
-                //                     decoration: TextDecoration.none,
-                //                     fontSize: 4 * vw),
-                //               ),
-                //               SizedBox(height: 2 * vw),
-                //             ],
-                //           ),
-                //         ],
-                //       ),
-                //     ),
-                //   ],
-                // ),
               ],
             ),
           ),
@@ -462,17 +189,15 @@ class _UserCardState extends State<_UserCard> {
 
   @override
   Widget build(BuildContext context) {
-    if (myUserController.Users.length > 0) {
-      final Map user = myUserController.Users.firstWhere(
-          (element) => element['id'] == widget.card['user2Id']);
-    }
+    final Map user = myUserController.Users.firstWhere(
+          (element) => element['id'] == widget.card['user2Id'], orElse: ()=>{});
 
-    return Container(padding: EdgeInsets.symmetric(vertical: 10,horizontal: 10),
+    return   user != {} ?Container(padding: const EdgeInsets.symmetric(vertical: 10,horizontal: 10),
       child: Row(
         children: [
           ClipRRect(
               borderRadius: BorderRadius.circular(100),
-              child: apponent(widget.card)['img'] != ''
+              child: apponent(widget.card)['img'] != '' && apponent(widget.card)['img'] != null
                   ? Container(
                       width: 30,
                       height: 30,
@@ -488,16 +213,16 @@ class _UserCardState extends State<_UserCard> {
                           color: Color.fromARGB(17, 255, 255, 255)),
                       child: Center(
                         child: Text(
-                          getFirstCharacter(apponent(widget.card)['name']),
+                          getFirstCharacter(apponent(widget.card)['name']??''),
                           style: const TextStyle(color: Colors.white),
                         ),
                       ),
                     )),
           Container(
-            padding: EdgeInsets.symmetric(horizontal: 10),
+            padding: const EdgeInsets.symmetric(horizontal: 10),
             width: 70 * widget.vw,
             child: Text(
-              apponent(widget.card)['name'] != ''
+              apponent(widget.card)['name'] != '' &&  apponent(widget.card)['name'] != null
                   ? apponent(widget.card)['name']
                   : 'Не заполнено',
               style: const TextStyle(
@@ -508,7 +233,7 @@ class _UserCardState extends State<_UserCard> {
           )
         ],
       ),
-    );
+    ):const SizedBox.shrink();
   }
 }
 
@@ -517,7 +242,7 @@ Map<String, dynamic> apponent(Map<String, dynamic> chat) {
   if (myUserController.Users.length > 0) {
     if (chat['user1Id'] == myUserController.user['id']) {
       Map<String, dynamic> user = myUserController.Users.firstWhere(
-          (element) => element['id'] == chat['user2Id']);
+          (element) => element['id'] == chat['user2Id'],orElse: () => {},);
       return user;
     } else {
       Map<String, dynamic> user = myUserController.Users.firstWhere(

@@ -29,8 +29,8 @@ class MyExercisesController extends GetxController {
   void setGroups(List<Map<String, dynamic>> newGroups) {_groups.assignAll(newGroups);}
 
   // Выбранная стадия при созджании упражнения
-  var currentStage = 'Разминка'.obs;
-  void setCurrentStage(String newCG) {currentStage.value = newCG;}
+  var currentStage = <String>[].obs;
+  void setCurrentStage(List<String> newCG) {currentStage.value = newCG;}
 
 
   // Выбранная группа при созджании упражнения
