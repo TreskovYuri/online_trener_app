@@ -1971,305 +1971,311 @@ class _Page4State extends State<Page4> {
   Widget build(BuildContext context) {
     final double vw = widget.vw;
     final double vh = widget.vh;
-    return Padding(
-      padding: EdgeInsets.symmetric(vertical: 2 * vh),
-      child: Column(
-        children: [
-          Padding(
-            padding: EdgeInsets.fromLTRB(3 * vw, 7 * vw, 3 * vw, 2 * vw),
-            child: Row(
-              children: [
-                Text('Введите название',
-                    textAlign: TextAlign.start,
-                    style: TextStyle(
-                        color: Color.fromARGB(115, 255, 255, 255),
-                        fontSize: 3.3 * vw,
-                        fontWeight: FontWeight.w500,
-                        fontFamily: 'Manrope')),
-              ],
-            ),
-          ),
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: 3 * vw),
-            child: TextField(
-              controller: widget.nameRuController,
-              cursorColor: Color.fromRGBO(112, 112, 112, 1),
-              style: TextStyle(color: Colors.white, fontSize: 4 * vw),
-              decoration: InputDecoration(
-                hintText: 'Описание упражнения',
-                hintStyle: const TextStyle(
-                  color: Colors.grey, // Цвет текста плейсхолдера
-                  fontSize: 16, // Размер текста плейсхолдера
-                  fontWeight:
-                      FontWeight.normal, // Начертание текста плейсхолдера
-                ),
-                contentPadding: EdgeInsets.symmetric(
-                    horizontal: 4 * vw, vertical: 1.5 * vh),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(4 * vw),
-                ),
-                focusedBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(4 * vw),
-                  borderSide: const BorderSide(
-                    color: Color.fromARGB(255, 112, 112, 112),
-                    width: 2.0,
-                  ),
-                ),
-              ),
-            ),
-          ),
-          Padding(
-            padding: EdgeInsets.fromLTRB(3 * vw, 7 * vw, 3 * vw, 2 * vw),
-            child: Row(
-              children: [
-                Text('Введите описание на английском',
-                    textAlign: TextAlign.start,
-                    style: TextStyle(
-                        color: Color.fromARGB(115, 255, 255, 255),
-                        fontSize: 3.3 * vw,
-                        fontWeight: FontWeight.w500,
-                        fontFamily: 'Manrope')),
-              ],
-            ),
-          ),
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: 3 * vw),
-            child: TextField(
-              controller: widget.nameEngController,
-              cursorColor: Color.fromRGBO(112, 112, 112, 1),
-              style: TextStyle(color: Colors.white, fontSize: 4 * vw),
-              decoration: InputDecoration(
-                hintText: 'Description',
-                hintStyle: const TextStyle(
-                  color: Colors.grey, // Цвет текста плейсхолдера
-                  fontSize: 16, // Размер текста плейсхолдера
-                  fontWeight:
-                      FontWeight.normal, // Начертание текста плейсхолдера
-                ),
-                contentPadding: EdgeInsets.symmetric(
-                    horizontal: 4 * vw, vertical: 1.5 * vh),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(4 * vw),
-                ),
-                focusedBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(4 * vw),
-                  borderSide: const BorderSide(
-                    color: Color.fromARGB(255, 112, 112, 112),
-                    width: 2.0,
-                  ),
-                ),
-              ),
-            ),
-          ),
-          Padding(
-            padding: EdgeInsets.fromLTRB(5 * vw, 7 * vw, 5 * vw, 0 * vw),
-            child: Row(
-              children: [
-                Text('Этап тренировки',
-                    textAlign: TextAlign.start,
-                    style: TextStyle(
-                        color: Color.fromARGB(115, 255, 255, 255),
-                        fontSize: 3.3 * vw,
-                        fontWeight: FontWeight.w500,
-                        fontFamily: 'Manrope')),
-              ],
-            ),
-          ),
-          Padding(
-            padding: EdgeInsets.all(3 * vw),
-            child: ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                foregroundColor: Color.fromARGB(112, 1, 110, 179),
-                backgroundColor: Color(0xff23252B),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(
-                      3 * vw), // Устанавливаем радиус круглых углов
-                ),
-              ),
-              onPressed: () {
-                showModalBottomSheet(
-                    context: context,
-                    builder: (_) => ModalStage(
-                          vw: vw,
-                          vh: vh,
-                          stage: stage,
-                          setStage: setStage,
-                        ));
-              },
-              child: Padding(
-                padding: EdgeInsets.symmetric(vertical: 2 * vh),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Text(
-                      stage,
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontFamily: 'Manrope',
-                          fontSize: 4 * vw,
-                          fontWeight: FontWeight.w400),
-                    ),
-                    Icon(
-                      Icons.arrow_forward_ios_rounded,
-                      size: 4 * vw,
-                      color: Colors.white,
-                    )
-                  ],
-                ),
-              ),
-            ),
-          ),
-          Padding(
-            padding: EdgeInsets.fromLTRB(5 * vw, 2 * vw, 5 * vw, 0 * vw),
-            child: Row(
-              children: [
-                Text('Добавьте видео с техникой выполнения',
-                    textAlign: TextAlign.start,
-                    style: TextStyle(
-                        color: Color.fromARGB(115, 255, 255, 255),
-                        fontSize: 3.3 * vw,
-                        fontWeight: FontWeight.w500,
-                        fontFamily: 'Manrope')),
-              ],
-            ),
-          ),
-          file != null
-              ? GestureDetector(
-                  onTap: selectFile,
-                  child: Container(
-                    margin: EdgeInsets.all(3 * vw),
-                    width: double.infinity,
-                    height: 25 * vh,
-                    child: Image.file(
-                      File(file!.path!),
-                      fit: BoxFit.cover,
-                    ),
-                  ),
-                )
-              : GestureDetector(
-                  onTap: selectFile,
-                  child: Container(
-                    margin: EdgeInsets.all(3 * vw),
-                    width: double.infinity,
-                    height: 25 * vh,
-                    child: SvgPicture.asset(
-                      'assets/img/upload_file.svg',
-                      fit: BoxFit.cover,
-                    ),
-                  ),
-                ),
-          Padding(
-            padding: EdgeInsets.fromLTRB(5 * vw, 0 * vw, 5 * vw, 3 * vw),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text('или',
-                    textAlign: TextAlign.start,
-                    style: TextStyle(
-                        color: Color.fromARGB(115, 255, 255, 255),
-                        fontSize: 3.3 * vw,
-                        fontWeight: FontWeight.w500,
-                        fontFamily: 'Manrope')),
-              ],
-            ),
-          ),
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: 3 * vw),
-            child: TextField(
-              controller: widget.linkController,
-              cursorColor: const Color.fromRGBO(112, 112, 112, 1),
-              style: TextStyle(color: Colors.white, fontSize: 4 * vw),
-              decoration: InputDecoration(
-                hintText: 'Добавьте ссылку YouTube',
-                hintStyle: const TextStyle(
-                  color: Colors.grey, // Цвет текста плейсхолдера
-                  fontSize: 16, // Размер текста плейсхолдера
-                  fontWeight:
-                      FontWeight.normal, // Начертание текста плейсхолдера
-                ),
-                contentPadding: EdgeInsets.symmetric(
-                    horizontal: 4 * vw, vertical: 1.5 * vh),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(4 * vw),
-                ),
-                focusedBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(4 * vw),
-                  borderSide: const BorderSide(
-                    color: Color.fromARGB(255, 112, 112, 112),
-                    width: 2.0,
-                  ),
-                ),
-              ),
-            ),
-          ),
-          SizedBox(
-            height: 3 * vh,
-          ),
-          Padding(
-            padding: const EdgeInsets.all(12),
-            child: ElevatedButton(
-              onPressed: () {
-                showModalBottomSheet(
-                    context: context,
-                    builder: (_) => ModalGroup(
-                        localEdIzm: localGroup,
-                        serLocalEdIzm: setLocalGroup,
-                        groupList: myExercisesController.groups));
-              },
-              style: ElevatedButton.styleFrom(
-                foregroundColor: const Color.fromARGB(112, 1, 110, 179),
-                backgroundColor: const Color(0xff23252B),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(
-                      3 * vw), // Устанавливаем радиус круглых углов
-                ),
-              ),
-              child: Container(
-                height: 50,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      localGroup,
-                      textAlign: TextAlign.start,
-                      style: TextStyle(
-                          color: const Color.fromARGB(115, 255, 255, 255),
-                          fontSize: 4 * vw,
-                          fontWeight: FontWeight.w400,
-                          fontFamily: 'Manrope'),
-                    ),
-                    const Icon(
-                      Icons.keyboard_arrow_down_rounded,
-                      color: Color.fromARGB(155, 255, 255, 255),
-                    )
-                  ],
-                ),
-              ),
-            ),
-          ),
-          GestureDetector(
-            onTap: () {
-              showModalBottomSheet(
-                  context: context,
-                  builder: (_) => ModalAddNewGroup(addGroup: addGroup));
-            },
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 15),
+    return GestureDetector(
+      onTap: (){
+        FocusScope.of(context).unfocus();
+      },
+      child: Padding(
+        padding: EdgeInsets.symmetric(vertical: 2 * vh),
+        child: Column(
+          children: [
+            Padding(
+              padding: EdgeInsets.fromLTRB(3 * vw, 7 * vw, 3 * vw, 2 * vw),
               child: Row(
                 children: [
-                  Text('Создать новую',
+                  Text('Введите название',
                       textAlign: TextAlign.start,
                       style: TextStyle(
-                          color: Color(0xff4D8AEE),
+                          color: Color.fromARGB(115, 255, 255, 255),
                           fontSize: 3.3 * vw,
-                          fontWeight: FontWeight.w400,
+                          fontWeight: FontWeight.w500,
                           fontFamily: 'Manrope')),
                 ],
               ),
             ),
-          ),
-        ],
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 3 * vw),
+              child: TextField(
+                controller: widget.nameRuController,
+                cursorColor: Color.fromRGBO(112, 112, 112, 1),
+                style: TextStyle(color: Colors.white, fontSize: 4 * vw),
+                decoration: InputDecoration(
+                  hintText: 'Описание упражнения',
+                  hintStyle: const TextStyle(
+                    color: Colors.grey, // Цвет текста плейсхолдера
+                    fontSize: 16, // Размер текста плейсхолдера
+                    fontWeight:
+                        FontWeight.normal, // Начертание текста плейсхолдера
+                  ),
+                  contentPadding: EdgeInsets.symmetric(
+                      horizontal: 4 * vw, vertical: 1.5 * vh),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(4 * vw),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(4 * vw),
+                    borderSide: const BorderSide(
+                      color: Color.fromARGB(255, 112, 112, 112),
+                      width: 2.0,
+                    ),
+                  ),
+                ),
+              ),
+            ),
+            Padding(
+              padding: EdgeInsets.fromLTRB(3 * vw, 7 * vw, 3 * vw, 2 * vw),
+              child: Row(
+                children: [
+                  Text('Введите описание на английском',
+                      textAlign: TextAlign.start,
+                      style: TextStyle(
+                          color: Color.fromARGB(115, 255, 255, 255),
+                          fontSize: 3.3 * vw,
+                          fontWeight: FontWeight.w500,
+                          fontFamily: 'Manrope')),
+                ],
+              ),
+            ),
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 3 * vw),
+              child: TextField(
+                controller: widget.nameEngController,
+                cursorColor: Color.fromRGBO(112, 112, 112, 1),
+                style: TextStyle(color: Colors.white, fontSize: 4 * vw),
+                decoration: InputDecoration(
+                  hintText: 'Description',
+                  hintStyle: const TextStyle(
+                    color: Colors.grey, // Цвет текста плейсхолдера
+                    fontSize: 16, // Размер текста плейсхолдера
+                    fontWeight:
+                        FontWeight.normal, // Начертание текста плейсхолдера
+                  ),
+                  contentPadding: EdgeInsets.symmetric(
+                      horizontal: 4 * vw, vertical: 1.5 * vh),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(4 * vw),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(4 * vw),
+                    borderSide: const BorderSide(
+                      color: Color.fromARGB(255, 112, 112, 112),
+                      width: 2.0,
+                    ),
+                  ),
+                ),
+              ),
+            ),
+            Padding(
+              padding: EdgeInsets.fromLTRB(5 * vw, 7 * vw, 5 * vw, 0 * vw),
+              child: Row(
+                children: [
+                  Text('Этап тренировки',
+                      textAlign: TextAlign.start,
+                      style: TextStyle(
+                          color: Color.fromARGB(115, 255, 255, 255),
+                          fontSize: 3.3 * vw,
+                          fontWeight: FontWeight.w500,
+                          fontFamily: 'Manrope')),
+                ],
+              ),
+            ),
+            Padding(
+              padding: EdgeInsets.all(3 * vw),
+              child: ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  foregroundColor: Color.fromARGB(112, 1, 110, 179),
+                  backgroundColor: Color(0xff23252B),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(
+                        3 * vw), // Устанавливаем радиус круглых углов
+                  ),
+                ),
+                onPressed: () {
+                  showModalBottomSheet(
+                      context: context,
+                      builder: (_) => ModalStage(
+                            vw: vw,
+                            vh: vh,
+                            stage: stage,
+                            setStage: setStage,
+                          ));
+                },
+                child: Padding(
+                  padding: EdgeInsets.symmetric(vertical: 2 * vh),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Text(
+                        stage,
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontFamily: 'Manrope',
+                            fontSize: 4 * vw,
+                            fontWeight: FontWeight.w400),
+                      ),
+                      Icon(
+                        Icons.arrow_forward_ios_rounded,
+                        size: 4 * vw,
+                        color: Colors.white,
+                      )
+                    ],
+                  ),
+                ),
+              ),
+            ),
+            Padding(
+              padding: EdgeInsets.fromLTRB(5 * vw, 2 * vw, 5 * vw, 0 * vw),
+              child: Row(
+                children: [
+                  Text('Добавьте видео с техникой выполнения',
+                      textAlign: TextAlign.start,
+                      style: TextStyle(
+                          color: Color.fromARGB(115, 255, 255, 255),
+                          fontSize: 3.3 * vw,
+                          fontWeight: FontWeight.w500,
+                          fontFamily: 'Manrope')),
+                ],
+              ),
+            ),
+            file != null
+                ? GestureDetector(
+                    onTap: selectFile,
+                    child: Container(
+                      margin: EdgeInsets.all(3 * vw),
+                      width: double.infinity,
+                      height: 25 * vh,
+                      child: Image.file(
+                        File(file!.path!),
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+                  )
+                : GestureDetector(
+                    onTap: selectFile,
+                    child: Container(
+                      margin: EdgeInsets.all(3 * vw),
+                      width: double.infinity,
+                      height: 25 * vh,
+                      child: SvgPicture.asset(
+                        'assets/img/upload_file.svg',
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+                  ),
+            Padding(
+              padding: EdgeInsets.fromLTRB(5 * vw, 0 * vw, 5 * vw, 3 * vw),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text('или',
+                      textAlign: TextAlign.start,
+                      style: TextStyle(
+                          color: Color.fromARGB(115, 255, 255, 255),
+                          fontSize: 3.3 * vw,
+                          fontWeight: FontWeight.w500,
+                          fontFamily: 'Manrope')),
+                ],
+              ),
+            ),
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 3 * vw),
+              child: TextField(
+                controller: widget.linkController,
+                cursorColor: const Color.fromRGBO(112, 112, 112, 1),
+                style: TextStyle(color: Colors.white, fontSize: 4 * vw),
+                decoration: InputDecoration(
+                  hintText: 'Добавьте ссылку YouTube',
+                  hintStyle: const TextStyle(
+                    color: Colors.grey, // Цвет текста плейсхолдера
+                    fontSize: 16, // Размер текста плейсхолдера
+                    fontWeight:
+                        FontWeight.normal, // Начертание текста плейсхолдера
+                  ),
+                  contentPadding: EdgeInsets.symmetric(
+                      horizontal: 4 * vw, vertical: 1.5 * vh),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(4 * vw),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(4 * vw),
+                    borderSide: const BorderSide(
+                      color: Color.fromARGB(255, 112, 112, 112),
+                      width: 2.0,
+                    ),
+                  ),
+                ),
+              ),
+            ),
+            SizedBox(
+              height: 3 * vh,
+            ),
+            Padding(
+              padding: const EdgeInsets.all(12),
+              child: ElevatedButton(
+                onPressed: () {
+                  showModalBottomSheet(
+                      context: context,
+                      builder: (_) => ModalGroup(
+                          localEdIzm: localGroup,
+                          serLocalEdIzm: setLocalGroup,
+                          groupList: myExercisesController.groups));
+                },
+                style: ElevatedButton.styleFrom(
+                  foregroundColor: const Color.fromARGB(112, 1, 110, 179),
+                  backgroundColor: const Color(0xff23252B),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(
+                        3 * vw), // Устанавливаем радиус круглых углов
+                  ),
+                ),
+                child: Container(
+                  height: 50,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        localGroup,
+                        textAlign: TextAlign.start,
+                        style: TextStyle(
+                            color: const Color.fromARGB(115, 255, 255, 255),
+                            fontSize: 4 * vw,
+                            fontWeight: FontWeight.w400,
+                            fontFamily: 'Manrope'),
+                      ),
+                      const Icon(
+                        Icons.keyboard_arrow_down_rounded,
+                        color: Color.fromARGB(155, 255, 255, 255),
+                      )
+                    ],
+                  ),
+                ),
+              ),
+            ),
+            GestureDetector(
+              onTap: () {
+                showModalBottomSheet(
+                    context: context,
+                    builder: (_) => ModalAddNewGroup(addGroup: addGroup));
+              },
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 15),
+                child: Row(
+                  children: [
+                    Text('Создать новую',
+                        textAlign: TextAlign.start,
+                        style: TextStyle(
+                            color: Color(0xff4D8AEE),
+                            fontSize: 3.3 * vw,
+                            fontWeight: FontWeight.w400,
+                            fontFamily: 'Manrope')),
+                  ],
+                ),
+              ),
+            ),
+            const SizedBox(height: 100,),
+          ],
+        ),
       ),
     );
   }

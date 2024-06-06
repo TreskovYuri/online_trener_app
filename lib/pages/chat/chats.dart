@@ -521,7 +521,7 @@ Map<String, dynamic> apponent(Map<String, dynamic> chat) {
       return user;
     } else {
       Map<String, dynamic> user = myUserController.Users.firstWhere(
-          (element) => element['id'] == chat['user1Id']);
+          (element) => element['id'] == chat['user1Id'],orElse: ()=>{});
       return user;
     }
   } else {

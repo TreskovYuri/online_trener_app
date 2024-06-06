@@ -251,14 +251,14 @@ class GroupCard extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Text(
+                Expanded(child: Text(
                   name,
                   style: TextStyle(
                       color: Colors.white,
                       fontSize: 4 * vw,
                       fontFamily: 'Manrope',
                       fontWeight: FontWeight.w500),
-                ),
+                ),),
                 Icon(
                   Icons.arrow_forward_ios_rounded,
                   color: const Color.fromARGB(72, 255, 255, 255),

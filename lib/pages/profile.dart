@@ -2,7 +2,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:trener_app/getx/MyUserConroller.dart';
+import 'package:trener_app/pages/login/login.dart';
 import 'package:trener_app/widgets/service/navbar.dart';
 import 'package:trener_app/widgets/service/navbar_scroll.dart';
 
@@ -81,7 +83,7 @@ class _ProfileState extends State<Profile> {
                     child: Text(
                       myUserController.user['name'],
                       style: TextStyle(
-                          color: Color.fromARGB(223, 236, 236, 236),
+                          color: const Color.fromARGB(223, 236, 236, 236),
                           fontFamily: 'Manrope',
                           fontWeight: FontWeight.w400,
                           decoration: TextDecoration.none,
@@ -97,7 +99,7 @@ class _ProfileState extends State<Profile> {
                     child: Text(
                       myUserController.user['date'],
                       style: TextStyle(
-                          color: Color.fromARGB(123, 236, 236, 236),
+                          color: const Color.fromARGB(123, 236, 236, 236),
                           fontFamily: 'Manrope',
                           fontWeight: FontWeight.w400,
                           decoration: TextDecoration.none,
@@ -120,11 +122,11 @@ class _ProfileState extends State<Profile> {
                               right: 5 * vw),
                           decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(20),
-                              color: Color.fromARGB(255, 41, 41, 41)),
+                              color: const Color.fromARGB(255, 41, 41, 41)),
                           child: Text(
                             myUserController.user['post'],
                             style: TextStyle(
-                                color: Color.fromARGB(123, 236, 236, 236),
+                                color: const Color.fromARGB(123, 236, 236, 236),
                                 fontFamily: 'Manrope',
                                 fontWeight: FontWeight.w400,
                                 decoration: TextDecoration.none,
@@ -142,11 +144,11 @@ class _ProfileState extends State<Profile> {
                               right: 5 * vw),
                           decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(20),
-                              color: Color.fromARGB(255, 41, 41, 41)),
+                              color: const Color.fromARGB(255, 41, 41, 41)),
                           child: Text(
                             myUserController.user['team'],
                             style: TextStyle(
-                                color: Color.fromARGB(123, 236, 236, 236),
+                                color: const Color.fromARGB(123, 236, 236, 236),
                                 fontFamily: 'Manrope',
                                 fontWeight: FontWeight.w400,
                                 decoration: TextDecoration.none,
@@ -169,7 +171,7 @@ class _ProfileState extends State<Profile> {
                         left: 3 * vw,
                       ),
                       decoration: BoxDecoration(
-                          color: Color.fromARGB(125, 41, 41, 41),
+                          color: const Color.fromARGB(125, 41, 41, 41),
                           borderRadius: BorderRadius.circular(10)),
                       child: Column(
                         children: [
@@ -183,7 +185,7 @@ class _ProfileState extends State<Profile> {
                                   Text(
                                     "Номер телефона",
                                     style: TextStyle(
-                                        color: Color.fromARGB(123, 236, 236, 236),
+                                        color: const Color.fromARGB(123, 236, 236, 236),
                                         fontFamily: 'Manrope',
                                         fontWeight: FontWeight.w400,
                                         decoration: TextDecoration.none,
@@ -192,7 +194,7 @@ class _ProfileState extends State<Profile> {
                                   Text(
                                     myUserController.user['number'],
                                     style: TextStyle(
-                                        color: Color.fromARGB(255, 236, 236, 236),
+                                        color: const Color.fromARGB(255, 236, 236, 236),
                                         fontFamily: 'Manrope',
                                         fontWeight: FontWeight.w400,
                                         decoration: TextDecoration.none,
@@ -219,7 +221,7 @@ class _ProfileState extends State<Profile> {
                                   Text(
                                     "Почта",
                                     style: TextStyle(
-                                        color: Color.fromARGB(123, 236, 236, 236),
+                                        color: const Color.fromARGB(123, 236, 236, 236),
                                         fontFamily: 'Manrope',
                                         fontWeight: FontWeight.w400,
                                         decoration: TextDecoration.none,
@@ -228,7 +230,7 @@ class _ProfileState extends State<Profile> {
                                   Text(
                                     myUserController.user['email'],
                                     style: TextStyle(
-                                        color: Color.fromARGB(255, 236, 236, 236),
+                                        color: const Color.fromARGB(255, 236, 236, 236),
                                         fontFamily: 'Manrope',
                                         fontWeight: FontWeight.w400,
                                         decoration: TextDecoration.none,
@@ -245,41 +247,49 @@ class _ProfileState extends State<Profile> {
                         ],
                       ),
                     ),
-                    Container(
-                      margin: EdgeInsets.all(3 * vw),
-                      padding: EdgeInsets.all(6 * vw),
-                      decoration: BoxDecoration(
-                          color: const Color.fromARGB(255, 240, 24, 9),
-                          borderRadius: BorderRadius.circular(10)),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Row(
-                            children: [
-                              Image(
-                                image: const AssetImage('assets/img/exit.png'),
-                                width: 5 * vw,
-                                height: 5 * vw,
-                                fit: BoxFit
-                                    .cover, // Обрезать изображение в соответствии с размерами контейнера
-                              ),
-                              SizedBox(
-                                width: 1 * vw,
-                              ),
-                              Text(
-                                "Выйти",
-                                style: TextStyle(
-                                    color: Color.fromARGB(255, 236, 236, 236),
-                                    fontFamily: 'Manrope',
-                                    fontWeight: FontWeight.w600,
-                                    decoration: TextDecoration.none,
-                                    fontSize: 4 * vw),
-                              ),
-                            ],
-                          ),
-                          Icon(Icons.arrow_forward_ios_rounded, color: Colors.white,size: 4*vw,)
-                        ],
+                    GestureDetector(
+                      onTap: () async{
+                        final box = GetStorage();
+                        await box.remove('email');
+                        await box.remove('password');
+                        Get.to(const Login());
+                        },
+                      child: Container(
+                        margin: EdgeInsets.all(3 * vw),
+                        padding: EdgeInsets.all(6 * vw),
+                        decoration: BoxDecoration(
+                            color: const Color.fromARGB(255, 240, 24, 9),
+                            borderRadius: BorderRadius.circular(10)),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Row(
+                              children: [
+                                Image(
+                                  image: const AssetImage('assets/img/exit.png'),
+                                  width: 5 * vw,
+                                  height: 5 * vw,
+                                  fit: BoxFit
+                                      .cover, // Обрезать изображение в соответствии с размерами контейнера
+                                ),
+                                SizedBox(
+                                  width: 1 * vw,
+                                ),
+                                Text(
+                                  "Выйти",
+                                  style: TextStyle(
+                                      color: const Color.fromARGB(255, 236, 236, 236),
+                                      fontFamily: 'Manrope',
+                                      fontWeight: FontWeight.w600,
+                                      decoration: TextDecoration.none,
+                                      fontSize: 4 * vw),
+                                ),
+                              ],
+                            ),
+                            Icon(Icons.arrow_forward_ios_rounded, color: Colors.white,size: 4*vw,)
+                          ],
+                        ),
                       ),
                     ),
                   ],
@@ -287,7 +297,7 @@ class _ProfileState extends State<Profile> {
               ],
             ),
           ),
-          _isAtTop ? Navbar() : NavbarScroll(),
+          _isAtTop ? const Navbar() : const NavbarScroll(),
         ],
       ),),
 

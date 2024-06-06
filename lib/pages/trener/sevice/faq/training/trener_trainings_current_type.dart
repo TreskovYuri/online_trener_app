@@ -173,15 +173,18 @@ class ExersizeCard extends StatelessWidget {
           children: [
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              crossAxisAlignment: CrossAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  map['nameRu'],
-                  style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 4 * vw,
-                      fontFamily: 'Manrope',
-                      fontWeight: FontWeight.w500),
+                Expanded(
+                  
+                  child: Text(
+                    map['nameRu'],
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 4 * vw,
+                        fontFamily: 'Manrope',
+                        fontWeight: FontWeight.w500),
+                  ),
                 ),
                 IconButton(
                   onPressed: () {},
