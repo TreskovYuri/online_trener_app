@@ -73,6 +73,7 @@ class _SportsmanSportprogrammFixResultState
         'date':element['date']
       });
     });
+    GetFixSportProgramm(widget.sportprogramm['id']);
     mySportProgrammController.setFinalFixSetsList(finalList);
     super.initState();
   }
