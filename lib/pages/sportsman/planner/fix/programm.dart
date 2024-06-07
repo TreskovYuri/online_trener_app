@@ -4,13 +4,20 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:trener_app/getx/MyDateController.dart';
+import 'package:trener_app/getx/MyExercisesController.dart';
 import 'package:trener_app/getx/MySportProgrammController.dart';
+import 'package:trener_app/getx/MyUserConroller.dart';
+import 'package:trener_app/http/exerciseUtills.dart';
 import 'package:trener_app/http/sportpogrammUtills.dart';
 import 'package:trener_app/models/constants/colors.dart';
 import 'package:trener_app/models/constants/images.dart';
+import 'package:trener_app/utills/sokrashatel.dart';
 import 'package:trener_app/widgets/app_bar/gradient_appbar.dart';
 import 'package:trener_app/widgets/buttons/gradient_button.dart';
+import 'package:trener_app/widgets/circle_default_user_icon.dart';
+import 'package:trener_app/widgets/circle_network_Img.dart';
 import 'package:trener_app/widgets/inputs/input_inline_fill.dart';
+import 'package:trener_app/widgets/shanckbar.dart';
 import 'package:trener_app/widgets/text/description.dart';
 import 'package:trener_app/widgets/text/title.dart';
 
@@ -101,7 +108,7 @@ class _SportsmanSportprogrammFixResultState
             Padding(
               padding: const EdgeInsets.all(16),
               child: MyGradientButton(
-                  callback: () {
+                  callback: () async {
                     mySportProgrammController.finalFixSetsList.forEach((e) => SetFixSportProgramm({
                           'setId': e['setId'].toString(),
                           'programmId': e['programmId'].toString(),
@@ -110,6 +117,7 @@ class _SportsmanSportprogrammFixResultState
                           'sets': jsonEncode(e['sets']),
                           'date':e['date']
                         }));
+                    await GetFixSportProgramm(widget.sportprogramm['id']);
                     Get.back();
                   },
                   text: 'Зафиксировать'),
@@ -137,6 +145,7 @@ class _ExerciseCard extends StatefulWidget {
 
 class __ExerciseCardState extends State<_ExerciseCard> {
   final mySportProgrammController = Get.put(MySportProgrammController());
+  final myUserController = Get.put(MyUserController());
 
   @override
   Widget build(BuildContext context) {
@@ -182,7 +191,8 @@ class __ExerciseCardState extends State<_ExerciseCard> {
           ),
           _SetBody(
             id: widget.exercise['id'],
-          )
+          ),
+          _ExerciseComments(sportsmanID: myUserController.user['id'], belongID: widget.exercise['id'])
         ],
       ),
     );
@@ -410,6 +420,155 @@ class __InputsRowState extends State<_InputsRow> {
             ),
           ),
       ],
+    );
+  }
+}
+
+
+
+class _ExerciseComments extends StatelessWidget {
+  _ExerciseComments({
+    super.key,
+    required this.sportsmanID,
+    required this.belongID,
+  });
+  int sportsmanID;
+  int belongID;
+  MyExercisesController myExercisesController =
+      Get.put(MyExercisesController());
+  MyUserController myUserController = Get.put(MyUserController());
+  TextEditingController messageController = TextEditingController();
+
+  void PushMessage() {
+    if (messageController.text.length == 0) {
+      GetMySnackBar(description: 'Поле ввода не может быть пустым...');
+    } else {
+      AddComment({
+        'commentatorId': myUserController.user['id'].toString(),
+        'exerciseBelongId': belongID.toString(),
+        'message': messageController.text,
+      });
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Obx(() {
+      List<Map<String, dynamic>> comments = myExercisesController.comments
+          .where((element) => element['exerciseBelongId'] == belongID)
+          .toList();
+      return Container(
+        child: Column(
+          children: [
+            const SizedBox(
+              height: 10,
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 2),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  const Row(
+                    children: [
+                      Icon(
+                        Icons.star_border,
+                        color: AppColors.blackThemeTextOpacity,
+                        size: 20,
+                      ),
+                      Icon(
+                        Icons.star_border,
+                        color: AppColors.blackThemeTextOpacity,
+                        size: 20,
+                      ),
+                      Icon(
+                        Icons.star_border,
+                        color: AppColors.blackThemeTextOpacity,
+                        size: 20,
+                      ),
+                      Icon(
+                        Icons.star_border,
+                        color: AppColors.blackThemeTextOpacity,
+                        size: 20,
+                      ),
+                      Icon(
+                        Icons.star_border,
+                        color: AppColors.blackThemeTextOpacity,
+                        size: 20,
+                      ),
+                    ],
+                  ),
+                  MyDescriptionText(
+                      text: '${comments.length} комментариев',
+                      color: AppColors.blackThemeTextOpacity,
+                      size: 15)
+                ],
+              ),
+            ),
+            Container(
+              margin: const EdgeInsets.symmetric(
+                vertical: 10,
+              ),
+              width: double.infinity,
+              height: 1,
+              color: AppColors.blackThemeTextOpacity,
+            ),
+            ...comments.map((e) => _Comment(
+                  comment: e,
+                )),
+            Row(
+              children: [
+                Expanded(
+                    child: MyInlineFillInput(
+                  keyWoardType: TextInputType.text,
+                  inputFormatters: 'string',
+                  hintText: 'Комментарий',
+                  controller: messageController,
+                  marginH: 0,
+                )),
+                IconButton(
+                    onPressed: PushMessage,
+                    icon: SvgPicture.asset(
+                      AppImages.ChatPushMessage1,
+                      height: 45,
+                    ))
+              ],
+            )
+          ],
+        ),
+      );
+    });
+  }
+}
+
+class _Comment extends StatelessWidget {
+  _Comment({super.key, required this.comment});
+  Map<String, dynamic> comment;
+  MyUserController myUserController = Get.put(MyUserController());
+
+  @override
+  Widget build(BuildContext context) {
+    Map<String,dynamic> user = myUserController.Users.firstWhere((el) => el['id'] == comment['commentatorId'], orElse: ()=>{});
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 10),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.end,
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          const SizedBox(width: 200,),
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              user['img']!=null && user['img']!=''?MyCircleNetworkImg(width: 40, height: 40, url: user['img'],radius: 100,):MyCircleDefaulUserIcon(name: user['name']??'',radius: 100,),
+              const SizedBox(width: 10,),
+              MyDescriptionText(text: FIOSokrashatel(user['name']??'') ,size: 14,color: AppColors.blackThemeTextOpacity4)
+            ],
+          ),
+          const SizedBox(height: 10,),
+          Row(
+            children: [Expanded(child: MyDescriptionText(text: comment['message']??'',color: AppColors.blackThemeTextOpacity3,size: 12))],
+          ),
+        ],
+      ),
     );
   }
 }

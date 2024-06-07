@@ -46,7 +46,7 @@ class MyApp extends StatelessWidget {
     return Provider(
       create: (_) => Mobx(),
       child: GetMaterialApp(
-        title: 'aad',
+        title: 'Онлайн тренер',
         initialRoute: '/',
         debugShowCheckedModeBanner: false,
       // theme: AppTheme.lightTheme,

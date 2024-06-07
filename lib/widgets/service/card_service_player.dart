@@ -176,7 +176,7 @@ class CardServicePlayer extends StatelessWidget {
                                 height: 5,
                               ),
                               Text(
-                                "Консултации",
+                                "Консультации",
                                 style: TextStyle(
                                     color: Color.fromARGB(234, 255, 255, 255),
                                     fontFamily: 'Manrope',

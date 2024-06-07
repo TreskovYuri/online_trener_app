@@ -83,7 +83,7 @@ class _SportsmanTrainingDetailsState extends State<SportsmanTrainingDetails> {
                   (element) => element['exerciseId'] == e['id'])?['sets']),
             )),
         MyBurgerModalWind(
-          title: 'Описние',
+          title: 'Описание',
           body: Padding(
             padding: const EdgeInsets.all(8.0),
             child: MyDescriptionText(text: sportprogramm['description'],maxLines: 150,color: AppColors.blackThemeTextOpacity3),
@@ -103,7 +103,7 @@ class _SportsmanTrainingDetailsState extends State<SportsmanTrainingDetails> {
           padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 30),
           child:Obx((){
             bool fixed = mySportProgrammController.fixList.any((el) => el['date'] == myDateController.date);
-            return !fixed? MyGradientButton(
+            return !mySportProgrammController.fixList.any((el) => el['date'] == myDateController.date)? MyGradientButton(
             callback: () =>Get.to(SportsmanSportprogrammFixResult(
               trainingData: widget.traininData,
               execisesList: execisesList,
@@ -180,7 +180,7 @@ class _ImageBlock extends StatelessWidget {
           ),
         ),
         Positioned(
-          bottom: 50,
+          bottom:70,
           left: 0,
           right: 0,
           child: Container(
@@ -200,7 +200,7 @@ class _ImageBlock extends StatelessWidget {
           ),
         ),
         Positioned(
-            bottom: 10,
+            bottom: 20,
             left: 0,
             right: 0,
             child: SizedBox(

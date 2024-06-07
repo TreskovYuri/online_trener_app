@@ -12,7 +12,6 @@ import 'package:trener_app/pages/sportsman/progress.dart';
 import 'package:trener_app/pages/service.dart';
 import 'package:trener_app/pages/trener/sportsmans/sportsmans.dart';
 
-
 // Route _createRoute( Widget widget, ) {
 //   return PageRouteBuilder(
 //     pageBuilder: (context, animation, secondaryAnimation) => const Journal(),
@@ -35,7 +34,8 @@ Route _createRoute(Widget widget, Offset begin, Offset end) {
   return PageRouteBuilder(
     pageBuilder: (context, animation, secondaryAnimation) => widget,
     transitionsBuilder: (context, animation, secondaryAnimation, child) {
-      var tween = Tween(begin: begin, end: end).chain(CurveTween(curve: Curves.ease));
+      var tween =
+          Tween(begin: begin, end: end).chain(CurveTween(curve: Curves.ease));
 
       return SlideTransition(
         position: animation.drive(tween),
@@ -44,7 +44,6 @@ Route _createRoute(Widget widget, Offset begin, Offset end) {
     },
   );
 }
-
 
 class Navbar extends StatefulWidget {
   const Navbar({super.key});
@@ -61,24 +60,24 @@ class _NavbarState extends State<Navbar> {
     final vw = MediaQuery.of(context).size.width / 100;
     final vh = MediaQuery.of(context).size.height / 100;
     final mobx = Provider.of<Mobx>(context);
-    return
-    Obx((){
-      if (myUserController.user['post'] == 'Тренер' || myUserController.user['post'] == 'Супер тренер') {
-      return Positioned(
-        bottom: 0,
-        left: 0,
-        right: 0,
-        child: Container(
-          height: 12 * vh,
-          padding: EdgeInsets.symmetric(horizontal: 2 * vw),
-          decoration: const BoxDecoration(
-            color: Color(0xff1B1C20),
-          ),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              AnimatedOpacity(
+    return Obx(() {
+      if (myUserController.user['post'] == 'Тренер' ||
+          myUserController.user['post'] == 'Супер тренер') {
+        return Positioned(
+          bottom: 0,
+          left: 0,
+          right: 0,
+          child: Container(
+            height: 12 * vh,
+            padding: EdgeInsets.symmetric(horizontal: 2 * vw),
+            decoration: const BoxDecoration(
+              color: Color(0xff1B1C20),
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                AnimatedOpacity(
                   duration: const Duration(milliseconds: 10000),
                   opacity: mobx.pageName == 'План' ? 1 : .4,
                   child: Container(
@@ -88,12 +87,13 @@ class _NavbarState extends State<Navbar> {
                       children: [
                         IconButton(
                           onPressed: () async {
+                            if (mobx.pageName != 'План') {
                               Navigator.pushReplacementNamed(
                                 context,
                                 '/journal',
                               );
-                          
-                            mobx.setPageName('План');
+                              mobx.setPageName('План');
+                            }
                           },
                           icon: SvgPicture.asset(
                             'assets/img/journal_trener.svg',
@@ -113,10 +113,9 @@ class _NavbarState extends State<Navbar> {
                     ),
                   ),
                 ),
-         
-              Row(
-                children: [
-                  Opacity(
+                Row(
+                  children: [
+                    Opacity(
                       opacity: mobx.pageName == 'Спортсмены' ? 1 : .4,
                       child: Container(
                         width: 18 * vw,
@@ -125,12 +124,10 @@ class _NavbarState extends State<Navbar> {
                           children: [
                             IconButton(
                               onPressed: () {
-                                mobx.setPageName('Спортсмены');
-                                // Navigator.pushReplacementNamed(
-                                //   context,
-                                //   '/user_progress',
-                                // );
-                                Navigator.of(context).pushReplacement(_createRoute(const Sportsmans(), const Offset(-1.0, 0.0),const Offset(0.0, 0.0)));
+                                if (mobx.pageName != 'Спортсмены') {
+                                  Get.to(const Sportsmans());
+                                  mobx.setPageName('Спортсмены');
+                                }
                               },
                               icon: SvgPicture.asset(
                                 'assets/img/pleers_trener.svg',
@@ -151,28 +148,27 @@ class _NavbarState extends State<Navbar> {
                         ),
                       ),
                     ),
-                
-                ],
-              ),
-              Container(
-                child: Row(
-                  children: [
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        IconButton(
-                          onPressed: () {},
-                          icon: SvgPicture.asset(
-                            'assets/img/nav_plus.svg',
-                            width: 7 * vh,
-                          ),
-                        )
-                      ],
-                    )
                   ],
                 ),
-              ),
-              Opacity(
+                Container(
+                  child: Row(
+                    children: [
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          IconButton(
+                            onPressed: () {},
+                            icon: SvgPicture.asset(
+                              'assets/img/nav_plus.svg',
+                              width: 7 * vh,
+                            ),
+                          )
+                        ],
+                      )
+                    ],
+                  ),
+                ),
+                Opacity(
                   opacity: mobx.pageName == 'Чат' ? 1 : .4,
                   child: Container(
                     width: 18 * vw,
@@ -181,9 +177,10 @@ class _NavbarState extends State<Navbar> {
                       children: [
                         IconButton(
                           onPressed: () {
-                            // Navigator.pushReplacementNamed(context, '/chats');
-                            Navigator.of(context).pushReplacement(_createRoute(Chats(), Offset(1.0, 0.0),Offset(0.0, 0.0)));
-                            mobx.setPageName('Чат');
+                            if (mobx.pageName != 'Чат') {
+                              Get.to(const Chats());
+                              mobx.setPageName('Чат');
+                            }
                           },
                           icon: SvgPicture.asset(
                             'assets/img/chats.svg',
@@ -203,24 +200,21 @@ class _NavbarState extends State<Navbar> {
                     ),
                   ),
                 ),
-            
-              Row(
-                children: [
-                  Opacity(
+                Row(
+                  children: [
+                    Opacity(
                       opacity: mobx.pageName == 'Сервисы' ? 1 : .6,
                       child: Container(
-                        width: 18*vw,
+                        width: 18 * vw,
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             IconButton(
                               onPressed: () {
-                                // Navigator.pushReplacementNamed(
-                                //   context,
-                                //   '/service',
-                                // );
-                                Navigator.of(context).pushReplacement(_createRoute(Service(), Offset(1.0, 0.0),Offset(0.0, 0.0)));
-                                mobx.setPageName('Сервисы');
+                                if (mobx.pageName != 'Сервисы') {
+                                  Get.to(const Service());
+                                  mobx.setPageName('Сервисы');
+                                }
                               },
                               icon: SvgPicture.asset(
                                 'assets/img/services.svg',
@@ -231,7 +225,8 @@ class _NavbarState extends State<Navbar> {
                               "Сервисы",
                               textAlign: TextAlign.center,
                               style: TextStyle(
-                                  color: const Color.fromARGB(255, 255, 255, 255),
+                                  color:
+                                      const Color.fromARGB(255, 255, 255, 255),
                                   fontFamily: 'Manrope',
                                   fontWeight: FontWeight.w600,
                                   decoration: TextDecoration.none,
@@ -241,29 +236,28 @@ class _NavbarState extends State<Navbar> {
                         ),
                       ),
                     ),
-                  
-                ],
-              ),
-            ],
+                  ],
+                ),
+              ],
+            ),
           ),
-        ),
-      );
-    } else{
-      return Positioned(
-        bottom: 0,
-        left: 0,
-        right: 0,
-        child: Container(
-          height: 12 * vh,
-          padding: EdgeInsets.symmetric(horizontal: 2 * vw),
-          decoration: BoxDecoration(
-            color: Color(0xff1B1C20),
-          ),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Opacity(
+        );
+      } else {
+        return Positioned(
+          bottom: 0,
+          left: 0,
+          right: 0,
+          child: Container(
+            height: 12 * vh,
+            padding: EdgeInsets.symmetric(horizontal: 2 * vw),
+            decoration: BoxDecoration(
+              color: Color(0xff1B1C20),
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Opacity(
                   opacity: mobx.pageName == 'План' ? 1 : .4,
                   child: Container(
                     width: 18 * vw,
@@ -272,10 +266,17 @@ class _NavbarState extends State<Navbar> {
                       children: [
                         IconButton(
                           onPressed: () async {
+                            if (mobx.pageName != 'План') {
                               Navigator.pushReplacementNamed(
                                 context,
                                 '/planner',
                               );
+                              mobx.setPageName('План');
+                            }
+                            Navigator.pushReplacementNamed(
+                              context,
+                              '/planner',
+                            );
                             mobx.setPageName('План');
                           },
                           icon: SvgPicture.asset(
@@ -296,10 +297,9 @@ class _NavbarState extends State<Navbar> {
                     ),
                   ),
                 ),
-             
-              Row(
-                children: [
-                 Opacity(
+                Row(
+                  children: [
+                    Opacity(
                       opacity: mobx.pageName == 'Прогресс' ? 1 : .4,
                       child: Container(
                         width: 18 * vw,
@@ -308,11 +308,13 @@ class _NavbarState extends State<Navbar> {
                           children: [
                             IconButton(
                               onPressed: () {
-                                mobx.setPageName('Прогресс');
-                                Navigator.pushReplacementNamed(
-                                  context,
-                                  '/user_progress',
-                                );
+                                if (mobx.pageName != 'Прогресс') {
+                                  Navigator.pushReplacementNamed(
+                                    context,
+                                    '/user_progress',
+                                  );
+                                  mobx.setPageName('Прогресс');
+                                }
                               },
                               icon: SvgPicture.asset(
                                 'assets/img/pleers.svg',
@@ -333,28 +335,27 @@ class _NavbarState extends State<Navbar> {
                         ),
                       ),
                     ),
-          
-                ],
-              ),
-              Container(
-                child: Row(
-                  children: [
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        IconButton(
-                          onPressed: () {},
-                          icon: SvgPicture.asset(
-                            'assets/img/nav_plus.svg',
-                            width: 7 * vh,
-                          ),
-                        )
-                      ],
-                    )
                   ],
                 ),
-              ),
-              Opacity(
+                Container(
+                  child: Row(
+                    children: [
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          IconButton(
+                            onPressed: () {},
+                            icon: SvgPicture.asset(
+                              'assets/img/nav_plus.svg',
+                              width: 7 * vh,
+                            ),
+                          )
+                        ],
+                      )
+                    ],
+                  ),
+                ),
+                Opacity(
                   opacity: mobx.pageName == 'Чат' ? 1 : .4,
                   child: Container(
                     width: 18 * vw,
@@ -363,8 +364,13 @@ class _NavbarState extends State<Navbar> {
                       children: [
                         IconButton(
                           onPressed: () {
-                            Navigator.pushReplacementNamed(context, '/chats');
-                            mobx.setPageName('Чат');
+                            if (mobx.pageName != 'Чат') {
+                              Navigator.pushReplacementNamed(
+                                context,
+                                '/chats',
+                              );
+                              mobx.setPageName('Чат');
+                            }
                           },
                           icon: SvgPicture.asset(
                             'assets/img/chats.svg',
@@ -384,23 +390,24 @@ class _NavbarState extends State<Navbar> {
                     ),
                   ),
                 ),
-        
-              Row(
-                children: [
-                  Opacity(
+                Row(
+                  children: [
+                    Opacity(
                       opacity: mobx.pageName == 'Сервисы' ? 1 : .6,
                       child: Container(
-                        width: 18*vw,
+                        width: 18 * vw,
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             IconButton(
                               onPressed: () {
-                                Navigator.pushReplacementNamed(
-                                  context,
-                                  '/service',
-                                );
-                                mobx.setPageName('Сервисы');
+                                if (mobx.pageName != 'Сервисы') {
+                                  Navigator.pushReplacementNamed(
+                                    context,
+                                    '/service',
+                                  );
+                                  mobx.setPageName('Сервисы');
+                                }
                               },
                               icon: SvgPicture.asset(
                                 'assets/img/services.svg',
@@ -411,7 +418,8 @@ class _NavbarState extends State<Navbar> {
                               "Сервисы",
                               textAlign: TextAlign.center,
                               style: TextStyle(
-                                  color: const Color.fromARGB(255, 255, 255, 255),
+                                  color:
+                                      const Color.fromARGB(255, 255, 255, 255),
                                   fontFamily: 'Manrope',
                                   fontWeight: FontWeight.w600,
                                   decoration: TextDecoration.none,
@@ -421,15 +429,13 @@ class _NavbarState extends State<Navbar> {
                         ),
                       ),
                     ),
-              
-                ],
-              ),
-            ],
+                  ],
+                ),
+              ],
+            ),
           ),
-        ),
-      );
-    }
+        );
+      }
     });
-    
   }
 }

@@ -253,6 +253,7 @@ class GroupCard extends StatelessWidget {
               children: [
                 Expanded(child: Text(
                   name,
+                  maxLines: 150,
                   style: TextStyle(
                       color: Colors.white,
                       fontSize: 4 * vw,

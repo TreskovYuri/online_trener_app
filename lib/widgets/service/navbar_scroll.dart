@@ -36,7 +36,7 @@ class _NavbarScrollState extends State<NavbarScroll> {
           padding: EdgeInsets.symmetric(horizontal: 2 * vw),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(5 * vw),
-            color: Color.fromARGB(82, 42, 42, 42),
+            color: const Color.fromARGB(82, 42, 42, 42),
 
             // color: Color.fromARGB(24, 77, 77, 77),
           ),
@@ -54,11 +54,13 @@ class _NavbarScrollState extends State<NavbarScroll> {
                       children: [
                         IconButton(
                           onPressed: () async {
-                            Navigator.pushReplacementNamed(
-                              context,
-                              '/journal',
-                            );
-                            mobx.setPageName('План');
+                            if (mobx.pageName != 'План') {
+                              Navigator.pushReplacementNamed(
+                                context,
+                                '/journal',
+                              );
+                              mobx.setPageName('План');
+                            }
                           },
                           icon: SvgPicture.asset(
                             'assets/img/journal_trener.svg',
@@ -79,11 +81,13 @@ class _NavbarScrollState extends State<NavbarScroll> {
                           children: [
                             IconButton(
                               onPressed: () {
-                                mobx.setPageName('Спортсмены');
-                                Navigator.pushReplacementNamed(
-                                  context,
-                                  '/user_progress',
-                                );
+                                if (mobx.pageName != 'Спортсмены') {
+                                  Navigator.pushReplacementNamed(
+                                    context,
+                                    '/user_progress',
+                                  );
+                                  mobx.setPageName('Спортсмены');
+                                }
                               },
                               icon: SvgPicture.asset(
                                 'assets/img/pleers_trener.svg',
@@ -123,8 +127,13 @@ class _NavbarScrollState extends State<NavbarScroll> {
                         children: [
                           IconButton(
                             onPressed: () {
-                              Navigator.pushReplacementNamed(context, '/chats');
-                              mobx.setPageName('Чат');
+                              if (mobx.pageName != 'Чат') {
+                                Navigator.pushReplacementNamed(
+                                  context,
+                                  '/chats',
+                                );
+                                mobx.setPageName('Чат');
+                              }
                             },
                             icon: SvgPicture.asset(
                               'assets/img/chats.svg',
@@ -146,11 +155,13 @@ class _NavbarScrollState extends State<NavbarScroll> {
                           children: [
                             IconButton(
                               onPressed: () {
-                                Navigator.pushReplacementNamed(
-                                  context,
-                                  '/service',
-                                );
-                                mobx.setPageName('Сервисы');
+                                if (mobx.pageName != 'Сервисы') {
+                                  Navigator.pushReplacementNamed(
+                                    context,
+                                    '/service',
+                                  );
+                                  mobx.setPageName('Сервисы');
+                                }
                               },
                               icon: SvgPicture.asset(
                                 'assets/img/services.svg',
@@ -199,11 +210,13 @@ class _NavbarScrollState extends State<NavbarScroll> {
                       children: [
                         IconButton(
                           onPressed: () async {
-                            Navigator.pushReplacementNamed(
-                              context,
-                              '/planner',
-                            );
-                            mobx.setPageName('План');
+                            if (mobx.pageName != 'План') {
+                              Navigator.pushReplacementNamed(
+                                context,
+                                '/planner',
+                              );
+                              mobx.setPageName('План');
+                            }
                           },
                           icon: SvgPicture.asset(
                             'assets/img/journal.svg',
@@ -224,11 +237,13 @@ class _NavbarScrollState extends State<NavbarScroll> {
                           children: [
                             IconButton(
                               onPressed: () {
-                                mobx.setPageName('Прогресс');
-                                Navigator.pushReplacementNamed(
-                                  context,
-                                  '/user_progress',
-                                );
+                                if (mobx.pageName != 'Прогресс') {
+                                  Navigator.pushReplacementNamed(
+                                    context,
+                                    '/user_progress',
+                                  );
+                                  mobx.setPageName('Прогресс');
+                                }
                               },
                               icon: SvgPicture.asset(
                                 'assets/img/pleers.svg',
@@ -268,8 +283,13 @@ class _NavbarScrollState extends State<NavbarScroll> {
                         children: [
                           IconButton(
                             onPressed: () {
-                              Navigator.pushReplacementNamed(context, '/chats');
-                              mobx.setPageName('Чат');
+                              if (mobx.pageName != 'Чат') {
+                                Navigator.pushReplacementNamed(
+                                  context,
+                                  '/chats',
+                                );
+                                mobx.setPageName('Чат');
+                              }
                             },
                             icon: SvgPicture.asset(
                               'assets/img/chats.svg',
@@ -291,11 +311,13 @@ class _NavbarScrollState extends State<NavbarScroll> {
                           children: [
                             IconButton(
                               onPressed: () {
-                                Navigator.pushReplacementNamed(
-                                  context,
-                                  '/service',
-                                );
-                                mobx.setPageName('Сервисы');
+                                if (mobx.pageName != 'Сервисы') {
+                                  Navigator.pushReplacementNamed(
+                                    context,
+                                    '/service',
+                                  );
+                                  mobx.setPageName('Сервисы');
+                                }
                               },
                               icon: SvgPicture.asset(
                                 'assets/img/services.svg',

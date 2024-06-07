@@ -480,7 +480,7 @@ class _TrainingCardState extends State<TrainingCard> {
                                                 MainAxisAlignment.spaceBetween,
                                             children: [
                                               Text(
-                                               'Программа тренировок',
+                                               mySportProgrammController.sportprogramms.firstWhere((el)=>el['id'] == training[0]['programmId'], orElse: ()=>{'name':"Программа тренировок"})['name'],
                                                 style: TextStyle(
                                                     color: const Color.fromARGB(
                                                         210, 255, 255, 255),
