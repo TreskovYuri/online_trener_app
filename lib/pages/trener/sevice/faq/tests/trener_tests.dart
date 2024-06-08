@@ -136,86 +136,51 @@ class _TrenerTestsState extends State<TrenerTests> {
         ),
         backgroundColor: Color(0xff1B1C20), // Устанавливаем прозрачный фон
       ),
-      body: Stack(
-        fit: StackFit.expand,
-        children: [
-          ListView(
-            controller: _scrollController,
-            children: [
-              Padding(
-                padding: EdgeInsets.all(3 * vw),
-                child: TextField(
-                  cursorColor: Color.fromARGB(255, 112, 112, 112),
-                  style: TextStyle(color: Colors.white, fontSize: 4 * vw),
-                  decoration: InputDecoration(
-                    hintText: 'Найти...',
-                    filled: true, // Set to true to fill the background
-                    fillColor: Color(0xff23252B), // Set background color
-                    hintStyle: const TextStyle(
-                        fontWeight: FontWeight.w400,
-                        color: Colors.grey), // Customize hint text color
-                    contentPadding: EdgeInsets.symmetric(
-                        horizontal: 4 * vw, vertical: 1.5 * vh),
-                    border: OutlineInputBorder(
-                      borderSide: BorderSide.none, // Remove border
-                      borderRadius: BorderRadius.circular(4 * vw),
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderSide: BorderSide.none, // Remove border
-                      borderRadius: BorderRadius.circular(4 * vw),
+      body: SizedBox(
+        height: 79 * vh,
+        child: Stack(
+          fit: StackFit.expand,
+          children: [
+            ListView(
+              controller: _scrollController,
+              children: [
+                Padding(
+                  padding: EdgeInsets.all(3 * vw),
+                  child: TextField(
+                    cursorColor: Color.fromARGB(255, 112, 112, 112),
+                    style: TextStyle(color: Colors.white, fontSize: 4 * vw),
+                    decoration: InputDecoration(
+                      hintText: 'Найти...',
+                      filled: true, // Set to true to fill the background
+                      fillColor: Color(0xff23252B), // Set background color
+                      hintStyle: const TextStyle(
+                          fontWeight: FontWeight.w400,
+                          color: Colors.grey), // Customize hint text color
+                      contentPadding: EdgeInsets.symmetric(
+                          horizontal: 4 * vw, vertical: 1.5 * vh),
+                      border: OutlineInputBorder(
+                        borderSide: BorderSide.none, // Remove border
+                        borderRadius: BorderRadius.circular(4 * vw),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderSide: BorderSide.none, // Remove border
+                        borderRadius: BorderRadius.circular(4 * vw),
+                      ),
                     ),
                   ),
                 ),
-              ),
-              SingleChildScrollView(
-                scrollDirection: Axis.horizontal,
-                child: Obx(
-                  () => Row(
-                    children: [
-                      Padding(
-                        padding: EdgeInsets.symmetric(
-                            vertical: 1 * vh, horizontal: 1 * vw),
-                        child: ElevatedButton(
-                          onPressed: () {
-                            setState(() {
-                              type = 0;
-                            });
-                          },
-                          style: ElevatedButton.styleFrom(
-                            foregroundColor: Color.fromARGB(255, 6, 36, 65),
-                            padding: EdgeInsets
-                                .zero, // Устанавливаем внутренний отступ нулевым
-                          ),
-                          child: Container(
-                            margin: EdgeInsets.zero,
-                            alignment: Alignment.center,
-                            padding: EdgeInsets.symmetric(
-                              horizontal: 3 * vw,
-                              // vertical: .1 * vh,
-                            ),
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10 * vw),
-                            ),
-                            child: Text(
-                              'Все',
-                              style: TextStyle(
-                                color: Color.fromARGB(255, 0, 0, 0),
-                                fontFamily: "Manrope",
-                                fontSize: 3 * vw,
-                                fontWeight: FontWeight.w500,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                      ...myTestsController.groups.map(
-                        (e) => Padding(
+                SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: Obx(
+                    () => Row(
+                      children: [
+                        Padding(
                           padding: EdgeInsets.symmetric(
                               vertical: 1 * vh, horizontal: 1 * vw),
                           child: ElevatedButton(
                             onPressed: () {
                               setState(() {
-                                type = e['id'];
+                                type = 0;
                               });
                             },
                             style: ElevatedButton.styleFrom(
@@ -234,7 +199,7 @@ class _TrenerTestsState extends State<TrenerTests> {
                                 borderRadius: BorderRadius.circular(10 * vw),
                               ),
                               child: Text(
-                                e['name'],
+                                'Все',
                                 style: TextStyle(
                                   color: Color.fromARGB(255, 0, 0, 0),
                                   fontFamily: "Manrope",
@@ -245,31 +210,70 @@ class _TrenerTestsState extends State<TrenerTests> {
                             ),
                           ),
                         ),
-                      )
+                        ...myTestsController.groups.map(
+                          (e) => Padding(
+                            padding: EdgeInsets.symmetric(
+                                vertical: 1 * vh, horizontal: 1 * vw),
+                            child: ElevatedButton(
+                              onPressed: () {
+                                setState(() {
+                                  type = e['id'];
+                                });
+                              },
+                              style: ElevatedButton.styleFrom(
+                                foregroundColor: Color.fromARGB(255, 6, 36, 65),
+                                padding: EdgeInsets
+                                    .zero, // Устанавливаем внутренний отступ нулевым
+                              ),
+                              child: Container(
+                                margin: EdgeInsets.zero,
+                                alignment: Alignment.center,
+                                padding: EdgeInsets.symmetric(
+                                  horizontal: 3 * vw,
+                                  // vertical: .1 * vh,
+                                ),
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10 * vw),
+                                ),
+                                child: Text(
+                                  e['name'],
+                                  style: TextStyle(
+                                    color: Color.fromARGB(255, 0, 0, 0),
+                                    fontFamily: "Manrope",
+                                    fontSize: 3 * vw,
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
+                ),
+                Obx(
+                  () => Column(
+                    children: [
+                      ...myTestsController.tests
+                          .where((element) =>
+                              element['groupId'] == type || type == 0)
+                          .map((e) => GroupCard(
+                                vh: vh,
+                                vw: vw,
+                                map: e,
+                              )),
                     ],
                   ),
                 ),
-              ),
-              Obx(
-                () => Column(
-                  children: [
-                    ...myTestsController.tests
-                        .where((element) => element['groupId'] == type || type == 0)
-                        .map((e) => GroupCard(
-                              vh: vh,
-                              vw: vw,
-                              map: e,
-                            )),
-                  ],
-                ),
-              ),
-              SizedBox(
-                height: 12 * vh,
-              )
-            ],
-          ),
-          _isAtTop ? Navbar() : NavbarScroll(),
-        ],
+                SizedBox(
+                  height: 12 * vh,
+                )
+              ],
+            ),
+            _isAtTop ? Navbar() : NavbarScroll(),
+          ],
+        ),
       ),
     );
   }

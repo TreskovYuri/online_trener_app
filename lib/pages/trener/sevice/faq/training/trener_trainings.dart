@@ -17,7 +17,8 @@ class TrenerTrainings extends StatefulWidget {
 
 class _TrenerTrainingsState extends State<TrenerTrainings> {
   bool typeFlag = false;
-  MyExercisesController myExercisesController = Get.put(MyExercisesController());
+  MyExercisesController myExercisesController =
+      Get.put(MyExercisesController());
 
   ScrollController _scrollController = ScrollController();
   bool _isAtTop = true;
@@ -91,113 +92,117 @@ class _TrenerTrainingsState extends State<TrenerTrainings> {
         ),
         backgroundColor: Color(0xff1B1C20), // Устанавливаем прозрачный фон
       ),
-      body: Stack(
-        fit: StackFit.expand,
-        children: [
-          Container(
-            child: ListView(
-              children: [
-                GestureDetector(
-                    onTap: () {
-                      setState(() {
-                        typeFlag = !typeFlag;
-                      });
-                    },
-                    child: NavType(vw: vw, typeFlag: typeFlag)),
-                Padding(
-                  padding: EdgeInsets.all(3 * vw),
-                  child: TextField(
-                    cursorColor: Color.fromARGB(255, 112, 112, 112),
-                    style: TextStyle(color: Colors.white, fontSize: 4 * vw),
-                    decoration: InputDecoration(
-                      hintText: 'Найти...',
-                      filled: true, // Set to true to fill the background
-                      fillColor: Color(0xff23252B), // Set background color
-                      hintStyle: const TextStyle(
-                          fontWeight: FontWeight.w400,
-                          color: Colors.grey), // Customize hint text color
-                      contentPadding: EdgeInsets.symmetric(
-                          horizontal: 4 * vw, vertical: 1.5 * vh),
-                      border: OutlineInputBorder(
-                        borderSide: BorderSide.none, // Remove border
-                        borderRadius: BorderRadius.circular(4 * vw),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderSide: BorderSide.none, // Remove border
-                        borderRadius: BorderRadius.circular(4 * vw),
+      body: SizedBox(
+        height: 79 * vh,
+        child: Stack(
+          fit: StackFit.expand,
+          children: [
+            Container(
+              child: ListView(
+                children: [
+                  GestureDetector(
+                      onTap: () {
+                        setState(() {
+                          typeFlag = !typeFlag;
+                        });
+                      },
+                      child: NavType(vw: vw, typeFlag: typeFlag)),
+                  Padding(
+                    padding: EdgeInsets.all(3 * vw),
+                    child: TextField(
+                      cursorColor: Color.fromARGB(255, 112, 112, 112),
+                      style: TextStyle(color: Colors.white, fontSize: 4 * vw),
+                      decoration: InputDecoration(
+                        hintText: 'Найти...',
+                        filled: true, // Set to true to fill the background
+                        fillColor: Color(0xff23252B), // Set background color
+                        hintStyle: const TextStyle(
+                            fontWeight: FontWeight.w400,
+                            color: Colors.grey), // Customize hint text color
+                        contentPadding: EdgeInsets.symmetric(
+                            horizontal: 4 * vw, vertical: 1.5 * vh),
+                        border: OutlineInputBorder(
+                          borderSide: BorderSide.none, // Remove border
+                          borderRadius: BorderRadius.circular(4 * vw),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderSide: BorderSide.none, // Remove border
+                          borderRadius: BorderRadius.circular(4 * vw),
+                        ),
                       ),
                     ),
                   ),
-                ),
-                Column(
-                  children: [
-                    Obx(
-                      () => GroupCard(
-                          vw: vw,
-                          vh: vh,
-                          count: myExercisesController.exercises.length,
-                          name: 'Все упражнения',
-                          setType: (newType) => setState(() {
-                                Navigator.pushNamed(
-                                    context, '/trener_trainings_current_type',
-                                    arguments: {
-                                      "type": "Все упражнения",
-                                      "exercises":
-                                          myExercisesController.exercises
-                                    });
-                              })),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.all(3 * vw),
-                      child: Row(
-                        children: [
-                          Text(
-                            'Типы',
-                            style: TextStyle(
-                                color: const Color.fromARGB(132, 255, 255, 255),
-                                fontSize: 3.5 * vw,
-                                fontFamily: 'Manrope',
-                                fontWeight: FontWeight.w500),
-                          ),
-                        ],
+                  Column(
+                    children: [
+                      Obx(
+                        () => GroupCard(
+                            vw: vw,
+                            vh: vh,
+                            count: myExercisesController.exercises.length,
+                            name: 'Все упражнения',
+                            setType: (newType) => setState(() {
+                                  Navigator.pushNamed(
+                                      context, '/trener_trainings_current_type',
+                                      arguments: {
+                                        "type": "Все упражнения",
+                                        "exercises":
+                                            myExercisesController.exercises
+                                      });
+                                })),
                       ),
-                    ),
-                    Obx(() => Column(
+                      Padding(
+                        padding: EdgeInsets.all(3 * vw),
+                        child: Row(
                           children: [
-                            ...myExercisesController.groups
-                                .map((e) => GroupCard(
-                                      vw: vw,
-                                      vh: vh,
-                                      count: myExercisesController.exercises
-                                          .where((element) =>
-                                              element['groupId'] == e['id'])
-                                          .length,
-                                      name: e['name'],
-                                      setType: (newType) => setState(() {
-                                        Navigator.pushNamed(context,
-                                            '/trener_trainings_current_type',
-                                            arguments: {
-                                              "type": e['name'],
-                                              'exercises': myExercisesController
-                                                  .exercises
-                                                  .where((element) =>
-                                                      element['groupId'] ==
-                                                      e['id'])
-                                            });
-                                      }),
-                                    ))
+                            Text(
+                              'Типы',
+                              style: TextStyle(
+                                  color:
+                                      const Color.fromARGB(132, 255, 255, 255),
+                                  fontSize: 3.5 * vw,
+                                  fontFamily: 'Manrope',
+                                  fontWeight: FontWeight.w500),
+                            ),
                           ],
-                        )),
-                    SizedBox(
-                      height: 10 * vh,
-                    )
-                  ],
-                )
-              ],
+                        ),
+                      ),
+                      Obx(() => Column(
+                            children: [
+                              ...myExercisesController.groups.map((e) =>
+                                  GroupCard(
+                                    vw: vw,
+                                    vh: vh,
+                                    count: myExercisesController.exercises
+                                        .where((element) =>
+                                            element['groupId'] == e['id'])
+                                        .length,
+                                    name: e['name'],
+                                    setType: (newType) => setState(() {
+                                      Navigator.pushNamed(context,
+                                          '/trener_trainings_current_type',
+                                          arguments: {
+                                            "type": e['name'],
+                                            'exercises': myExercisesController
+                                                .exercises
+                                                .where((element) =>
+                                                    element['groupId'] ==
+                                                    e['id'])
+                                          });
+                                    }),
+                                  ))
+                            ],
+                          )),
+                      SizedBox(
+                        height: 10 * vh,
+                      )
+                    ],
+                  )
+                ],
+              ),
             ),
-          ),
-          _isAtTop ? Navbar() : NavbarScroll(),
-        ],
+            _isAtTop ? Navbar() : NavbarScroll(),
+          ],
+        ),
       ),
     );
   }
@@ -251,15 +256,17 @@ class GroupCard extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Expanded(child: Text(
-                  name,
-                  maxLines: 150,
-                  style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 4 * vw,
-                      fontFamily: 'Manrope',
-                      fontWeight: FontWeight.w500),
-                ),),
+                Expanded(
+                  child: Text(
+                    name,
+                    maxLines: 150,
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 4 * vw,
+                        fontFamily: 'Manrope',
+                        fontWeight: FontWeight.w500),
+                  ),
+                ),
                 Icon(
                   Icons.arrow_forward_ios_rounded,
                   color: const Color.fromARGB(72, 255, 255, 255),
@@ -285,7 +292,11 @@ class GroupCard extends StatelessWidget {
                     ),
                     borderRadius: BorderRadius.circular(100)),
                 child: Text(
-                  Sklonatel(number: count, stage1: 'упражнение', stage2: 'упражнения', stage3: 'упражнений'),
+                  Sklonatel(
+                      number: count,
+                      stage1: 'упражнение',
+                      stage2: 'упражнения',
+                      stage3: 'упражнений'),
                   style: TextStyle(
                       color: Colors.white,
                       fontFamily: 'Manrope',

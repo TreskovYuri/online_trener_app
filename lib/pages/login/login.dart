@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:trener_app/http/exerciseUtills.dart';
-// import 'package:new_flutter/http/userUtills.dart';
 
 import 'package:trener_app/http/index.dart';
 import 'package:trener_app/http/userUtills.dart';
@@ -9,7 +7,6 @@ import 'package:trener_app/utills/validator.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
-
 
 void getData() async {
   var data = await MyCasomGetHttpReauest(urls: 'user');
@@ -26,7 +23,6 @@ class Login extends StatefulWidget {
 }
 
 class _LoginState extends State<Login> {
-
   var checked = true;
   var emailError = false;
   String emailErrorText = '';
@@ -45,33 +41,31 @@ class _LoginState extends State<Login> {
   }
 
 // Функция для получения данных из кеша
-void loadData() async {
-
-  final box = GetStorage();
-  String emailC = await box.read('email') ?? ''; 
-  emailController.text = emailC;
-  String passwordC = await box.read('password') ?? ''; 
-  passwordController.text = passwordC;
-  setState(() {
-    email = emailC;
-    password = passwordC;
-  });
-}
+  void loadData() async {
+    final box = GetStorage();
+    String emailC = await box.read('email') ?? '';
+    emailController.text = emailC;
+    String passwordC = await box.read('password') ?? '';
+    passwordController.text = passwordC;
+    setState(() {
+      email = emailC;
+      password = passwordC;
+    });
+  }
 
   void cacheEmailPassword() async {
     try {
       final box = GetStorage();
-    if (checked) {
-      await box.write('email', email);
-      await box.write('password', password);
-    } else {
-      await box.remove('email');
-      await box.remove('password');
-    }
+      if (checked) {
+        await box.write('email', email);
+        await box.write('password', password);
+      } else {
+        await box.remove('email');
+        await box.remove('password');
+      }
     } catch (e) {
       print(e);
     }
-    
   }
 
   @override
@@ -92,19 +86,23 @@ void loadData() async {
           emailError = false;
         });
 
-        var data = await SignIn(email: email.replaceAll(' ', ''), password: password.replaceAll(' ', ''), mobx: mobx);
+        var data = await SignIn(
+            email: email.replaceAll(' ', ''),
+            password: password.replaceAll(' ', ''),
+            mobx: mobx);
         // print(data);
         if (data != null) {
           switch (data['status']) {
             case 200:
               // print(data);
-              if(data['body']['post'] == 'Тренер' || data['body']['post'] == 'Супер тренер'){
-                Navigator.pushReplacementNamed(context,'/journal');
-              }else{
-                Navigator.pushReplacementNamed(context,'/planner');
+              if (data['body']['post'] == 'Тренер' ||
+                  data['body']['post'] == 'Супер тренер') {
+                Navigator.pushReplacementNamed(context, '/journal');
+              } else {
+                Navigator.pushReplacementNamed(context, '/planner');
               }
               cacheEmailPassword();
-                
+
               break;
             case 400:
               if (data['body']['message'] != null) {
@@ -130,13 +128,13 @@ void loadData() async {
                 emailError = true;
                 emailErrorText = 'Непредвиденная ошибка';
               });
-              // print(data);
+            // print(data);
           }
-        }else{
-              setState(() {
-                emailError = true;
-                emailErrorText = 'сервер не отвечает...';
-              });
+        } else {
+          setState(() {
+            emailError = true;
+            emailErrorText = 'сервер не отвечает...';
+          });
         }
       }
       if (password.length < 5) {
@@ -278,7 +276,6 @@ void loadData() async {
                       TextField(
                         obscureText: true,
                         autocorrect: false,
-                        
                         controller: passwordController,
                         onChanged: (value) {
                           setState(() {
