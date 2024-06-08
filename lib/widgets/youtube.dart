@@ -19,13 +19,9 @@ class _YoutubeState extends State<Youtube> {
     _controller = YoutubePlayerController(
       initialVideoId: VideoID ?? '',
       flags: const YoutubePlayerFlags(
-          autoPlay: true,
-          mute: false,
-          disableDragSeek: true,
-          loop: false,
-          enableCaption: false)
-          ,
+          autoPlay: false, mute: false, loop: false, enableCaption: true),
     );
+    _controller.pause();
   }
 
   @override

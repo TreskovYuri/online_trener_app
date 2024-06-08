@@ -51,186 +51,196 @@ class _UserProgressState extends State<UserProgress> {
     final vh = MediaQuery.of(context).size.height / 100;
 
     return Scaffold(
-        body: Stack(
-      fit: StackFit.expand,
-      children: [
-        Container(
-          child: ListView(
-            controller: _scrollController,
-            children: [
-              Padding(
-                padding:
-                    EdgeInsets.only(top: 7 * vh, left: 5 * vw, right: 5 * vw),
-                child: Row(
-                  children: [
-                    ClipRRect(
-                      borderRadius: BorderRadius.circular(100),
-                      child: myUserController.user['img'] != null
+        body: SizedBox(
+      height: 96 * vh,
+      child: Stack(
+        fit: StackFit.expand,
+        children: [
+          Container(
+            child: ListView(
+              controller: _scrollController,
+              children: [
+                Padding(
+                  padding:
+                      EdgeInsets.only(top: 7 * vh, left: 5 * vw, right: 5 * vw),
+                  child: Row(
+                    children: [
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(100),
+                        child: myUserController.user['img'] != null
                             ? Container(
-                              width: 13 * vw,
-                              height: 13 * vw,
-                              child: Image.network(
+                                width: 13 * vw,
+                                height: 13 * vw,
+                                child: Image.network(
                                   '${dotenv.env['STATIC_URL']}/${myUserController.user['img']}',
                                   fit: BoxFit.cover,
                                 ),
-                            )
+                              )
                             : Image.asset(
                                 'assets/img/user1.png',
                                 width: 13 * vw,
                               ),
-                 
-                    ),
-                    Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 6 * vw),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          myUserController.user['name'] != null &&
-                                  myUserController.user['name'].split(' ')[1] != null
-                              ? Text(
-                                  myUserController.user['name'].split(' ')[1],
-                                  style: TextStyle(
-                                      color: Color.fromARGB(227, 255, 255, 255),
-                                      fontSize: 5 * vw,
-                                      fontWeight: FontWeight.w400),
-                                )
-                              : Text(
-                                  'Пользователь',
-                                  style: TextStyle(
-                                      color: Color.fromARGB(227, 255, 255, 255),
-                                      fontSize: 5 * vw,
-                                      fontWeight: FontWeight.w400),
-                                ),
-                          SizedBox(
-                            height: 1 * vh,
-                          ),
-                          Container(
-                            padding: EdgeInsets.symmetric(
-                                vertical: .4 * vh, horizontal: 3 * vw),
-                            decoration: BoxDecoration(
-                                color: Color(0xff303135),
-                                borderRadius: BorderRadius.circular(10 * vw)),
-                            child: Row(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                SvgPicture.asset(
-                                  'assets/img/premium.svg',
-                                  width: 2.5 * vw,
-                                ),
-                                SizedBox(
-                                  width: 1 * vw,
-                                ),
-                                Text(
-                                  'Premium',
-                                  style: TextStyle(
-                                      color: Color.fromARGB(227, 255, 255, 255),
-                                      fontSize: 2.5 * vw,
-                                      fontWeight: FontWeight.w400),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ],
                       ),
-                    )
-                  ],
+                      Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 6 * vw),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            myUserController.user['name'] != null &&
+                                    myUserController.user['name']
+                                            .split(' ')[1] !=
+                                        null
+                                ? Text(
+                                    myUserController.user['name'].split(' ')[1],
+                                    style: TextStyle(
+                                        color:
+                                            Color.fromARGB(227, 255, 255, 255),
+                                        fontSize: 5 * vw,
+                                        fontWeight: FontWeight.w400),
+                                  )
+                                : Text(
+                                    'Пользователь',
+                                    style: TextStyle(
+                                        color:
+                                            Color.fromARGB(227, 255, 255, 255),
+                                        fontSize: 5 * vw,
+                                        fontWeight: FontWeight.w400),
+                                  ),
+                            SizedBox(
+                              height: 1 * vh,
+                            ),
+                            Container(
+                              padding: EdgeInsets.symmetric(
+                                  vertical: .4 * vh, horizontal: 3 * vw),
+                              decoration: BoxDecoration(
+                                  color: Color(0xff303135),
+                                  borderRadius: BorderRadius.circular(10 * vw)),
+                              child: Row(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  SvgPicture.asset(
+                                    'assets/img/premium.svg',
+                                    width: 2.5 * vw,
+                                  ),
+                                  SizedBox(
+                                    width: 1 * vw,
+                                  ),
+                                  Text(
+                                    'Premium',
+                                    style: TextStyle(
+                                        color:
+                                            Color.fromARGB(227, 255, 255, 255),
+                                        fontSize: 2.5 * vw,
+                                        fontWeight: FontWeight.w400),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                      )
+                    ],
+                  ),
                 ),
-              ),
-              Padding(
-                padding: EdgeInsets.all(3 * vw),
-                child: TextField(
-                  cursorColor: Color.fromARGB(255, 112, 112, 112),
-                  style: TextStyle(color: Colors.white, fontSize: 4 * vw),
-                  decoration: InputDecoration(
-                    hintText: 'Найти...',
-                    filled: true, // Set to true to fill the background
-                    fillColor: Color(0xff23252B), // Set background color
-                    hintStyle: TextStyle(
-                        color: Colors.grey), // Customize hint text color
-                    contentPadding: EdgeInsets.symmetric(
-                        horizontal: 4 * vw, vertical: 1.5 * vh),
-                    border: OutlineInputBorder(
-                      borderSide: BorderSide.none, // Remove border
-                      borderRadius: BorderRadius.circular(4 * vw),
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderSide: BorderSide.none, // Remove border
-                      borderRadius: BorderRadius.circular(4 * vw),
+                Padding(
+                  padding: EdgeInsets.all(3 * vw),
+                  child: TextField(
+                    cursorColor: Color.fromARGB(255, 112, 112, 112),
+                    style: TextStyle(color: Colors.white, fontSize: 4 * vw),
+                    decoration: InputDecoration(
+                      hintText: 'Найти...',
+                      filled: true, // Set to true to fill the background
+                      fillColor: Color(0xff23252B), // Set background color
+                      hintStyle: TextStyle(
+                          color: Colors.grey), // Customize hint text color
+                      contentPadding: EdgeInsets.symmetric(
+                          horizontal: 4 * vw, vertical: 1.5 * vh),
+                      border: OutlineInputBorder(
+                        borderSide: BorderSide.none, // Remove border
+                        borderRadius: BorderRadius.circular(4 * vw),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderSide: BorderSide.none, // Remove border
+                        borderRadius: BorderRadius.circular(4 * vw),
+                      ),
                     ),
                   ),
                 ),
-              ),
-              fullTestsModal ? FullTests() : Body(),
-              !fullTestsModal
-                  ? Container(
-                      margin: EdgeInsets.all(4 * vw),
-                      padding: EdgeInsets.symmetric(
-                          horizontal: 4 * vw, vertical: 6 * vw),
-                      decoration: BoxDecoration(
-                          color: Color(0xff23252B),
-                          borderRadius: BorderRadius.circular(4 * vw)),
-                      child: Column(
-                        children: [
-                          Padding(
-                            padding: EdgeInsets.only(right: 4 * vw),
-                            child: Row(
+                fullTestsModal ? FullTests() : Body(),
+                !fullTestsModal
+                    ? Container(
+                        margin: EdgeInsets.all(4 * vw),
+                        padding: EdgeInsets.symmetric(
+                            horizontal: 4 * vw, vertical: 6 * vw),
+                        decoration: BoxDecoration(
+                            color: Color(0xff23252B),
+                            borderRadius: BorderRadius.circular(4 * vw)),
+                        child: Column(
+                          children: [
+                            Padding(
+                              padding: EdgeInsets.only(right: 4 * vw),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(
+                                    'Тесты и нормативы',
+                                    style: TextStyle(
+                                        color:
+                                            Color.fromARGB(227, 255, 255, 255),
+                                        fontSize: 4 * vw,
+                                        fontWeight: FontWeight.w400,
+                                        fontFamily: 'Manrope'),
+                                  ),
+                                  SvgPicture.asset(
+                                    'assets/img/red_ok.svg',
+                                    width: 4.5 * vw,
+                                  ),
+                                ],
+                              ),
+                            ),
+                            SizedBox(
+                              height: 2 * vh,
+                            ),
+                            Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Text(
-                                  'Тесты и нормативы',
+                                  'Посмотреть все',
                                   style: TextStyle(
-                                      color: Color.fromARGB(227, 255, 255, 255),
-                                      fontSize: 4 * vw,
+                                      color: Color.fromARGB(191, 255, 255, 255),
+                                      fontSize: 3 * vw,
                                       fontWeight: FontWeight.w400,
                                       fontFamily: 'Manrope'),
                                 ),
-                                SvgPicture.asset(
-                                  'assets/img/red_ok.svg',
-                                  width: 4.5 * vw,
-                                ),
+                                IconButton(
+                                  icon: Icon(
+                                    Icons.arrow_forward,
+                                    color: const Color.fromARGB(
+                                        221, 255, 255, 255),
+                                    size: 4 * vw,
+                                  ),
+                                  onPressed: () {
+                                    setState(() {
+                                      fullTestsModal = !fullTestsModal;
+                                    });
+                                  },
+                                )
                               ],
                             ),
-                          ),
-                          SizedBox(
-                            height: 2 * vh,
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                'Посмотреть все',
-                                style: TextStyle(
-                                    color: Color.fromARGB(191, 255, 255, 255),
-                                    fontSize: 3 * vw,
-                                    fontWeight: FontWeight.w400,
-                                    fontFamily: 'Manrope'),
-                              ),
-                              IconButton(
-                                icon: Icon(
-                                  Icons.arrow_forward,
-                                  color:
-                                      const Color.fromARGB(221, 255, 255, 255),
-                                  size: 4 * vw,
-                                ),
-                                onPressed: () {
-                                  setState(() {
-                                    fullTestsModal = !fullTestsModal;
-                                  });
-                                },
-                              )
-                            ],
-                          ),
-                        ],
-                      ),
-                    )
-                  : Container(),
-                SizedBox(height: 12*vh,)
-            ],
+                          ],
+                        ),
+                      )
+                    : Container(),
+                SizedBox(
+                  height: 12 * vh,
+                )
+              ],
+            ),
           ),
-        ),
-        _isAtTop ? Navbar() : NavbarScroll(),
-
-      ],
+          _isAtTop ? Navbar() : NavbarScroll(),
+        ],
+      ),
     ));
   }
 }
@@ -426,7 +436,6 @@ class Body extends StatelessWidget {
 // Тесты
 class FullTests extends StatefulWidget {
   FullTests({super.key});
-  
 
   @override
   State<FullTests> createState() => _FullTestsState();
