@@ -39,6 +39,7 @@ class SportsmanSportprogrammFixResult extends StatefulWidget {
 class _SportsmanSportprogrammFixResultState
     extends State<SportsmanSportprogrammFixResult> {
   final mySportProgrammController = Get.put(MySportProgrammController());
+  final myUserConroller = Get.put(MyUserController());
   @override
   void initState() {
     List<Map<String, dynamic>> finalList = [];
@@ -113,7 +114,7 @@ class _SportsmanSportprogrammFixResultState
                           'setId': e['setId'].toString(),
                           'programmId': e['programmId'].toString(),
                           'exerciseId': e['exerciseId'].toString(),
-                          'userId': e['userId'].toString(),
+                          'userId': myUserConroller.user['id'].toString(),
                           'sets': jsonEncode(e['sets']),
                           'date':e['date']
                         }));

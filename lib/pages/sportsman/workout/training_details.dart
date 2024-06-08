@@ -266,7 +266,7 @@ class _ExeciseCard extends StatelessWidget {
                   child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  MyDescriptionText(text: exercise['nameRu']),
+                  MyDescriptionText(text: exercise['nameRu'],maxLines: 150),
                   MyDescriptionText(
                       size: 13,
                       color: AppColors.blackThemeTextOpacity3,

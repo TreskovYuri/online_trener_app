@@ -48,18 +48,18 @@ class _NavbarScrollState extends State<NavbarScroll> {
               children: [
                 Observer(builder: (context) {
                   return Opacity(
-                    opacity: mobx.pageName == 'План' ? 1 : .4,
+                    opacity: mobx.pageName == 'Журнал' ? 1 : .4,
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         IconButton(
                           onPressed: () async {
-                            if (mobx.pageName != 'План') {
+                            if (mobx.pageName != 'Журнал') {
                               Navigator.pushReplacementNamed(
                                 context,
                                 '/journal',
                               );
-                              mobx.setPageName('План');
+                              mobx.setPageName('Журнал');
                             }
                           },
                           icon: SvgPicture.asset(

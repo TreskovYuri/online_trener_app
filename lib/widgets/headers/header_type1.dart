@@ -12,7 +12,7 @@ class MyHeaderType1 extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-          color: Color.fromARGB(228, 27, 28, 32),
+          color: const Color.fromARGB(228, 27, 28, 32),
           borderRadius: BorderRadius.circular(20)),
       clipBehavior: Clip.antiAlias,
       padding: const EdgeInsets.only(top: 10),
@@ -21,7 +21,7 @@ class MyHeaderType1 extends StatelessWidget {
       alignment: Alignment.center,
       child: BackdropFilter(
         filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
-        child: MyTitleText(text: title, size: 22),
+        child: Padding(padding: const EdgeInsets.symmetric(horizontal: 40,),child: MyTitleText(text: title, size: 22),),
       ),
     );
   }

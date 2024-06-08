@@ -37,7 +37,7 @@ class MyHeaderType3 extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-          color: Color.fromARGB(228, 27, 28, 32),
+          color: const Color.fromARGB(228, 27, 28, 32),
           borderRadius: BorderRadius.circular(20)),
       clipBehavior: Clip.antiAlias,
       padding: const EdgeInsets.only(top: 10),

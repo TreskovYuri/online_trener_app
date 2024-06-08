@@ -79,7 +79,7 @@ class _NavbarState extends State<Navbar> {
               children: [
                 AnimatedOpacity(
                   duration: const Duration(milliseconds: 10000),
-                  opacity: mobx.pageName == 'План' ? 1 : .4,
+                  opacity: mobx.pageName == 'Журнал' ? 1 : .4,
                   child: Container(
                     width: 18 * vw,
                     child: Column(
@@ -87,12 +87,12 @@ class _NavbarState extends State<Navbar> {
                       children: [
                         IconButton(
                           onPressed: () async {
-                            if (mobx.pageName != 'План') {
+                            if (mobx.pageName != 'Журнал') {
                               Navigator.pushReplacementNamed(
                                 context,
                                 '/journal',
                               );
-                              mobx.setPageName('План');
+                              mobx.setPageName('Журнал');
                             }
                           },
                           icon: SvgPicture.asset(
@@ -101,7 +101,7 @@ class _NavbarState extends State<Navbar> {
                           ),
                         ),
                         Text(
-                          "План",
+                          "Журнал",
                           style: TextStyle(
                               color: const Color.fromARGB(255, 255, 255, 255),
                               fontFamily: 'Manrope',

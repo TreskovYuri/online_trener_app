@@ -151,7 +151,15 @@ class _ExercisesCard extends StatelessWidget {
     return Obx(() {
       Map<String, dynamic> exerciseData = myExercisesController.exercises
           .firstWhere((element) => element['id'] == exercise['exerciseId']);
-      List<dynamic> fixSets = mySportProgrammController.fixList.any((el)=>el['date'] == myDateController.date )?jsonDecode(mySportProgrammController.fixList.firstWhere((el)=>el['date'] == myDateController.date )['sets']):[];
+      List<dynamic> fixSets  = [];
+      if(mySportProgrammController.fixList.length>0){
+        var newFix = mySportProgrammController.fixList.firstWhere((el)=>el['date'] == myDateController.date && el['userId'] == sportsman['id'] ,orElse: ()=>{'sets':[]} )['sets']??[];
+        if( newFix is String){
+          fixSets = jsonDecode(newFix);
+        }else{
+          fixSets=newFix;
+        }
+      }
       return Padding(
         padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 5),
         child: Column(

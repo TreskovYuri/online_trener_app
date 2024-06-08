@@ -19,7 +19,7 @@ class _NutritionState extends State<Nutrition> {
     final vh = MediaQuery.of(context).size.height / 100;
     return Scaffold(
       appBar: AppBar(
-        iconTheme: IconThemeData(color: Colors.white),
+        iconTheme: const IconThemeData(color: Colors.white),
         leading: IconButton(
           icon: const Icon(Icons
               .arrow_back_ios_new_rounded), // Устанавливаем иконку "домой" вместо стрелки "назад"
@@ -30,6 +30,7 @@ class _NutritionState extends State<Nutrition> {
         toolbarHeight: 10 * vh,
         title: Text(
           '${arguments['name']}',
+          maxLines: 150,
           style: TextStyle(
               color: Colors.white,
               fontFamily: 'Manrope',
@@ -38,7 +39,7 @@ class _NutritionState extends State<Nutrition> {
         ),
         backgroundColor: Colors.transparent, // Устанавливаем прозрачный фон
         flexibleSpace: Container(
-          color: Color(0xff1B1C20),
+          color: const Color(0xff1B1C20),
         ),
       ),
       body: SingleChildScrollView(

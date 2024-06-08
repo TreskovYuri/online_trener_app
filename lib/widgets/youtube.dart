@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:trener_app/pages/trener/lournal/TrainingDetailsTrener.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 class Youtube extends StatefulWidget {

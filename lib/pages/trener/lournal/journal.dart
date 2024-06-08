@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:trener_app/getx/MyDateController.dart';
 import 'package:trener_app/getx/MyExercisesController.dart';
+import 'package:trener_app/getx/MyFixController.dart';
 import 'package:trener_app/getx/MyJournalConroller.dart';
 import 'package:trener_app/getx/MyNutritionsController.dart';
 import 'package:trener_app/getx/MySportProgrammController.dart';
@@ -41,6 +42,7 @@ class _JournalState extends State<Journal> {
     GetNutritions();
     GetTestFixForTrenr();
     GetSportProgramm();
+    GetSportprogrammFixForTrener();
     _scrollController.addListener(_onScroll);
   }
 
@@ -155,6 +157,8 @@ class _UserCardState extends State<UserCard> {
       Get.put(MyNutritionsController());
   MySportProgrammController mySportProgrammController =
       Get.put(MySportProgrammController());
+  MyFixController myFixController =
+      Get.put(MyFixController());
   List<Map<String, dynamic>> exercisesOnDay = [];
   @override
   Widget build(BuildContext context) {
@@ -351,9 +355,26 @@ class _UserCardState extends State<UserCard> {
                                           mainAxisAlignment:
                                               MainAxisAlignment.spaceBetween,
                                           children: [
+                                            mySportProgrammController.fixList.any((element) => element['date'] == myDateController.date && element['userId'] == widget.array['id'],)?Container(
+                                              width: 10,
+                                              height: 10,
+                                              decoration: BoxDecoration(
+                                                  color: Colors.green,
+                                                  borderRadius: BorderRadius.circular(100)
+                                              ),
+                                              
+                                            ):Container(
+                                                                 width: 10,
+                                              height: 10,
+                                                                                            decoration: BoxDecoration(
+                                                  color: Colors.red,
+                                                  borderRadius: BorderRadius.circular(100)
+                                              ),
+                                            ),
                                             Container(
                                               width: 60 * vw,
                                               child: Text(
+                                              
                                                 mySportProgrammController
                                                         .sportprogramms
                                                         .any((element) =>
@@ -443,6 +464,22 @@ class _UserCardState extends State<UserCard> {
                                                   MainAxisAlignment
                                                       .spaceBetween,
                                               children: [
+                                                 myFixController.sportsmanTestsFix.any((element) => element['date'] == myDateController.date && element['sportsmanId'] == widget.array['id'],)?Container(
+                                              width: 10,
+                                              height: 10,
+                                              decoration: BoxDecoration(
+                                                  color: Colors.green,
+                                                  borderRadius: BorderRadius.circular(100)
+                                              ),
+                                              
+                                            ):Container(
+                                                                 width: 10,
+                                              height: 10,
+                                                                                            decoration: BoxDecoration(
+                                                  color: Colors.red,
+                                                  borderRadius: BorderRadius.circular(100)
+                                              ),
+                                            ),
                                                 Container(
                                                   width: 60 * vw,
                                                   child: Text(

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:trener_app/getx/MyFixController.dart';
+import 'package:trener_app/getx/MyUserConroller.dart';
 import 'package:trener_app/http/fixUtills.dart';
 import 'package:trener_app/models/constants/colors.dart';
 import 'package:trener_app/utills/IntMonthToStringRus.dart';
@@ -23,6 +24,7 @@ class _FixTestModalWindState extends State<FixTestModalWind> {
   TextEditingController resultController = TextEditingController();
 
   MyFixController myFixController = Get.put(MyFixController());
+  MyUserController myUserController = Get.put(MyUserController());
 
   @override
   Widget build(BuildContext context) {
@@ -48,7 +50,8 @@ class _FixTestModalWindState extends State<FixTestModalWind> {
               'programmId': widget.belong['programmId'].toString(),
               'result': resultController.text,
               'date': widget.belong['date'],
-              'trenerId': widget.belong['userId'].toString()
+              'trenerId': widget.belong['userId'].toString(),
+              'sportsmanId': myUserController.user['id'].toString()
             });
           }
           Get.back();
