@@ -52,7 +52,7 @@ class _UserProgressState extends State<UserProgress> {
 
     return Scaffold(
         body: SizedBox(
-      height: 96 * vh,
+      height: 97 * vh,
       child: Stack(
         fit: StackFit.expand,
         children: [
