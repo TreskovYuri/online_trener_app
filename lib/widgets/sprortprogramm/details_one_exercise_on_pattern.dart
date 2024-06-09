@@ -8,21 +8,43 @@ import 'package:trener_app/widgets/text/title.dart';
 import 'package:trener_app/widgets/youtube.dart';
 
 class DetailsOneExerciseOnPattern extends StatelessWidget {
-  DetailsOneExerciseOnPattern({super.key,required this.exercise});
+  DetailsOneExerciseOnPattern({super.key, required this.exercise});
   Map<String, dynamic> exercise;
 
   @override
   Widget build(BuildContext context) {
-    return MyModalWind(height: 80, widget: Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Column(
-        children: [
-          if(exercise['video']!='')Padding(padding: const EdgeInsets.symmetric(vertical: 10),child: MyVideoPlayer(url: '${dotenv.env['STATIC_URL']}/${exercise['video']}',),),
-         Row(children: [ MyTitleText(text: 'Техника выполнения',size: 22)],),
-         const SizedBox(height: 20,),
-         Row(children: [ Expanded(child: MyDescriptionText(text:exercise['descriptionRu'],size: 16, color: AppColors.blackThemeTextOpacity3,maxLines: 150))],)
-        ],
-      ),
-    ), title: exercise['nameRu']);
+    return MyModalWind(
+        height: 90,
+        widget: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Column(
+            children: [
+              if (exercise['video'] != '')
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 10),
+                  child: MyVideoPlayer(
+                    url: '${dotenv.env['STATIC_URL']}/${exercise['video']}',
+                  ),
+                ),
+              Row(
+                children: [MyTitleText(text: 'Техника выполнения', size: 22)],
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+              Row(
+                children: [
+                  Expanded(
+                      child: MyDescriptionText(
+                          text: exercise['descriptionRu'],
+                          size: 16,
+                          color: AppColors.blackThemeTextOpacity3,
+                          maxLines: 150))
+                ],
+              )
+            ],
+          ),
+        ),
+        title: exercise['nameRu']);
   }
 }
