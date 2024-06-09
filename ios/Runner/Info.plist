@@ -6,8 +6,8 @@
 	<true/>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
-	<key>NSAppTransportSecurity</key>
-	<string>$(DEVELOPMENT_LANGUAGE)</string>
+    <key>NSAllowsArbitraryLoads</key>
+    <true/>
 	<key>CFBundleDisplayName</key>
 	<string>ТРЕНЕР</string>
 	<key>CFBundleExecutable</key>

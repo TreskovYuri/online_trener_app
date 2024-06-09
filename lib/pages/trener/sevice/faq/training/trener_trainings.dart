@@ -51,7 +51,7 @@ class _TrenerTrainingsState extends State<TrenerTrainings> {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        iconTheme: IconThemeData(color: Color(0xff4D8AEE)),
+        iconTheme: const IconThemeData(color: Color(0xff4D8AEE)),
         leading: IconButton(
           icon: const Icon(Icons
               .arrow_back_ios_new_rounded), // Устанавливаем иконку "домой" вместо стрелки "назад"
@@ -99,6 +99,7 @@ class _TrenerTrainingsState extends State<TrenerTrainings> {
           children: [
             Container(
               child: ListView(
+                controller: _scrollController,
                 children: [
                   GestureDetector(
                       onTap: () {

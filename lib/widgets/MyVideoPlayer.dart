@@ -13,7 +13,7 @@ class MyVideoPlayer extends StatefulWidget {
 }
 
 class _MyVideoPlayerState extends State<MyVideoPlayer> {
-  bool inicialize= false;
+  bool inicialize = false;
   late CustomVideoPlayerController _customVideoPlayerController;
 
   @override
@@ -28,35 +28,45 @@ class _MyVideoPlayerState extends State<MyVideoPlayer> {
     super.dispose();
   }
 
-  void initializeVideoPlayer(){
-    VideoPlayerController   _videoPlayerController;
-    _videoPlayerController = VideoPlayerController.network(widget.url)..initialize().then((_) => setState(() {inicialize=true;}));
-    _customVideoPlayerController = CustomVideoPlayerController(context: context, videoPlayerController: _videoPlayerController);
+  void initializeVideoPlayer() {
+    CachedVideoPlayerController _videoPlayerController;
+    _videoPlayerController = CachedVideoPlayerController.network(widget.url)
+      ..initialize()
+          .then((_) => setState(() {
+                inicialize = true;
+              }))
+          .catchError((err) => print('VIDEO: $err'));
+    _customVideoPlayerController = CustomVideoPlayerController(
+        context: context, videoPlayerController: _videoPlayerController);
   }
 
   @override
   Widget build(BuildContext context) {
-    if(widget.url == ''){
+    print(widget.url);
+    if (widget.url == '') {
       return Container();
     }
     if (_customVideoPlayerController != null && inicialize) {
-      
       return Container(
         clipBehavior: Clip.hardEdge,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10),
         ),
-        child: CustomVideoPlayer(customVideoPlayerController: _customVideoPlayerController),
+        child: CustomVideoPlayer(
+            customVideoPlayerController: _customVideoPlayerController),
       );
     } else {
       return AspectRatio(
-        aspectRatio: 16/9,
+        aspectRatio: 16 / 9,
         child: Container(
           decoration: BoxDecoration(
             color: AppColors.blackThemeInputInlineBacground,
             borderRadius: BorderRadius.circular(10),
           ),
-          child: MyTitleText(text: 'Загрузка...',color: AppColors.blackThemeTextOpacity1,size: 15),
+          child: MyTitleText(
+              text: 'Загрузка...',
+              color: AppColors.blackThemeTextOpacity1,
+              size: 15),
           alignment: Alignment.center,
         ),
       );
