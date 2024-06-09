@@ -5,11 +5,14 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:trener_app/getx/MyExercisesController.dart';
 import 'package:trener_app/getx/MyUserConroller.dart';
+import 'package:trener_app/http/dio.dart';
 import 'package:trener_app/http/exerciseUtills.dart';
 import 'package:file_picker/file_picker.dart';
+import 'package:trener_app/models/constants/colors.dart';
 import 'dart:convert';
 
 import 'package:trener_app/widgets/shanckbar.dart';
+import 'package:trener_app/widgets/text/description.dart';
 
 class ModalCreateTraining extends StatefulWidget {
   const ModalCreateTraining({super.key});
@@ -28,6 +31,13 @@ class _ModalCreateTrainingState extends State<ModalCreateTraining> {
   final TextEditingController linkController = TextEditingController();
   MyExercisesController myExercisesController =
       Get.put(MyExercisesController());
+  PlatformFile? videoFile = null;
+
+  void setVideoFile (file){
+    setState(() {
+      videoFile=file;
+    });
+  }
 
   void setListEquipments(String equipment) {
     setState(() {
@@ -254,6 +264,8 @@ class _ModalCreateTrainingState extends State<ModalCreateTraining> {
                       child: ListView(
                         children: [
                           Page4(
+                            videoFile:videoFile,
+                            setVideoFile:setVideoFile,
                             vw: vw,
                             vh: vh,
                             setListEquipments: setListEquipments,
@@ -270,7 +282,7 @@ class _ModalCreateTrainingState extends State<ModalCreateTraining> {
           ),
           page == 4
               ? Positioned(
-                  bottom: 40,
+                  bottom: 70,
                   left: 0,
                   right: 0,
                   child: ElevatedButton(
@@ -320,7 +332,7 @@ class _ModalCreateTrainingState extends State<ModalCreateTraining> {
                         GetMySnackBar(description: 'Выберите этап тренировки');
                         return;
                       }
-                      AddExercise({
+                      FutureAddExercise({
                         "nameRu": nameRuController.text,
                         "descriptionRu": '',
                         "nameEng": nameEngController.text,
@@ -349,7 +361,7 @@ class _ModalCreateTrainingState extends State<ModalCreateTraining> {
                         "pocazatel5SPFlag": '',
                         "link": linkController.text,
                         "img": '',
-                        "video": '',
+                        "video": videoFile ??'',
                       });
                       Get.back();
                     },
@@ -1918,8 +1930,12 @@ class Page4 extends StatefulWidget {
     required this.nameRuController,
     required this.nameEngController,
     required this.linkController,
+    required this.videoFile,
+    required this.setVideoFile,
   });
 
+  final Function setVideoFile;
+  PlatformFile? videoFile;
   final double vw;
   final double vh;
   final Function(String) setListEquipments;
@@ -1937,7 +1953,7 @@ class _Page4State extends State<Page4> {
       Get.put(MyExercisesController());
   List<String> stage = [];
   bool stageModalFlag = false;
-  PlatformFile? file;
+  
   late List<Map<String, dynamic>> groupList;
   String localGroup = '';
   @override
@@ -1965,10 +1981,10 @@ class _Page4State extends State<Page4> {
 
 
   void selectFile() async {
-    FilePickerResult? result = await FilePicker.platform.pickFiles();
+    FilePickerResult? result = await FilePicker.platform.pickFiles(type: FileType.custom,allowedExtensions: ['mp4']);
     if (result == null) return;
     setState(() {
-      file = result.files.first;
+       widget.setVideoFile(result.files.first);
     });
   }
 
@@ -2154,17 +2170,23 @@ class _Page4State extends State<Page4> {
                 ],
               ),
             ),
-            file != null
+             widget.videoFile != null
                 ? GestureDetector(
                     onTap: selectFile,
                     child: Container(
                       margin: EdgeInsets.all(3 * vw),
                       width: double.infinity,
                       height: 25 * vh,
-                      child: Image.file(
-                        File(file!.path!),
-                        fit: BoxFit.cover,
-                      ),
+                      child: Container(
+                        width: double.infinity,
+                        height: 399,
+                        decoration: BoxDecoration(
+                          color: AppColors.blackThemeInputInlineBacground,
+                          borderRadius: BorderRadius.circular(10)
+                        ),
+                        child: MyDescriptionText(text: 'Видео загружено.',color: AppColors.blackThemeTextOpacity1),
+                        alignment: Alignment.center,
+                      )
                     ),
                   )
                 : GestureDetector(
@@ -2179,51 +2201,51 @@ class _Page4State extends State<Page4> {
                       ),
                     ),
                   ),
-            Padding(
-              padding: EdgeInsets.fromLTRB(5 * vw, 0 * vw, 5 * vw, 3 * vw),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text('или',
-                      textAlign: TextAlign.start,
-                      style: TextStyle(
-                          color: Color.fromARGB(115, 255, 255, 255),
-                          fontSize: 3.3 * vw,
-                          fontWeight: FontWeight.w500,
-                          fontFamily: 'Manrope')),
-                ],
-              ),
-            ),
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 3 * vw),
-              child: TextField(
-                keyboardAppearance: Brightness.dark,
-                controller: widget.linkController,
-                cursorColor: const Color.fromRGBO(112, 112, 112, 1),
-                style: TextStyle(color: Colors.white, fontSize: 4 * vw),
-                decoration: InputDecoration(
-                  hintText: 'Добавьте ссылку YouTube',
-                  hintStyle: const TextStyle(
-                    color: Colors.grey, // Цвет текста плейсхолдера
-                    fontSize: 16, // Размер текста плейсхолдера
-                    fontWeight:
-                        FontWeight.normal, // Начертание текста плейсхолдера
-                  ),
-                  contentPadding: EdgeInsets.symmetric(
-                      horizontal: 4 * vw, vertical: 1.5 * vh),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(4 * vw),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(4 * vw),
-                    borderSide: const BorderSide(
-                      color: Color.fromARGB(255, 112, 112, 112),
-                      width: 2.0,
-                    ),
-                  ),
-                ),
-              ),
-            ),
+            // Padding(
+            //   padding: EdgeInsets.fromLTRB(5 * vw, 0 * vw, 5 * vw, 3 * vw),
+            //   child: Row(
+            //     mainAxisAlignment: MainAxisAlignment.center,
+            //     children: [
+            //       Text('или',
+            //           textAlign: TextAlign.start,
+            //           style: TextStyle(
+            //               color: Color.fromARGB(115, 255, 255, 255),
+            //               fontSize: 3.3 * vw,
+            //               fontWeight: FontWeight.w500,
+            //               fontFamily: 'Manrope')),
+            //     ],
+            //   ),
+            // ),
+            // Padding(
+            //   padding: EdgeInsets.symmetric(horizontal: 3 * vw),
+            //   child: TextField(
+            //     keyboardAppearance: Brightness.dark,
+            //     controller: widget.linkController,
+            //     cursorColor: const Color.fromRGBO(112, 112, 112, 1),
+            //     style: TextStyle(color: Colors.white, fontSize: 4 * vw),
+            //     decoration: InputDecoration(
+            //       hintText: 'Добавьте ссылку YouTube',
+            //       hintStyle: const TextStyle(
+            //         color: Colors.grey, // Цвет текста плейсхолдера
+            //         fontSize: 16, // Размер текста плейсхолдера
+            //         fontWeight:
+            //             FontWeight.normal, // Начертание текста плейсхолдера
+            //       ),
+            //       contentPadding: EdgeInsets.symmetric(
+            //           horizontal: 4 * vw, vertical: 1.5 * vh),
+            //       border: OutlineInputBorder(
+            //         borderRadius: BorderRadius.circular(4 * vw),
+            //       ),
+            //       focusedBorder: OutlineInputBorder(
+            //         borderRadius: BorderRadius.circular(4 * vw),
+            //         borderSide: const BorderSide(
+            //           color: Color.fromARGB(255, 112, 112, 112),
+            //           width: 2.0,
+            //         ),
+            //       ),
+            //     ),
+            //   ),
+            // ),
             SizedBox(
               height: 3 * vh,
             ),

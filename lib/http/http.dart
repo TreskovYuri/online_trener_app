@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:dio/dio.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:http/http.dart' as http;
@@ -25,7 +26,7 @@ class Session {
   }
 
 
-  Future <Map<String,dynamic>> post(String url, Map<String,dynamic> data) async {
+  Future <Map<String,dynamic>> post(String url, data) async {
     final box = GetStorage();
     var apiUrl = Uri.parse('$URL/$url');
     // print(apiUrl);
@@ -40,6 +41,32 @@ class Session {
         print(e);
       }
       return {'status': response.statusCode, 'body': jsonDecode(responseBody) as Map<String, dynamic>};
+    } catch (e) {
+      print(e);
+      return {'status': 418};
+    }
+  }
+
+   Future<Map<String, dynamic>> post1(String url, dynamic data) async {
+    final box = GetStorage();
+    var apiUrl = '$URL/$url';
+    var _dio = Dio();
+
+    try {
+      Response response = await _dio.post(
+        apiUrl,
+        data: data,
+        options: Options(
+          headers: {'session': box.read('session') ?? ''},
+        ),
+      );
+
+      var responseBody = response.data;
+      if (responseBody['session'] != null) {
+        await box.write('session', responseBody['session']);
+      }
+
+      return {'status': response.statusCode!, 'body': responseBody as Map<String, dynamic>};
     } catch (e) {
       print(e);
       return {'status': 418};

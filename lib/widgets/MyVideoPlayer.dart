@@ -22,10 +22,15 @@ class _MyVideoPlayerState extends State<MyVideoPlayer> {
     super.initState();
   }
 
+  @override
+  void dispose() {
+    _customVideoPlayerController.dispose();
+    super.dispose();
+  }
 
   void initializeVideoPlayer(){
-    CachedVideoPlayerController  _videoPlayerController;
-    _videoPlayerController = CachedVideoPlayerController .network(widget.url)..initialize().then((_) => setState(() {inicialize=true;}));
+    VideoPlayerController   _videoPlayerController;
+    _videoPlayerController = VideoPlayerController.network(widget.url)..initialize().then((_) => setState(() {inicialize=true;}));
     _customVideoPlayerController = CustomVideoPlayerController(context: context, videoPlayerController: _videoPlayerController);
   }
 

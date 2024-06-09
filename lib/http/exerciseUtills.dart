@@ -175,7 +175,10 @@ Future GetExerciseAllBelongPatterns() async {
 
 
 // Добавление упражнения
-Future AddExercise(Map <String,dynamic> formData) async {
+Future AddExercise(Map <String,dynamic> formData,) async {
+  FormData fd = FormData({
+    ...formData
+  });
   try {
     Map<String, dynamic> data = await Session().post('exercises',formData);
     GetExercise();
