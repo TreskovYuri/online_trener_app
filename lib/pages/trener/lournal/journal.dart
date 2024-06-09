@@ -62,6 +62,7 @@ class _JournalState extends State<Journal> {
   Widget build(BuildContext context) {
     final vw = MediaQuery.of(context).size.width / 100;
     final vh = MediaQuery.of(context).size.height / 100;
+    final fournal = myJournalConroller.Journal;
 
     DateTime now = DateTime.now();
     int weekday = now.weekday;
@@ -275,7 +276,7 @@ class _UserCardState extends State<UserCard> {
                         padding: EdgeInsets.symmetric(
                             vertical: 2 * vw, horizontal: 5 * vw),
                         decoration: BoxDecoration(
-                            color: Color.fromARGB(23, 152, 154, 161),
+                            color: const Color.fromARGB(23, 152, 154, 161),
                             borderRadius: BorderRadius.circular(10 * vw)),
                         child: Text(
                           widget.array['post'],
@@ -294,7 +295,7 @@ class _UserCardState extends State<UserCard> {
                         padding: EdgeInsets.symmetric(
                             vertical: 2 * vw, horizontal: 5 * vw),
                         decoration: BoxDecoration(
-                            color: Color.fromARGB(23, 152, 154, 161),
+                            color: const Color.fromARGB(23, 152, 154, 161),
                             borderRadius: BorderRadius.circular(10 * vw)),
                         child: Text(
                           widget.array['team'],
@@ -348,7 +349,7 @@ class _UserCardState extends State<UserCard> {
                                             vertical: 2 * vw,
                                             horizontal: 4 * vw),
                                         decoration: BoxDecoration(
-                                            color: Color(0xff23252B),
+                                            color: const Color(0xff23252B),
                                             borderRadius:
                                                 BorderRadius.circular(5 * vw)),
                                         child: Row(

@@ -16,7 +16,7 @@ Future GetJournal() async {
   try {
     // Assuming Session().get() returns Map<String, dynamic>
     Map<String, dynamic> data = await Session().get('journal');
-
+  print(data);
     List<Map<String, dynamic>> list = [];
     if (data['status'] < 300) {
       // Safely handle the data assuming 'body' is a List<dynamic>

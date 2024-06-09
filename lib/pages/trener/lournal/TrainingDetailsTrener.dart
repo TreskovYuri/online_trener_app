@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:trener_app/getx/MyDateController.dart';
@@ -15,6 +16,7 @@ import 'package:trener_app/models/constants/colors.dart';
 import 'package:trener_app/models/constants/images.dart';
 import 'package:trener_app/pages/chat/oneChat.dart';
 import 'package:trener_app/utills/sokrashatel.dart';
+import 'package:trener_app/widgets/MyVideoPlayer.dart';
 import 'package:trener_app/widgets/circle_default_user_icon.dart';
 import 'package:trener_app/widgets/circle_network_Img.dart';
 import 'package:trener_app/widgets/inputs/input_inline_fill.dart';
@@ -136,6 +138,7 @@ class _TrainingDetailsTrenerState extends State<TrainingDetailsTrener> {
 
 class _ExercisesCard extends StatelessWidget {
   _ExercisesCard({super.key, required this.exercise, required this.sportsman});
+  
   Map sportsman;
   Map exercise;
   MyExercisesController myExercisesController =
@@ -144,9 +147,11 @@ class _ExercisesCard extends StatelessWidget {
       Get.put(MySportProgrammController());
   MyDateController myDateController =
       Get.put(MyDateController());
+    
 
   @override
   Widget build(BuildContext context) {
+  
     final List sets = json.decode(exercise['sets']);
     return Obx(() {
       Map<String, dynamic> exerciseData = myExercisesController.exercises
@@ -175,7 +180,8 @@ class _ExercisesCard extends StatelessWidget {
             const SizedBox(
               height: 10,
             ),
-            if (exerciseData['link'] != '') Youtube(url: exerciseData['link']),
+            // if (exerciseData['link'] != '') Youtube(url: exerciseData['link']),
+            if(exerciseData['video']!='')MyVideoPlayer(url:'${dotenv.env['STATIC_URL']}/${exerciseData['video']}'),
             const SizedBox(
               height: 20,
             ),

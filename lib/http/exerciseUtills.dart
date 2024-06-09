@@ -23,6 +23,7 @@ Future GetExercise() async {
           'descriptionEn': e['descriptionEn'] ?? '',
           'link': e['link'] ?? '',
           'img': e['img'] ?? '',
+          'video': e['video'] ?? '',
           'stage': e['stage'] != null ? List<String>.from(json.decode(e['stage'])) : [],
           'equipment': e['equipment'] != null ? List<String>.from(json.decode(e['equipment'])) : [],
           'musclegroups': e['musclegroups'] != null ? List<String>.from(json.decode(e['musclegroups'])) : [],
