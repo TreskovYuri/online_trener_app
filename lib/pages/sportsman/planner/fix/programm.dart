@@ -159,7 +159,7 @@ class __ExerciseCardState extends State<_ExerciseCard> {
             children: [
               Expanded(
                   child: MyDescriptionText(
-                      text: widget.exercise['nameRu'] ?? '', size: 20)),
+                      text: widget.exercise['nameRu'] ?? '', size: 20,maxLines: 150),),
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -184,7 +184,7 @@ class __ExerciseCardState extends State<_ExerciseCard> {
             ],
           ),
           const SizedBox(
-            height: 10,
+            height: 30,
           ),
           _SetHeader(exercise: widget.exercise),
           const SizedBox(

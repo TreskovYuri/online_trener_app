@@ -512,7 +512,7 @@ class _UserCardState extends State<UserCard> {
                                           ),
                                         )),
                                   )),
-                              ...nutritions.map((e) => GestureDetector(
+                              if(nutritions.length>0) GestureDetector(
                                     onTap: () {
                                       // Navigator.pushNamed(
                                       //     context, '/training_details_trener',
@@ -524,7 +524,7 @@ class _UserCardState extends State<UserCard> {
                                         nutrition: myNutritionsController
                                             .nutritions
                                             .firstWhere((el) =>
-                                                el['id'] == e['nutritionId']),
+                                                el['id'] == nutritions[0]['nutritionId']),
                                       ));
                                     },
                                     child: Container(
@@ -594,7 +594,7 @@ class _UserCardState extends State<UserCard> {
                                             ),
                                           ),
                                         )),
-                                  ))
+                                  )
                             ],
                           ),
                         )
