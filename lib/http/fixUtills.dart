@@ -9,7 +9,7 @@ Future GetTestFixForSportsman() async {
   MyFixController myFixController = Get.put(MyFixController());
 
   try {
-    Map<String, dynamic> data = await Session().get('fix/sportsman/test');
+    Map<String, dynamic> data = await Session().getList('fix/sportsman/test');
     List<Map<String, dynamic>> list = [];
 
     if (data['status'] < 300) {
@@ -38,7 +38,7 @@ Future GetTestFixForTrenr() async {
   MyFixController myFixController = Get.put(MyFixController());
 
   try {
-    Map<String, dynamic> data = await Session().get('fix/trener/test');
+    Map<String, dynamic> data = await Session().getList('fix/trener/test');
     List<Map<String, dynamic>> list = [];
     if (data['status'] < 300) {
       data['body'].forEach((e) {
@@ -82,7 +82,7 @@ Future GetSportprogrammFixForTrener() async {
   MySportProgrammController mySportProgrammController = Get.put(MySportProgrammController());
 
   try {
-    Map<String, dynamic> data = await Session().get('sportprogramm/fix/bytrenerid');
+    Map<String, dynamic> data = await Session().getList('sportprogramm/fix/bytrenerid');
     List<Map<String, dynamic>> list = [];
 
     if (data['status'] < 300) {

@@ -33,6 +33,7 @@ dependencies:
   appinio_video_player: ^1.2.0
   dio: ^5.4.3+1
   video_player: ^2.6.0
+  socket_io_client_flutter: ^0.0.3-dev.18
   
 
 

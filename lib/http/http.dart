@@ -11,19 +11,35 @@ class Session {
   
 
 
-  Future <Map<String,dynamic>> get(String url) async {
-    final box = GetStorage();
-    var apiUrl = Uri.parse('$URL/$url');
-        // print(apiUrl);
-    http.Response response = await http.get(apiUrl, headers: {'session': box.read('session') ?? ''});
-      var responseBody = utf8.decode(response.bodyBytes);
-      var decode = json.decode(responseBody);
-      return {
-        "status":response.statusCode,
-        'body':decode
-      };  
+Future<Map<String, dynamic>> getMap(String url) async {
+  final GetStorage box = GetStorage();
+  final Uri apiUrl = Uri.parse('$URL/$url');
+  final String session = box.read('session') ?? '';
+  final http.Response response = await http.get(apiUrl, headers: {'session': session});
 
-  }
+  final String responseBody = utf8.decode(response.bodyBytes);
+  final decode = json.decode(responseBody);
+
+  return {
+    "status": response.statusCode,
+    'body': decode
+  };
+}
+Future<Map<String, dynamic>> getList(String url) async {
+  final GetStorage box = GetStorage();
+  final Uri apiUrl = Uri.parse('$URL/$url');
+  final String session = box.read('session') ?? '';
+  final http.Response response = await http.get(apiUrl, headers: {'session': session});
+
+  final String responseBody = utf8.decode(response.bodyBytes);
+  final decode = json.decode(responseBody);
+  // print(decode);
+
+  return {
+    "status": response.statusCode,
+    'body': decode
+  };
+}
 
 
   Future <Map<String,dynamic>> post(String url, data) async {

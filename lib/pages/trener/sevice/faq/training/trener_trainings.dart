@@ -3,7 +3,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:trener_app/getx/MyExercisesController.dart';
 import 'package:trener_app/http/exerciseUtills.dart';
-import 'package:trener_app/utills/sklonatel.dart';
+import 'package:trener_app/service/helpers/sklonatel.dart';
 import 'package:trener_app/widgets/service/navbar.dart';
 import 'package:trener_app/widgets/service/navbar_scroll.dart';
 import 'package:trener_app/widgets/workout/modal_create_training.dart';

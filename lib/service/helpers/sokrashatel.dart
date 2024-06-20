@@ -1,3 +1,7 @@
+
+
+
+// Функция сокращает
 String FIOSokrashatel (String text){
   if(text == '') return 'Без имени';
   List<String> list = text.split(' ');

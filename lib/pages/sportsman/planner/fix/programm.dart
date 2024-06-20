@@ -11,7 +11,7 @@ import 'package:trener_app/http/exerciseUtills.dart';
 import 'package:trener_app/http/sportpogrammUtills.dart';
 import 'package:trener_app/models/constants/colors.dart';
 import 'package:trener_app/models/constants/images.dart';
-import 'package:trener_app/utills/sokrashatel.dart';
+import 'package:trener_app/service/helpers/sokrashatel.dart';
 import 'package:trener_app/widgets/app_bar/gradient_appbar.dart';
 import 'package:trener_app/widgets/buttons/gradient_button.dart';
 import 'package:trener_app/widgets/circle_default_user_icon.dart';

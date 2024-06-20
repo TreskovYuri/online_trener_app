@@ -29,10 +29,10 @@ class _MyVideoPlayerState extends State<MyVideoPlayer> {
   }
 
   void initializeVideoPlayer() {
-    VideoPlayerController  _videoPlayerController;
-    _videoPlayerController = VideoPlayerController .network(widget.url)
-    // CachedVideoPlayerController _videoPlayerController;
-    // _videoPlayerController = CachedVideoPlayerController.network(widget.url)
+    // VideoPlayerController  _videoPlayerController;
+    // _videoPlayerController = VideoPlayerController .network(widget.url)
+    CachedVideoPlayerController _videoPlayerController;
+    _videoPlayerController = CachedVideoPlayerController.network(widget.url)
       ..initialize()
           .then((_) => setState(() {
                 inicialize = true;

@@ -4,7 +4,7 @@ import 'package:intl/intl.dart';
 import 'package:trener_app/getx/MyFixController.dart';
 import 'package:trener_app/http/fixUtills.dart';
 import 'package:trener_app/models/constants/colors.dart';
-import 'package:trener_app/utills/IntMonthToStringRus.dart';
+import 'package:trener_app/service/helpers/IntMonthToStringRus.dart';
 import 'package:trener_app/widgets/inputs/input_inline_fill.dart';
 import 'package:trener_app/widgets/modal_wind.dart';
 

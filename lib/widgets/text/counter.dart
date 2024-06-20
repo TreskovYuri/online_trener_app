@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:trener_app/utills/sklonatel.dart';
+import 'package:trener_app/service/helpers/sklonatel.dart';
 
 // Текст с фоном градиентом закругленный
 class MyCounter extends StatelessWidget {

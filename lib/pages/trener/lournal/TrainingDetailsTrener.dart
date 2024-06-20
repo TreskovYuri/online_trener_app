@@ -15,7 +15,7 @@ import 'package:trener_app/http/userUtills.dart';
 import 'package:trener_app/models/constants/colors.dart';
 import 'package:trener_app/models/constants/images.dart';
 import 'package:trener_app/pages/chat/oneChat.dart';
-import 'package:trener_app/utills/sokrashatel.dart';
+import 'package:trener_app/service/helpers/sokrashatel.dart';
 import 'package:trener_app/widgets/MyVideoPlayer.dart';
 import 'package:trener_app/widgets/circle_default_user_icon.dart';
 import 'package:trener_app/widgets/circle_network_Img.dart';

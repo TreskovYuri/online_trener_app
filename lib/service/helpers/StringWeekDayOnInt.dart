@@ -1,3 +1,6 @@
+
+
+// Функция принимает число (день недели) и возвращает сроку на русском
 String StringWeekDayOnInt({num}) {
   switch (num) {
     case 1:

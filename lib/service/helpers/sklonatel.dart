@@ -1,6 +1,6 @@
 
 
-
+// Функция принимает колличество и варианты склоенний элементов и возвращает корректную строку
 String Sklonatel({required int number, required String stage1,required String stage2,required String stage3}) {
   if (number % 10 == 1 && number % 100 != 11) {
     return "$number $stage1";

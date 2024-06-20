@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:trener_app/http/index.dart';
 import 'package:trener_app/http/userUtills.dart';
 import 'package:trener_app/mobx/mobx.dart';
-import 'package:trener_app/utills/validator.dart';
+import 'package:trener_app/service/helpers/validator.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';

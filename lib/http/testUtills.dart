@@ -9,7 +9,7 @@ Future GetTests() async {
 
   try {
     // Assuming Session().get() returns Map<String, dynamic>
-    Map<String, dynamic> data = await Session().get('tests');
+    Map<String, dynamic> data = await Session().getList('tests');
 
     
     List<Map<String, dynamic>> list = [];
@@ -48,7 +48,7 @@ Future GetTestGroups() async {
 
   try {
     // Assuming Session().get() returns Map<String, dynamic>
-    Map<String, dynamic> data = await Session().get('tests/group');
+    Map<String, dynamic> data = await Session().getList('tests/group');
     
     List<Map<String, dynamic>> list = [];
     

@@ -6,6 +6,7 @@ import 'package:trener_app/getx/MyChatController.dart';
 import 'package:trener_app/getx/MyUserConroller.dart';
 import 'package:trener_app/http/chatUtills.dart';
 import 'dart:async';
+import 'package:socket_io_client_flutter/socket_io_client_flutter.dart';
 
 class OneChat extends StatefulWidget {
   const OneChat({super.key});
@@ -33,7 +34,7 @@ class _OneChatState extends State<OneChat> {
     GetChatMessages(id: argument['id']);
 
     // Запускаем таймер, который будет повторять запрос каждую секунду
-    _timer = Timer.periodic(Duration(seconds: 1), (timer) {
+    _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
       GetChatMessages(id: argument['id']);
     });
   }

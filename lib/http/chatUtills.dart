@@ -1,4 +1,6 @@
 
+import 'dart:convert';
+
 import 'package:get/get.dart';
 import 'package:trener_app/getx/MyChatController.dart';
 import 'package:trener_app/http/http.dart';
@@ -10,16 +12,17 @@ Future GetChats() async {
       Get.put(MyChatController());
 
   try {
-    Map<String, dynamic> data = await Session().get('chat');
-    // data['body'].forEach((e)=>print(e));
+    final  data =Map<String, dynamic>.from(await Session().getList('chat')) ;
+        // print(data);
+    data['body'].forEach((e)=>print(e));
     List<Map<String, dynamic>> list = [];
     if (data['status'] < 300) {
       data['body'].forEach((e) {
         Map<String, dynamic> group = {
-            'id': e['id'] ?? 0,
-            'user1Id': e['user1Id'] ?? 0,
-            'user2Id': e['user2Id'] ?? 0,
-            'message':e['message']??{}
+            'chat': jsonDecode(e['chat']) as Map<String,dynamic> ??{},
+            'lastMessage': jsonDecode(e['lastMessage']) as Map<String,dynamic> ??{},
+            'users': jsonDecode(e['users']) as List<Map<String,dynamic>> ??[],
+            'unRead': e['unRead'] ?? 0,
         };
         list.add(group);
       });
@@ -38,7 +41,7 @@ Future GetChats() async {
 Future GetChatId(userId) async {
 
   try {
-    Map<String, dynamic> data = await Session().get('chat/userid/$userId');
+    Map<String, dynamic> data = await Session().getMap('chat/userid/$userId');
     return data['body'];
   } catch (e) {
     print(e);
@@ -55,8 +58,9 @@ Future GetChatMessages({id}) async {
   MyChatController myChatController =
       Get.put(MyChatController());
   try {
-    Map<String, dynamic> data = await Session().get('chat/$id');
+    Map<String, dynamic> data = await Session().getList('chat/$id');
     List<Map<String, dynamic>> list = [];
+
     if (data['status'] < 300) {
       data['body'].forEach((e) {
         Map<String, dynamic> messages = {

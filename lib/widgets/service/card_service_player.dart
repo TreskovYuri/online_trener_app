@@ -92,91 +92,22 @@ class CardServicePlayer extends StatelessWidget {
                 ),
                 Expanded(
                   flex: 1,
-                  child: Container(
-                    child: Row(
-                      children: [
-                        Column(
-                          children: [
-                             SvgPicture.asset(
-                                'assets/img/card3_3.svg',
-                                width: 15 * vw,
-                              ),
-                            SizedBox(
-                              height: 5,
-                            ),
-                            Text(
-                              "Питание",
-                              style: TextStyle(
-                                  color: Color.fromARGB(234, 255, 255, 255),
-                                  fontFamily: 'Manrope',
-                                  fontWeight: FontWeight.w600,
-                                  decoration: TextDecoration.none,
-                                  fontSize: .011 * vh),
-                            ),
-                          ],
-                        )
-                      ],
-                    ),
-                  ),
-                ),
-                Expanded(
-                  flex: 1,
-                  child: Container(
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        Column(
-                          children: [
-                             SvgPicture.asset(
-                                'assets/img/card4_4.svg',
-                                width: 15 * vw,
-                              ),
-                            SizedBox(
-                              height: 5,
-                            ),
-                            Text(
-                              "Нутриенты",
-                              style: TextStyle(
-                                  color: Color.fromARGB(234, 255, 255, 255),
-                                  fontFamily: 'Manrope',
-                                  fontWeight: FontWeight.w600,
-                                  decoration: TextDecoration.none,
-                                  fontSize: .011 * vh),
-                            ),
-                          ],
-                        )
-                      ],
-                    ),
-                  ),
-                ),
-              ],
-            ),
-            SizedBox(
-              height: 20,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Expanded(
-                  flex: 1,
-                  child: GestureDetector(
-                    onTap: () {
-                      
-                    },
+                  child: Opacity(
+                    opacity: 0,
                     child: Container(
                       child: Row(
                         children: [
                           Column(
                             children: [
                                SvgPicture.asset(
-                                'assets/img/card5_5.svg',
-                                width: 15 * vw,
-                              ),
-                              SizedBox(
+                                  'assets/img/card3_3.svg',
+                                  width: 15 * vw,
+                                ),
+                              const SizedBox(
                                 height: 5,
                               ),
                               Text(
-                                "Консультации",
+                                "Питание",
                                 style: TextStyle(
                                     color: Color.fromARGB(234, 255, 255, 255),
                                     fontFamily: 'Manrope',
@@ -193,30 +124,111 @@ class CardServicePlayer extends StatelessWidget {
                 ),
                 Expanded(
                   flex: 1,
-                  child: Container(
-                    child: Row(
-                      children: [
-                        Column(
-                          children: [
-                             SvgPicture.asset(
-                                'assets/img/card6_6.svg',
-                                width: 15 * vw,
+                  child: Opacity(
+                    opacity: 0,
+                    child: Container(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Column(
+                            children: [
+                               SvgPicture.asset(
+                                  'assets/img/card4_4.svg',
+                                  width: 15 * vw,
+                                ),
+                              SizedBox(
+                                height: 5,
                               ),
-                            const SizedBox(
-                              height: 5,
-                            ),
-                            Text(
-                              "Настройки",
-                              style: TextStyle(
-                                  color: Color.fromARGB(234, 255, 255, 255),
-                                  fontFamily: 'Manrope',
-                                  fontWeight: FontWeight.w600,
-                                  decoration: TextDecoration.none,
-                                  fontSize: .011 * vh),
-                            ),
+                              Text(
+                                "Нутриенты",
+                                style: TextStyle(
+                                    color: Color.fromARGB(234, 255, 255, 255),
+                                    fontFamily: 'Manrope',
+                                    fontWeight: FontWeight.w600,
+                                    decoration: TextDecoration.none,
+                                    fontSize: .011 * vh),
+                              ),
+                            ],
+                          )
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            SizedBox(
+              height: 20,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Expanded(
+                  flex: 1,
+                  child: Opacity(
+                    opacity: 0,
+                    child: GestureDetector(
+                      onTap: () {
+                        
+                      },
+                      child: Container(
+                        child: Row(
+                          children: [
+                            Column(
+                              children: [
+                                 SvgPicture.asset(
+                                  'assets/img/card5_5.svg',
+                                  width: 15 * vw,
+                                ),
+                                SizedBox(
+                                  height: 5,
+                                ),
+                                Text(
+                                  "Консультации",
+                                  style: TextStyle(
+                                      color: Color.fromARGB(234, 255, 255, 255),
+                                      fontFamily: 'Manrope',
+                                      fontWeight: FontWeight.w600,
+                                      decoration: TextDecoration.none,
+                                      fontSize: .011 * vh),
+                                ),
+                              ],
+                            )
                           ],
-                        )
-                      ],
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+                Expanded(
+                  flex: 1,
+                  child: Opacity(
+                    opacity: 0,
+                    child: Container(
+                      child: Row(
+                        children: [
+                          Column(
+                            children: [
+                               SvgPicture.asset(
+                                  'assets/img/card6_6.svg',
+                                  width: 15 * vw,
+                                ),
+                              const SizedBox(
+                                height: 5,
+                              ),
+                              Text(
+                                "Настройки",
+                                style: TextStyle(
+                                    color: Color.fromARGB(234, 255, 255, 255),
+                                    fontFamily: 'Manrope',
+                                    fontWeight: FontWeight.w600,
+                                    decoration: TextDecoration.none,
+                                    fontSize: .011 * vh),
+                              ),
+                            ],
+                          )
+                        ],
+                      ),
                     ),
                   ),
                 ),

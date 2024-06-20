@@ -8,7 +8,7 @@ Future GetPatterns() async {
   MyPatternsController myPatternsController = Get.put(MyPatternsController());
 
   try {
-    Map<String, dynamic> data = await Session().get('exercises/patterns');
+    Map<String, dynamic> data = await Session().getList('exercises/patterns');
     List<Map<String, dynamic>> list = [];
     if (data['status'] < 300) {
       for (var e in data['body']) {

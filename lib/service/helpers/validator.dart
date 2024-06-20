@@ -1,3 +1,6 @@
+
+
+// Фцнкция для вадижации email
 String? isEmail(String email) {
   if (email.isEmpty) return 'Пожалуйста введите свой Email';
   String p =
