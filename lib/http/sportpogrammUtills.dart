@@ -15,7 +15,7 @@ Future GetJournal() async {
 
   try {
     // Assuming Session().get() returns Map<String, dynamic>
-    Map<String, dynamic> data = await Session().getMap('journal');
+    Map<String, dynamic> data = await Session().get('journal');
   print(data);
     List<Map<String, dynamic>> list = [];
     if (data['status'] < 300) {
@@ -54,7 +54,7 @@ Future GetPlanner() async {
 
   try {
     // Assuming Session().get() returns Map<String, dynamic>
-    Map<String, dynamic> data = await Session().getMap('planner');
+    Map<String, dynamic> data = await Session().get('planner');
 
     Map<String, dynamic> list = {};
     if (data['status'] < 300) {
@@ -82,7 +82,7 @@ Future GetSportProgramm() async {
   MySportProgrammController mySportProgrammController = Get.put(MySportProgrammController());
 
   try {
-    Map<String, dynamic> data = await Session().getMap('sportprogramm');
+    Map<String, dynamic> data = await Session().get('sportprogramm');
     List<Map<String, dynamic>> list = [];
     if (data['status'] < 300) {
       data['body'].forEach((e) {
@@ -141,7 +141,7 @@ Future GetFixSportProgramm(id) async {
   MySportProgrammController mySportProgrammController = Get.put(MySportProgrammController());
 
   try {
-    Map<String, dynamic> data = await Session().getList('sportprogramm/fix/$id');
+    Map<String, dynamic> data = await Session().get('sportprogramm/fix/$id');
     List<Map<String, dynamic>> list = [];
     if (data['status'] < 300) {
       data['body'].forEach((e) {

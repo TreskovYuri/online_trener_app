@@ -1,23 +1,22 @@
 
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
-import 'package:get/get_connect/http/src/utils/utils.dart';
-import 'package:trener_app/widgets/text/title.dart';
 
 class MyGradientAppBar extends StatelessWidget implements PreferredSizeWidget {
   const MyGradientAppBar({
     super.key,
     required this.height, 
-    required this. title
+    required this. title,
+    this.centerTitle = false
     });
   final double height;
   final Widget title;
+  final bool centerTitle;
 
   @override
   Widget build(BuildContext context) {
     return AppBar(
-        centerTitle: false,
+        centerTitle: centerTitle,
         iconTheme:
             const IconThemeData(color: Color.fromARGB(255, 255, 255, 255)),
         leading: IconButton(

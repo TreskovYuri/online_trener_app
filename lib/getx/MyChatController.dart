@@ -1,4 +1,6 @@
 import 'package:get/get.dart';
+import 'package:trener_app/models/chat.dart';
+import 'package:trener_app/models/message.dart';
 
 // Контроллер для работы с пользователями
 
@@ -6,25 +8,17 @@ class MyChatController extends GetxController {
 
 
   // Список всех чатов пользователя
-  var _chats = <Map<String, dynamic>>[].obs;
-  List<Map<String, dynamic>> get chats => _chats;
-  void setChats(List<Map<String, dynamic>> newChats) {_chats.assignAll(newChats);}
+  var _chats = <Chat>[].obs;
+  List<Chat> get chats => _chats;
+  void setChats(List<Chat> newChats) {_chats.assignAll(newChats);}
 
 
   // Сообщения для выбранного чата 
-  var _OneChat = <Map<String, dynamic>>[].obs;
-  List<Map<String, dynamic>> get OneChat => _OneChat;
-  void setOneChat(List<Map<String, dynamic>> newOneChat) {_OneChat.assignAll(newOneChat);}
-  void clearOneChat (){
-    _OneChat.clear();
-    _Messages.clear();
-    _chats.clear();
-    }
+  var _Messages = <Message>[].obs;
+  List<Message> get Messages => _Messages;
+  void setMessages(List<Message> newMessages) {_Messages.assignAll(newMessages);}
+  void clearMessages (){_Messages.clear();}
 
-    // Список всех чатов пользователя
-  var _Messages = <Map<String, dynamic>>[].obs;
-  List<Map<String, dynamic>> get Messages => _Messages;
-  void setMessages(List<Map<String, dynamic>> newMessages) {_Messages.assignAll(newMessages);}
 
 
 

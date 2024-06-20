@@ -9,7 +9,7 @@ Future GetExercise() async {
   MyExercisesController myExercisesController = Get.put(MyExercisesController());
 
   try {
-    Map<String, dynamic> data = await Session().getMap('exercises');
+    Map<String, dynamic> data = await Session().get('exercises');
     List<Map<String, dynamic>> list = [];
     
     if (data['status'] < 300) {
@@ -62,7 +62,7 @@ Future GetExerciseGroups() async {
       Get.put(MyExercisesController());
 
   try {
-    Map<String, dynamic> data = await Session().getList('exercises/groups');
+    Map<String, dynamic> data = await Session().get('exercises/groups');
     List<Map<String, dynamic>> list = [];
     if (data['status'] < 300) {
       data['body'].forEach((e) {
@@ -89,7 +89,7 @@ Future GetExercisePatterns() async {
       Get.put(MyExercisesController());
 
   try {
-    Map<String, dynamic> data = await Session().getList('exercises/patterns');
+    Map<String, dynamic> data = await Session().get('exercises/patterns');
     List<Map<String, dynamic>> list = [];
     if (data['status'] < 300) {
       data['body'].forEach((e) {
@@ -117,7 +117,7 @@ Future GetExerciseBelongPatterns(int id) async {
       Get.put(MyExercisesController());
 
   try {
-    Map<String, dynamic> data = await Session().getList('exercises/patterns/$id');
+    Map<String, dynamic> data = await Session().get('exercises/patterns/$id');
     List<Map<String, dynamic>> list = [];
     if (data['status'] < 300) {
       data['body'].forEach((e) {
@@ -147,7 +147,7 @@ Future GetExerciseAllBelongPatterns() async {
       Get.put(MyExercisesController());
 
   try {
-    Map<String, dynamic> data = await Session().getList('exercises/patterns/belongs');
+    Map<String, dynamic> data = await Session().get('exercises/patterns/belongs');
     List<Map<String, dynamic>> list = [];
     if (data['status'] < 300) {
       data['body'].forEach((e) {
@@ -225,7 +225,7 @@ Future GetAllExerciseComents() async {
     MyExercisesController myExercisesController =
       Get.put(MyExercisesController());
 
-    Map<String, dynamic> data = await Session().getList('sportprogramm/comment');
+    Map<String, dynamic> data = await Session().get('sportprogramm/comment');
         List<Map<String, dynamic>> list = [];
     if (data['status'] < 300) {
       data['body'].forEach((e) {

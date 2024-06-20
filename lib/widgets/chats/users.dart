@@ -21,12 +21,6 @@ class _ChatUsersState extends State<ChatUsers> {
     super.initState();
   }
 
-  void toChat (id)async{
-    Map chat = await GetChatId(id);
-    if(chat['id'] !=null){
-      Get.to(const OneChat(),arguments: chat);
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -90,7 +84,7 @@ class _ChatUsersState extends State<ChatUsers> {
                                             10), // Указываем радиус скругления углов
                                       ),
                                     ),
-                                    onPressed: ()=>toChat(myUserController.Users[index]['id']),
+                                    onPressed: ()=>{},
                                     child: Container(
                                       child: Row(
                                         children: [

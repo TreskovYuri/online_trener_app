@@ -27,7 +27,7 @@ Future GetSportsmans() async {
 
   try {
     // Assuming Session().get() returns Map<String, dynamic>
-    Map<String, dynamic> data = await Session().getList('user/sportsmans');
+    Map<String, dynamic> data = await Session().get('user/sportsmans');
     
     List<Map<String, dynamic>> list = [];
     
@@ -68,7 +68,7 @@ Future GetUsers() async {
 
   try {
     // Assuming Session().get() returns Map<String, dynamic>
-    Map<String, dynamic> data = await Session().getList('user/users');
+    Map<String, dynamic> data = await Session().get('user/users');
     List<Map<String, dynamic>> list = [];
     
     if (data['status'] < 300) {

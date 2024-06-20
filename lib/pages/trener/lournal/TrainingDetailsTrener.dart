@@ -36,7 +36,6 @@ class _TrainingDetailsTrenerState extends State<TrainingDetailsTrener> {
   @override
   void initState() {
     GetUsers();
-    GetChats();
     GetAllExerciseComents();
 
     super.initState();
@@ -46,12 +45,7 @@ class _TrainingDetailsTrenerState extends State<TrainingDetailsTrener> {
   MySportProgrammController mySportProgrammController =
       Get.put(MySportProgrammController());
   MyUserController myUserController = Get.put(MyUserController());
-  void toChat(id) async {
-    Map chat = await GetChatId(id);
-    if (chat['id'] != null) {
-      Get.to(const OneChat(), arguments: chat);
-    }
-  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -79,7 +73,6 @@ class _TrainingDetailsTrenerState extends State<TrainingDetailsTrener> {
             padding: EdgeInsets.only(right: 2 * vw),
             child: IconButton(
               onPressed: () {
-                toChat(user['id']);
               },
               icon: SvgPicture.asset(
                 AppImages.WhiteChat,

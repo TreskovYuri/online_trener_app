@@ -27,7 +27,7 @@ class MyCircleDefaulUserIcon extends StatelessWidget {
         color: bacground,
         borderRadius: BorderRadius.circular(radius)
       ),
-      child: MyDescriptionText(text: name.length>0? name.split('')[0]:'?', size: width/2),
+      child: MyDescriptionText(text: name.length>0? name.split('')[0]:'?', size: width/2.5),
     );
   }
 }

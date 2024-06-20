@@ -9,7 +9,7 @@ Future GetNutritions() async {
 
   try {
     // Assuming Session().get() returns Map<String, dynamic>
-    Map<String, dynamic> data = await Session().getList('nutritions');
+    Map<String, dynamic> data = await Session().get('nutritions');
 
     
     List<Map<String, dynamic>> list = [];

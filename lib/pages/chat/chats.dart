@@ -1,15 +1,9 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:trener_app/getx/MyChatController.dart';
-import 'package:trener_app/getx/MyUserConroller.dart';
 import 'package:trener_app/http/chatUtills.dart';
-import 'package:trener_app/http/userUtills.dart';
 import 'package:trener_app/modules/chats/ListViewChatCard.dart';
-import 'package:trener_app/pages/chat/oneChat.dart';
 import 'package:trener_app/widgets/chats/users.dart';
 import 'package:trener_app/widgets/inputs/search.dart';
 import 'package:trener_app/widgets/service/navbar.dart';
@@ -26,13 +20,14 @@ class _ChatsState extends State<Chats> {
   ScrollController _scrollController = ScrollController();
   MyChatController myChatController = Get.put(MyChatController());
   TextEditingController searchController = TextEditingController();
+  final chatUtills = ChatUtills();
   bool _isAtTop = true;
 
   @override
   void initState() {
     super.initState();
-    GetChats();
-    GetUsers();
+    chatUtills.getChats();
+    
     _scrollController.addListener(_onScroll);
   }
 
@@ -47,6 +42,7 @@ class _ChatsState extends State<Chats> {
       _isAtTop = _scrollController.position.pixels == 0;
     });
   }
+
 
 
   @override
@@ -106,6 +102,7 @@ class _ChatsState extends State<Chats> {
                 Expanded(
                   child: Obx(
                     () => ListView(
+                      
                       controller: _scrollController,
                       children: [
                         ...myChatController.chats.map((e) =>ListViewChatCard(card: e,vh: vh,vw: vw,)),
