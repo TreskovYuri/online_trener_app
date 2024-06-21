@@ -1,7 +1,3 @@
-// To parse this JSON data, do
-//
-//     final chat = chatFromJson(jsonString);
-
 import 'dart:convert';
 
 import 'package:trener_app/models/user.dart';
@@ -13,27 +9,27 @@ String chatToJson(Chat data) => json.encode(data.toJson());
 class Chat {
     ChatInfo chat;
     List<User> users;
-    LastMessage lastMessage;
+    LastMessage? lastMessage; // Marked as nullable
     int unRead;
 
     Chat({
         required this.chat,
         required this.users,
-        required this.lastMessage,
+        this.lastMessage, // Nullable field
         required this.unRead,
     });
 
     factory Chat.fromJson(Map<String, dynamic> json) => Chat(
         chat: ChatInfo.fromJson(json["chat"]),
         users: List<User>.from(json["users"].map((x) => User.fromJson(x))),
-        lastMessage: LastMessage.fromJson(json["lastMessage"]),
+        lastMessage: json["lastMessage"] != null ? LastMessage.fromJson(json["lastMessage"]) : null, // Handle null
         unRead: json["unRead"],
     );
 
     Map<String, dynamic> toJson() => {
         "chat": chat.toJson(),
         "users": List<dynamic>.from(users.map((x) => x.toJson())),
-        "lastMessage": lastMessage.toJson(),
+        "lastMessage": lastMessage?.toJson() ?? {}, // Handle null with null-aware operator
         "unRead": unRead,
     };
 }
@@ -58,11 +54,11 @@ class ChatInfo {
     });
 
     factory ChatInfo.fromJson(Map<String, dynamic> json) => ChatInfo(
-        id: json["id"],
-        userId: json["userId"],
-        name: json["name"],
-        messageOnlyI: json["messageOnlyI"],
-        isGroup: json["isGroup"],
+        id: json["id"] ?? 0,
+        userId: json["userId"] ?? 0,
+        name: json["name"] ?? '',
+        messageOnlyI: json["messageOnlyI"] ?? false,
+        isGroup: json["isGroup"] ?? false,
         createdAt: DateTime.parse(json["createdAt"]),
         updatedAt: DateTime.parse(json["updatedAt"]),
     );
@@ -117,5 +113,3 @@ class LastMessage {
         "updatedAt": updatedAt.toIso8601String(),
     };
 }
-
-

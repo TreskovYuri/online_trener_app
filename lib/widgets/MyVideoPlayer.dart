@@ -1,6 +1,6 @@
 import 'package:appinio_video_player/appinio_video_player.dart';
 import 'package:flutter/material.dart';
-import 'package:trener_app/models/constants/colors.dart';
+import 'package:trener_app/constants/colors.dart';
 import 'package:trener_app/widgets/text/title.dart';
 import 'package:video_player/video_player.dart';
 

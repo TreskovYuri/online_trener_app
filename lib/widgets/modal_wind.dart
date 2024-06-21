@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:trener_app/models/constants/colors.dart';
+import 'package:trener_app/constants/colors.dart';
 import 'package:trener_app/widgets/buttons/gradient_button.dart';
 import 'package:trener_app/widgets/buttons/disable_button.dart';
 import 'package:trener_app/widgets/headers/header_type1.dart';

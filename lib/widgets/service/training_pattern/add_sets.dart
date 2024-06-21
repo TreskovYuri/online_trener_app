@@ -1,7 +1,7 @@
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:trener_app/getx/MyExercisesController.dart';
-import 'package:trener_app/models/constants/colors.dart';
+import 'package:trener_app/constants/colors.dart';
 import 'package:trener_app/widgets/buttons/blue_outline_color_button.dart';
 import 'package:trener_app/widgets/inputs/input_inline_fill.dart';
 import 'package:trener_app/widgets/modal_wind.dart';

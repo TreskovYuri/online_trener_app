@@ -3,27 +3,23 @@ import 'package:trener_app/http/http.dart';
 
 
 // Функция для получения данных с сервера и присваивания ее в глобальное хранилище
-Future<List<T>?> fetchData<T>({
+Future<Map<String,dynamic>> setData({
   required String url,
-  required T Function(Map<String, dynamic>) fromJson,
-  required void Function(List<T>) setData,
+  required Function getData,
+  required Map<String,dynamic> formData,
 }) async {
   try {
-    Map<String, dynamic> data = await Session().get(url);
+    Map<String, dynamic> data = await Session().post(url,formData);
     debugPrint(data.toString());
     if (data['status'] == 200) {
-      List<T> items = [];
-      for (Map<String, dynamic> i in data['body']) {
-          items.add(fromJson(i));
-      }
-      setData(items);
-      return items;
+      await getData();
+      return data;
     } else {
       // Обработка случая, если статус не равен 200
       debugPrint("Ошибка запроса (Статус отличается от 200): ${data['status']}, ${data['message']}");
     }
   } catch (e) {
-    debugPrint("Ошибка запроса GET запроса: $e");
+    debugPrint(": $e");
   }
-  return null;
+  return {};
 }

@@ -1,8 +1,7 @@
 
 
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
-import 'package:trener_app/models/constants/colors.dart';
+import 'package:trener_app/constants/colors.dart';
 import 'package:trener_app/widgets/text/description.dart';
 
 class MyTextContainerBacgroundFill extends StatelessWidget {

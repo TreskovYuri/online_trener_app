@@ -94,13 +94,7 @@ class _LoginState extends State<Login> {
         if (data != null) {
           switch (data['status']) {
             case 200:
-              // print(data);
-              if (data['body']['post'] == 'Тренер' ||
-                  data['body']['post'] == 'Супер тренер') {
-                Navigator.pushReplacementNamed(context, '/journal');
-              } else {
-                Navigator.pushReplacementNamed(context, '/planner');
-              }
+                Navigator.pushReplacementNamed(context, '/app');
               cacheEmailPassword();
 
               break;

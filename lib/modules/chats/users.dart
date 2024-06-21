@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get/get.dart';
 import 'package:trener_app/getx/MyUserConroller.dart';
 import 'package:trener_app/http/userUtills.dart';
 import 'package:trener_app/models/user.dart';
+import 'package:trener_app/modules/chats/UserCard.dart';
 import 'package:trener_app/widgets/inputs/input_inline_fill.dart';
 
 class ChatUsers extends StatefulWidget {
@@ -27,7 +27,6 @@ class _ChatUsersState extends State<ChatUsers> {
   @override
   Widget build(BuildContext context) {
     final vh = MediaQuery.of(context).size.height / 100;
-    final vw = MediaQuery.of(context).size.width / 100;
     return Container(
       height: 80 * vh,
       width: double.infinity,
@@ -51,65 +50,7 @@ class _ChatUsersState extends State<ChatUsers> {
                       final List<User> users = myUserController.Users.where((user)=> user.id != myUserController.user['id']).toList();
                       return ListView.builder(
                           itemCount: users.length,
-                          itemBuilder: (context, index) => Padding(
-                                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                                child: ElevatedButton(
-                                    style: ElevatedButton.styleFrom(
-                                      shadowColor: Colors.transparent,
-                                      foregroundColor:
-                                          const Color.fromARGB(255, 8, 32, 42),
-                                      surfaceTintColor: Colors.transparent,
-                                      padding: EdgeInsets.symmetric(
-                                          vertical: 2 * vh, horizontal: 10),
-                                      backgroundColor: const Color(0xff23252B),
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(
-                                            10), // Указываем радиус скругления углов
-                                      ),
-                                    ),
-                                    onPressed: ()=>{},
-                                    child: Container(
-                                      child: Row(
-                                        children: [
-                                          ClipRRect(
-                                            borderRadius:
-                                                BorderRadius.circular(100),
-                                            child: users[index].img !=
-                                                    ''
-                                                ? Container(
-                                                    width: 30,
-                                                    height: 30,
-                                                    child: Image.network(
-                                                      '${dotenv.env['STATIC_URL']}/${users[index].img}',
-                                                      fit: BoxFit.cover,
-                                                    ),
-                                                  )
-                                                : Container(
-                                                  width: 30,
-                                                  height: 30,
-                                                  decoration: const BoxDecoration(
-                                                    color: Color.fromARGB(17, 255, 255, 255)
-                                                  ),
-                                                  child: Center(child: Text(getFirstCharacter(users[index].img)
-                                                    ,
-                                                    style: const TextStyle(color: Colors.white),
-                                                    ),
-                                                    
-                                                    ),
-                                                )
-                                          ),
-                                          Container(
-                                            padding: const EdgeInsets.symmetric(horizontal: 10),
-                                            width: 70*vw,
-                                            child: Text(users[index].img !=
-                                                    ''
-                                                ? users[index].name
-                                                : 'Не заполнено',style: const TextStyle(color: Colors.white,fontSize: 17,fontWeight: FontWeight.w500),),
-                                          )
-                                        ],
-                                      ),
-                                    )),
-                              ));
+                          itemBuilder: (context, index) => ChatUserCard(user: users[index],));
                     },)),
               )
             ],

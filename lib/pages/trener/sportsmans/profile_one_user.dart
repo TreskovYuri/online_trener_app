@@ -1,5 +1,6 @@
 
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:trener_app/widgets/service/navbar.dart';
 import 'package:trener_app/widgets/service/navbar_scroll.dart';
 
@@ -48,7 +49,8 @@ class _ProfileOneUserState extends State<ProfileOneUser> {
           icon: const Icon(Icons
               .arrow_back_ios_new_rounded), // Устанавливаем иконку "домой" вместо стрелки "назад"
           onPressed: () {
-            Navigator.pushReplacementNamed(context, '/sportsmans');
+            // Navigator.pushReplacementNamed(context, '/sportsmans');
+            Get.back();
           },
         ),
         backgroundColor: const Color(0xff1B1C20),

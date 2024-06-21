@@ -7,7 +7,7 @@ import 'package:trener_app/getx/MyDateController.dart';
 import 'package:trener_app/getx/MyExercisesController.dart';
 import 'package:trener_app/getx/MySportProgrammController.dart';
 import 'package:trener_app/http/sportpogrammUtills.dart';
-import 'package:trener_app/models/constants/colors.dart';
+import 'package:trener_app/constants/colors.dart';
 import 'package:trener_app/pages/sportsman/planner/fix/programm.dart';
 import 'package:trener_app/widgets/buttons/gradient_button.dart';
 import 'package:trener_app/widgets/buttons/my_card_button.dart';

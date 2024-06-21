@@ -172,98 +172,104 @@ class _FaqState extends State<Faq> {
                   SizedBox(
                     height: 2 * vh,
                   ),
-                  ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      padding: EdgeInsets.symmetric(
-                          vertical: 2 * vh, horizontal: 5 * vw),
-                      backgroundColor: Color(0xff23252B),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(
-                            8.0), // Указываем радиус скругления углов
+                  Opacity(
+                    opacity: 0,
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        padding: EdgeInsets.symmetric(
+                            vertical: 2 * vh, horizontal: 5 * vw),
+                        backgroundColor: Color(0xff23252B),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(
+                              8.0), // Указываем радиус скругления углов
+                        ),
                       ),
-                    ),
-                    onPressed: () {},
-                    child: Container(
-                      width: 90 * vw,
-                      alignment: Alignment.centerLeft,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Row(
-                            children: [
-                              SvgPicture.asset(
-                                'assets/img/zdorovie.svg',
-                                width: 4.4 * vw,
-                              ),
-                              SizedBox(
-                                width: 3 * vw,
-                              ),
-                              Text(
-                                'Показатели здоровья',
-                                style: TextStyle(
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.w400,
-                                    fontFamily: "Manrope",
-                                    fontSize: 4.5 * vw),
-                              ),
-                            ],
-                          ),
-                          Icon(
-                            Icons.arrow_forward_ios_rounded,
-                            color: Colors.white,
-                            size: 4 * vw,
-                          )
-                        ],
+                      onPressed: () {},
+                      child: Container(
+                        width: 90 * vw,
+                        alignment: Alignment.centerLeft,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Row(
+                              children: [
+                                SvgPicture.asset(
+                                  'assets/img/zdorovie.svg',
+                                  width: 4.4 * vw,
+                                ),
+                                SizedBox(
+                                  width: 3 * vw,
+                                ),
+                                Text(
+                                  'Показатели здоровья',
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.w400,
+                                      fontFamily: "Manrope",
+                                      fontSize: 4.5 * vw),
+                                ),
+                              ],
+                            ),
+                            Icon(
+                              Icons.arrow_forward_ios_rounded,
+                              color: Colors.white,
+                              size: 4 * vw,
+                            )
+                          ],
+                        ),
                       ),
                     ),
                   ),
                   SizedBox(
                     height: 2 * vh,
                   ),
-                  ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      padding: EdgeInsets.symmetric(
-                          vertical: 2 * vh, horizontal: 5 * vw),
-                      backgroundColor: Color(0xff23252B),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(
-                            8.0), // Указываем радиус скругления углов
+                  Opacity(
+                    opacity: 0,
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        padding: EdgeInsets.symmetric(
+                            vertical: 2 * vh, horizontal: 5 * vw),
+                        backgroundColor: Color(0xff23252B),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(
+                              8.0), // Указываем радиус скругления углов
+                        ),
                       ),
-                    ),
-                    onPressed: () {},
-                    child: Container(
-                      width: 90 * vw,
-                      alignment: Alignment.centerLeft,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Row(
-                            children: [
-                              SvgPicture.asset(
-                                'assets/img/med.svg',
-                                width: 4.4 * vw,
-                              ),
-                              SizedBox(
-                                width: 3 * vw,
-                              ),
-                              Text(
-                                'Медицинские анализы',
-                                style: TextStyle(
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.w400,
-                                    fontFamily: "Manrope",
-                                    fontSize: 4.5 * vw),
-                              ),
-                            ],
-                          ),
-                          Icon(
-                            Icons.arrow_forward_ios_rounded,
-                            color: Colors.white,
-                            size: 4 * vw,
-                          )
-                        ],
+                      onPressed: () {},
+                      child: Container(
+                        width: 90 * vw,
+                        alignment: Alignment.centerLeft,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Row(
+                              children: [
+                                SvgPicture.asset(
+                                  'assets/img/med.svg',
+                                  width: 4.4 * vw,
+                                ),
+                                SizedBox(
+                                  width: 3 * vw,
+                                ),
+                                Text(
+                                  'Медицинские анализы',
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.w400,
+                                      fontFamily: "Manrope",
+                                      fontSize: 4.5 * vw),
+                                ),
+                              ],
+                            ),
+                            Icon(
+                              Icons.arrow_forward_ios_rounded,
+                              color: Colors.white,
+                              size: 4 * vw,
+                            )
+                          ],
+                        ),
                       ),
                     ),
                   ),

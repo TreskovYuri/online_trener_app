@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:trener_app/models/constants/colors.dart';
+import 'package:trener_app/constants/colors.dart';
 import 'package:trener_app/widgets/MyVideoPlayer.dart';
 import 'package:trener_app/widgets/modal_wind.dart';
 import 'package:trener_app/widgets/text/description.dart';
 import 'package:trener_app/widgets/text/title.dart';
-import 'package:trener_app/widgets/youtube.dart';
 
 class DetailsOneExerciseOnPattern extends StatelessWidget {
   DetailsOneExerciseOnPattern({super.key, required this.exercise});

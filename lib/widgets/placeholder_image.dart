@@ -1,6 +1,6 @@
 
 import 'package:flutter/widgets.dart';
-import 'package:trener_app/models/constants/images.dart';
+import 'package:trener_app/constants/images.dart';
 
 class MyPlaceHolderImage extends StatelessWidget {
   const MyPlaceHolderImage({super.key});

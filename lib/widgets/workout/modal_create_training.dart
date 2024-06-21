@@ -1,4 +1,3 @@
-import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -8,7 +7,7 @@ import 'package:trener_app/getx/MyUserConroller.dart';
 import 'package:trener_app/http/dio.dart';
 import 'package:trener_app/http/exerciseUtills.dart';
 import 'package:file_picker/file_picker.dart';
-import 'package:trener_app/models/constants/colors.dart';
+import 'package:trener_app/constants/colors.dart';
 import 'dart:convert';
 
 import 'package:trener_app/widgets/shanckbar.dart';

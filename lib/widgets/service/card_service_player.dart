@@ -1,244 +1,68 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:provider/provider.dart';
-import 'package:trener_app/mobx/mobx.dart';
+import 'package:trener_app/widgets/serviseCard/serviseCard.dart';
 
 class CardServicePlayer extends StatelessWidget {
   const CardServicePlayer({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final vw = MediaQuery.of(context).size.width / 100;
-    final vh = MediaQuery.of(context).size.height;
-    final mobx = Provider.of<Mobx>(context);
+
     return Container(
-      // height: height*0.55,
       child: Padding(
-        padding: EdgeInsets.all(5 * vw),
+        padding: const EdgeInsets.all(10),
         child: Column(
           children: [
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Expanded(
-                  flex: 1,
-                  child: GestureDetector(
-                    onTap: () {
-                      Navigator.pushNamed(context, '/profile');
-                    },
-                    child: Container(
-                      child: Row(
-                        children: [
-                          Column(
-                            children: [
-                              SvgPicture.asset(
-                                'assets/img/card1_1.svg',
-                                width: 15 * vw,
-                              ),
-                              SizedBox(
-                                height: 5,
-                              ),
-                              Text(
-                                "Профиль",
-                                style: TextStyle(
-                                    color: Color.fromARGB(234, 255, 255, 255),
-                                    fontFamily: 'Manrope',
-                                    fontWeight: FontWeight.w600,
-                                    decoration: TextDecoration.none,
-                                    fontSize: .011 * vh),
-                              ),
-                            ],
-                          )
-                        ],
-                      ),
-                    ),
-                  ),
+                ServiseCard(
+                  svg: 'assets/img/card1_1.svg',
+                  callback: () => {Navigator.pushNamed(context, '/profile')},
+                  title: 'Профиль',
                 ),
-                Expanded(
-                  flex: 1,
-                  child: GestureDetector(
-                    onTap: () {
-                      Navigator.pushNamed(context, '/workoutscheme');
-                    },
-                    child: Container(
-                      child: Row(
-                        children: [
-                          Column(
-                            children: [
-                               SvgPicture.asset(
-                                'assets/img/card2_2.svg',
-                                width: 15 * vw,
-                              ),
-                              SizedBox(
-                                height: 5,
-                              ),
-                              Text(
-                                "Тренировки",
-                                style: TextStyle(
-                                    color: Color.fromARGB(234, 255, 255, 255),
-                                    fontFamily: 'Manrope',
-                                    fontWeight: FontWeight.w600,
-                                    decoration: TextDecoration.none,
-                                    fontSize: .011 * vh),
-                              ),
-                            ],
-                          )
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-                Expanded(
-                  flex: 1,
-                  child: Opacity(
-                    opacity: 0,
-                    child: Container(
-                      child: Row(
-                        children: [
-                          Column(
-                            children: [
-                               SvgPicture.asset(
-                                  'assets/img/card3_3.svg',
-                                  width: 15 * vw,
-                                ),
-                              const SizedBox(
-                                height: 5,
-                              ),
-                              Text(
-                                "Питание",
-                                style: TextStyle(
-                                    color: Color.fromARGB(234, 255, 255, 255),
-                                    fontFamily: 'Manrope',
-                                    fontWeight: FontWeight.w600,
-                                    decoration: TextDecoration.none,
-                                    fontSize: .011 * vh),
-                              ),
-                            ],
-                          )
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-                Expanded(
-                  flex: 1,
-                  child: Opacity(
-                    opacity: 0,
-                    child: Container(
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          Column(
-                            children: [
-                               SvgPicture.asset(
-                                  'assets/img/card4_4.svg',
-                                  width: 15 * vw,
-                                ),
-                              SizedBox(
-                                height: 5,
-                              ),
-                              Text(
-                                "Нутриенты",
-                                style: TextStyle(
-                                    color: Color.fromARGB(234, 255, 255, 255),
-                                    fontFamily: 'Manrope',
-                                    fontWeight: FontWeight.w600,
-                                    decoration: TextDecoration.none,
-                                    fontSize: .011 * vh),
-                              ),
-                            ],
-                          )
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
+                // ServiseCard(
+                //   svg: 'assets/img/card2_2.svg',
+                //   callback: () =>
+                //       {Navigator.pushNamed(context, '/workoutscheme')},
+                //   title: 'Тренировки',
+                // ),
+                // ServiseCard(
+                //   svg: 'assets/img/card3_3.svg',
+                //   callback: () => {},
+                //   title: 'Питание',
+                // ),
+                // ServiseCard(
+                //   svg: 'assets/img/card4_4.svg',
+                //   callback: () => {},
+                //   title: 'Нутриенты',
+                // ),
               ],
             ),
-            SizedBox(
+            const SizedBox(
               height: 20,
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Expanded(
+                // ServiseCard(
+                //   svg: 'assets/img/card5_5.svg',
+                //   callback: () => {},
+                //   title: 'Консультации',
+                // ),
+                // ServiseCard(
+                //   svg: 'assets/img/card6_6.svg',
+                //   callback: () => {},
+                //   title: 'Настройки',
+                // ),
+                const Expanded(
                   flex: 1,
-                  child: Opacity(
-                    opacity: 0,
-                    child: GestureDetector(
-                      onTap: () {
-                        
-                      },
-                      child: Container(
-                        child: Row(
-                          children: [
-                            Column(
-                              children: [
-                                 SvgPicture.asset(
-                                  'assets/img/card5_5.svg',
-                                  width: 15 * vw,
-                                ),
-                                SizedBox(
-                                  height: 5,
-                                ),
-                                Text(
-                                  "Консультации",
-                                  style: TextStyle(
-                                      color: Color.fromARGB(234, 255, 255, 255),
-                                      fontFamily: 'Manrope',
-                                      fontWeight: FontWeight.w600,
-                                      decoration: TextDecoration.none,
-                                      fontSize: .011 * vh),
-                                ),
-                              ],
-                            )
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
+                  child: SizedBox.shrink(),
                 ),
-                Expanded(
+                const Expanded(
                   flex: 1,
-                  child: Opacity(
-                    opacity: 0,
-                    child: Container(
-                      child: Row(
-                        children: [
-                          Column(
-                            children: [
-                               SvgPicture.asset(
-                                  'assets/img/card6_6.svg',
-                                  width: 15 * vw,
-                                ),
-                              const SizedBox(
-                                height: 5,
-                              ),
-                              Text(
-                                "Настройки",
-                                style: TextStyle(
-                                    color: Color.fromARGB(234, 255, 255, 255),
-                                    fontFamily: 'Manrope',
-                                    fontWeight: FontWeight.w600,
-                                    decoration: TextDecoration.none,
-                                    fontSize: .011 * vh),
-                              ),
-                            ],
-                          )
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-                Expanded(
-                  flex: 1,
-                  child: Container(),
-                ),
-                Expanded(
-                  flex: 1,
-                  child: Container(),
+                  child: SizedBox.shrink(),
                 ),
               ],
             ),

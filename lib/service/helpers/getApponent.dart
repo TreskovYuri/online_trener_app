@@ -1,6 +1,5 @@
 import 'package:get/get.dart';
 import 'package:trener_app/getx/MyUserConroller.dart';
-import 'package:trener_app/models/chat.dart';
 import 'package:trener_app/models/user.dart';
 
 

@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import 'package:trener_app/getx/MyExercisesController.dart';
 import 'package:trener_app/getx/MySportProgrammController.dart';
 import 'package:trener_app/http/exerciseUtills.dart';
-import 'package:trener_app/models/constants/colors.dart';
+import 'package:trener_app/constants/colors.dart';
 import 'package:trener_app/pages/trener/sevice/sportprogramm/add_sportprogramm.dart';
 import 'package:trener_app/widgets/buttons/my_card_button.dart';
 import 'package:trener_app/widgets/circle_network_Img.dart';

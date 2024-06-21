@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:trener_app/models/constants/colors.dart';
-import 'package:trener_app/models/constants/voids.dart';
+import 'package:trener_app/constants/colors.dart';
+import 'package:trener_app/constants/voids.dart';
 import 'package:trener_app/widgets/buttons/my_card_button.dart';
 import 'package:trener_app/widgets/circle_network_Img.dart';
 import 'package:trener_app/widgets/text/description.dart';

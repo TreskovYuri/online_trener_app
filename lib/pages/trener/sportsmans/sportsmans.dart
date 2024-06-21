@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
@@ -46,7 +45,7 @@ class _SportsmansState extends State<Sportsmans> {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        iconTheme: IconThemeData(color: Color(0xff4D8AEE)),
+        iconTheme: const IconThemeData(color: Color(0xff4D8AEE)),
         leading: IconButton(
           icon: const Icon(Icons
               .arrow_back_ios_new_rounded), // Устанавливаем иконку "домой" вместо стрелки "назад"
@@ -57,23 +56,29 @@ class _SportsmansState extends State<Sportsmans> {
 
         surfaceTintColor: Colors.transparent,
         actions: [
-          Padding(
-            padding: EdgeInsets.zero,
-            child: IconButton(
-              onPressed: () {},
-              icon: SvgPicture.asset(
-                'assets/img/sportsmans_ok.svg',
-                width: 2.6 * vh,
+          Opacity(
+            opacity: 0,
+            child: Padding(
+              padding: EdgeInsets.zero,
+              child: IconButton(
+                onPressed: () {},
+                icon: SvgPicture.asset(
+                  'assets/img/sportsmans_ok.svg',
+                  width: 2.6 * vh,
+                ),
               ),
             ),
           ),
-          Padding(
-            padding: EdgeInsets.only(right: 2 * vw),
-            child: IconButton(
-              onPressed: () {},
-              icon: SvgPicture.asset(
-                'assets/img/filter_white.svg',
-                width: 2.6 * vh,
+          Opacity(
+            opacity: 0,
+            child: Padding(
+              padding: EdgeInsets.only(right: 2 * vw),
+              child: IconButton(
+                onPressed: () {},
+                icon: SvgPicture.asset(
+                  'assets/img/filter_white.svg',
+                  width: 2.6 * vh,
+                ),
               ),
             ),
           ),

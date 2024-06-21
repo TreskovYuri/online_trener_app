@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/date_symbol_data_local.dart';
+import 'package:trener_app/app/app.dart';
 import 'package:trener_app/mobx/mobx.dart';
-import 'package:trener_app/models/constants/colors.dart';
+import 'package:trener_app/constants/colors.dart';
 import 'package:trener_app/pages/trener/lournal/TrainingDetailsTrener.dart';
-import 'package:trener_app/pages/sportsman/planner/TrainingFix.dart';
 import 'package:trener_app/pages/trener/sevice/sportprogramm/add_sportprogramm.dart';
 import 'package:trener_app/pages/calendar.dart';
 import 'package:trener_app/pages/chat/chats.dart';
@@ -66,6 +66,7 @@ class MyApp extends StatelessWidget {
           '/': (context) => const Loading(),
           '/login': (context) => const Login(),
           '/forgot': (context) => const Forgot(),
+          '/app': (context) => App(),
           '/planner': (context) => const Planner(),
           '/journal': (context) => const Journal(),
           '/calendar': (context) => Calendar(),

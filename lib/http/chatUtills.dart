@@ -1,8 +1,12 @@
+import 'dart:convert';
+
 import 'package:get/get.dart';
 import 'package:trener_app/getx/MyChatController.dart';
 import 'package:trener_app/http/GETHandler.dart';
+import 'package:trener_app/http/POSTHandler.dart';
 import 'package:trener_app/models/chat.dart';
 import 'package:trener_app/models/message.dart';
+import 'package:trener_app/models/user.dart';
 
 class ChatUtills {
   final MyChatController myChatController = Get.put(MyChatController());
@@ -24,4 +28,15 @@ class ChatUtills {
       setData: (messages) => myChatController.setMessages(messages),
     );
   }
+
+
+  Future<void> CreateChat (User user) async {
+
+    final formData = {
+      'name':'',
+      'users':jsonEncode([user])
+    };
+    await setData(url: 'chat', getData: ()=>this.getChats() , formData: formData);
+    Get.back();
+}
 }

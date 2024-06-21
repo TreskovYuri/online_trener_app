@@ -56,18 +56,24 @@ class _TrenerTrainingsCurrentsTypeState
           },
         ),
         actions: [
-          IconButton(
-            onPressed: () {},
-            icon: SvgPicture.asset(
-              'assets/img/filter_blue.svg',
-              width: 2.6 * vh,
+          Opacity(
+            opacity: 0,
+            child: IconButton(
+              onPressed: () {},
+              icon: SvgPicture.asset(
+                'assets/img/filter_blue.svg',
+                width: 2.6 * vh,
+              ),
             ),
           ),
-          IconButton(
-            onPressed: () {},
-            icon: SvgPicture.asset(
-              'assets/img/favorite_blue.svg',
-              width: 2 * vh,
+          Opacity(
+            opacity: 0,
+            child: IconButton(
+              onPressed: () {},
+              icon: SvgPicture.asset(
+                'assets/img/favorite_blue.svg',
+                width: 2 * vh,
+              ),
             ),
           ),
         ],

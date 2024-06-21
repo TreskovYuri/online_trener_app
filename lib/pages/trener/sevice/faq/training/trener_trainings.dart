@@ -60,18 +60,21 @@ class _TrenerTrainingsState extends State<TrenerTrainings> {
           },
         ),
         actions: [
-          Padding(
-            padding: EdgeInsets.only(right: 2 * vw),
-            child: IconButton(
-              onPressed: () {
-                showModalBottomSheet(
-                    isScrollControlled: true,
-                    context: context,
-                    builder: (_) => ModalCreateTraining());
-              },
-              icon: SvgPicture.asset(
-                'assets/img/blue_plus.svg',
-                width: 2.6 * vh,
+          Opacity(
+            opacity: 0,
+            child: Padding(
+              padding: EdgeInsets.only(right: 2 * vw),
+              child: IconButton(
+                onPressed: () {
+                  showModalBottomSheet(
+                      isScrollControlled: true,
+                      context: context,
+                      builder: (_) => ModalCreateTraining());
+                },
+                icon: SvgPicture.asset(
+                  'assets/img/blue_plus.svg',
+                  width: 2.6 * vh,
+                ),
               ),
             ),
           ),

@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:trener_app/models/constants/colors.dart';
-import 'package:trener_app/models/constants/images.dart';
+import 'package:trener_app/constants/colors.dart';
+import 'package:trener_app/constants/images.dart';
 import 'package:trener_app/widgets/text/description.dart';
 
 class MyInlineFillInput extends StatelessWidget {

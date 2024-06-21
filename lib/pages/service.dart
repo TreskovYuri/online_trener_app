@@ -76,7 +76,7 @@ class _ServiceState extends State<Service> {
                           child: Text(
                             textAlign: TextAlign.center,
                             'Здесь пока пусто... Как только появятся новые уведомления, вы увидите их здесь',
-                            style: TextStyle(color: Color.fromARGB(155, 255, 255, 255),
+                            style: TextStyle(color: const Color.fromARGB(155, 255, 255, 255),
                             fontFamily: 'Manrope',fontSize: 3.5*vw,fontWeight: FontWeight.w500),
                           ),
                         ),
@@ -85,7 +85,7 @@ class _ServiceState extends State<Service> {
             ),
           ),
         ),
-        _isAtTop ? Navbar() : NavbarScroll(),
+        _isAtTop ? const Navbar() : const NavbarScroll(),
         ],)
       ),
     );

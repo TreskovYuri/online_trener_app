@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 import 'package:trener_app/getx/MyChatController.dart';
 import 'package:trener_app/http/chatUtills.dart';
 import 'package:trener_app/modules/chats/ListViewChatCard.dart';
-import 'package:trener_app/widgets/chats/users.dart';
+import 'package:trener_app/modules/chats/users.dart';
 import 'package:trener_app/widgets/inputs/search.dart';
 import 'package:trener_app/widgets/service/navbar.dart';
 import 'package:trener_app/widgets/service/navbar_scroll.dart';
