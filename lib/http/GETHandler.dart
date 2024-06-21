@@ -10,6 +10,7 @@ Future<List<T>?> fetchData<T>({
 }) async {
   try {
     Map<String, dynamic> data = await Session().get(url);
+    // debugPrint(data.toString());
     if (data['status'] == 200) {
       List<T> items = [];
       for (Map<String, dynamic> i in data['body']) {

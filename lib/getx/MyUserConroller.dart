@@ -1,5 +1,6 @@
 
 import 'package:get/get.dart';
+import 'package:trener_app/models/user.dart';
 
 
 class MyUserController  extends GetxController{
@@ -29,12 +30,12 @@ class MyUserController  extends GetxController{
 
 
   //Список пользователей
-  var _Users = RxList<Map<String,dynamic>>([]);
+  var _Users = <User>[].obs;
 
-  void setUsers(newUsers){
+  void setUsers(List<User> newUsers){
     this._Users.assignAll(newUsers);
     }
-  List<Map<String, dynamic>> get Users => _Users;
+  List<User> get Users => _Users;
 
 
 

@@ -9,20 +9,20 @@ Message messageFromJson(String str) => Message.fromJson(json.decode(str));
 String messageToJson(Message data) => json.encode(data.toJson());
 
 class Message {
-    int id;
-    int chatId;
+    int? id;
+    int? chatId;
     int userId;
     String message;
-    bool isRead;
-    DateTime createdAt;
-    DateTime updatedAt;
+    bool? isRead;
+    DateTime? createdAt;
+    DateTime? updatedAt;
 
     Message({
         required this.id,
         required this.chatId,
         required this.userId,
         required this.message,
-        required this.isRead,
+        this.isRead = false,
         required this.createdAt,
         required this.updatedAt,
     });
@@ -43,7 +43,7 @@ class Message {
         "userId": userId,
         "message": message,
         "isRead": isRead,
-        "createdAt": createdAt.toIso8601String(),
-        "updatedAt": updatedAt.toIso8601String(),
+        "createdAt": createdAt?.toIso8601String(),
+        "updatedAt": updatedAt?.toIso8601String(),
     };
 }

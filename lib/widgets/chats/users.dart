@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get/get.dart';
 import 'package:trener_app/getx/MyUserConroller.dart';
-import 'package:trener_app/http/chatUtills.dart';
 import 'package:trener_app/http/userUtills.dart';
-import 'package:trener_app/pages/chat/oneChat.dart';
+import 'package:trener_app/models/user.dart';
+import 'package:trener_app/widgets/inputs/input_inline_fill.dart';
 
 class ChatUsers extends StatefulWidget {
   const ChatUsers({super.key});
@@ -15,6 +15,8 @@ class ChatUsers extends StatefulWidget {
 
 class _ChatUsersState extends State<ChatUsers> {
   MyUserController myUserController = Get.put(MyUserController());
+  final inputController = TextEditingController();
+  
   @override
   void initState() {
     GetUsers();
@@ -40,41 +42,22 @@ class _ChatUsersState extends State<ChatUsers> {
               const _Header(),
               Padding(
                 padding: const EdgeInsets.all(16),
-                child: TextField(
-                  cursorColor: const Color.fromARGB(255, 112, 112, 112),
-                  style: const TextStyle(color: Colors.white, fontSize: 18),
-                  decoration: InputDecoration(
-                    hintText: 'Найти...',
-                    filled: true, // Set to true to fill the background
-                    fillColor: const Color(0xff23252B), // Set background color
-                    hintStyle: const TextStyle(
-                        color: Colors.grey), // Customize hint text color
-                    contentPadding: const EdgeInsets.symmetric(
-                        horizontal: 40, vertical: 10),
-                    border: OutlineInputBorder(
-                      borderSide: BorderSide.none, // Remove border
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderSide: BorderSide.none, // Remove border
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                  ),
-                ),
+                child: MyInlineFillInput(controller: inputController,hintText: 'Поиск',marginH: 0,)
               ),
               Expanded(
                 child: Container(
 
-                    child: Obx(
-                      () => ListView.builder(
-                          itemCount: myUserController.Users.length,
+                    child: Obx(() {
+                      final List<User> users = myUserController.Users.where((user)=> user.id != myUserController.user['id']).toList();
+                      return ListView.builder(
+                          itemCount: users.length,
                           itemBuilder: (context, index) => Padding(
                                 padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                                 child: ElevatedButton(
                                     style: ElevatedButton.styleFrom(
                                       shadowColor: Colors.transparent,
                                       foregroundColor:
-                                          Color.fromARGB(255, 8, 32, 42),
+                                          const Color.fromARGB(255, 8, 32, 42),
                                       surfaceTintColor: Colors.transparent,
                                       padding: EdgeInsets.symmetric(
                                           vertical: 2 * vh, horizontal: 10),
@@ -91,14 +74,13 @@ class _ChatUsersState extends State<ChatUsers> {
                                           ClipRRect(
                                             borderRadius:
                                                 BorderRadius.circular(100),
-                                            child: myUserController.Users[index]
-                                                        ['img'] !=
+                                            child: users[index].img !=
                                                     ''
                                                 ? Container(
                                                     width: 30,
                                                     height: 30,
                                                     child: Image.network(
-                                                      '${dotenv.env['STATIC_URL']}/${myUserController.Users[index]['img']}',
+                                                      '${dotenv.env['STATIC_URL']}/${users[index].img}',
                                                       fit: BoxFit.cover,
                                                     ),
                                                   )
@@ -108,7 +90,7 @@ class _ChatUsersState extends State<ChatUsers> {
                                                   decoration: const BoxDecoration(
                                                     color: Color.fromARGB(17, 255, 255, 255)
                                                   ),
-                                                  child: Center(child: Text(getFirstCharacter(myUserController.Users[index]['name'])
+                                                  child: Center(child: Text(getFirstCharacter(users[index].img)
                                                     ,
                                                     style: const TextStyle(color: Colors.white),
                                                     ),
@@ -117,20 +99,18 @@ class _ChatUsersState extends State<ChatUsers> {
                                                 )
                                           ),
                                           Container(
-                                            padding: EdgeInsets.symmetric(horizontal: 10),
+                                            padding: const EdgeInsets.symmetric(horizontal: 10),
                                             width: 70*vw,
-                                            child: Text(myUserController.Users[index]
-                                                        ['name'] !=
+                                            child: Text(users[index].img !=
                                                     ''
-                                                ? myUserController.Users[index]
-                                                    ['name']
+                                                ? users[index].name
                                                 : 'Не заполнено',style: const TextStyle(color: Colors.white,fontSize: 17,fontWeight: FontWeight.w500),),
                                           )
                                         ],
                                       ),
                                     )),
-                              )),
-                    )),
+                              ));
+                    },)),
               )
             ],
           )

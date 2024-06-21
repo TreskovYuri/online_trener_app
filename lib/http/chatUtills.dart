@@ -16,7 +16,7 @@ class ChatUtills {
     );
   }
 
-  // Получить сообщения по userId
+  // Получить сообщения по chatId
   Future<void> getChatById(int chatId) async {
     await fetchData<Message>(
       url: 'chat/$chatId',

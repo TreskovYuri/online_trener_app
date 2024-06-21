@@ -11,6 +11,7 @@ import 'package:trener_app/http/exerciseUtills.dart';
 import 'package:trener_app/http/sportpogrammUtills.dart';
 import 'package:trener_app/models/constants/colors.dart';
 import 'package:trener_app/models/constants/images.dart';
+import 'package:trener_app/models/user.dart';
 import 'package:trener_app/service/helpers/sokrashatel.dart';
 import 'package:trener_app/widgets/app_bar/gradient_appbar.dart';
 import 'package:trener_app/widgets/buttons/gradient_button.dart';
@@ -548,7 +549,7 @@ class _Comment extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Map<String,dynamic> user = myUserController.Users.firstWhere((el) => el['id'] == comment['commentatorId'], orElse: ()=>{});
+    User user = myUserController.Users.firstWhere((el) => el.id == comment['commentatorId']);
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 10),
       child: Column(
@@ -559,9 +560,9 @@ class _Comment extends StatelessWidget {
           Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              user['img']!=null && user['img']!=''?MyCircleNetworkImg(width: 40, height: 40, url: user['img'],radius: 100,):MyCircleDefaulUserIcon(name: user['name']??'',radius: 100,),
+              user.img!=null && user.img!=''?MyCircleNetworkImg(width: 40, height: 40, url: user.img,radius: 100,):MyCircleDefaulUserIcon(name: user.name??'',radius: 100,),
               const SizedBox(width: 10,),
-              MyDescriptionText(text: FIOSokrashatel(user['name']??'') ,size: 14,color: AppColors.blackThemeTextOpacity4)
+              MyDescriptionText(text: FIOSokrashatel(user.name??'') ,size: 14,color: AppColors.blackThemeTextOpacity4)
             ],
           ),
           const SizedBox(height: 10,),

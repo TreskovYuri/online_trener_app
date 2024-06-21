@@ -1,79 +1,61 @@
+// To parse this JSON data, do
+//
+//     final user = userFromJson(jsonString);
+
+import 'dart:convert';
+
+User userFromJson(String str) => User.fromJson(json.decode(str));
+
+String userToJson(User data) => json.encode(data.toJson());
+
 class User {
-    int id;
     String email;
-    String number;
-    String name;
+    int id;
     String post;
-    dynamic amplua;
-    String team;
-    dynamic height;
-    dynamic weight;
-    DateTime date;
-    String img;
+    String name;
     String secret;
-    String password;
-    String activationCode;
-    int? trenerId;
-    DateTime createdAt;
-    DateTime updatedAt;
+    String number;
+    String team;
+    String date;
+    String img;
+    int trenerId;
 
     User({
-        required this.id,
         required this.email,
-        required this.number,
-        required this.name,
+        required this.id,
         required this.post,
-        required this.amplua,
+        required this.name,
+        required this.secret,
+        required this.number,
         required this.team,
-        required this.height,
-        required this.weight,
         required this.date,
         required this.img,
-        required this.secret,
-        required this.password,
-        required this.activationCode,
         required this.trenerId,
-        required this.createdAt,
-        required this.updatedAt,
     });
 
     factory User.fromJson(Map<String, dynamic> json) => User(
-        id: json["id"],
-        email: json["email"],
-        number: json["number"],
-        name: json["name"],
-        post: json["post"],
-        amplua: json["amplua"],
-        team: json["team"],
-        height: json["height"],
-        weight: json["weight"],
-        date: DateTime.parse(json["date"]),
-        img: json["img"],
-        secret: json["secret"],
-        password: json["password"],
-        activationCode: json["activationCode"],
-        trenerId: json["trenerId"],
-        createdAt: DateTime.parse(json["createdAt"]),
-        updatedAt: DateTime.parse(json["updatedAt"]),
+        email: json["email"] == null ? '': json["email"],
+        id: json["id"] == null ? 0: json["id"] as int,
+        post: json["post"] == null ? '': json["post"],
+        name: json["name"] == null ? '': json["name"],
+        secret: json["secret"] == null ? '': json["secret"],
+        number: json["number"] == null ? '': json["number"],
+        team: json["team"] == null ? '': json["team"],
+        date: json["date"] == null ? '':json["date"],
+        img: json["img"] == null ? '': json["img"],
+        trenerId: json["trenerId"] == null ? 0: json["trenerId"] as int,
     );
 
     Map<String, dynamic> toJson() => {
-        "id": id,
         "email": email,
-        "number": number,
-        "name": name,
+        "id": id,
         "post": post,
-        "amplua": amplua,
-        "team": team,
-        "height": height,
-        "weight": weight,
-        "date": "${date.year.toString().padLeft(4, '0')}-${date.month.toString().padLeft(2, '0')}-${date.day.toString().padLeft(2, '0')}",
-        "img": img,
+        "name": name,
         "secret": secret,
-        "password": password,
-        "activationCode": activationCode,
+        "number": number,
+        "team": team,
+        "date": date,
+        "img": img,
         "trenerId": trenerId,
-        "createdAt": createdAt.toIso8601String(),
-        "updatedAt": updatedAt.toIso8601String(),
     };
 }
