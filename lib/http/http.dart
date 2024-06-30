@@ -32,6 +32,7 @@ Future<Map<String, dynamic>> get(String url) async {
 
   Future <Map<String,dynamic>> post(String url, data) async {
     final box = GetStorage();
+
     var apiUrl = Uri.parse('$URL/$url');
     debugPrint(apiUrl.toString());
     http.Response response = await http.post(apiUrl,body: data, headers: {'session': box.read('session') ?? ''});

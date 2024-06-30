@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:trener_app/getx/MyDateController.dart';
-import 'package:trener_app/getx/MyExercisesController.dart';
 import 'package:trener_app/getx/MyNutritionsController.dart';
 import 'package:trener_app/getx/MyPlannerConroller.dart';
 import 'package:trener_app/getx/MySportProgrammController.dart';
@@ -12,6 +11,8 @@ import 'package:trener_app/http/nutritionUtills.dart';
 import 'package:trener_app/http/sportpogrammUtills.dart';
 import 'package:trener_app/http/testUtills.dart';
 import 'package:trener_app/mobx/mobx.dart';
+import 'package:trener_app/models/day.dart';
+import 'package:trener_app/models/training.dart';
 import 'package:trener_app/pages/sportsman/planner/ResultFix.dart';
 import 'package:trener_app/pages/sportsman/planner/fix/test.dart';
 import 'package:trener_app/pages/sportsman/planner/nutrition.dart';
@@ -70,17 +71,17 @@ class _PlannerState extends State<Planner> {
           Container(
             padding: EdgeInsets.symmetric(horizontal: 1 * vw, vertical: 2 * vh),
             width: 100 * vw,
-            color: Color(0xff1B1C20),
+            color: const Color(0xff1B1C20),
             child: ListView(
               controller: _scrollController,
               children: [
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: 5 * vw),
-                  child: Header(),
+                  child: const Header(),
                 ),
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: 5 * vw),
-                  child: Cal(),
+                  child: const Cal(),
                 ),
                 Padding(
                   padding: EdgeInsets.only(top: 3 * vh, bottom: 4 * vh),
@@ -289,8 +290,9 @@ class TrainingCard extends StatefulWidget {
 }
 
 class _TrainingCardState extends State<TrainingCard> {
-  MyPlannerConroller myPlannerConroller = MyPlannerConroller();
-  MyDateController myDateController = MyDateController();
+    final myPlannerConroller = Get.put(MyPlannerConroller());
+    final myDateController = Get.put(MyDateController());
+    final mySportProgrammController = Get.put(MySportProgrammController());
   List<Map<String, dynamic>> dayExercises = [];
   bool trainingOnOff = false;
   List exercises = [];
@@ -299,12 +301,9 @@ class _TrainingCardState extends State<TrainingCard> {
   Widget build(BuildContext context) {
     final vw = MediaQuery.of(context).size.width / 100;
     final vh = MediaQuery.of(context).size.height / 100;
-    MyExercisesController myExercisesController =
-        Get.put(MyExercisesController());
-    MyPlannerConroller myPlannerConroller = Get.put(MyPlannerConroller());
-    MyDateController myDateController = Get.put(MyDateController());
-    MySportProgrammController mySportProgrammController =
-      Get.put(MySportProgrammController());
+
+
+
 
 
     return GestureDetector(
@@ -316,8 +315,16 @@ class _TrainingCardState extends State<TrainingCard> {
         children: [
           Obx(        
             (){
-              List training = myPlannerConroller.Planner['exercises']??[];
-              if(training.length>0) training = myPlannerConroller.Planner['exercises'].where((el) => el['date'] == myDateController.date).toList();
+              List training = myPlannerConroller.planner['exercises']??[];
+              var days = myPlannerConroller.days;
+              var dayTraining = Training();
+
+              if(days.length>0){
+                var day = days.firstWhere((element) => element.date == myDateController.date ,orElse: () => Day(),);
+                if(day.training!=null){
+                  dayTraining= day.training!;
+                }
+              }
               return Center(
               child: Container(
                 width: 90 * vw,
@@ -366,11 +373,7 @@ class _TrainingCardState extends State<TrainingCard> {
                             ],
                           ),
                         ),
-                        training.length >0 &&training
-                                        .where((el) =>
-                                            el['date'] == myDateController.date)
-                                        .length >
-                                    0
+                        dayTraining.name!=null
                             ? Container(
                                 width: 11 * vw,
                                 height: 6 * vw,
@@ -387,12 +390,7 @@ class _TrainingCardState extends State<TrainingCard> {
                                           .center, // Центр радиального градиента
                                     ),
                                     borderRadius: BorderRadius.circular(100)),
-                                child: Text(
-                                  myPlannerConroller.Planner['exercises']
-                                      .where((el) =>
-                                          el['date'] == myDateController.date)
-                                      .length
-                                      .toString(),
+                                child: Text('1',
                                   style: TextStyle(
                                       color: Colors.white,
                                       fontFamily: 'Manrope',
@@ -430,13 +428,7 @@ class _TrainingCardState extends State<TrainingCard> {
                               ),
                       ],
                     ),
-                    trainingOnOff && training
-                                        .where((el) =>
-                                            el['date'] == myDateController.date)
-                                        .length >
-                                    0
-                        // ignore: dead_code
-                        ? Container(
+                    dayTraining.name!=null && trainingOnOff? Container(
                             child: Column(
                               children: [
                                   GestureDetector(
@@ -480,7 +472,7 @@ class _TrainingCardState extends State<TrainingCard> {
                                                 MainAxisAlignment.spaceBetween,
                                             children: [
                                               Text(
-                                               mySportProgrammController.sportprogramms.firstWhere((el)=>el['id'] == training[0]['programmId'], orElse: ()=>{'name':"Программа тренировок"})['name'],
+                                               dayTraining.name??'',
                                                 style: TextStyle(
                                                     color: const Color.fromARGB(
                                                         210, 255, 255, 255),
@@ -603,10 +595,10 @@ class _TestsCardState extends State<TestsCard> {
                             ],
                           ),
                         ),
-                        myPlannerConroller.Planner['tests'] != null &&
-                                myPlannerConroller.Planner['tests'].length >
+                        myPlannerConroller.planner['tests'] != null &&
+                                myPlannerConroller.planner['tests'].length >
                                     0 &&
-                                myPlannerConroller.Planner['tests']
+                                myPlannerConroller.planner['tests']
                                         .where((el) =>
                                             el['date'] == myDateController.date)
                                         .length >
@@ -628,7 +620,7 @@ class _TestsCardState extends State<TestsCard> {
                                     ),
                                     borderRadius: BorderRadius.circular(100)),
                                 child: Text(
-                                  myPlannerConroller.Planner['tests']
+                                  myPlannerConroller.planner['tests']
                                       .where((el) =>
                                           el['date'] == myDateController.date)
                                       .length
@@ -675,7 +667,7 @@ class _TestsCardState extends State<TestsCard> {
                         ? Container(
                             child: Column(
                               children: [
-                                ...myPlannerConroller.Planner['tests']
+                                ...myPlannerConroller.planner['tests']
                                     .where((el) =>
                                         el['date'] == myDateController.date)
                                     .map((e) {
@@ -860,11 +852,11 @@ class _NutritionsCardState extends State<NutritionsCard> {
                             ],
                           ),
                         ),
-                        myPlannerConroller.Planner['nutritions'] != null &&
+                        myPlannerConroller.planner['nutritions'] != null &&
                                 myPlannerConroller
-                                        .Planner['nutritions'].length >
+                                        .planner['nutritions'].length >
                                     0 &&
-                                myPlannerConroller.Planner['nutritions']
+                                myPlannerConroller.planner['nutritions']
                                         .where((el) =>
                                             el['date'] == myDateController.date)
                                         .length >
@@ -886,7 +878,7 @@ class _NutritionsCardState extends State<NutritionsCard> {
                                     ),
                                     borderRadius: BorderRadius.circular(100)),
                                 child: Text(
-                                  myPlannerConroller.Planner['nutritions']
+                                  myPlannerConroller.planner['nutritions']
                                       .where((el) =>
                                           el['date'] == myDateController.date)
                                       .length
@@ -933,7 +925,7 @@ class _NutritionsCardState extends State<NutritionsCard> {
                         ? Container(
                             child: Column(
                               children: [
-                                ...myPlannerConroller.Planner['nutritions']
+                                ...myPlannerConroller.planner['nutritions']
                                     .where((el) =>
                                         el['date'] == myDateController.date)
                                     .map((e) {

@@ -5,7 +5,13 @@ import 'package:get/get.dart';
 import 'package:trener_app/getx/MyJournalConroller.dart';
 import 'package:trener_app/getx/MyPlannerConroller.dart';
 import 'package:trener_app/getx/MySportProgrammController.dart';
+import 'package:trener_app/http/GETHandler.dart';
 import 'package:trener_app/http/http.dart';
+import 'package:trener_app/models/day.dart';
+import 'package:trener_app/models/nutrition.dart';
+import 'package:trener_app/models/planner.dart';
+import 'package:trener_app/models/test.dart';
+import 'package:trener_app/models/training.dart';
 // import 'package:fluttertoast/fluttertoast.dart';
 
 
@@ -50,24 +56,30 @@ Future GetJournal() async {
 
 
 Future GetPlanner() async {
-  MyPlannerConroller myPlannerConroller = Get.put(MyPlannerConroller());
+  
+  final myPlannerConroller = Get.put(MyPlannerConroller());
+
+    //   await fetchMapData<Planner>(
+    //   url: 'planner',
+    //   fromJson: (json) => Planner.fromJson(json),
+    //   setData: (planner) => myPlannerConroller.setPlanner(planner as Planner),
+    // );
 
   try {
     // Assuming Session().get() returns Map<String, dynamic>
     Map<String, dynamic> data = await Session().get('planner');
-
-    Map<String, dynamic> list = {};
+    List<Day> finalList = [];
     if (data['status'] < 300) {
-      // Safely handle the data assuming 'body' is a List<dynamic>
-        list = {
-          'exercises': data['body'][0]['exercises'],
-          'tests':data['body'][0]['tests'],
-          'nutritions':data['body'][0]['nutrition'],
-    };
+        // myPlannerConroller.setExercises(data['body']['exercises'].map((e)=>Exercise.fromJson(e))??[]);
+        // myPlannerConroller.setExercises(data['body']['tests'].map((e)=>Test.fromJson(e))??[]);
+        // myPlannerConroller.setExercises(data['body']['nutrition'].map((e)=>Nutrition.fromJson(e))??[]);
+        data['body']['days'].forEach((day)=>{
+          finalList.add(Day.fromJson(day))
+        });
+        myPlannerConroller.setDays(finalList);
+        myPlannerConroller.setPlanner(data['body']);
     }
 
-    // Update the controller with the fetched exercises
-    myPlannerConroller.setPlanner(list);
     return data;
   } catch (e) {
     print(e);
