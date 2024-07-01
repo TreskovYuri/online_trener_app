@@ -16,6 +16,7 @@ import 'package:trener_app/models/training.dart';
 import 'package:trener_app/pages/sportsman/planner/ResultFix.dart';
 import 'package:trener_app/pages/sportsman/planner/fix/test.dart';
 import 'package:trener_app/pages/sportsman/planner/nutrition.dart';
+import 'package:trener_app/pages/sportsman/planner/training_details.dart';
 import 'package:trener_app/pages/sportsman/workout/training_details.dart';
 import 'package:trener_app/widgets/service/navbar.dart';
 import 'package:provider/provider.dart';
@@ -433,7 +434,7 @@ class _TrainingCardState extends State<TrainingCard> {
                               children: [
                                   GestureDetector(
                                     onTap: () {
-                                      Get.to(SportsmanTrainingDetails(traininData: training,));
+                                      Get.to(TrainingDetails(training: dayTraining,));
                                     },
                                     child: Container(
                                       margin: EdgeInsets.only(top: 1 * vh),
@@ -803,8 +804,10 @@ class _NutritionsCardState extends State<NutritionsCard> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Obx(
-            () => Center(
+          Obx(() {
+            final nutritions = myPlannerConroller.planner['nutritions']?.where((el) =>el['date'] == myDateController.date);
+            if (nutritions != null && nutritions?.length>0){
+              return Center(
               child: Container(
                 width: 90 * vw,
                 margin: EdgeInsets.only(top: 2 * vh),
@@ -1022,8 +1025,11 @@ class _NutritionsCardState extends State<NutritionsCard> {
                   ],
                 ),
               ),
-            ),
-          ),
+            );
+            }else{
+              return SizedBox.shrink();
+            }
+          },),
         ],
       ),
     );
